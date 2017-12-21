@@ -3,5 +3,5 @@ import { StackNavigator } from 'react-navigation'
 
 export const Routes = StackNavigator({
 	Login: { screen: Views.Login },
-	Chat: { screen: Views.Chat },
+	Exemple: { screen: Views.Exemple },
 })
