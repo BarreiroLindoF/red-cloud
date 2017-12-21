@@ -12,7 +12,7 @@
   },
   "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
   "scripts": {
-	"precommit" : "lint-staged",
+    "precommit": "lint-staged",
     "start": "react-native-scripts start",
     "eject": "react-native-scripts eject",
     "android": "react-native-scripts android",
@@ -32,6 +32,7 @@
     "expo": "^23.0.4",
     "react": "16.0.0",
     "react-native": "0.50.3",
-    "react-native-ui-kitten": "^2.0.1"
+    "react-native-ui-kitten": "^2.0.1",
+    "react-navigation": "^1.0.0-beta.22"
   }
 }
