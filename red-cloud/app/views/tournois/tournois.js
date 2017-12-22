@@ -126,11 +126,9 @@ const styles = RkStyleSheet.create((theme) => ({
 	card: {
 		marginVertical: 8,
 	},
-	userInfo: {
-		flexDirection: 'row',
-		alignItems: 'center',
+	section: {
+		fontSize: 16,
+		fontWeight: 'bold',
 	},
-	avatar: {
-		marginRight: 17,
-	},
+	footer: {},
 }))
