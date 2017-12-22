@@ -1,20 +1,13 @@
 import React from 'react'
-import { View, ScrollView, Keyboard } from 'react-native'
+import { View, ScrollView, Keyboard, KeyboardAvoidingView } from 'react-native'
 import { RkButton, RkText, RkTextInput, RkStyleSheet, RkTheme, RkAvoidKeyboard } from 'react-native-ui-kitten'
 
 export default class App extends React.Component {
 	render() {
 		return (
-			<RkAvoidKeyboard
-				style={styles.screen}
-				onStartShouldSetResponder={(e) => true}
-				onResponderRelease={(e) => Keyboard.dismiss()}
-			>
-				<View>
-					<RkText rkType="title">Création de ton compte</RkText>
-				</View>
-				<View style={styles.content}>
-					<ScrollView>
+			<KeyboardAvoidingView style={styles.screen} behavior="padding">
+				<View style={styles.contentContainer}>
+					<ScrollView keyboardShouldPersistTaps="always">
 						<RkTextInput rkType="success" placeholder="Nom" />
 						<RkTextInput rkType="success" placeholder="Prénom" />
 						<RkTextInput rkType="success" placeholder="Pseudo" />
@@ -23,52 +16,71 @@ export default class App extends React.Component {
 						<RkTextInput rkType="success" placeholder="Date de naissance" />
 						<RkTextInput rkType="success" placeholder="Email" />
 						<RkTextInput rkType="success" placeholder="Password" secureTextEntry={true} />
-						<RkTextInput rkType="success" placeholder="Confirm Password" secureTextEntry={true} />
-						{/*<GradientButton style={styles.save} rkType='large' text='SIGN UP'/>*/}
+						<RkTextInput
+							style={styles.font}
+							rkType="success"
+							placeholder="Confirm Password"
+							secureTextEntry={true}
+						/>
 					</ScrollView>
-					<View style={styles.footer}>
-						<View style={styles.textRow}>
-							<RkText rkType="primary3">Vous avez déjà un compte ?</RkText>
-							<RkButton rkType="clear">
-								<RkText> Connectez-vous ici </RkText>
-							</RkButton>
-						</View>
+				</View>
+				<View style={styles.save}>
+					<RkButton style={{ backgroundColor: 'green' }} rkType="rounded">
+						{' '}
+						Suivant{' '}
+					</RkButton>
+				</View>
+				<View style={styles.footer}>
+					<View style={styles.textRow}>
+						<RkText style={{ color: 'white' }} rkType="primary3">
+							Vous avez déjà un compte ?
+						</RkText>
+						<RkButton rkType="clear">
+							<RkText style={{ color: 'white' }}> Connectez-vous ici </RkText>
+						</RkButton>
 					</View>
 				</View>
-			</RkAvoidKeyboard>
+			</KeyboardAvoidingView>
 		)
 	}
 }
 
-RkTheme.setType('RkText', 'title', {
-	fontSize: 20,
-	paddingTop: '100px',
+RkTheme.setType('RkTextInput', 'success', {
+	labelColor: 'grey',
+	underlineColor: 'grey',
+	underlineWidth: 2,
+	placeholderTextColor: 'grey',
+	color: 'white',
 })
 
 let styles = RkStyleSheet.create((theme) => ({
 	screen: {
-		padding: 16,
+		padding: 10,
 		flex: 1,
 		justifyContent: 'space-around',
-		backgroundColor: theme.colors.screen.base,
+		backgroundColor: 'black',
 	},
 	content: {
 		justifyContent: 'space-between',
 	},
 	save: {
-		marginVertical: 20,
-	},
-	buttons: {
+		marginTop: 25,
+		marginBottom: 10,
 		flexDirection: 'row',
-		marginBottom: 24,
-		marginHorizontal: 24,
-		justifyContent: 'space-around',
+		justifyContent: 'flex-end',
 	},
 	footer: {
 		justifyContent: 'flex-end',
+		marginBottom: 5,
 	},
 	textRow: {
 		flexDirection: 'row',
 		justifyContent: 'center',
+	},
+	contentContainer: {
+		flex: 1,
+	},
+	font: {
+		color: 'white',
 	},
 }))
