@@ -11,6 +11,7 @@ export class Login extends React.Component {
 			<View>
 				<Text>Hello, Chat App!</Text>
 				<Button onPress={() => navigate('Tournois')} title="Aller à la liste des tournois" />
+				<Button onPress={() => navigate('Signup', { user: 'Lucy' })} title="Signup" />
 			</View>
 		)
 	}

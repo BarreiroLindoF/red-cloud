@@ -14,7 +14,7 @@ export class Tournois extends React.Component {
 
 		this.renderItem = this._renderItem.bind(this)
 		this.state = {
-			data,
+			data: [],
 			isFetching: false,
 		}
 
