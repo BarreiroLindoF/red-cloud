@@ -39,6 +39,7 @@ export class Tournois extends React.Component {
 		]
 		this.state = {
 			data,
+			isFetching: false,
 		}
 	}
 
@@ -69,7 +70,7 @@ export class Tournois extends React.Component {
 			<TouchableOpacity
 				delayPressIn={70}
 				activeOpacity={0.8}
-				onPress={() => this.props.navigation.navigate('Exemple', { user: 'Flávio' })}
+				onPress={() => this.props.navigation.navigate('Exemple', { user: info.item.id })}
 			>
 				<RkCard rkType="blog" style={styles.card}>
 					<View rkCardHeader style={styles.content}>
@@ -106,7 +107,11 @@ export class Tournois extends React.Component {
 				data={this.state.data}
 				renderItem={this.renderItem}
 				keyExtractor={this._keyExtractor}
-				style={styles.container}
+				refreshing={this.state.isFetching}
+				onRefresh={() => {
+					console.log('Getting new data')
+				}}
+				contentContainerStyle={styles.container}
 			/>
 		)
 	}
@@ -116,7 +121,7 @@ const styles = RkStyleSheet.create((theme) => ({
 	container: {
 		backgroundColor: theme.colors.screen.scroll,
 		paddingVertical: 8,
-		paddingHorizontal: 14,
+		paddingHorizontal: 12,
 	},
 	card: {
 		marginVertical: 8,
