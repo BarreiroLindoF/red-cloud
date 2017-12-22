@@ -13,11 +13,17 @@ export class Tournois extends React.Component {
 		super(props)
 
 		this.renderItem = this._renderItem.bind(this)
+		this.loadPosts = this.loadPosts.bind(this)
+
 		this.state = {
 			data: [],
-			isFetching: false,
+			isFetching: true,
 		}
 
+		this.loadPosts()
+	}
+
+	loadPosts() {
 		getAllPosts().then((response) => {
 			date = this.todaysDate()
 			for (element of response) {
@@ -25,7 +31,10 @@ export class Tournois extends React.Component {
 					'http://www.dlcompare.fr:8042/upload/cache/game_tetiere/img/counter-strike-source-img-4.jpg'
 				element.date = date
 			}
-			this.setState({ data: response })
+			this.setState({
+				data: response,
+				isFetching: false,
+			})
 		})
 	}
 
@@ -95,7 +104,7 @@ export class Tournois extends React.Component {
 				keyExtractor={this._keyExtractor}
 				refreshing={this.state.isFetching}
 				onRefresh={() => {
-					console.log('Getting new data')
+					this.loadPosts()
 				}}
 				contentContainerStyle={styles.container}
 			/>
