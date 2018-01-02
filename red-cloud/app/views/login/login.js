@@ -1,6 +1,7 @@
 import React from 'react';
 import { RkButton, RkText, RkTheme, RkTextInput } from 'react-native-ui-kitten';
 import { View, Image, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { StatusBarPadding } from './../../config/header';
 
 const imageSrc = require('../../assets/images/logo.png');
 
@@ -133,6 +134,7 @@ let styles = {
 		color: 'white',
 	},
 	screen: {
+		paddingTop: StatusBarPadding,
 		padding: 10,
 		flex: 1,
 		backgroundColor: 'black',
