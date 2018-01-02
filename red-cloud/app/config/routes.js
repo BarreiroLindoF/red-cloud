@@ -5,4 +5,6 @@ export const Routes = StackNavigator({
 	Login: { screen: Views.LoginRC },
 	PasswordRecovery: { screen: Views.PasswordRecovery },
 	Exemple: { screen: Views.Exemple },
+	Tournois: { screen: Views.Tournois },
+	Signup: { screen: Views.Signup },
 })

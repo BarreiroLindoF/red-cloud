@@ -3,14 +3,15 @@ import { Text, View, Button } from 'react-native'
 
 export class Login extends React.Component {
 	static navigationOptions = {
-		title: 'Login',
+		title: 'Tournois',
 	}
 	render() {
 		const { navigate } = this.props.navigation
 		return (
 			<View>
 				<Text>Hello, Chat App!</Text>
-				<Button onPress={() => navigate('Exemple', { user: 'Lucy' })} title="Chat with Lucy" />
+				<Button onPress={() => navigate('Tournois')} title="Aller à la liste des tournois" />
+				<Button onPress={() => navigate('Signup', { user: 'Lucy' })} title="Signup" />
 			</View>
 		)
 	}
