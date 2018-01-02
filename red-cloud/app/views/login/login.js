@@ -5,8 +5,8 @@ import { View, Image, KeyboardAvoidingView, ScrollView } from 'react-native'
 const imageSrc = require('../../assets/images/logo.png')
 
 export class Login extends React.Component {
+	// eslint-disable-next-line
 	static navigationOptions = {
-		// eslint-disable-line no-undef
 		header: null,
 	}
 
@@ -61,18 +61,28 @@ export class Login extends React.Component {
 							name="txtUsername"
 							rkType="textInputLogin"
 							placeholder="Username"
-							onChangeText={(user) => this.setState({ user })}
+							onChangeText={(user) => {
+								this.setState({ user })
+							}}
 							value={this.state.user}
 						/>
 						<RkTextInput
 							name="txtPassword"
 							rkType="textInputLogin"
 							placeholder="Password"
-							onChangeText={(writtenPassword) => this.setState({ writtenPassword })}
+							onChangeText={(writtenPassword) => {
+								this.setState({ writtenPassword })
+							}}
 							value={this.state.writtenPassword}
 							secureTextEntry
 						/>
-						<RkButton rkType="social" style={styles.buttonSignIn} onPress={() => this.checkLogin()}>
+						<RkButton
+							rkType="social"
+							style={styles.buttonSignIn}
+							onPress={() => {
+								this.checkLogin()
+							}}
+						>
 							<RkText rkType="awesome hero accentColor">Se Connecter</RkText>
 						</RkButton>
 						<RkText
@@ -90,7 +100,9 @@ export class Login extends React.Component {
 						<RkButton
 							rkType="clear"
 							style={{ marginTop: -20, marginLeft: 160 }}
-							onPress={() => this.props.navigation.navigate('Signup', { user: 'Lucy' })}
+							onPress={() => {
+								this.props.navigation.navigate('Signup', { user: 'Lucy' })
+							}}
 							title="Signup"
 						>
 							<RkText rktype="header6" style={{ color: 'red' }}>
@@ -114,6 +126,7 @@ RkTheme.setType('RkTextInput', 'textInputLogin', {
 	placeholderTextColor: 'gray',
 })
 
+// eslint-disable-next-line
 let styles = RkStyleSheet.create(() => ({
 	font: {
 		height: 60,
