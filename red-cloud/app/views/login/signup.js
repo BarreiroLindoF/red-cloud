@@ -38,7 +38,7 @@ export class Signup extends React.Component {
 						<RkText style={{ color: 'white' }} rkType="primary3">
 							Vous avez déjà un compte ?
 						</RkText>
-						<RkButton rkType="clear">
+						<RkButton rkType="clear" onPress={() => navigate('Login')}>
 							<RkText style={{ color: 'white' }}> Connectez-vous ici </RkText>
 						</RkButton>
 					</View>

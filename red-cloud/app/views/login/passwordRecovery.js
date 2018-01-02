@@ -1,6 +1,6 @@
 import React from 'react'
 import { RkButton, RkText, RkTheme, RkAvoidKeyboard, RkStyleSheet } from 'react-native-ui-kitten'
-import { Text, View, Image, Dimensions, Keyboard, TextInput } from 'react-native'
+import { Text, View, Image, Dimensions, Keyboard, TextInput, KeyboardAvoidingView, ScrollView } from 'react-native'
 import { RkTextInput } from 'react-native-ui-kitten/src/components/textinput/rkTextInput'
 import { LoginRC } from './index'
 
@@ -41,40 +41,42 @@ export class PasswordRecovery extends React.Component {
 
 	render() {
 		return (
-			<RkAvoidKeyboard
-				onStartShouldSetResponder={(e) => true}
-				onResponderRelease={(e) => Keyboard.dismiss()}
-				style={styles.screen}
-			>
+			<KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={55}>
 				<View>
-					<RkTextInput
-						rkType="textInputLogin"
-						placeholder="e-mail"
-						style={{ marginTop: 200 }}
-						onChangeText={(eMail) => this.setState({ eMail })}
-						value={this.state.eMail}
-					/>
-					<RkTextInput
-						rkType="textInputLogin"
-						placeholder="New Password"
-						secureTextEntry={true}
-						onChangeText={(password) => this.setState({ password })}
-						value={this.state.password}
-					/>
-					<RkTextInput
-						rkType="textInputLogin"
-						placeholder=" Confirm New Password"
-						secureTextEntry={true}
-						onChangeText={(newPassword) => this.setState({ newPassword })}
-						value={this.state.newPassword}
-					/>
-					<RkButton rkType="social" style={styles.buttonSend} onPress={() => this.checkPasswordRecovered()}>
-						<RkText rkType="awesome hero accentColor" style={{ color: 'white' }}>
-							Envoyer
-						</RkText>
-					</RkButton>
+					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
+						<RkTextInput
+							rkType="textInputLogin"
+							placeholder="e-mail"
+							style={{ marginTop: 200 }}
+							onChangeText={(eMail) => this.setState({ eMail })}
+							value={this.state.eMail}
+						/>
+						<RkTextInput
+							rkType="textInputLogin"
+							placeholder="New Password"
+							secureTextEntry={true}
+							onChangeText={(password) => this.setState({ password })}
+							value={this.state.password}
+						/>
+						<RkTextInput
+							rkType="textInputLogin"
+							placeholder=" Confirm New Password"
+							secureTextEntry={true}
+							onChangeText={(newPassword) => this.setState({ newPassword })}
+							value={this.state.newPassword}
+						/>
+						<RkButton
+							rkType="social"
+							style={styles.buttonSend}
+							onPress={() => this.checkPasswordRecovered()}
+						>
+							<RkText rkType="awesome hero accentColor" style={{ color: 'white' }}>
+								Envoyer
+							</RkText>
+						</RkButton>
+					</ScrollView>
 				</View>
-			</RkAvoidKeyboard>
+			</KeyboardAvoidingView>
 		)
 	}
 }
