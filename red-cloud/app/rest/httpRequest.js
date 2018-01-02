@@ -1,14 +1,14 @@
-import { root, URL } from './constants'
+import { root, URL } from './constants';
 
 export const getAllPosts = () => {
 	return fetch(root + URL.posts) //eslint-disable-line
 		.then((response) => {
-			return response.json()
+			return response.json();
 		})
 		.then((responseJson) => {
-			return responseJson
+			return responseJson;
 		})
 		.catch((error) => {
-			console.error(error)
-		})
-}
+			console.error(error);
+		});
+};

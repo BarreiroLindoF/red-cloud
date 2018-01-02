@@ -1,3 +1,3 @@
-export * from './login'
-export * from './passwordRecovery'
-export * from './signup'
+export * from './login';
+export * from './passwordRecovery';
+export * from './signup';

@@ -1,14 +1,14 @@
-import React from 'react'
-import { View, ScrollView, KeyboardAvoidingView } from 'react-native'
-import { RkButton, RkText, RkTextInput, RkStyleSheet, RkTheme } from 'react-native-ui-kitten'
+import React from 'react';
+import { View, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { RkButton, RkText, RkTextInput, RkStyleSheet, RkTheme } from 'react-native-ui-kitten';
 
 export class Signup extends React.Component {
 	static navigationOptions = {
 		//eslint-disable-line no-undef
 		title: 'Création de ton compte',
-	}
+	};
 	render() {
-		const { navigate } = this.props.navigation
+		const { navigate } = this.props.navigation;
 		return (
 			<KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={55}>
 				<View style={{ flex: 2 }}>
@@ -45,7 +45,7 @@ export class Signup extends React.Component {
 					</View>
 				</View>
 			</KeyboardAvoidingView>
-		)
+		);
 	}
 }
 
@@ -55,7 +55,7 @@ RkTheme.setType('RkTextInput', 'success', {
 	underlineWidth: 2,
 	placeholderTextColor: 'grey',
 	color: 'white',
-})
+});
 
 let styles = RkStyleSheet.create(() => ({
 	screen: {
@@ -81,4 +81,4 @@ let styles = RkStyleSheet.create(() => ({
 		flexDirection: 'row',
 		justifyContent: 'center',
 	},
-}))
+}));

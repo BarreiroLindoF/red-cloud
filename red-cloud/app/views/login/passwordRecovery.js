@@ -1,40 +1,40 @@
-import React from 'react'
-import { RkButton, RkText, RkTheme, RkStyleSheet, RkTextInput } from 'react-native-ui-kitten'
-import { View, KeyboardAvoidingView, ScrollView } from 'react-native'
+import React from 'react';
+import { RkButton, RkText, RkTheme, RkStyleSheet, RkTextInput } from 'react-native-ui-kitten';
+import { View, KeyboardAvoidingView, ScrollView } from 'react-native';
 
 export class PasswordRecovery extends React.Component {
 	static navigationOptions = () => ({
 		// eslint-disable-line no-undef
 		title: 'Renouvellement du mot de passe',
-	})
+	});
 
 	constructor(props) {
-		super(props)
+		super(props);
 		this.state = {
 			eMail: '',
 			password: '',
 			newPassword: '',
-		}
+		};
 	}
 
 	checkEmail() {
-		const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
+		const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 		if (reg.test(this.state.eMail) === true) {
-			return true
+			return true;
 		}
-		return false
+		return false;
 	}
 
 	checkNewPassword() {
 		if (this.state.newPassword === this.state.password) {
-			return true
+			return true;
 		}
-		return false
+		return false;
 	}
 
 	checkPasswordRecovered() {
 		if (this.checkEmail() && this.checkNewPassword()) {
-			this.props.navigation.navigate('Login')
+			this.props.navigation.navigate('Login');
 		}
 	}
 
@@ -76,7 +76,7 @@ export class PasswordRecovery extends React.Component {
 					</ScrollView>
 				</View>
 			</KeyboardAvoidingView>
-		)
+		);
 	}
 }
 
@@ -88,7 +88,7 @@ RkTheme.setType('RkTextInput', 'textInputLogin', {
 	},
 	color: 'white',
 	placeholderTextColor: 'gray',
-})
+});
 
 let styles = RkStyleSheet.create(() => ({
 	font: {
@@ -118,4 +118,4 @@ let styles = RkStyleSheet.create(() => ({
 		justifyContent: 'center',
 		flexDirection: 'row',
 	},
-}))
+}));

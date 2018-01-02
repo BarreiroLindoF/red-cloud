@@ -1,63 +1,63 @@
-import React from 'react'
-import { FlatList, View, Image, TouchableOpacity } from 'react-native'
-import { RkCard, RkStyleSheet, RkText } from 'react-native-ui-kitten'
-import { getAllPosts } from '../../rest/httpRequest'
+import React from 'react';
+import { FlatList, View, Image, TouchableOpacity } from 'react-native';
+import { RkCard, RkStyleSheet, RkText } from 'react-native-ui-kitten';
+import { getAllPosts } from '../../rest/httpRequest';
 
 export class Tournois extends React.Component {
 	static navigationOptions = {
 		// eslint-disable-line no-undef
 		title: 'Liste des tournois',
-	}
+	};
 
 	constructor(props) {
-		super(props)
+		super(props);
 
-		this.renderItem = this.renderItem.bind(this)
-		this.loadPosts = this.loadPosts.bind(this)
+		this.renderItem = this.renderItem.bind(this);
+		this.loadPosts = this.loadPosts.bind(this);
 
 		this.state = {
 			data: [],
 			isFetching: true,
-		}
+		};
 
-		this.loadPosts()
+		this.loadPosts();
 	}
 
 	loadPosts() {
 		getAllPosts().then((response) => {
-			const date = this.todaysDate()
+			const date = this.todaysDate();
 			for (const element of response) {
 				element.uri =
-					'http://www.dlcompare.fr:8042/upload/cache/game_tetiere/img/counter-strike-source-img-4.jpg'
-				element.date = date
+					'http://www.dlcompare.fr:8042/upload/cache/game_tetiere/img/counter-strike-source-img-4.jpg';
+				element.date = date;
 			}
 			this.setState({
 				data: response,
 				isFetching: false,
-			})
-		})
+			});
+		});
 	}
 
 	todaysDate() {
-		let today = new Date()
-		let dd = today.getDate()
-		let mm = today.getMonth() + 1 //January is 0!
-		const yyyy = today.getFullYear()
+		let today = new Date();
+		let dd = today.getDate();
+		let mm = today.getMonth() + 1; //January is 0!
+		const yyyy = today.getFullYear();
 
 		if (dd < 10) {
-			dd = `0 ${dd}`
+			dd = `0 ${dd}`;
 		}
 
 		if (mm < 10) {
-			mm = `0 ${mm}`
+			mm = `0 ${mm}`;
 		}
-		today = `${dd}/${mm}/${yyyy}`
+		today = `${dd}/${mm}/${yyyy}`;
 
-		return today
+		return today;
 	}
 
 	keyExtractor(post) {
-		return post.id
+		return post.id;
 	}
 
 	renderItem(info) {
@@ -92,7 +92,7 @@ export class Tournois extends React.Component {
 					</View>
 				</RkCard>
 			</TouchableOpacity>
-		)
+		);
 	}
 
 	render() {
@@ -103,11 +103,11 @@ export class Tournois extends React.Component {
 				keyExtractor={this.keyExtractor}
 				refreshing={this.state.isFetching}
 				onRefresh={() => {
-					this.loadPosts()
+					this.loadPosts();
 				}}
 				contentContainerStyle={styles.container}
 			/>
-		)
+		);
 	}
 }
 
@@ -125,4 +125,4 @@ const styles = RkStyleSheet.create((theme) => ({
 		fontWeight: 'bold',
 	},
 	footer: {},
-}))
+}));
