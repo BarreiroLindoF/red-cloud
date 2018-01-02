@@ -14,13 +14,9 @@ import {GradientButton} from '../../components/';
 import {scale, scaleModerate, scaleVertical} from '../../utils/scale';
 
 export class PasswordRecovery extends React.Component {
-  static navigationOptions = {
-    header: null
-  };
-
-  constructor(props) {
-    super(props);
-  }
+  static navigationOptions = ({navigation}) => ({
+    title: 'Renouellement du mot de passe'
+  })
 
   render() {
     let renderIcon = () => {

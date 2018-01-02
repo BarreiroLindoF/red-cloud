@@ -1,1 +1,2 @@
-export * from './login'
+export * from './loginRC'
+export * from './passwordRecovery'
