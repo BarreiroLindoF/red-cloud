@@ -1,7 +1,6 @@
 {
   "printWidth": 120,
   "parser": "flow",
-  "noSemi": true,
   "tabWidth" : 4,
   "useTabs" : true,
   "singleQuote" : true,
