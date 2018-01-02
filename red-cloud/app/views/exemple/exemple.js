@@ -2,8 +2,8 @@ import React from 'react';
 import { Text, View } from 'react-native';
 
 export class Exemple extends React.Component {
+	// eslint-disable-next-line
 	static navigationOptions = ({ navigation }) => ({
-		//eslint-disable-line
 		title: `Chat with ${navigation.state.params.user}`,
 		headerLeft: null, // ne pas avoir flèche pour revenir en arriere
 	});

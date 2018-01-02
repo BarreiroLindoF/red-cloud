@@ -1,5 +1,5 @@
 import React from 'react';
-import { RkButton, RkText, RkTheme, RkStyleSheet, RkTextInput } from 'react-native-ui-kitten';
+import { RkButton, RkText, RkTheme, RkTextInput } from 'react-native-ui-kitten';
 import { View, KeyboardAvoidingView, ScrollView } from 'react-native';
 
 export class PasswordRecovery extends React.Component {
@@ -56,20 +56,26 @@ export class PasswordRecovery extends React.Component {
 							rkType="textInputLogin"
 							placeholder="New Password"
 							secureTextEntry
-							onChangeText={(password) => this.setState({ password })}
+							onChangeText={(password) => {
+								this.setState({ password });
+							}}
 							value={this.state.password}
 						/>
 						<RkTextInput
 							rkType="textInputLogin"
 							placeholder=" Confirm New Password"
 							secureTextEntry
-							onChangeText={(newPassword) => this.setState({ newPassword })}
+							onChangeText={(newPassword) => {
+								this.setState({ newPassword });
+							}}
 							value={this.state.newPassword}
 						/>
 						<RkButton
 							rkType="social"
 							style={styles.buttonSend}
-							onPress={() => this.checkPasswordRecovered()}
+							onPress={() => {
+								this.checkPasswordRecovered();
+							}}
 						>
 							<RkText rkType="awesome hero accentColor" style={{ color: 'white' }}>
 								Envoyer
@@ -92,7 +98,7 @@ RkTheme.setType('RkTextInput', 'textInputLogin', {
 	placeholderTextColor: 'gray',
 });
 
-let styles = RkStyleSheet.create(() => ({
+let styles = {
 	font: {
 		height: 60,
 		marginHorizontal: 50,
@@ -120,4 +126,4 @@ let styles = RkStyleSheet.create(() => ({
 		justifyContent: 'center',
 		flexDirection: 'row',
 	},
-}));
+};

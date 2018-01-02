@@ -3,8 +3,8 @@ import { View, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { RkButton, RkText, RkTextInput, RkStyleSheet, RkTheme } from 'react-native-ui-kitten';
 
 export class Signup extends React.Component {
+	//eslint-disable-next-line
 	static navigationOptions = {
-		//eslint-disable-line no-undef
 		title: 'Création de ton compte',
 	};
 	render() {
@@ -39,7 +39,12 @@ export class Signup extends React.Component {
 						<RkText style={{ color: 'white' }} rkType="primary3">
 							Vous avez déjà un compte ?
 						</RkText>
-						<RkButton rkType="clear" onPress={() => navigate('Login')}>
+						<RkButton
+							rkType="clear"
+							onPress={() => {
+								navigate('Login');
+							}}
+						>
 							<RkText style={{ color: 'white' }}> Connectez-vous ici </RkText>
 						</RkButton>
 					</View>
@@ -57,6 +62,7 @@ RkTheme.setType('RkTextInput', 'success', {
 	color: 'white',
 });
 
+//eslint-disable-next-line
 let styles = RkStyleSheet.create(() => ({
 	screen: {
 		padding: 10,

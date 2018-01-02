@@ -1,5 +1,5 @@
 import React from 'react';
-import { RkButton, RkText, RkTheme, RkStyleSheet, RkTextInput } from 'react-native-ui-kitten';
+import { RkButton, RkText, RkTheme, RkTextInput } from 'react-native-ui-kitten';
 import { View, Image, KeyboardAvoidingView, ScrollView } from 'react-native';
 
 const imageSrc = require('../../assets/images/logo.png');
@@ -126,8 +126,7 @@ RkTheme.setType('RkTextInput', 'textInputLogin', {
 	placeholderTextColor: 'gray',
 });
 
-// eslint-disable-next-line
-let styles = RkStyleSheet.create(() => ({
+let styles = {
 	font: {
 		height: 60,
 		marginHorizontal: 50,
@@ -155,4 +154,4 @@ let styles = RkStyleSheet.create(() => ({
 		justifyContent: 'center',
 		flexDirection: 'row',
 	},
-}));
+};
