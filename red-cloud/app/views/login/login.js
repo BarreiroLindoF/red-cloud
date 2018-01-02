@@ -1,57 +1,57 @@
-import React from 'react'
-import { RkButton, RkText, RkTheme, RkStyleSheet, RkTextInput } from 'react-native-ui-kitten'
-import { View, Image, KeyboardAvoidingView, ScrollView } from 'react-native'
+import React from 'react';
+import { RkButton, RkText, RkTheme, RkStyleSheet, RkTextInput } from 'react-native-ui-kitten';
+import { View, Image, KeyboardAvoidingView, ScrollView } from 'react-native';
 
-const imageSrc = require('../../assets/images/logo.png')
+const imageSrc = require('../../assets/images/logo.png');
 
 export class Login extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
 		header: null,
-	}
+	};
 
 	constructor(props) {
-		super(props)
+		super(props);
 		this.state = {
 			user: '',
 			password: '',
 			writtenPassword: '',
 			log: false,
 			cptLog: 0,
-		}
+		};
 	}
 
 	checkUsername() {
 		if (this.state.user !== '') {
-			return true
+			return true;
 		}
-		return false
+		return false;
 	}
 
 	checkPassword() {
 		if (this.state.writtenPassword !== '') {
-			return true
+			return true;
 		}
-		return false
+		return false;
 	}
 
 	checkLogin() {
 		if (this.checkUsername() && this.checkPassword()) {
-			this.props.navigation.navigate('Tournois')
-			return true
+			this.props.navigation.navigate('Tournois');
+			return true;
 		}
-		this.props.navigation.navigate('PasswordRecovery')
+		this.props.navigation.navigate('PasswordRecovery');
 		// ;(password) => this.setState({ password }); je n'ai pas compris ce que cette ligne doit faire
-		return false
+		return false;
 	}
 
 	renderImage() {
-		const image = <Image source={imageSrc} style={{ width: 200, height: 270, marginHorizontal: 80 }} />
-		return image
+		const image = <Image source={imageSrc} style={{ width: 200, height: 270, marginHorizontal: 80 }} />;
+		return image;
 	}
 
 	render() {
-		const image = this.renderImage()
+		const image = this.renderImage();
 		return (
 			<KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={55}>
 				<View>
@@ -62,7 +62,7 @@ export class Login extends React.Component {
 							rkType="textInputLogin"
 							placeholder="Username"
 							onChangeText={(user) => {
-								this.setState({ user })
+								this.setState({ user });
 							}}
 							value={this.state.user}
 						/>
@@ -71,7 +71,7 @@ export class Login extends React.Component {
 							rkType="textInputLogin"
 							placeholder="Password"
 							onChangeText={(writtenPassword) => {
-								this.setState({ writtenPassword })
+								this.setState({ writtenPassword });
 							}}
 							value={this.state.writtenPassword}
 							secureTextEntry
@@ -80,7 +80,7 @@ export class Login extends React.Component {
 							rkType="social"
 							style={styles.buttonSignIn}
 							onPress={() => {
-								this.checkLogin()
+								this.checkLogin();
 							}}
 						>
 							<RkText rkType="awesome hero accentColor">Se Connecter</RkText>
@@ -101,7 +101,7 @@ export class Login extends React.Component {
 							rkType="clear"
 							style={{ marginTop: -20, marginLeft: 160 }}
 							onPress={() => {
-								this.props.navigation.navigate('Signup', { user: 'Lucy' })
+								this.props.navigation.navigate('Signup', { user: 'Lucy' });
 							}}
 							title="Signup"
 						>
@@ -112,7 +112,7 @@ export class Login extends React.Component {
 					</ScrollView>
 				</View>
 			</KeyboardAvoidingView>
-		)
+		);
 	}
 }
 
@@ -124,7 +124,7 @@ RkTheme.setType('RkTextInput', 'textInputLogin', {
 	},
 	color: 'white',
 	placeholderTextColor: 'gray',
-})
+});
 
 // eslint-disable-next-line
 let styles = RkStyleSheet.create(() => ({
@@ -155,4 +155,4 @@ let styles = RkStyleSheet.create(() => ({
 		justifyContent: 'center',
 		flexDirection: 'row',
 	},
-}))
+}));
