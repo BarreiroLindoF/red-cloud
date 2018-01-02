@@ -4,8 +4,8 @@ import { RkCard, RkStyleSheet, RkText } from 'react-native-ui-kitten';
 import { getAllPosts } from '../../rest/httpRequest';
 
 export class Tournois extends React.Component {
+	// eslint-disable-next-line
 	static navigationOptions = {
-		// eslint-disable-line no-undef
 		title: 'Liste des tournois',
 	};
 
@@ -65,7 +65,9 @@ export class Tournois extends React.Component {
 			<TouchableOpacity
 				delayPressIn={70}
 				activeOpacity={0.8}
-				onPress={() => this.props.navigation.navigate('Exemple', { user: info.item.id })}
+				onPress={() => {
+					this.props.navigation.navigate('Exemple', { user: info.item.id });
+				}}
 			>
 				<RkCard rkType="blog" style={styles.card}>
 					<View rkCardHeader style={styles.content}>
@@ -111,6 +113,7 @@ export class Tournois extends React.Component {
 	}
 }
 
+//eslint-disable-next-line
 const styles = RkStyleSheet.create((theme) => ({
 	container: {
 		backgroundColor: theme.colors.screen.scroll,

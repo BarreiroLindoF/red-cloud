@@ -3,10 +3,10 @@ import { RkButton, RkText, RkTheme, RkStyleSheet, RkTextInput } from 'react-nati
 import { View, KeyboardAvoidingView, ScrollView } from 'react-native';
 
 export class PasswordRecovery extends React.Component {
-	static navigationOptions = () => ({
-		// eslint-disable-line no-undef
+	// eslint-disable-next-line
+	static navigationOptions = {
 		title: 'Renouvellement du mot de passe',
-	});
+	};
 
 	constructor(props) {
 		super(props);
@@ -47,7 +47,9 @@ export class PasswordRecovery extends React.Component {
 							rkType="textInputLogin"
 							placeholder="e-mail"
 							style={{ marginTop: 200 }}
-							onChangeText={(eMail) => this.setState({ eMail })}
+							onChangeText={(eMail) => {
+								this.setState({ eMail });
+							}}
 							value={this.state.eMail}
 						/>
 						<RkTextInput
