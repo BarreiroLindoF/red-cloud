@@ -1,18 +1,18 @@
 import React from 'react'
-import { Text, FlatList, View, Image, TouchableOpacity } from 'react-native'
+import { FlatList, View, Image, TouchableOpacity } from 'react-native'
 import { RkCard, RkStyleSheet, RkText } from 'react-native-ui-kitten'
-import { Avatar } from '../../components/avatar'
 import { getAllPosts } from '../../rest/httpRequest'
 
 export class Tournois extends React.Component {
 	static navigationOptions = {
+		// eslint-disable-line no-undef
 		title: 'Liste des tournois',
 	}
 
 	constructor(props) {
 		super(props)
 
-		this.renderItem = this._renderItem.bind(this)
+		this.renderItem = this.renderItem.bind(this)
 		this.loadPosts = this.loadPosts.bind(this)
 
 		this.state = {
@@ -25,8 +25,8 @@ export class Tournois extends React.Component {
 
 	loadPosts() {
 		getAllPosts().then((response) => {
-			date = this.todaysDate()
-			for (element of response) {
+			const date = this.todaysDate()
+			for (const element of response) {
 				element.uri =
 					'http://www.dlcompare.fr:8042/upload/cache/game_tetiere/img/counter-strike-source-img-4.jpg'
 				element.date = date
@@ -42,25 +42,25 @@ export class Tournois extends React.Component {
 		let today = new Date()
 		let dd = today.getDate()
 		let mm = today.getMonth() + 1 //January is 0!
-		let yyyy = today.getFullYear()
+		const yyyy = today.getFullYear()
 
 		if (dd < 10) {
-			dd = '0' + dd
+			dd = `0 ${dd}`
 		}
 
 		if (mm < 10) {
-			mm = '0' + mm
+			mm = `0 ${mm}`
 		}
+		today = `${dd}/${mm}/${yyyy}`
 
-		today = dd + '/' + mm + '/' + yyyy
 		return today
 	}
 
-	_keyExtractor(post, index) {
+	keyExtractor(post) {
 		return post.id
 	}
 
-	_renderItem(info) {
+	renderItem(info) {
 		return (
 			<TouchableOpacity
 				delayPressIn={70}
@@ -96,12 +96,11 @@ export class Tournois extends React.Component {
 	}
 
 	render() {
-		const { navigate } = this.props.navigation
 		return (
 			<FlatList
 				data={this.state.data}
 				renderItem={this.renderItem}
-				keyExtractor={this._keyExtractor}
+				keyExtractor={this.keyExtractor}
 				refreshing={this.state.isFetching}
 				onRefresh={() => {
 					this.loadPosts()

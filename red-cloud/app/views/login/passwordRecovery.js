@@ -1,11 +1,10 @@
 import React from 'react'
-import { RkButton, RkText, RkTheme, RkAvoidKeyboard, RkStyleSheet } from 'react-native-ui-kitten'
-import { Text, View, Image, Dimensions, Keyboard, TextInput, KeyboardAvoidingView, ScrollView } from 'react-native'
-import { RkTextInput } from 'react-native-ui-kitten/src/components/textinput/rkTextInput'
-import { LoginRC } from './index'
+import { RkButton, RkText, RkTheme, RkStyleSheet, RkTextInput } from 'react-native-ui-kitten'
+import { View, KeyboardAvoidingView, ScrollView } from 'react-native'
 
 export class PasswordRecovery extends React.Component {
-	static naviagationOptions = ({ navigation }) => ({
+	static navigationOptions = () => ({
+		// eslint-disable-line no-undef
 		title: 'Renouvellement du mot de passe',
 	})
 
@@ -19,7 +18,7 @@ export class PasswordRecovery extends React.Component {
 	}
 
 	checkEmail() {
-		let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+		const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/
 		if (reg.test(this.state.eMail) === true) {
 			return true
 		}
@@ -27,7 +26,7 @@ export class PasswordRecovery extends React.Component {
 	}
 
 	checkNewPassword() {
-		if (this.state.newPassword == this.state.password) {
+		if (this.state.newPassword === this.state.password) {
 			return true
 		}
 		return false
@@ -54,14 +53,14 @@ export class PasswordRecovery extends React.Component {
 						<RkTextInput
 							rkType="textInputLogin"
 							placeholder="New Password"
-							secureTextEntry={true}
+							secureTextEntry
 							onChangeText={(password) => this.setState({ password })}
 							value={this.state.password}
 						/>
 						<RkTextInput
 							rkType="textInputLogin"
 							placeholder=" Confirm New Password"
-							secureTextEntry={true}
+							secureTextEntry
 							onChangeText={(newPassword) => this.setState({ newPassword })}
 							value={this.state.newPassword}
 						/>
@@ -91,7 +90,7 @@ RkTheme.setType('RkTextInput', 'textInputLogin', {
 	placeholderTextColor: 'gray',
 })
 
-let styles = RkStyleSheet.create((theme) => ({
+let styles = RkStyleSheet.create(() => ({
 	font: {
 		height: 60,
 		marginHorizontal: 50,
@@ -119,5 +118,4 @@ let styles = RkStyleSheet.create((theme) => ({
 		justifyContent: 'center',
 		flexDirection: 'row',
 	},
-	font: {},
 }))

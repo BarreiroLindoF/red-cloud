@@ -1,10 +1,12 @@
 import React from 'react'
-import { RkButton, RkText, RkTheme, RkAvoidKeyboard, RkStyleSheet } from 'react-native-ui-kitten'
-import { Text, View, Image, Dimensions, Keyboard, KeyboardAvoidingView, TextInput, ScrollView } from 'react-native'
-import { RkTextInput } from 'react-native-ui-kitten/src/components/textinput/rkTextInput'
+import { RkButton, RkText, RkTheme, RkStyleSheet, RkTextInput } from 'react-native-ui-kitten'
+import { View, Image, KeyboardAvoidingView, ScrollView } from 'react-native'
+
+const imageSrc = require('../../assets/images/logo.png')
 
 export class Login extends React.Component {
-	static naviagationOptions = {
+	static navigationOptions = {
+		// eslint-disable-line no-undef
 		header: null,
 	}
 
@@ -20,14 +22,14 @@ export class Login extends React.Component {
 	}
 
 	checkUsername() {
-		if (this.state.user != '') {
+		if (this.state.user !== '') {
 			return true
 		}
 		return false
 	}
 
 	checkPassword() {
-		if (this.state.writtenPassword != '') {
+		if (this.state.writtenPassword !== '') {
 			return true
 		}
 		return false
@@ -39,22 +41,17 @@ export class Login extends React.Component {
 			return true
 		}
 		this.props.navigation.navigate('PasswordRecovery')
-		;(password) => this.setState({ password })
+		// ;(password) => this.setState({ password }); je n'ai pas compris ce que cette ligne doit faire
 		return false
 	}
 
-	_renderImage() {
-		image = (
-			<Image
-				source={require('../../assets/images/logo.png')}
-				style={{ width: 200, height: 270, marginHorizontal: 80 }}
-			/>
-		)
+	renderImage() {
+		const image = <Image source={imageSrc} style={{ width: 200, height: 270, marginHorizontal: 80 }} />
 		return image
 	}
 
 	render() {
-		let image = this._renderImage()
+		const image = this.renderImage()
 		return (
 			<KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={55}>
 				<View>
@@ -73,14 +70,20 @@ export class Login extends React.Component {
 							placeholder="Password"
 							onChangeText={(writtenPassword) => this.setState({ writtenPassword })}
 							value={this.state.writtenPassword}
-							secureTextEntry={true}
+							secureTextEntry
 						/>
-						<RkButton rkType="social" style={styles.buttonSignIn} onPress={(log) => this.checkLogin()}>
+						<RkButton rkType="social" style={styles.buttonSignIn} onPress={() => this.checkLogin()}>
 							<RkText rkType="awesome hero accentColor">Se Connecter</RkText>
 						</RkButton>
 						<RkText
 							rkType="primary3"
-							style={{ color: 'white', marginTop: 40, marginLeft: 50, marginRight: 100, width: 160 }}
+							style={{
+								color: 'white',
+								marginTop: 40,
+								marginLeft: 50,
+								marginRight: 100,
+								width: 160,
+							}}
 						>
 							Pas encore de compte ?{' '}
 						</RkText>
@@ -111,7 +114,7 @@ RkTheme.setType('RkTextInput', 'textInputLogin', {
 	placeholderTextColor: 'gray',
 })
 
-let styles = RkStyleSheet.create((theme) => ({
+let styles = RkStyleSheet.create(() => ({
 	font: {
 		height: 60,
 		marginHorizontal: 50,
@@ -139,5 +142,4 @@ let styles = RkStyleSheet.create((theme) => ({
 		justifyContent: 'center',
 		flexDirection: 'row',
 	},
-	font: {},
 }))

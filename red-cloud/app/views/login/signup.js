@@ -1,9 +1,10 @@
 import React from 'react'
-import { View, ScrollView, Keyboard, KeyboardAvoidingView } from 'react-native'
-import { RkButton, RkText, RkTextInput, RkStyleSheet, RkTheme, RkAvoidKeyboard } from 'react-native-ui-kitten'
+import { View, ScrollView, KeyboardAvoidingView } from 'react-native'
+import { RkButton, RkText, RkTextInput, RkStyleSheet, RkTheme } from 'react-native-ui-kitten'
 
 export class Signup extends React.Component {
 	static navigationOptions = {
+		//eslint-disable-line no-undef
 		title: 'Création de ton compte',
 	}
 	render() {
@@ -19,12 +20,12 @@ export class Signup extends React.Component {
 						<RkTextInput rkType="success" placeholder="NPA" />
 						<RkTextInput rkType="success" placeholder="Date de naissance" />
 						<RkTextInput rkType="success" placeholder="Email" />
-						<RkTextInput rkType="success" placeholder="Password" secureTextEntry={true} />
+						<RkTextInput rkType="success" placeholder="Password" secureTextEntry />
 						<RkTextInput
 							style={styles.font}
 							rkType="success"
 							placeholder="Confirm Password"
-							secureTextEntry={true}
+							secureTextEntry
 						/>
 					</ScrollView>
 				</View>
@@ -56,7 +57,7 @@ RkTheme.setType('RkTextInput', 'success', {
 	color: 'white',
 })
 
-let styles = RkStyleSheet.create((theme) => ({
+let styles = RkStyleSheet.create(() => ({
 	screen: {
 		padding: 10,
 		flex: 1,

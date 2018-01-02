@@ -1,5 +1,5 @@
-import * as Views from './../views/index'
 import { StackNavigator } from 'react-navigation'
+import * as Views from './../views/index'
 
 export const Routes = StackNavigator({
 	Login: { screen: Views.Login },
