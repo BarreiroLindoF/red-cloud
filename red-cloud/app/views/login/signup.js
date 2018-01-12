@@ -20,6 +20,7 @@ export class Signup extends React.Component {
 			passOk: false,
 			validationPassOk: true,
 			validationEmail: true,
+			maskedDate: '',
 		};
 	}
 
@@ -35,7 +36,7 @@ export class Signup extends React.Component {
 
 	compareMdp(input) {
 		this.setState({ validationPass: input });
-		if (input == this.state.pass) {
+		if (input === this.state.pass) {
 			this.setState({ validationPassOk: true });
 		} else {
 			this.setState({ validationPassOk: false });
@@ -47,6 +48,15 @@ export class Signup extends React.Component {
 			this.setState({ validateEmail: true });
 		} else {
 			this.setState({ validateEmail: false });
+		}
+	}
+
+	inputMasked(input) {
+		if (input.length === 2) {
+			this.setState({ maskedDate: input + '.' });
+		}
+		if (input.length === 5) {
+			this.setState({ maskedDate: input + '.' });
 		}
 	}
 
@@ -77,7 +87,16 @@ export class Signup extends React.Component {
 						/>
 						<Hoshi label={'NPA'} borderColor={'grey'} keyboardType="numeric" />
 						<Hoshi label={'Ville'} borderColor={'grey'} />
-						<Hoshi label={'Date de naissance'} borderColor={'grey'} keyboardType="numeric" />
+						<Hoshi
+							maxLength={10}
+							value={this.state.maskedDate}
+							label={'Date de naissance JJ.MM.AA'}
+							borderColor={'grey'}
+							keyboardType="numeric"
+							onChangeText={(input) => {
+								this.inputMasked(input);
+							}}
+						/>
 						<Hoshi
 							label={'Mot de passe'}
 							borderColor={this.state.passOk ? 'grey' : '#ff4444'}
