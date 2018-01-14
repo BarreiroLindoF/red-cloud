@@ -86,6 +86,8 @@ export class Signup extends React.Component {
 			} else {
 				this.toogleModal();
 			}
+		} else {
+			this.toogleModal();
 		}
 	}
 
