@@ -79,7 +79,7 @@ export class Signup extends React.Component {
 				this.state.name !== '' &&
 				this.state.firstName !== '' &&
 				this.state.userName !== '' &&
-				this.state.npa.length === 4 &&
+				this.state.npa &&
 				this.state.ville !== ''
 			) {
 				this.props.navigation.navigate('ListeJeux', { condition: false });
