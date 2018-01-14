@@ -1,10 +1,14 @@
 import React from 'react';
-import { View, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView, TouchableOpacity, Text, Keyboard } from 'react-native';
 import { RkButton, RkText, RkStyleSheet } from 'react-native-ui-kitten';
 import { Hoshi } from 'react-native-textinput-effects';
+import Modal from 'react-native-modalbox';
 
 const regPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const regDate = /([0-2]\d{1}|3[0-1])\.(0\d{1}|1[0-2])\.(19|20)\d{2}/;
+const regNpa = /[1][0-9][0-9][0-9]/;
+const styleFile = require('./style/styles');
 
 export class Signup extends React.Component {
 	//eslint-disable-next-line
@@ -19,8 +23,14 @@ export class Signup extends React.Component {
 			validationPass: '',
 			passOk: false,
 			validationPassOk: true,
-			validationEmail: true,
-			maskedDate: '',
+			validationEmail: false,
+			dateOk: false,
+			modalVisible: false,
+			name: '',
+			firstName: '',
+			userName: '',
+			npa: false,
+			ville: '',
 		};
 	}
 
@@ -45,25 +55,73 @@ export class Signup extends React.Component {
 
 	validateEmail(input) {
 		if (regEmail.test(input)) {
-			this.setState({ validateEmail: true });
+			this.setState({ validationEmail: true });
 		} else {
-			this.setState({ validateEmail: false });
+			this.setState({ validationEmail: false });
 		}
 	}
 
-	inputMasked(input) {
-		if (input.length === 2) {
-			this.setState({ maskedDate: input + '.' });
+	validateDate(input) {
+		if (regDate.test(input)) {
+			this.setState({ dateOk: true });
+		} else {
+			this.setState({ dateOk: false });
 		}
-		if (input.length === 5) {
-			this.setState({ maskedDate: input + '.' });
+	}
+
+	toogleModal() {
+		this.setState({ modalVisible: !this.state.modalVisible });
+	}
+
+	check() {
+		if (this.state.dateOk && this.state.passOk && this.state.validationPassOk && this.state.validationEmail) {
+			if (
+				this.state.name !== '' &&
+				this.state.firstName !== '' &&
+				this.state.userName !== '' &&
+				this.state.npa.length === 4 &&
+				this.state.ville !== ''
+			) {
+				this.props.navigation.navigate('ListeJeux', { condition: false });
+			} else {
+				this.toogleModal();
+			}
 		}
+	}
+
+	renderModal() {
+		return (
+			<Modal
+				style={{
+					backgroundColor: 'transparent',
+					justifyContent: 'center',
+					alignItems: 'center',
+					height: 400,
+					width: 300,
+				}}
+				position={'center'}
+				isOpen={this.state.modalVisible}
+				backdropOpacity={0.8}
+			>
+				<RkButton rkType="clear">Veuillez vérifier que tous les champs sont correctement remplis.</RkButton>
+				<TouchableOpacity
+					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
+					onPress={() => {
+						this.toogleModal();
+					}}
+				>
+					<View>
+						<Text style={{ color: 'black' }}>Retour</Text>
+					</View>
+				</TouchableOpacity>
+			</Modal>
+		);
 	}
 
 	render() {
 		const { navigate } = this.props.navigation;
 		return (
-			<KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={55}>
+			<KeyboardAvoidingView style={styleFile.screen} behavior="padding" keyboardVerticalOffset={55}>
 				<View
 					style={{
 						flex: 1,
@@ -73,32 +131,67 @@ export class Signup extends React.Component {
 					}}
 				>
 					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
-						<Hoshi label={'Nom'} borderColor={'grey'} />
-						<Hoshi label={'Prénom'} borderColor={'grey'} />
-						<Hoshi label={'Pseudo'} borderColor={'grey'} />
+						<Hoshi
+							label={'Nom'}
+							borderColor={'grey'}
+							borderColor={this.state.name !== '' ? 'grey' : '#ff4444'}
+							onChangeText={(input) => {
+								this.setState({ name: input });
+							}}
+						/>
+						<Hoshi
+							label={'Prénom'}
+							borderColor={'grey'}
+							borderColor={this.state.firstName !== '' ? 'grey' : '#ff4444'}
+							onChangeText={(input) => {
+								this.setState({ firstName: input });
+							}}
+						/>
+						<Hoshi
+							label={'Pseudo'}
+							borderColor={'grey'}
+							borderColor={this.state.userName !== '' ? 'grey' : '#ff4444'}
+							onChangeText={(input) => {
+								this.setState({ userName: input });
+							}}
+						/>
 						<Hoshi
 							label={'Email'}
-							borderColor={'grey'}
 							keyboardType="email-address"
 							borderColor={this.state.validationEmail ? 'grey' : '#ff4444'}
 							onChangeText={(input) => {
 								this.validateEmail(input);
 							}}
 						/>
-						<Hoshi label={'NPA'} borderColor={'grey'} keyboardType="numeric" />
-						<Hoshi label={'Ville'} borderColor={'grey'} />
 						<Hoshi
-							maxLength={10}
-							value={this.state.maskedDate}
-							label={'Date de naissance JJ.MM.AA'}
+							label={'NPA'}
 							borderColor={'grey'}
-							keyboardType="numeric"
+							keyboardType="phone-pad"
+							maxLength={4}
+							borderColor={this.state.npa ? 'grey' : '#ff4444'}
 							onChangeText={(input) => {
-								this.inputMasked(input);
+								this.setState({ npa: regNpa.test(input) });
 							}}
 						/>
 						<Hoshi
-							label={'Mot de passe'}
+							label={'Ville'}
+							borderColor={'grey'}
+							borderColor={this.state.ville !== '' ? 'grey' : '#ff4444'}
+							onChangeText={(input) => {
+								this.setState({ ville: input });
+							}}
+						/>
+						<Hoshi
+							maxLength={10}
+							borderColor={this.state.dateOk ? 'grey' : '#ff4444'}
+							label={'Date de naissance (JJ.MM.AAAA)'}
+							keyboardType="numeric"
+							onChangeText={(input) => {
+								this.validateDate(input);
+							}}
+						/>
+						<Hoshi
+							label={'Mot de passe (8 caractères dont 1 chiffre)'}
 							borderColor={this.state.passOk ? 'grey' : '#ff4444'}
 							onChangeText={(input) => {
 								this.validate(input);
@@ -116,7 +209,14 @@ export class Signup extends React.Component {
 					</ScrollView>
 				</View>
 				<View style={styles.save}>
-					<RkButton style={{ backgroundColor: 'white' }} rkType="social">
+					<RkButton
+						style={{ backgroundColor: 'white' }}
+						rkType="social"
+						onPress={() => {
+							Keyboard.dismiss();
+							this.check();
+						}}
+					>
 						<RkText style={{ color: 'black' }}>Suivant</RkText>
 					</RkButton>
 				</View>
@@ -135,6 +235,7 @@ export class Signup extends React.Component {
 						</RkButton>
 					</View>
 				</View>
+				{this.renderModal()}
 			</KeyboardAvoidingView>
 		);
 	}
@@ -142,12 +243,6 @@ export class Signup extends React.Component {
 
 //eslint-disable-next-line
 let styles = RkStyleSheet.create(() => ({
-	screen: {
-		padding: 10,
-		flex: 1,
-		backgroundColor: 'black',
-		justifyContent: 'space-between',
-	},
 	save: {
 		marginTop: 25,
 		marginBottom: 10,
