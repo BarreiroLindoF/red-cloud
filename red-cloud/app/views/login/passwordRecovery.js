@@ -5,7 +5,7 @@ import { View, KeyboardAvoidingView, ScrollView } from 'react-native';
 export class PasswordRecovery extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
-		title: 'Renouvellement du mot de passe',
+		title: 'Récuperation password',
 	};
 
 	constructor(props) {
@@ -45,7 +45,7 @@ export class PasswordRecovery extends React.Component {
 					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
 						<RkTextInput
 							rkType="textInputLogin"
-							placeholder="e-mail"
+							placeholder="Email"
 							style={{ marginTop: 200 }}
 							onChangeText={(eMail) => {
 								this.setState({ eMail });
@@ -54,7 +54,7 @@ export class PasswordRecovery extends React.Component {
 						/>
 						<RkTextInput
 							rkType="textInputLogin"
-							placeholder="New Password"
+							placeholder="Password"
 							secureTextEntry
 							onChangeText={(password) => {
 								this.setState({ password });
@@ -63,7 +63,7 @@ export class PasswordRecovery extends React.Component {
 						/>
 						<RkTextInput
 							rkType="textInputLogin"
-							placeholder=" Confirm New Password"
+							placeholder="Confirmation Password"
 							secureTextEntry
 							onChangeText={(newPassword) => {
 								this.setState({ newPassword });

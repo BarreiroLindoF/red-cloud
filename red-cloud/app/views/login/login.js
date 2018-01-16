@@ -1,7 +1,9 @@
 import React from 'react';
 import { RkButton, RkText, RkTheme, RkTextInput } from 'react-native-ui-kitten';
-import { View, Image, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { View, Image, KeyboardAvoidingView, ScrollView, NativeModules } from 'react-native';
+import url from 'url';
 import { StatusBarPadding } from './../../config/header';
+import { login } from '../../rest/httpRequest';
 
 const imageSrc = require('../../assets/images/logo.png');
 
@@ -20,6 +22,7 @@ export class Login extends React.Component {
 			log: false,
 			cptLog: 0,
 		};
+		console.log(url.parse(NativeModules.SourceCode.scriptURL));
 	}
 
 	checkUsername() {
@@ -37,13 +40,15 @@ export class Login extends React.Component {
 	}
 
 	checkLogin() {
-		if (this.checkUsername() && this.checkPassword()) {
-			this.props.navigation.navigate('Tournois');
-			return true;
-		}
-		this.props.navigation.navigate('PasswordRecovery');
-		// ;(password) => this.setState({ password }); je n'ai pas compris ce que cette ligne doit faire
-		return false;
+		//if (this.checkUsername() && this.checkPassword()) {
+		login(this.state.user, this.state.writtenPassword).then((response) => {
+			if (response.connected) {
+				this.props.navigation.navigate('Tournois');
+			} else {
+				this.props.navigation.navigate('PasswordRecovery');
+			}
+		});
+		//}
 	}
 
 	renderImage() {
@@ -102,7 +107,7 @@ export class Login extends React.Component {
 							rkType="clear"
 							style={{ marginTop: -20, marginLeft: 160 }}
 							onPress={() => {
-								this.props.navigation.navigate('Signup', { user: 'Lucy' });
+								this.props.navigation.navigate('ListeJeux', { user: 'Lucy' });
 							}}
 							title="Signup"
 						>

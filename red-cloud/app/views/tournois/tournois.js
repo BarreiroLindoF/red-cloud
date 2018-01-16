@@ -25,12 +25,6 @@ export class Tournois extends React.Component {
 
 	loadPosts() {
 		getAllPosts().then((response) => {
-			const date = this.todaysDate();
-			for (const element of response) {
-				element.uri =
-					'http://www.dlcompare.fr:8042/upload/cache/game_tetiere/img/counter-strike-source-img-4.jpg';
-				element.date = date;
-			}
 			this.setState({
 				data: response,
 				isFetching: false,
