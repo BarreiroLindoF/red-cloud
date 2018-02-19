@@ -28,11 +28,8 @@ export class Login extends React.Component {
 	}
 
 	checkLogin() {
-		console.log('true');
 		login(this.state.user, this.state.writtenPassword).then((response) => {
-			console.log('trterrerue');
 			if (response.connected) {
-				console.log('true');
 				this.props.navigation.navigate('Tournois');
 			} else if (this.state.cptLog < 2) {
 				this.state.cptLog++;
