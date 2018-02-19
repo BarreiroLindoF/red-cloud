@@ -25,26 +25,14 @@ export class Login extends React.Component {
 			cptLog: 0,
 			modalVisible: false,
 		};
-		console.log(url.parse(NativeModules.SourceCode.scriptURL));
-	}
-
-	checkUsername() {
-		if (this.state.user === 'cisco') {
-			return true;
-		}
-		return false;
-	}
-
-	checkPassword() {
-		if (this.state.writtenPassword === 'class') {
-			return true;
-		}
-		return false;
 	}
 
 	checkLogin() {
+		console.log('true');
 		login(this.state.user, this.state.writtenPassword).then((response) => {
+			console.log('trterrerue');
 			if (response.connected) {
+				console.log('true');
 				this.props.navigation.navigate('Tournois');
 			} else if (this.state.cptLog < 2) {
 				this.state.cptLog++;

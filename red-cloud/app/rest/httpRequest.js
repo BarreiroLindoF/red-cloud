@@ -34,12 +34,15 @@ export const login = (pseudo, password) => {
 		body: formdata,
 	})
 		.then((response) => {
+			console.log('response 1');
 			return response.json();
 		})
 		.then((responseJson) => {
+			console.log('response 2');
 			return responseJson;
 		})
 		.catch((error) => {
+			console.log('response 3');
 			console.error(error);
 		});
 };
