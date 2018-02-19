@@ -1,9 +1,12 @@
 import React from 'react';
-import { RkButton, RkText, RkTheme, RkTextInput } from 'react-native-ui-kitten';
-import { View, Image, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
+import { View, Image, KeyboardAvoidingView, ScrollView, Text, TouchableOpacity } from 'react-native';
+import Modal from 'react-native-modalbox';
+import { Hoshi } from 'react-native-textinput-effects';
 import { StatusBarPadding } from './../../config/header';
 
 const imageSrc = require('../../assets/images/logo.png');
+const styleFile = require('./style/styles');
 
 export class Login extends React.Component {
 	// eslint-disable-next-line
@@ -19,18 +22,19 @@ export class Login extends React.Component {
 			writtenPassword: '',
 			log: false,
 			cptLog: 0,
+			modalVisible: false,
 		};
 	}
 
 	checkUsername() {
-		if (this.state.user !== '') {
+		if (this.state.user === 'cisco') {
 			return true;
 		}
 		return false;
 	}
 
 	checkPassword() {
-		if (this.state.writtenPassword !== '') {
+		if (this.state.writtenPassword === 'class') {
 			return true;
 		}
 		return false;
@@ -40,10 +44,17 @@ export class Login extends React.Component {
 		if (this.checkUsername() && this.checkPassword()) {
 			this.props.navigation.navigate('Tournois');
 			return true;
+		} else if (this.state.cptLog < 2) {
+			this.state.cptLog++;
+			this.setState({ modalVisible: !this.state.modalVisible });
+			return false;
 		}
 		this.props.navigation.navigate('PasswordRecovery');
-		// ;(password) => this.setState({ password }); je n'ai pas compris ce que cette ligne doit faire
 		return false;
+	}
+
+	toogleModal() {
+		this.setState({ modalVisible: !this.state.modalVisible });
 	}
 
 	renderImage() {
@@ -51,26 +62,53 @@ export class Login extends React.Component {
 		return image;
 	}
 
+	renderModal() {
+		return (
+			<Modal
+				style={{
+					backgroundColor: 'transparent',
+					justifyContent: 'center',
+					alignItems: 'center',
+					height: 400,
+					width: 300,
+				}}
+				position={'center'}
+				isOpen={this.state.modalVisible}
+				backdropOpacity={0.8}
+			>
+				<RkButton rkType="clear">Nom d'utilisateur ou mot de passe incorrect</RkButton>
+				<TouchableOpacity
+					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
+					onPress={() => {
+						this.toogleModal();
+					}}
+				>
+					<View>
+						<Text style={{ color: 'black' }}>Retour</Text>
+					</View>
+				</TouchableOpacity>
+			</Modal>
+		);
+	}
+
 	render() {
-		const image = this.renderImage();
 		return (
 			<KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={55}>
 				<View>
 					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
-						{image}
-						<RkTextInput
-							name="txtUsername"
+						{this.renderImage()}
+						{this.renderModal()}
+						<Hoshi
+							label={'Nom utilisateur'}
 							rkType="textInputLogin"
-							placeholder="Username"
 							onChangeText={(user) => {
 								this.setState({ user });
 							}}
 							value={this.state.user}
 						/>
-						<RkTextInput
-							name="txtPassword"
+						<Hoshi
+							label={'Mot de passe'}
 							rkType="textInputLogin"
-							placeholder="Password"
 							onChangeText={(writtenPassword) => {
 								this.setState({ writtenPassword });
 							}}
