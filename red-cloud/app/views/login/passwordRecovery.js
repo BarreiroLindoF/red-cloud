@@ -11,7 +11,7 @@ const styleFile = require('./style/styles');
 export class PasswordRecovery extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
-		title: 'Renouvellement du mot de passe',
+		title: 'Récuperation password',
 	};
 
 	constructor(props) {

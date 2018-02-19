@@ -93,24 +93,13 @@ export class Conditions extends React.Component {
 					}}
 				>
 					<TouchableOpacity
-						style={[styleFile.buttonConditions, { marginRight: 20 }]}
-						onPress={() => {
-							this.props.navigation.navigate('ListeJeux', { condition: false });
-						}}
-					>
-						<View>
-							<Text>Refuser</Text>
-						</View>
-					</TouchableOpacity>
-
-					<TouchableOpacity
 						style={styleFile.buttonConditions}
 						onPress={() => {
-							this.props.navigation.navigate('ListeJeux', { condition: true });
+							this.props.navigation.goBack();
 						}}
 					>
 						<View>
-							<Text>Accepter</Text>
+							<Text>Retour</Text>
 						</View>
 					</TouchableOpacity>
 				</View>

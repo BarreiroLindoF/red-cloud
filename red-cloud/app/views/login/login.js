@@ -4,6 +4,7 @@ import { View, Image, KeyboardAvoidingView, ScrollView, Text, TouchableOpacity }
 import Modal from 'react-native-modalbox';
 import { Hoshi } from 'react-native-textinput-effects';
 import { StatusBarPadding } from './../../config/header';
+import { login } from '../../rest/httpRequest';
 
 const imageSrc = require('../../assets/images/logo.png');
 const styleFile = require('./style/styles');
@@ -24,6 +25,7 @@ export class Login extends React.Component {
 			cptLog: 0,
 			modalVisible: false,
 		};
+		console.log(url.parse(NativeModules.SourceCode.scriptURL));
 	}
 
 	checkUsername() {
@@ -41,16 +43,16 @@ export class Login extends React.Component {
 	}
 
 	checkLogin() {
-		if (this.checkUsername() && this.checkPassword()) {
-			this.props.navigation.navigate('Tournois');
-			return true;
-		} else if (this.state.cptLog < 2) {
-			this.state.cptLog++;
-			this.setState({ modalVisible: !this.state.modalVisible });
-			return false;
-		}
-		this.props.navigation.navigate('PasswordRecovery');
-		return false;
+		login(this.state.user, this.state.writtenPassword).then((response) => {
+			if (response.connected) {
+				this.props.navigation.navigate('Tournois');
+			} else if (this.state.cptLog < 2) {
+				this.state.cptLog++;
+				this.setState({ modalVisible: !this.state.modalVisible });
+			} else {
+				this.props.navigation.navigate('PasswordRecovery');
+			}
+		});
 	}
 
 	toogleModal() {
@@ -140,7 +142,7 @@ export class Login extends React.Component {
 							rkType="clear"
 							style={{ marginTop: -20, marginLeft: 160 }}
 							onPress={() => {
-								this.props.navigation.navigate('Signup', { user: 'Lucy' });
+								this.props.navigation.navigate('ListeJeux', { user: 'Lucy' });
 							}}
 							title="Signup"
 						>

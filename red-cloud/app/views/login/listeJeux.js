@@ -17,19 +17,20 @@ export class ListeJeux extends React.Component {
 		super(props);
 		this.state = {
 			checkBoxes: [
-				'Titre du jeu A',
-				'Titre du jeu B',
-				'Titre du jeu C',
-				'Titre du jeu D',
-				'Titre du jeu E',
-				'Titre du jeu F',
-				'Titre du jeu G',
-				'Titre du jeu H',
+				'Counter Strike',
+				'Dofus',
+				'Fortnite',
+				'Mario Kart',
+				"PlayerUnknown's Battelgrounds",
+				'World of Warcraft',
+				'Fifa 2018',
+				'League of Legends',
 			],
 			checkedByUser: [],
 			modalVisible: false,
 			conditionsAccepted: false,
 		};
+		this.setConditionState = this.setConditionState.bind(this);
 	}
 
 	componentDidMount() {
@@ -48,6 +49,10 @@ export class ListeJeux extends React.Component {
 		if (checkTable === undefined) {
 			this.state.checkedByUser.push(data);
 		}
+	}
+
+	setConditionState(etat) {
+		this.setState({ conditionsAccepted: etat });
 	}
 
 	toogleModal() {

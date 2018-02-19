@@ -1,5 +1,9 @@
-export const root = 'https://jsonplaceholder.typicode.com';
+import { NativeModules } from 'react-native';
+import url from 'url';
+
+export const root = `http://${url.parse(NativeModules.SourceCode.scriptURL).hostname}:80`;
 
 export const URL = {
-	posts: '/posts',
+	posts: '/api/entrypoint.php?events',
+	login: '/api/entrypoint.php',
 };
