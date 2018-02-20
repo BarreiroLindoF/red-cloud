@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
@@ -25,21 +26,12 @@ class ApiAuthController extends Controller
 
         try {
             if (!$jwt = JWTAuth::attempt($credentials)) {
-                return response()->json([
-                    'response' => 'error',
-                    'message' => 'invalid_credentials',
-                ], 401);
+                return response()->json(new JsonResponse(false, null, 'Login erronées !'),401);
             }
         } catch (JWTAuthException $e) {
-            return response()->json([
-                'response' => 'error',
-                'message' => 'failed_to_create_token',
-            ], 500);
+            return response()->json(new JsonResponse(false, null, "Erreur lors de la création du token!"), 500);
         }
-        return response()->json([
-            'response' => 'success',
-            'result' => ['token' => $jwt]
-        ]);
+        return response()->json(new JsonResponse(true, $jwt, "Token créé avec succès"));
     }
 
     public function getAuthUser(Request $request){

@@ -3,9 +3,16 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+
 
 class PasswordRecovery extends Model
 {
+
+    public function __construct(array $attributes = array())
+    {
+        parent::__construct($attributes);
+    }
 
     /**
      * The table associated with the model.
@@ -29,40 +36,9 @@ class PasswordRecovery extends Model
      *
      * @var array
      */
-    protected $fillable = ['email', 'code', 'token'];
+    protected $fillable = ['email', 'code', 'token', 'status', 'created_at'];
 
-    /**
-     * PasswordRecovery constructor.
-     * @param string $table
-     */
-    public function __construct(string $email, string $code, string $token)
-    {
-        $this->setAttribute('email', $email);
-        $this->setAttribute('code', $code);
-        $this->setAttribute('token', $token);
-    }
-
-    public function setEmailAttribute(string $email) {
-        $this->setAttribute('email', $email);
-    }
-
-    public function getEmailAttribute() {
-        return $this->getAttribute('email');
-    }
-
-    public function setCodeAttribute(string $code) {
-        $this->setAttribute('code', $code);
-    }
-
-    public function getCodeAttribute() {
-        return $this->getAttribute('code');
-    }
-
-    public function setTokenAttribute(string $token) {
-        $this->setAttribute('token', $token);
-    }
-
-    public function getTokenAttribute() {
-        return $this->getAttribute('token');
+    public function delaiDepasse() {
+        return $this->getAttribute('created_at') < Carbon::now()->subMinutes(15);
     }
 }

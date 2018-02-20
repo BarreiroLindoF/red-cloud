@@ -3,28 +3,37 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\JsonResponse;
+use App\PasswordRecovery;
+use App\User;
+use Illuminate\Http\Request;
 
-// Contient ce qu'il faut pour éxecuter la modification du mot de passe
-class ResetPasswordController extends Controller
+class ApiResetPasswordController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Password Reset Controller
-    |--------------------------------------------------------------------------
-    |
-    | This controller is responsible for handling password reset requests
-    | and uses a simple trait to include this behavior. You're free to
-    | explore this trait and override any methods you wish to tweak.
-    |
-    */
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('guest');
+    public function resetPassword(Request $request) {
+        $email = $request->input('email');
+        $token = $request->input('token');
+        $password = $request->input('password');
+        $passwordRecovery = PasswordRecovery::where('email', $email)->first();
+        if ($passwordRecovery === null) {
+            return response()->json(new JsonResponse(false, null, 'Aucune demande de récuperation de mot de passe !'));
+        }
+        if ($passwordRecovery->delaiDepasse()) {
+            return response()->json(new JsonResponse(false, null, 'Délai de récupération de mot de passe dépassé !'));
+        }
+        if ($passwordRecovery->getAttribute('status') > 1) {
+            return response()->json(new JsonResponse(false, null, 'Ce token a déjà été utilisé !'));
+        }
+        if ($passwordRecovery->getAttribute('token') !== $token) {
+            return response()->json(new JsonResponse(false, null, 'Le token ne correspond pas !'));
+        }
+        $passwordRecovery->setAttribute('status', 2);
+        $passwordRecovery->save();
+        // Pas besoin de vérifier le mail sinon il n'y aura pas de demande de mot de passe
+        // et donc, on se serait arrêté plus haut
+        User::where('email', $email)->update(['password' => bcrypt($password)]);
+        return response()->json(new JsonResponse(true, null, "Mot de passe modifié avec succès !"));
     }
+
 }

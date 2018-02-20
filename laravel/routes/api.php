@@ -23,11 +23,11 @@ Route::middleware('api')->get('/hello_world', function () {
 });
 
 Route::group(['middleware' => ['api','cors']], function () {
-    Route::post('auth/register', 'Auth\ApiRegisterController@create');
+    Route::post('auth/register', 'Auth\Auth\ApiRegisterController@create');
 	Route::post('auth/login', 'Auth\ApiAuthController@login');
     Route::post('auth/forgot', 'Auth\ApiForgotPasswordController@sendEmailForgotPassword');
-    // Confirm code - route : auth/code
-    // New password - route : auth/reset
+    Route::post('auth/code', 'Auth\ApiCodeCheckController@checkCode');
+    Route::post('auth/reset', 'Auth\ApiResetPasswordController@resetPassword');
 });
 
 // secured routes

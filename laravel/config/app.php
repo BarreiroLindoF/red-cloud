@@ -176,7 +176,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
+        'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider', // Laravel IDE helper
+        Clockwork\Support\Laravel\ClockworkServiceProvider::class,
     ],
 
     /*
@@ -226,6 +227,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 		'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
+        'Clockwork' => Clockwork\Support\Laravel\Facade::class,
     ],
 
 ];
