@@ -127,7 +127,7 @@ export class Login extends React.Component {
 							rkType="clear"
 							style={{ marginTop: -20, marginLeft: 160 }}
 							onPress={() => {
-								this.props.navigation.navigate('ListeJeux', { user: 'Lucy' });
+								this.props.navigation.navigate('Signup', { user: 'Lucy' });
 							}}
 							title="Signup"
 						>
