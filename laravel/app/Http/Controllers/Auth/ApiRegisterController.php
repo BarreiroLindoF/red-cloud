@@ -59,14 +59,14 @@ class ApiRegisterController extends Controller
     protected function create(Request $request)
     {
 	return User::create([
-	    'nom' => $request->nom,
-        'prenom' => $request->prenom,
-        'pseudo' => $request->pseudo,
-        'ville' => $request->ville,
-        'npa' => $request->npa,
-        'datenaissance' => $request->datenaissance,
-        'email' => $request->email,
-	    'password' => bcrypt($request->password),
+	    'nom' => $request->input('nom'),
+        'prenom' => $request->input('prenom'),
+        'pseudo' => $request->input('pseudo'),
+        'ville' => $request->input('ville'),
+        'npa' => $request->input('npa'),
+        'datenaissance' => $request->input('datenaissance'),
+        'email' => $request->input('email'),
+	    'password' => bcrypt($request->input('password')),
         ]);
     }
 }
