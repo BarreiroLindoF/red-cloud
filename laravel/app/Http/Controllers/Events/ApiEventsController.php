@@ -6,7 +6,6 @@ use App\Event;
 use App\Http\Controllers\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Storage;
 
 class ApiEventsController extends Controller
 {
