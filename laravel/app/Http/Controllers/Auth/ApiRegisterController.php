@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\JsonResponse;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -58,7 +59,7 @@ class ApiRegisterController extends Controller
 
     protected function create(Request $request)
     {
-	return User::create([
+	return response()->json(new JsonResponse(true, User::create([
 	    'nom' => $request->input('nom'),
         'prenom' => $request->input('prenom'),
         'pseudo' => $request->input('pseudo'),
@@ -67,6 +68,6 @@ class ApiRegisterController extends Controller
         'datenaissance' => $request->input('datenaissance'),
         'email' => $request->input('email'),
 	    'password' => bcrypt($request->input('password')),
-        ]);
+        ]), null));
     }
 }
