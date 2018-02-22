@@ -23,7 +23,7 @@ Route::middleware('api')->get('/hello_world', function () {
 });
 
 Route::group(['middleware' => ['api','cors']], function () {
-    Route::post('auth/register', 'Auth\Auth\ApiRegisterController@create');
+    Route::post('auth/register', 'Auth\ApiRegisterController@create');
 	Route::post('auth/login', 'Auth\ApiAuthController@login');
     Route::post('auth/forgot', 'Auth\ApiForgotPasswordController@sendEmailForgotPassword');
     Route::post('auth/code', 'Auth\ApiCodeCheckController@checkCode');
@@ -33,4 +33,5 @@ Route::group(['middleware' => ['api','cors']], function () {
 // secured routes
 Route::group(['middleware' => ['jwt-auth', 'api','cors']], function () {
     Route::post('test/login', 'Auth\ApiAuthController@login');
+    Route::get('events', 'Events\ApiEventsController@getEvents');
 });
