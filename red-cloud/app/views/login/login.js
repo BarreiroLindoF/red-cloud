@@ -29,8 +29,8 @@ export class Login extends React.Component {
 
 	checkLogin() {
 		login(this.state.user, this.state.writtenPassword).then((response) => {
-			if (response.connected) {
-				this.props.navigation.navigate('Tournois');
+			if (response.payload != null) {
+				this.props.navigation.navigate('Tournois', { token: response.payload });
 			} else if (this.state.cptLog < 2) {
 				this.state.cptLog++;
 				this.setState({ modalVisible: !this.state.modalVisible });

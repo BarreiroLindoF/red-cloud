@@ -4,9 +4,14 @@ const buildURL = (url) => {
 	return root + url;
 };
 
-export const getAllPosts = () => {
+export const getAllPosts = (token) => {
 	const uri = buildURL(URL.posts);
-	return fetch(uri) //eslint-disable-line
+	return fetch(uri, {
+		method: 'get',
+		headers: {
+			Authorization: 'Bearer ' + token,
+		},
+	}) //eslint-disable-line
 		.then((response) => {
 			return response.json();
 		})
@@ -22,10 +27,9 @@ export const login = (pseudo, password) => {
 	const uri = buildURL(URL.login);
 
 	const formdata = new FormData();
-	formdata.append('login', '');
+	//formdata.append('login', '');
 	formdata.append('pseudo', pseudo);
 	formdata.append('password', password);
-
 	return fetch(uri, {
 		method: 'post',
 		headers: {

@@ -24,9 +24,9 @@ export class Tournois extends React.Component {
 	}
 
 	loadPosts() {
-		getAllPosts().then((response) => {
+		getAllPosts(this.props.navigation.state.params.token).then((response) => {
 			this.setState({
-				data: response,
+				data: response.payload,
 				isFetching: false,
 			});
 		});
@@ -51,7 +51,7 @@ export class Tournois extends React.Component {
 	}
 
 	keyExtractor(post) {
-		return post.id;
+		return post.id_event;
 	}
 
 	renderItem(info) {
@@ -60,22 +60,22 @@ export class Tournois extends React.Component {
 				delayPressIn={70}
 				activeOpacity={0.8}
 				onPress={() => {
-					this.props.navigation.navigate('Exemple', { user: info.item.id });
+					this.props.navigation.navigate('Exemple', { user: info.item.index });
 				}}
 			>
 				<RkCard rkType="blog" style={styles.card}>
 					<View rkCardHeader style={styles.content}>
 						<RkText style={styles.section} rkType="header4">
-							{info.item.title}
+							{info.item.titre}
 						</RkText>
 					</View>
 
-					<Image rkCardImg source={{ uri: info.item.uri }} />
+					<Image rkCardImg source={{ uri: info.item.imageUri }} />
 
 					<View rkCardContent>
 						<View>
 							<RkText rkType="primary3 mediumLine" numberOfLines={2}>
-								{info.item.body}
+								{info.item.description}
 							</RkText>
 						</View>
 					</View>
