@@ -117,22 +117,23 @@ export class Login extends React.Component {
 								color: 'white',
 								marginTop: 20,
 								marginLeft: 50,
-								marginRight: 100,
-								width: 160,
 							}}
 						>
-							Pas encore de compte ?{' '}
+							Pas encore de compte?{' '}
 						</RkText>
 						<RkButton
 							rkType="clear"
-							style={{ marginTop: -20, marginLeft: 160 }}
+							style={{
+								marginTop: -20,
+								marginLeft: 160,
+							}}
 							onPress={() => {
 								this.props.navigation.navigate('Signup', { user: 'Lucy' });
 							}}
 							title="Signup"
 						>
 							<RkText rktype="header6" style={{ color: 'red' }}>
-								Inscris toi
+								Inscris toi!
 							</RkText>
 						</RkButton>
 						<RkButton
