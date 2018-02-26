@@ -3,21 +3,22 @@ import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
 import { View, KeyboardAvoidingView, ScrollView, TouchableOpacity, Text } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
-import { password } from '../../rest/httpRequest';
+import { code } from '../../rest/httpRequest';
 
 const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const styleFile = require('./style/styles');
 
-export class PasswordRecovery extends React.Component {
+export class Code extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
-		title: 'Récuperation password',
+		title: 'Entrer code reçu par mail',
 	};
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			eMail: '',
+			//this.props.navigation.state.params.eMail;
+			code: '',
 			modalVisible: false,
 		};
 	}
@@ -26,24 +27,10 @@ export class PasswordRecovery extends React.Component {
 		this.setState({ modalVisible: !this.state.modalVisible });
 	}
 
-	checkEmail() {
-		password(this.state.eMail).then((response) => {
-			if (response.success === true) {
-				console.log(response);
-				this.props.navigation.navigate('Code', { eMail: response.payload });
-			} else {
-				console.log(response);
-				this.toogleModal();
-			}
+	checkCode() {
+		code(this.props.navigation.state.params.eMail, this.state.code).then((response) => {
+			console.log(response);
 		});
-	}
-
-	checkPasswordRecovered() {
-		if (this.checkEmail()) {
-			this.props.navigation.navigate('Tournois');
-		} else {
-			this.toogleModal();
-		}
 	}
 
 	renderModal() {
@@ -60,7 +47,10 @@ export class PasswordRecovery extends React.Component {
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
 			>
-				<RkButton rkType="clear">Email ou username inconnu </RkButton>
+				<RkButton rkType="clear">Une des erreurs suivantes est survenue : </RkButton>
+				<RkButton rkType="clear">1) Le format d'adresse mail incorrect </RkButton>
+				<RkButton rkType="clear">2) Le mot de passe est trop simple (8 caractères dont 1 chiffre) </RkButton>
+				<RkButton rkType="clear">3) Les deux mots de passes ne sont pas identiques</RkButton>
 				<TouchableOpacity
 					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
 					onPress={() => {
@@ -82,18 +72,18 @@ export class PasswordRecovery extends React.Component {
 					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
 						{this.renderModal()}
 						<Hoshi
-							label={'E-Mail ou Username'}
+							label={'Code (6 caractères)'}
 							style={{ marginTop: 150 }}
-							onChangeText={(eMail) => {
-								this.setState({ eMail });
+							onChangeText={(code) => {
+								this.setState({ code });
 							}}
-							value={this.state.eMail}
+							value={this.state.code}
 						/>
 						<RkButton
 							rkType="social"
 							style={styles.buttonSend}
 							onPress={() => {
-								this.checkEmail();
+								this.checkCode();
 							}}
 						>
 							<RkText rkType="awesome hero accentColor" style={{ color: 'white' }}>

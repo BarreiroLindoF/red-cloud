@@ -11,6 +11,7 @@ export const Routes = StackNavigator(
 		Signup: { screen: Views.Signup },
 		ListeJeux: { screen: Views.ListeJeux },
 		Conditions: { screen: Views.Conditions },
+		Code: { screen: Views.Code },
 	},
 	{
 		navigationOptions: { headerStyle: { marginTop: StatusBarPadding } },

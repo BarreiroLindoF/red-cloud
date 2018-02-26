@@ -29,8 +29,8 @@ export class Login extends React.Component {
 
 	checkLogin() {
 		login(this.state.user, this.state.writtenPassword).then((response) => {
-			if (response.payload != null) {
-				this.props.navigation.navigate('Tournois', { token: response.payload });
+			if (response.connected) {
+				this.props.navigation.navigate('Tournois');
 			} else if (this.state.cptLog < 2) {
 				this.state.cptLog++;
 				this.setState({ modalVisible: !this.state.modalVisible });
@@ -115,7 +115,7 @@ export class Login extends React.Component {
 							rkType="primary3"
 							style={{
 								color: 'white',
-								marginTop: 40,
+								marginTop: 20,
 								marginLeft: 50,
 								marginRight: 100,
 								width: 160,
@@ -133,6 +133,17 @@ export class Login extends React.Component {
 						>
 							<RkText rktype="header6" style={{ color: 'red' }}>
 								Inscris toi
+							</RkText>
+						</RkButton>
+						<RkButton
+							rkType="clear"
+							style={{ marginTop: 20 }}
+							onPress={() => {
+								this.props.navigation.navigate('PasswordRecovery');
+							}}
+						>
+							<RkText rkType="header6" style={{ color: 'red' }}>
+								Mot de passe oublié ?
 							</RkText>
 						</RkButton>
 					</ScrollView>
