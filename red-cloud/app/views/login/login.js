@@ -1,15 +1,28 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
 import { View, Image, KeyboardAvoidingView, ScrollView, Text, TouchableOpacity } from 'react-native';
 import Modal from 'react-native-modalbox';
 import { Hoshi } from 'react-native-textinput-effects';
 import { StatusBarPadding } from './../../config/header';
 import { login } from '../../rest/httpRequest';
+import { updateUsername } from './../../redux/actions';
 
 const imageSrc = require('../../assets/images/logo.png');
 const styleFile = require('./style/styles');
 
-export class Login extends React.Component {
+const mapStateToProps = (state) => ({
+	username: state.username,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+	changerUsername: (username) => {
+		dispatch(updateUsername(username));
+	},
+});
+
+//@connect(mapStateToProps, mapDispatchToProps)
+class Login extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
 		header: null,
@@ -88,10 +101,8 @@ export class Login extends React.Component {
 						<Hoshi
 							label={'Nom utilisateur'}
 							rkType="textInputLogin"
-							onChangeText={(user) => {
-								this.setState({ user });
-							}}
-							value={this.state.user}
+							onChangeText={this.props.changerUsername}
+							value={this.props.username}
 						/>
 						<Hoshi
 							label={'Mot de passe'}
@@ -182,3 +193,5 @@ let styles = {
 		flexDirection: 'row',
 	},
 };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -1,10 +1,11 @@
 import { StackNavigator } from 'react-navigation';
 import * as Views from './../views/index';
+import Login from './../views/login/login';
 import { StatusBarPadding } from './header';
 
 export const Routes = StackNavigator(
 	{
-		Login: { screen: Views.Login },
+		Login: { screen: Login },
 		PasswordRecovery: { screen: Views.PasswordRecovery },
 		Exemple: { screen: Views.Exemple },
 		Tournois: { screen: Views.Tournois },
