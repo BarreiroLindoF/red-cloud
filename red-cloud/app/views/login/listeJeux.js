@@ -95,13 +95,11 @@ class ListeJeux extends React.Component {
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
 				onClosed={() => {
-					return this.props.navigation.state.params.condition || this.state.conditionsAccepted
-						? this.createUser()
-						: '';
+					return this.props.conditions ? this.createUser() : '';
 				}}
 			>
 				<RkButton rkType="clear">
-					{this.props.navigation.state.params.condition || this.state.conditionsAccepted
+					{this.props.conditions
 						? 'Votre compte a été crée avec succès ! Vous allez être redirigé vers la liste des tournois.'
 						: 'Merci de bien vouloir accepter les condtions avant de finaliser votre compte.'}
 				</RkButton>
@@ -174,7 +172,7 @@ class ListeJeux extends React.Component {
 								//this.setState({ conditionsAccepted: !this.state.conditionsAccepted });
 							}}
 							checkBoxColor="white"
-							isChecked={this.props.navigation.state.params.condition}
+							isChecked={this.props.conditions}
 						/>
 					</View>
 				</View>
