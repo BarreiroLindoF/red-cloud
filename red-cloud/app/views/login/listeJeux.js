@@ -4,18 +4,29 @@ import { View, ScrollView, KeyboardAvoidingView, Text, StyleSheet, TouchableOpac
 import { RkText, RkButton } from 'react-native-ui-kitten';
 import CheckBox from 'react-native-check-box';
 import Modal from 'react-native-modalbox';
-import { updateConditions } from './../../redux/actions';
+import { updateConditions, updateToken } from './../../redux/actions';
 import { register, login } from '../../rest/httpRequest';
 
 const styleFile = require('./style/styles');
 
 const mapStateToProps = (state) => ({
+	nom: state.nom,
+	prenom: state.prenom,
+	pseudo: state.pseudo,
+	email: state.email,
+	npa: state.npa,
+	ville: state.ville,
+	datenaissance: state.datenaissance,
+	password: state.password,
 	conditions: state.conditions,
 });
 
 const mapDispatchToProps = (dispatch) => ({
 	changerConditions: (conditions) => {
 		dispatch(updateConditions(conditions));
+	},
+	updateToken: (token) => {
+		dispatch(updateToken(token));
 	},
 });
 
@@ -60,23 +71,22 @@ class ListeJeux extends React.Component {
 
 	createUser() {
 		register(
-			this.props.navigation.state.params.nom,
-			this.props.navigation.state.params.prenom,
-			this.props.navigation.state.params.pseudo,
-			this.props.navigation.state.params.email,
-			this.props.navigation.state.params.npa,
-			this.props.navigation.state.params.ville,
-			this.props.navigation.state.params.datenaissance,
-			this.props.navigation.state.params.pass,
+			this.props.nom,
+			this.props.prenom,
+			this.props.pseudo,
+			this.props.email,
+			this.props.npa,
+			this.props.ville,
+			this.props.datenaissance,
+			this.props.password,
 		).then((reponse) => {
 			if (reponse.success) {
-				login(this.props.navigation.state.params.pseudo, this.props.navigation.state.params.pass).then(
-					(response) => {
-						if (response.payload != null) {
-							this.props.navigation.navigate('Tournois', { token: response.payload });
-						}
-					},
-				);
+				login(this.props.pseudo, this.props.password).then((response) => {
+					if (response.success) {
+						this.props.updateToken(response.payload);
+						this.props.navigation.navigate('Tournois');
+					}
+				});
 			}
 		});
 	}
@@ -169,7 +179,6 @@ class ListeJeux extends React.Component {
 							right
 							onClick={() => {
 								this.props.changerConditions(!this.props.conditions);
-								//this.setState({ conditionsAccepted: !this.state.conditionsAccepted });
 							}}
 							checkBoxColor="white"
 							isChecked={this.props.conditions}
