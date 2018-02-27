@@ -1,15 +1,57 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, ScrollView, KeyboardAvoidingView, TouchableOpacity, Text, Keyboard } from 'react-native';
 import { RkButton, RkText, RkStyleSheet } from 'react-native-ui-kitten';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
 import { selectUser } from '../../rest/httpRequest';
+import * as Action from './../../redux/actions';
 
 const regPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const regEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const regDate = /([0-2]\d{1}|3[0-1])\.(0\d{1}|1[0-2])\.(19|20)\d{2}/;
 const regNpa = /[1][0-9][0-9][0-9]/;
 const styleFile = require('./style/styles');
+
+const mapStateToProps = (state) => {
+	return {
+		nom: state.nom,
+		prenom: state.prenom,
+		pseudo: state.pseudo,
+		email: state.email,
+		npa: state.npa,
+		ville: state.ville,
+		datenaissance: state.datenaissance,
+		password: state.password,
+	};
+};
+
+const mapDispatchToProps = (dispatch) => ({
+	updateNom: (nom) => {
+		dispatch(Action.updateNom(nom));
+	},
+	updatePrenom: (prenom) => {
+		dispatch(Action.updatePrenom(prenom));
+	},
+	updatePseudo: (pseudo) => {
+		dispatch(Action.updatePseudo(pseudo));
+	},
+	updateEmail: (email) => {
+		dispatch(Action.updateEmail(email));
+	},
+	updateNpa: (npa) => {
+		dispatch(Action.updateNPA(npa));
+	},
+	updateVille: (ville) => {
+		dispatch(Action.updateVille(ville));
+	},
+	updateDateNaissance: (date) => {
+		dispatch(Action.updateDateNaissance(date));
+	},
+	updatePassword: (password) => {
+		dispatch(Action.updatePassword(password));
+	},
+});
 
 class Signup extends React.Component {
 	//eslint-disable-next-line
@@ -290,4 +332,4 @@ let styles = RkStyleSheet.create(() => ({
 	},
 }));
 
-export default Signup;
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

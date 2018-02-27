@@ -1,7 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { FlatList, View, Image, TouchableOpacity } from 'react-native';
 import { RkCard, RkStyleSheet, RkText } from 'react-native-ui-kitten';
 import { getAllPosts } from '../../rest/httpRequest';
+
+const mapStateToProps = (state) => ({
+	token: state.token,
+});
 
 class Tournois extends React.Component {
 	// eslint-disable-next-line
@@ -24,7 +29,7 @@ class Tournois extends React.Component {
 	}
 
 	loadPosts() {
-		getAllPosts(this.props.navigation.state.params.token).then((response) => {
+		getAllPosts(this.props.token).then((response) => {
 			this.setState({
 				data: response.payload,
 				isFetching: false,
@@ -124,4 +129,4 @@ const styles = RkStyleSheet.create((theme) => ({
 	footer: {},
 }));
 
-export default Tournois;
+export default connect(mapStateToProps)(Tournois);

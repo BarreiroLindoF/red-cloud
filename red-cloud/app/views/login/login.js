@@ -6,22 +6,30 @@ import Modal from 'react-native-modalbox';
 import { Hoshi } from 'react-native-textinput-effects';
 import { StatusBarPadding } from './../../config/header';
 import { login } from '../../rest/httpRequest';
-import { updateUsername } from './../../redux/actions';
+import { updatePseudo, updatePassword, updateToken } from './../../redux/actions';
 
 const imageSrc = require('../../assets/images/logo.png');
 const styleFile = require('./style/styles');
 
-const mapStateToProps = (state) => ({
-	username: state.username,
-});
+const mapStateToProps = (state) => {
+	return {
+		pseudo: state.pseudo,
+		password: state.password,
+	};
+};
 
 const mapDispatchToProps = (dispatch) => ({
-	changerUsername: (username) => {
-		dispatch(updateUsername(username));
+	updatePseudo: (pseudo) => {
+		dispatch(updatePseudo(pseudo));
+	},
+	updatePassword: (password) => {
+		dispatch(updatePassword(password));
+	},
+	updateToken: (token) => {
+		dispatch(updateToken(token));
 	},
 });
 
-//@connect(mapStateToProps, mapDispatchToProps)
 class Login extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
@@ -31,9 +39,6 @@ class Login extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			user: '',
-			password: '',
-			writtenPassword: '',
 			log: false,
 			cptLog: 0,
 			modalVisible: false,
@@ -41,11 +46,10 @@ class Login extends React.Component {
 	}
 
 	checkLogin() {
-		login(this.state.user, this.state.writtenPassword).then((response) => {
-			console.log(this.state.user + ' ' + this.state.writtenPassword);
-			console.log(response);
-			if (response.payload != null) {
-				this.props.navigation.navigate('Tournois', { token: response.payload });
+		login(this.props.pseudo, this.props.password).then((response) => {
+			if (response.success) {
+				this.props.updateToken(response.payload);
+				this.props.navigation.navigate('Tournois');
 			} else if (this.state.cptLog < 2) {
 				this.state.cptLog++;
 				this.setState({ modalVisible: !this.state.modalVisible });
@@ -103,16 +107,14 @@ class Login extends React.Component {
 						<Hoshi
 							label={'Nom utilisateur'}
 							rkType="textInputLogin"
-							onChangeText={this.props.changerUsername}
-							value={this.props.username}
+							onChangeText={this.props.updatePseudo}
+							value={this.props.pseudo}
 						/>
 						<Hoshi
 							label={'Mot de passe'}
 							rkType="textInputLogin"
-							onChangeText={(writtenPassword) => {
-								this.setState({ writtenPassword });
-							}}
-							value={this.state.writtenPassword}
+							onChangeText={this.props.updatePassword}
+							value={this.props.password}
 							secureTextEntry
 						/>
 						<RkButton
@@ -141,7 +143,7 @@ class Login extends React.Component {
 								marginLeft: 160,
 							}}
 							onPress={() => {
-								this.props.navigation.navigate('Signup', { user: 'Lucy' });
+								this.props.navigation.navigate('Signup');
 							}}
 							title="Signup"
 						>
