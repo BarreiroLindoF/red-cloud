@@ -42,11 +42,7 @@ export class Signup extends React.Component {
 	validate(input) {
 		this.setState({ pass: input });
 		this.compareMdp(this.state.validationPass);
-		if (regPassword.test(input)) {
-			this.setState({ passOk: true });
-		} else {
-			this.setState({ passOk: false });
-		}
+		this.setState({ passOk: regPassword.test(input) });
 	}
 
 	compareMdp(input) {
