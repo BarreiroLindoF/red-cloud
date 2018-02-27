@@ -3,7 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 
 const styleFile = require('./style/styles');
 
-export class Conditions extends React.Component {
+class Conditions extends React.Component {
 	//eslint-disable-next-line
 	static navigationOptions = {
 		title: 'Création de ton compte',
@@ -17,18 +17,7 @@ export class Conditions extends React.Component {
 		};
 	}
 
-	componentDidMount() {
-		//Recupération du règlement à afficher depuis l'API Rest
-		//getData(response => {
-		//  this.setState({
-		//    reglement: response.body
-		//});
-		//});
-	}
-
 	render() {
-		const { navigate } = this.props.navigation;
-
 		return (
 			<View style={{ flex: 1, backgroundColor: 'white' }}>
 				<View
@@ -106,3 +95,5 @@ export class Conditions extends React.Component {
 		);
 	}
 }
+
+export default Conditions;

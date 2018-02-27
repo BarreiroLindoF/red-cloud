@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 
-export class Exemple extends React.Component {
+class Exemple extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = ({ navigation }) => ({
 		title: `Chat with ${navigation.state.params.user}`,
@@ -16,3 +16,5 @@ export class Exemple extends React.Component {
 		);
 	}
 }
+
+export default Exemple;

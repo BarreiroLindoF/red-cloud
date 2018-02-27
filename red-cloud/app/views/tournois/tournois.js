@@ -3,7 +3,7 @@ import { FlatList, View, Image, TouchableOpacity } from 'react-native';
 import { RkCard, RkStyleSheet, RkText } from 'react-native-ui-kitten';
 import { getAllPosts } from '../../rest/httpRequest';
 
-export class Tournois extends React.Component {
+class Tournois extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
 		title: 'Liste des tournois',
@@ -123,3 +123,5 @@ const styles = RkStyleSheet.create((theme) => ({
 	},
 	footer: {},
 }));
+
+export default Tournois;

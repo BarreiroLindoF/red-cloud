@@ -1,14 +1,22 @@
 import * as Actions from './actions';
 
 const initialState = {
-	username: '',
+	nom: '',
+	prenom: '',
+	pseudo: '',
+	email: '',
+	npa: '',
+	ville: '',
+	datenaissance: '',
+	password: '',
+	token: '',
 	conditions: false,
 };
 
 const updateUser = (state = initialState, action) => {
 	switch (action.type) {
-		case Actions.UPDATE_USERNAME:
-			return { ...state, username: action.payload };
+		case Actions.UPDATE_NOM:
+			return { ...state, nom: action.payload };
 		case Actions.UPDATE_CONDITIONS:
 			return { ...state, conditions: action.payload };
 		default:

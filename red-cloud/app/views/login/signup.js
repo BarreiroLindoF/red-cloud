@@ -11,7 +11,7 @@ const regDate = /([0-2]\d{1}|3[0-1])\.(0\d{1}|1[0-2])\.(19|20)\d{2}/;
 const regNpa = /[1][0-9][0-9][0-9]/;
 const styleFile = require('./style/styles');
 
-export class Signup extends React.Component {
+class Signup extends React.Component {
 	//eslint-disable-next-line
 	static navigationOptions = {
 		title: 'Création de ton compte',
@@ -289,3 +289,5 @@ let styles = RkStyleSheet.create(() => ({
 		justifyContent: 'center',
 	},
 }));
+
+export default Signup;

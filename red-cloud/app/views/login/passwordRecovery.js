@@ -8,7 +8,7 @@ const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const regPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 const styleFile = require('./style/styles');
 
-export class PasswordRecovery extends React.Component {
+class PasswordRecovery extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
 		title: 'Récuperation password',
@@ -172,3 +172,5 @@ let styles = {
 		flexDirection: 'row',
 	},
 };
+
+export default PasswordRecovery;
