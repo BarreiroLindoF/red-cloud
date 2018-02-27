@@ -69,10 +69,10 @@ export class ListeJeux extends React.Component {
 			this.props.navigation.state.params.npa,
 			this.props.navigation.state.params.ville,
 			this.props.navigation.state.params.datenaissance,
-			this.props.navigation.state.params.password,
+			this.props.navigation.state.params.pass,
 		).then((reponse) => {
 			if (reponse.success) {
-				login(this.props.navigation.state.params.pseudo, this.props.navigation.state.params.password).then(
+				login(this.props.navigation.state.params.pseudo, this.props.navigation.state.params.pass).then(
 					(response) => {
 						if (response.payload != null) {
 							this.props.navigation.navigate('Tournois', { token: response.payload });

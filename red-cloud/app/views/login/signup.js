@@ -235,6 +235,7 @@ export class Signup extends React.Component {
 							borderColor={this.state.passOk ? 'grey' : '#ff4444'}
 							onChangeText={(input) => {
 								this.validate(input);
+								this.setState({ pass: input });
 							}}
 							secureTextEntry
 						/>
