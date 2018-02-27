@@ -28,6 +28,7 @@ Route::group(['middleware' => ['api','cors']], function () {
     Route::post('auth/forgot', 'Auth\ApiForgotPasswordController@sendEmailForgotPassword');
     Route::post('auth/code', 'Auth\ApiCodeCheckController@checkCode');
     Route::post('auth/reset', 'Auth\ApiResetPasswordController@resetPassword');
+    Route::post('check', 'ApiVerificationController@checkUserExist');
 });
 
 // secured routes

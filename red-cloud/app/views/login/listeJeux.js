@@ -5,6 +5,7 @@ import { RkText, RkButton } from 'react-native-ui-kitten';
 import CheckBox from 'react-native-check-box';
 import Modal from 'react-native-modalbox';
 import { updateConditions } from './../../redux/actions';
+import { register, login } from '../../rest/httpRequest';
 
 const styleFile = require('./style/styles');
 
@@ -57,6 +58,29 @@ class ListeJeux extends React.Component {
 		this.setState({ modalVisible: !this.state.modalVisible });
 	}
 
+	createUser() {
+		register(
+			this.props.navigation.state.params.nom,
+			this.props.navigation.state.params.prenom,
+			this.props.navigation.state.params.pseudo,
+			this.props.navigation.state.params.email,
+			this.props.navigation.state.params.npa,
+			this.props.navigation.state.params.ville,
+			this.props.navigation.state.params.datenaissance,
+			this.props.navigation.state.params.pass,
+		).then((reponse) => {
+			if (reponse.success) {
+				login(this.props.navigation.state.params.pseudo, this.props.navigation.state.params.pass).then(
+					(response) => {
+						if (response.payload != null) {
+							this.props.navigation.navigate('Tournois', { token: response.payload });
+						}
+					},
+				);
+			}
+		});
+	}
+
 	renderModal() {
 		return (
 			<Modal
@@ -71,8 +95,8 @@ class ListeJeux extends React.Component {
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
 				onClosed={() => {
-					return this.props.navigation.state.params.condition || this.props.conditions
-						? this.props.navigation.navigate('Tournois')
+					return this.props.navigation.state.params.condition || this.state.conditionsAccepted
+						? this.createUser()
 						: '';
 				}}
 			>

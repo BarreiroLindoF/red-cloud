@@ -42,6 +42,8 @@ class Login extends React.Component {
 
 	checkLogin() {
 		login(this.state.user, this.state.writtenPassword).then((response) => {
+			console.log(this.state.user + ' ' + this.state.writtenPassword);
+			console.log(response);
 			if (response.payload != null) {
 				this.props.navigation.navigate('Tournois', { token: response.payload });
 			} else if (this.state.cptLog < 2) {

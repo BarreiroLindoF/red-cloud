@@ -3,6 +3,7 @@ import { View, ScrollView, KeyboardAvoidingView, TouchableOpacity, Text, Keyboar
 import { RkButton, RkText, RkStyleSheet } from 'react-native-ui-kitten';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
+import { selectUser } from '../../rest/httpRequest';
 
 const regPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -24,24 +25,24 @@ export class Signup extends React.Component {
 			passOk: false,
 			validationPassOk: true,
 			validationEmail: false,
+			email: '',
 			dateOk: false,
+			dateNaissance: '',
 			modalVisible: false,
 			name: '',
 			firstName: '',
 			userName: '',
 			npa: false,
+			npaValue: '',
 			ville: '',
+			msgModal: '',
 		};
 	}
 
 	validate(input) {
 		this.setState({ pass: input });
 		this.compareMdp(this.state.validationPass);
-		if (regPassword.test(input)) {
-			this.setState({ passOk: true });
-		} else {
-			this.setState({ passOk: false });
-		}
+		this.setState({ passOk: regPassword.test(input) });
 	}
 
 	compareMdp(input) {
@@ -56,6 +57,7 @@ export class Signup extends React.Component {
 	validateEmail(input) {
 		if (regEmail.test(input)) {
 			this.setState({ validationEmail: true });
+			this.setState({ email: input });
 		} else {
 			this.setState({ validationEmail: false });
 		}
@@ -64,6 +66,7 @@ export class Signup extends React.Component {
 	validateDate(input) {
 		if (regDate.test(input)) {
 			this.setState({ dateOk: true });
+			this.setState({ dateNaissance: input });
 		} else {
 			this.setState({ dateOk: false });
 		}
@@ -71,6 +74,28 @@ export class Signup extends React.Component {
 
 	toogleModal() {
 		this.setState({ modalVisible: !this.state.modalVisible });
+	}
+
+	userExist() {
+		selectUser(this.state.email, this.state.userName).then((reponse) => {
+			if (!reponse.success) {
+				this.props.navigation.navigate('ListeJeux', {
+					condition: false,
+					nom: this.state.name,
+					prenom: this.state.firstName,
+					pseudo: this.state.userName,
+					email: this.state.email,
+					npa: this.state.npaValue,
+					ville: this.state.ville,
+					datenaissance: this.state.dateNaissance,
+					pass: this.state.pass,
+				});
+			} else {
+				console.log(reponse);
+				this.setState({ msgModal: reponse.message });
+				this.toogleModal();
+			}
+		});
 	}
 
 	check() {
@@ -82,11 +107,13 @@ export class Signup extends React.Component {
 				this.state.npa &&
 				this.state.ville !== ''
 			) {
-				this.props.navigation.navigate('ListeJeux', { condition: false });
+				this.userExist();
 			} else {
+				this.setState({ msgModal: 'Veuillez vérifier que tous les champs sont correctement remplis.' });
 				this.toogleModal();
 			}
 		} else {
+			this.setState({ msgModal: 'Veuillez vérifier que tous les champs sont correctement remplis.' });
 			this.toogleModal();
 		}
 	}
@@ -105,7 +132,7 @@ export class Signup extends React.Component {
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
 			>
-				<RkButton rkType="clear">Veuillez vérifier que tous les champs sont correctement remplis.</RkButton>
+				<RkButton rkType="clear">{this.state.msgModal}</RkButton>
 				<TouchableOpacity
 					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
 					onPress={() => {
@@ -173,6 +200,7 @@ export class Signup extends React.Component {
 							borderColor={this.state.npa ? 'grey' : '#ff4444'}
 							onChangeText={(input) => {
 								this.setState({ npa: regNpa.test(input) });
+								this.setState({ npaValue: input });
 							}}
 						/>
 						<Hoshi
@@ -197,6 +225,7 @@ export class Signup extends React.Component {
 							borderColor={this.state.passOk ? 'grey' : '#ff4444'}
 							onChangeText={(input) => {
 								this.validate(input);
+								this.setState({ pass: input });
 							}}
 							secureTextEntry
 						/>
