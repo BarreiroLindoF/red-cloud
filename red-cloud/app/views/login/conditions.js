@@ -1,6 +1,5 @@
 import React from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
-import { RkButton, RkText } from 'react-native-ui-kitten';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 
 const styleFile = require('./style/styles');
 

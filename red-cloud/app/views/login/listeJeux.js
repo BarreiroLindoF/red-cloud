@@ -1,12 +1,24 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, ScrollView, KeyboardAvoidingView, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { RkText, RkButton } from 'react-native-ui-kitten';
 import CheckBox from 'react-native-check-box';
 import Modal from 'react-native-modalbox';
+import { updateConditions } from './../../redux/actions';
 
 const styleFile = require('./style/styles');
 
-export class ListeJeux extends React.Component {
+const mapStateToProps = (state) => ({
+	conditions: state.conditions,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+	changerConditions: (conditions) => {
+		dispatch(updateConditions(conditions));
+	},
+});
+
+class ListeJeux extends React.Component {
 	//eslint-disable-next-line
 	static navigationOptions = ({ navigation } = {
 		title: 'Création de ton compte',
@@ -30,16 +42,6 @@ export class ListeJeux extends React.Component {
 			modalVisible: false,
 			conditionsAccepted: false,
 		};
-		this.setConditionState = this.setConditionState.bind(this);
-	}
-
-	componentDidMount() {
-		//Recupération des jeux vidéos à afficher depuis l'API Rest
-		//getData(response => {
-		//  this.setState({
-		//    checkboxes: response.body
-		//});
-		//});
 	}
 
 	onClick(data) {
@@ -49,10 +51,6 @@ export class ListeJeux extends React.Component {
 		if (checkTable === undefined) {
 			this.state.checkedByUser.push(data);
 		}
-	}
-
-	setConditionState(etat) {
-		this.setState({ conditionsAccepted: etat });
 	}
 
 	toogleModal() {
@@ -73,7 +71,7 @@ export class ListeJeux extends React.Component {
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
 				onClosed={() => {
-					return this.props.navigation.state.params.condition || this.state.conditionsAccepted
+					return this.props.navigation.state.params.condition || this.props.conditions
 						? this.props.navigation.navigate('Tournois')
 						: '';
 				}}
@@ -148,7 +146,8 @@ export class ListeJeux extends React.Component {
 						<CheckBox
 							right
 							onClick={() => {
-								this.setState({ conditionsAccepted: !this.state.conditionsAccepted });
+								this.props.changerConditions(!this.props.conditions);
+								//this.setState({ conditionsAccepted: !this.state.conditionsAccepted });
 							}}
 							checkBoxColor="white"
 							isChecked={this.props.navigation.state.params.condition}
@@ -188,3 +187,5 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 	},
 });
+
+export default connect(mapStateToProps, mapDispatchToProps)(ListeJeux);
