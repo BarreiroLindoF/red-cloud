@@ -29,7 +29,7 @@ class Tournois extends React.Component {
 	}
 
 	loadPosts() {
-		getAllPosts(this.props.token).then((response) => {
+		getAllPosts().then((response) => {
 			this.setState({
 				data: response.payload,
 				isFetching: false,

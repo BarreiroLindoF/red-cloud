@@ -1,15 +1,20 @@
 import { root, URL } from './constants';
+import store from './../redux/store';
 
 const buildURL = (url) => {
 	return root + url;
 };
 
-export const getAllPosts = (token) => {
+const getToken = () => {
+	return store.getState().token;
+};
+
+export const getAllPosts = () => {
 	const uri = buildURL(URL.posts);
 	return fetch(uri, {
 		method: 'get',
 		headers: {
-			Authorization: 'Bearer ' + token,
+			Authorization: 'Bearer ' + getToken(),
 		},
 	}) //eslint-disable-line
 		.then((response) => {
