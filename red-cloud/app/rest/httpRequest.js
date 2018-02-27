@@ -79,11 +79,12 @@ export const register = (nom, prenom, pseudo, email, npa, ville, datenaissance, 
 		});
 };
 
-export const selectUser = (user) => {
+export const selectUser = (email, pseudo) => {
 	const uri = buildURL(URL.selectUser);
 
 	const formdata = new FormData();
-	formdata.append('user', user);
+	formdata.append('email', email);
+	formdata.append('pseudo', pseudo);
 
 	return fetch(uri, {
 		method: 'post',

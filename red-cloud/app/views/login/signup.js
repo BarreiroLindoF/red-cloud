@@ -81,28 +81,22 @@ export class Signup extends React.Component {
 	}
 
 	userExist() {
-		selectUser(this.state.email).then((reponse) => {
+		selectUser(this.state.email, this.state.userName).then((reponse) => {
 			if (!reponse.success) {
-				selectUser(this.state.userName).then((reponseUser) => {
-					if (!reponseUser.success) {
-						this.props.navigation.navigate('ListeJeux', {
-							condition: false,
-							nom: this.state.name,
-							prenom: this.state.firstName,
-							pseudo: this.state.userName,
-							email: this.state.email,
-							npa: this.state.npaValue,
-							ville: this.state.ville,
-							datenaissance: this.state.dateNaissance,
-							pass: this.state.pass,
-						});
-					} else {
-						this.setState({ msgModal: 'Pseudo ou email déjà existant dans la bdd' });
-						this.toogleModal();
-					}
+				this.props.navigation.navigate('ListeJeux', {
+					condition: false,
+					nom: this.state.name,
+					prenom: this.state.firstName,
+					pseudo: this.state.userName,
+					email: this.state.email,
+					npa: this.state.npaValue,
+					ville: this.state.ville,
+					datenaissance: this.state.dateNaissance,
+					pass: this.state.pass,
 				});
 			} else {
-				this.setState({ msgModal: 'Pseudo ou email déjà existant dans la bdd' });
+				console.log(reponse);
+				this.setState({ msgModal: reponse.message });
 				this.toogleModal();
 			}
 		});

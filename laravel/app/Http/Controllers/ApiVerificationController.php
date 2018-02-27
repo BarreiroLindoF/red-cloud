@@ -8,12 +8,21 @@ use Illuminate\Http\Request;
 class ApiVerificationController extends Controller
 {
     public function checkUserExist (Request $request) {
-        $emailOrUsername = $request->input('user');
-        $user = User::where('email', $emailOrUsername)->orWhere('pseudo', $emailOrUsername)->first();
-          if ($user === null) {
-              return response()->json(new JsonResponse(false, null, 'Cet email ou utilisateur n\'existe pas !'));
-          }else {
-              return response()->json(new JsonResponse(true, $user, 'Cet email ou utilisateur existe !'));
-          }
+        $emailRequest = $request->input('email');
+        $pseudoRequest = $request->input('pseudo');
+        $email = User::where('email', $emailRequest)->first();
+        $pseudo = User::where('pseudo',$pseudoRequest)->first();
+        if ($email == null) {
+              if ($pseudo == null) {
+                  return response()->json(new JsonResponse(false, null, 'Cet email ou utilisateur n\'existe pas !'));
+              } else {
+                  return response()->json(new JsonResponse(true, $pseudo, 'Ce pseudo existe déjà, merci de bien vouloir le changer.'));
+              }
+        }
+        if ($pseudo == null){
+            return response()->json(new JsonResponse(true, $email, 'Cet email existe déjà, merci de bien vouloir le changer.'));
+        } else {
+            return response()->json(new JsonResponse(true, $email, 'Cet email et ce pseudo existent déjà, merci de bien vouloir les changer.'));
+        }
     }
 }
