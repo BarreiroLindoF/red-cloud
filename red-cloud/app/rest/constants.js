@@ -6,4 +6,6 @@ export const root = `http://${url.parse(NativeModules.SourceCode.scriptURL).host
 export const URL = {
 	posts: '/api/events',
 	login: '/api/auth/login',
+	register: '/api/auth/register',
+	selectUser: '/api/check',
 };
