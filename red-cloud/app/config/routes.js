@@ -4,6 +4,7 @@ import { StatusBarPadding } from './header';
 
 export const Routes = StackNavigator(
 	{
+		CreateTeam: { screen: Views.CreateTeam },
 		Login: { screen: Views.Login },
 		PasswordRecovery: { screen: Views.PasswordRecovery },
 		Exemple: { screen: Views.Exemple },
