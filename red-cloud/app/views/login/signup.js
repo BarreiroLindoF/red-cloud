@@ -4,7 +4,7 @@ import { View, ScrollView, KeyboardAvoidingView, TouchableOpacity, Text, Keyboar
 import { RkButton, RkText, RkStyleSheet } from 'react-native-ui-kitten';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
-import { selectUser } from '../../rest/httpRequest';
+import { api, URL } from '../../rest/api';
 import * as Action from './../../redux/actions';
 
 const regPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
@@ -110,14 +110,19 @@ class Signup extends React.Component {
 	}
 
 	userExist() {
-		selectUser(this.props.email, this.props.pseudo).then((reponse) => {
-			if (!reponse.success) {
-				this.props.navigation.navigate('ListeJeux');
-			} else {
-				this.setState({ msgModal: reponse.message });
-				this.toogleModal();
-			}
-		});
+		api()
+			.post(URL.selectUser, {
+				email: this.props.email,
+				pseudo: this.props.pseudo,
+			})
+			.then((response) => {
+				if (!response.data.success) {
+					this.props.navigation.navigate('ListeJeux');
+				} else {
+					this.setState({ msgModal: response.data.message });
+					this.toogleModal();
+				}
+			});
 	}
 
 	check() {

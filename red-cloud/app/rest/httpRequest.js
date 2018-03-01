@@ -1,5 +1,6 @@
-import { root, URL } from './constants';
+import { root, URL } from './url';
 import store from './../redux/store';
+import api from './api';
 
 const buildURL = (url) => {
 	return root + url;
@@ -29,6 +30,13 @@ export const getAllPosts = () => {
 };
 
 export const login = (pseudo, password) => {
+	/*api.post(URL.login, {
+		pseudo,
+		password
+	}).then((response) => { 
+		return response.data;
+	});*/
+
 	const uri = buildURL(URL.login);
 
 	const formdata = new FormData();

@@ -2,7 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FlatList, View, Image, TouchableOpacity } from 'react-native';
 import { RkCard, RkStyleSheet, RkText } from 'react-native-ui-kitten';
-import { getAllPosts } from '../../rest/httpRequest';
+import { api } from './../../rest/api';
+import { URL } from './../../rest/url';
 
 const mapStateToProps = (state) => ({
 	token: state.token,
@@ -29,12 +30,17 @@ class Tournois extends React.Component {
 	}
 
 	loadPosts() {
-		getAllPosts().then((response) => {
-			this.setState({
-				data: response.payload,
-				isFetching: false,
+		api()
+			.get(URL.posts)
+			.then((response) => {
+				this.setState({
+					data: response.data.payload,
+					isFetching: false,
+				});
+			})
+			.catch((error) => {
+				console.log(error);
 			});
-		});
 	}
 
 	todaysDate() {

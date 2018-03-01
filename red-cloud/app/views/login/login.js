@@ -5,7 +5,8 @@ import { View, Image, KeyboardAvoidingView, ScrollView, Text, TouchableOpacity }
 import Modal from 'react-native-modalbox';
 import { Hoshi } from 'react-native-textinput-effects';
 import { StatusBarPadding } from './../../config/header';
-import { login } from '../../rest/httpRequest';
+import { api } from './../../rest/api';
+import { URL } from './../../rest/url';
 import { updatePseudo, updatePassword, updateToken } from './../../redux/actions';
 
 const imageSrc = require('../../assets/images/logo.png');
@@ -46,17 +47,25 @@ class Login extends React.Component {
 	}
 
 	checkLogin() {
-		login(this.props.pseudo, this.props.password).then((response) => {
-			if (response.success) {
-				this.props.updateToken(response.payload);
-				this.props.navigation.navigate('Tournois');
-			} else if (this.state.cptLog < 2) {
-				this.state.cptLog++;
-				this.setState({ modalVisible: !this.state.modalVisible });
-			} else {
-				this.props.navigation.navigate('PasswordRecovery');
-			}
-		});
+		api()
+			.post(URL.login, {
+				pseudo: this.props.pseudo,
+				password: this.props.password,
+			})
+			.then((response) => {
+				if (response.data.success) {
+					this.props.updateToken(response.data.payload);
+					this.props.navigation.navigate('Tournois');
+				} else if (this.state.cptLog < 2) {
+					this.state.cptLog++;
+					this.setState({ modalVisible: !this.state.modalVisible });
+				} else {
+					this.props.navigation.navigate('PasswordRecovery');
+				}
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	}
 
 	toogleModal() {
