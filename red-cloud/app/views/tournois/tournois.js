@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FlatList, View, Image, TouchableOpacity } from 'react-native';
 import { RkCard, RkStyleSheet, RkText } from 'react-native-ui-kitten';
-import { api } from './../../rest/api';
-import { URL } from './../../rest/url';
+import { api, URL } from './../../rest/api';
 
 const mapStateToProps = (state) => ({
 	token: state.token,

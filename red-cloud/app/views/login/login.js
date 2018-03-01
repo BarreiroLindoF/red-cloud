@@ -5,8 +5,7 @@ import { View, Image, KeyboardAvoidingView, ScrollView, Text, TouchableOpacity }
 import Modal from 'react-native-modalbox';
 import { Hoshi } from 'react-native-textinput-effects';
 import { StatusBarPadding } from './../../config/header';
-import { api } from './../../rest/api';
-import { URL } from './../../rest/url';
+import { api, URL } from './../../rest/api';
 import { updatePseudo, updatePassword, updateToken } from './../../redux/actions';
 
 const imageSrc = require('../../assets/images/logo.png');

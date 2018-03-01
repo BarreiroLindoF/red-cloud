@@ -5,7 +5,7 @@ import { RkText, RkButton } from 'react-native-ui-kitten';
 import CheckBox from 'react-native-check-box';
 import Modal from 'react-native-modalbox';
 import { updateConditions, updateToken } from './../../redux/actions';
-import { register, login } from '../../rest/httpRequest';
+import { api, URL } from '../../rest/api';
 
 const styleFile = require('./style/styles');
 
@@ -70,25 +70,38 @@ class ListeJeux extends React.Component {
 	}
 
 	createUser() {
-		register(
-			this.props.nom,
-			this.props.prenom,
-			this.props.pseudo,
-			this.props.email,
-			this.props.npa,
-			this.props.ville,
-			this.props.datenaissance,
-			this.props.password,
-		).then((reponse) => {
-			if (reponse.success) {
-				login(this.props.pseudo, this.props.password).then((response) => {
-					if (response.success) {
-						this.props.updateToken(response.payload);
-						this.props.navigation.navigate('Tournois');
-					}
-				});
-			}
-		});
+		api()
+			.post(URL.register, {
+				nom: this.props.nom,
+				prenom: this.props.prenom,
+				pseudo: this.props.pseudo,
+				email: this.props.email,
+				npa: this.props.npa,
+				ville: this.props.ville,
+				datenaissance: this.props.datenaissance,
+				password: this.props.password,
+			})
+			.then((reponse) => {
+				if (reponse.data.success) {
+					api()
+						.post(URL.login, {
+							pseudo: this.props.pseudo,
+							password: this.props.password,
+						})
+						.then((response) => {
+							if (response.data.success) {
+								this.props.updateToken(response.data.payload);
+								this.props.navigation.navigate('Tournois');
+							}
+						})
+						.catch((error) => {
+							console.log(error);
+						});
+				}
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	}
 
 	renderModal() {
