@@ -6,6 +6,7 @@ import ListeJeux from './../views/login/listeJeux';
 import Conditions from './../views/login/conditions';
 import Exemple from './../views/exemple/exemple';
 import Tournois from './../views/tournois/tournois';
+import CreateTeam from './../views/tournois/createTeam';
 import { StatusBarPadding } from './header';
 
 export const Routes = StackNavigator(
@@ -17,6 +18,7 @@ export const Routes = StackNavigator(
 		Signup: { screen: Signup },
 		ListeJeux: { screen: ListeJeux },
 		Conditions: { screen: Conditions },
+		CreateTeam: { screen: CreateTeam },
 	},
 	{
 		navigationOptions: { headerStyle: { marginTop: StatusBarPadding } },
