@@ -70,11 +70,35 @@ export const password = (user) => {
 		});
 };
 
-export const token = (email, code) => {
-	const uri = buildURL(URL.token);
+export const codeRecup = (email, code) => {
+	const uri = buildURL(URL.code);
 	const formdata = new FormData();
 	formdata.append('email', email);
 	formdata.append('code', code);
+	return fetch(uri, {
+		method: 'post',
+		headers: {
+			'Content-Type': 'multipart/form-data',
+		},
+		body: formdata,
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.then((responseJson) => {
+			return responseJson;
+		})
+		.catch((error) => {
+			console.error(error);
+		});
+};
+
+export const resetPassword = (email, token, newPassword) => {
+	const uri = buildURL(URL.reset);
+	const formdata = new FormData();
+	formdata.append('email', email);
+	formdata.append('token', token);
+	formdata.append('newPassword', newPassword);
 	return fetch(uri, {
 		method: 'post',
 		headers: {

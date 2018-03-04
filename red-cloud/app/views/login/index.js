@@ -3,4 +3,5 @@ export * from './passwordRecovery';
 export * from './signup';
 export * from './listeJeux';
 export * from './conditions';
-export * from './token';
+export * from './code';
+export * from './newPassword';

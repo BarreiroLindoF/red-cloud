@@ -11,7 +11,7 @@ const styleFile = require('./style/styles');
 export class PasswordRecovery extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
-		title: 'Récuperation password',
+		title: 'Saisie du mail ou du username',
 	};
 
 	constructor(props) {
@@ -19,7 +19,12 @@ export class PasswordRecovery extends React.Component {
 		this.state = {
 			eMail: '',
 			modalVisible: false,
+			message: '',
 		};
+	}
+
+	openCodeWindow() {
+		this.props.navigation.navigate('Code', { eMail: this.state.message.payload });
 	}
 
 	toogleModal() {
@@ -30,20 +35,14 @@ export class PasswordRecovery extends React.Component {
 		password(this.state.eMail).then((response) => {
 			if (response.success === true) {
 				console.log(response);
-				this.props.navigation.navigate('Code', { eMail: response.payload });
+				this.setState({ message: response });
+				this.openCodeWindow();
 			} else {
 				console.log(response);
+				this.setState({ message: response });
 				this.toogleModal();
 			}
 		});
-	}
-
-	checkPasswordRecovered() {
-		if (this.checkEmail()) {
-			this.props.navigation.navigate('Tournois');
-		} else {
-			this.toogleModal();
-		}
 	}
 
 	renderModal() {
@@ -60,7 +59,7 @@ export class PasswordRecovery extends React.Component {
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
 			>
-				<RkButton rkType="clear">Email ou username inconnu </RkButton>
+				<RkButton rkType="clear">{this.state.message.message}</RkButton>
 				<TouchableOpacity
 					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
 					onPress={() => {

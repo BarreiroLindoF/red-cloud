@@ -7,4 +7,6 @@ export const URL = {
 	posts: '/api/events',
 	login: '/api/auth/login',
 	passwordRecovery: '/api/auth/forgot',
+	code: '/api/auth/code',
+	reset: '/api/auth/reset',
 };

@@ -3,15 +3,15 @@ import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
 import { View, KeyboardAvoidingView, ScrollView, TouchableOpacity, Text } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
-import { codeRecup } from '../../rest/httpRequest';
+import { resetPassword } from '../../rest/httpRequest';
 
 const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const styleFile = require('./style/styles');
 
-export class Code extends React.Component {
+export class NewPassword extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
-		title: 'Mail envoyé',
+		title: 'Saisie du nouveau mot de passe',
 	};
 
 	constructor(props) {
@@ -19,35 +19,42 @@ export class Code extends React.Component {
 		this.state = {
 			//this.props.navigation.state.params.eMail;
 			code: '',
-			modalVisible: false,
+			newPassword: '',
+			newPasswordConfirmed: '',
 			message: '',
-			token: '',
+			modalVisible: false,
 		};
 	}
 
-	openNewPasswordWindow() {
-		this.props.navigation.navigate('NewPassword', {
-			token: this.state.token,
-			email: this.props.navigation.state.params.eMail,
-		});
+	openWindowTournois() {
+		this.props.navigation.navigate('Tournois');
 	}
 
 	toogleModal() {
 		this.setState({ modalVisible: !this.state.modalVisible });
 	}
 
-	checkCode() {
-		codeRecup(this.props.navigation.state.params.eMail, this.state.code).then((response) => {
-			if (response.success === true) {
-				console.log(response);
-				this.setState({ token: response.payload });
-				this.openNewPasswordWindow();
-			} else {
-				console.log(response);
-				this.setState({ message: 'Code invalide' });
-				this.toogleModal();
-			}
-		});
+	checkPasswords() {
+		if (this.state.newPasswordConfirmed === this.state.newPassword) {
+			resetPassword(
+				this.props.navigation.state.params.email,
+				this.props.navigation.state.params.token,
+				this.state.newPasswordConfirmed,
+			).then((response) => {
+				if (response.success === true) {
+					console.log(response);
+					this.setState({ message: response.message });
+					this.openWindowTournois();
+				} else {
+					console.log(this.props.navigation.state.params.token);
+					this.setState({ message: response.message });
+					this.toogleModal();
+				}
+			});
+		} else {
+			this.setState({ message: 'Veuillez entrer 2x le même mot de passe' });
+			this.toogleModal();
+		}
 	}
 
 	renderModal() {
@@ -64,7 +71,7 @@ export class Code extends React.Component {
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
 			>
-				<RkButton rkType="clear">{this.state.message} </RkButton>
+				<RkButton rkType="clear"> {this.state.message} </RkButton>
 				<TouchableOpacity
 					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
 					onPress={() => {
@@ -86,18 +93,28 @@ export class Code extends React.Component {
 					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
 						{this.renderModal()}
 						<Hoshi
-							label={'Code (6 caractères)'}
+							label={'Nouveau mot de passe'}
 							style={{ marginTop: 150 }}
-							onChangeText={(code) => {
-								this.setState({ code });
+							onChangeText={(newPassword) => {
+								this.setState({ newPassword });
 							}}
-							value={this.state.code}
+							value={this.state.newPassword}
+							secureTextEntry
+						/>
+						<Hoshi
+							label={'Confirmation nouveau mot de passe'}
+							style={{ marginTop: 20 }}
+							onChangeText={(newPasswordConfirmed) => {
+								this.setState({ newPasswordConfirmed });
+							}}
+							value={this.state.newPasswordConfirmed}
+							secureTextEntry
 						/>
 						<RkButton
 							rkType="social"
 							style={styles.buttonSend}
 							onPress={() => {
-								this.checkCode();
+								this.checkPasswords();
 							}}
 						>
 							<RkText rkType="awesome hero accentColor" style={{ color: 'white' }}>
