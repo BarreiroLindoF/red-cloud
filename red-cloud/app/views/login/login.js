@@ -7,6 +7,7 @@ import { Hoshi } from 'react-native-textinput-effects';
 import { StatusBarPadding } from './../../config/header';
 import { api, URL } from './../../rest/api';
 import { updatePseudo, updatePassword, updateToken } from './../../redux/actions';
+import { checkPassword } from './../../common/check';
 
 const imageSrc = require('../../assets/images/logo.png');
 const styleFile = require('./style/styles');
@@ -116,12 +117,14 @@ class Login extends React.Component {
 							label={'Nom utilisateur'}
 							rkType="textInputLogin"
 							onChangeText={this.props.updatePseudo}
+							borderColor={this.props.pseudo !== '' ? 'grey' : '#ff4444'}
 							value={this.props.pseudo}
 						/>
 						<Hoshi
 							label={'Mot de passe'}
 							rkType="textInputLogin"
 							onChangeText={this.props.updatePassword}
+							borderColor={checkPassword(this.props.password) ? 'grey' : '#ff4444'}
 							value={this.props.password}
 							secureTextEntry
 						/>
