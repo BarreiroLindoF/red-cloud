@@ -98,7 +98,7 @@ export const resetPassword = (email, token, newPassword) => {
 	const formdata = new FormData();
 	formdata.append('email', email);
 	formdata.append('token', token);
-	formdata.append('newPassword', newPassword);
+	formdata.append('password', newPassword);
 	return fetch(uri, {
 		method: 'post',
 		headers: {

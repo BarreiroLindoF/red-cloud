@@ -5,7 +5,6 @@ import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
 import { resetPassword } from '../../rest/httpRequest';
 
-const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const styleFile = require('./style/styles');
 
 export class NewPassword extends React.Component {
@@ -17,17 +16,16 @@ export class NewPassword extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			//this.props.navigation.state.params.eMail;
 			code: '',
 			newPassword: '',
 			newPasswordConfirmed: '',
-			message: '',
+			apiResponse: '',
 			modalVisible: false,
 		};
 	}
 
-	openWindowTournois() {
-		this.props.navigation.navigate('Tournois');
+	openLoginWindow() {
+		this.props.navigation.navigate('Login');
 	}
 
 	toogleModal() {
@@ -36,20 +34,16 @@ export class NewPassword extends React.Component {
 
 	checkPasswords() {
 		if (this.state.newPasswordConfirmed === this.state.newPassword) {
+			console.log(this.state.newPasswordConfirmed);
 			resetPassword(
 				this.props.navigation.state.params.email,
 				this.props.navigation.state.params.token,
 				this.state.newPasswordConfirmed,
 			).then((response) => {
-				if (response.success === true) {
-					console.log(response);
-					this.setState({ message: response.message });
-					this.openWindowTournois();
-				} else {
-					console.log(this.props.navigation.state.params.token);
-					this.setState({ message: response.message });
-					this.toogleModal();
-				}
+				this.setState({ apiResponse: response });
+				console.log(this.state.apiResponse);
+				this.setState({ message: 'Mot de passe modifié' });
+				this.toogleModal();
 			});
 		} else {
 			this.setState({ message: 'Veuillez entrer 2x le même mot de passe' });
@@ -76,6 +70,9 @@ export class NewPassword extends React.Component {
 					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
 					onPress={() => {
 						this.toogleModal();
+						if (this.state.apiResponse.success) {
+							this.openLoginWindow();
+						}
 					}}
 				>
 					<View>

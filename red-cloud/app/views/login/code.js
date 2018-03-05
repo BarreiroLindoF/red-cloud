@@ -3,9 +3,8 @@ import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
 import { View, KeyboardAvoidingView, ScrollView, TouchableOpacity, Text } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
-import { codeRecup } from '../../rest/httpRequest';
+import { codeRecup, password } from '../../rest/httpRequest';
 
-const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const styleFile = require('./style/styles');
 
 export class Code extends React.Component {
@@ -17,17 +16,24 @@ export class Code extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			//this.props.navigation.state.params.eMail;
 			code: '',
 			modalVisible: false,
 			message: '',
-			token: '',
+			apiResponse: '',
 		};
+	}
+
+	sendNewPassword() {
+		password(this.props.navigation.state.params.eMail).then((response) => {
+			/*this.setState({ apiResponse: response });
+			this.toogleModal();*/
+			console.log(response);
+		});
 	}
 
 	openNewPasswordWindow() {
 		this.props.navigation.navigate('NewPassword', {
-			token: this.state.token,
+			token: this.state.apiResponse.payload,
 			email: this.props.navigation.state.params.eMail,
 		});
 	}
@@ -38,15 +44,13 @@ export class Code extends React.Component {
 
 	checkCode() {
 		codeRecup(this.props.navigation.state.params.eMail, this.state.code).then((response) => {
-			if (response.success === true) {
-				console.log(response);
-				this.setState({ token: response.payload });
-				this.openNewPasswordWindow();
+			this.setState({ apiResponse: response });
+			if (this.state.apiResponse.success) {
+				this.setState({ message: 'Code valide' });
 			} else {
-				console.log(response);
 				this.setState({ message: 'Code invalide' });
-				this.toogleModal();
 			}
+			this.toogleModal();
 		});
 	}
 
@@ -69,6 +73,9 @@ export class Code extends React.Component {
 					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
 					onPress={() => {
 						this.toogleModal();
+						if (this.state.apiResponse.success) {
+							this.openNewPasswordWindow();
+						}
 					}}
 				>
 					<View>
@@ -102,6 +109,26 @@ export class Code extends React.Component {
 						>
 							<RkText rkType="awesome hero accentColor" style={{ color: 'white' }}>
 								Envoyer
+							</RkText>
+						</RkButton>
+						<RkText
+							style={{
+								color: 'white',
+								marginTop: 50,
+								marginLeft: 50,
+							}}
+						>
+							Pensez à consulter vos spams ou{' '}
+						</RkText>
+						<RkButton
+							rkType="clear"
+							style={{}}
+							onPress={() => {
+								this.sendNewPassword();
+							}}
+						>
+							<RkText rkType="header6" style={{ color: 'red' }}>
+								renvoyer un nouveau code
 							</RkText>
 						</RkButton>
 					</ScrollView>

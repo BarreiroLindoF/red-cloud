@@ -5,7 +5,6 @@ import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
 import { password } from '../../rest/httpRequest';
 
-const reg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const styleFile = require('./style/styles');
 
 export class PasswordRecovery extends React.Component {
@@ -19,12 +18,12 @@ export class PasswordRecovery extends React.Component {
 		this.state = {
 			eMail: '',
 			modalVisible: false,
-			message: '',
+			apiResponse: '',
 		};
 	}
 
 	openCodeWindow() {
-		this.props.navigation.navigate('Code', { eMail: this.state.message.payload });
+		this.props.navigation.navigate('Code', { eMail: this.state.apiResponse.payload });
 	}
 
 	toogleModal() {
@@ -33,15 +32,8 @@ export class PasswordRecovery extends React.Component {
 
 	checkEmail() {
 		password(this.state.eMail).then((response) => {
-			if (response.success === true) {
-				console.log(response);
-				this.setState({ message: response });
-				this.openCodeWindow();
-			} else {
-				console.log(response);
-				this.setState({ message: response });
-				this.toogleModal();
-			}
+			this.setState({ apiResponse: response });
+			this.toogleModal();
 		});
 	}
 
@@ -59,11 +51,14 @@ export class PasswordRecovery extends React.Component {
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
 			>
-				<RkButton rkType="clear">{this.state.message.message}</RkButton>
+				<RkButton rkType="clear">{this.state.apiResponse.message}</RkButton>
 				<TouchableOpacity
 					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
 					onPress={() => {
 						this.toogleModal();
+						if (this.state.apiResponse.success) {
+							this.openCodeWindow();
+						}
 					}}
 				>
 					<View>

@@ -20,7 +20,6 @@ export class Login extends React.Component {
 		this.state = {
 			user: '',
 			password: '',
-			writtenPassword: '',
 			log: false,
 			cptLog: 0,
 			modalVisible: false,
@@ -28,9 +27,12 @@ export class Login extends React.Component {
 	}
 
 	checkLogin() {
-		login(this.state.user, this.state.writtenPassword).then((response) => {
-			if (response.connected) {
-				this.props.navigation.navigate('Tournois');
+		login(this.state.user, this.state.password).then((response) => {
+			console.log(this.state.user);
+			console.log(this.state.password);
+			console.log(response);
+			if (response.success) {
+				this.props.navigation.navigate('Tournois', { token: response.payload });
 			} else if (this.state.cptLog < 2) {
 				this.state.cptLog++;
 				this.setState({ modalVisible: !this.state.modalVisible });
@@ -96,10 +98,10 @@ export class Login extends React.Component {
 						<Hoshi
 							label={'Mot de passe'}
 							rkType="textInputLogin"
-							onChangeText={(writtenPassword) => {
-								this.setState({ writtenPassword });
+							onChangeText={(password) => {
+								this.setState({ password });
 							}}
-							value={this.state.writtenPassword}
+							value={this.state.password}
 							secureTextEntry
 						/>
 						<RkButton
