@@ -6,11 +6,8 @@ import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
 import { api, URL } from '../../rest/api';
 import * as Action from './../../redux/actions';
+import * as Check from './../../common/check';
 
-const regPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-const regEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
-const regDate = /([0-2]\d{1}|3[0-1])\.(0\d{1}|1[0-2])\.(19|20)\d{2}/;
-const regNpa = /[1][0-9][0-9][0-9]/;
 const styleFile = require('./style/styles');
 
 const mapStateToProps = (state) => {
@@ -79,20 +76,20 @@ class Signup extends React.Component {
 	}
 
 	emailChanged(email) {
-		this.setState({ validationEmail: regEmail.test(email) }, this.props.updateEmail(email));
+		this.setState({ validationEmail: Check.checkEmail(email) }, this.props.updateEmail(email));
 	}
 
 	npaChanged(npa) {
-		this.setState({ npa: regNpa.test(npa) }, this.props.updateNpa(npa));
+		this.setState({ npa: Check.checkNpa(npa) }, this.props.updateNpa(npa));
 	}
 
 	datenaissanceChanged(date) {
-		this.setState({ dateOk: regDate.test(date) }, this.props.updateDateNaissance(date));
+		this.setState({ dateOk: Check.checkDate(date) }, this.props.updateDateNaissance(date));
 	}
 
 	passwordChanged(password) {
 		this.setState({
-			passOk: regPassword.test(password),
+			passOk: Check.checkPassword(password),
 			validationPassOk: password === this.state.validationPass,
 		});
 		this.props.updatePassword(password);
@@ -127,18 +124,7 @@ class Signup extends React.Component {
 
 	check() {
 		if (this.state.dateOk && this.state.passOk && this.state.validationPassOk && this.state.validationEmail) {
-			if (
-				this.props.nom !== '' &&
-				this.props.prenom !== '' &&
-				this.props.pseudo !== '' &&
-				this.props.npa &&
-				this.props.ville !== ''
-			) {
-				this.userExist();
-			} else {
-				this.setState({ msgModal: 'Veuillez vérifier que tous les champs sont correctement remplis.' });
-				this.toogleModal();
-			}
+			this.userExist();
 		} else {
 			this.setState({ msgModal: 'Veuillez vérifier que tous les champs sont correctement remplis.' });
 			this.toogleModal();
