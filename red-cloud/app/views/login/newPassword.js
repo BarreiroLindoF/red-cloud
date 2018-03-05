@@ -1,13 +1,21 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
 import { View, KeyboardAvoidingView, ScrollView, TouchableOpacity, Text } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
-import { resetPassword } from '../../rest/httpRequest';
+import { api, URL } from '../../rest/api';
+import { checkPassword } from '../../common/check';
 
 const styleFile = require('./style/styles');
 
-export class NewPassword extends React.Component {
+const mapStateToProps = (state) => {
+	return {
+		email: state.email,
+	};
+};
+
+class NewPassword extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
 		title: 'Saisie du nouveau mot de passe',
@@ -33,20 +41,26 @@ export class NewPassword extends React.Component {
 	}
 
 	checkPasswords() {
-		if (this.state.newPasswordConfirmed === this.state.newPassword) {
-			console.log(this.state.newPasswordConfirmed);
-			resetPassword(
-				this.props.navigation.state.params.email,
-				this.props.navigation.state.params.token,
-				this.state.newPasswordConfirmed,
-			).then((response) => {
-				this.setState({ apiResponse: response });
-				console.log(this.state.apiResponse);
-				this.setState({ message: 'Mot de passe modifié' });
-				this.toogleModal();
-			});
+		let errorMessage = '';
+		if (!checkPassword(this.state.newPassword)) {
+			errorMessage = 'Le mot de passe doit avoir au moins 8 caracteres avec 1 chiffre.';
+		}
+		if (!this.state.newPasswordConfirmed === this.state.newPassword) {
+			errorMessage = 'Veuillez entrer 2x le même mot de passe.';
+		}
+		if (errorMessage === '') {
+			api()
+				.post(URL.reset, {
+					email: this.props.email,
+					token: this.props.navigation.state.params.token,
+					password: this.state.newPasswordConfirmed,
+				})
+				.then((response) => {
+					this.setState({ apiResponse: response.data, message: 'Mot de passe modifié' });
+					this.toogleModal();
+				});
 		} else {
-			this.setState({ message: 'Veuillez entrer 2x le même mot de passe' });
+			this.setState({ message: errorMessage });
 			this.toogleModal();
 		}
 	}
@@ -164,3 +178,5 @@ let styles = {
 		flexDirection: 'row',
 	},
 };
+
+export default connect(mapStateToProps)(NewPassword);

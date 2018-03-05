@@ -8,6 +8,7 @@ import { StatusBarPadding } from './../../config/header';
 import { api, URL } from './../../rest/api';
 import { updatePseudo, updatePassword, updateToken } from './../../redux/actions';
 import { checkPassword } from './../../common/check';
+import { login } from '../../rest/httpRequest';
 
 const imageSrc = require('../../assets/images/logo.png');
 const styleFile = require('./style/styles');
@@ -160,17 +161,6 @@ class Login extends React.Component {
 						>
 							<RkText rktype="header6" style={{ color: 'red' }}>
 								Inscris toi!
-							</RkText>
-						</RkButton>
-						<RkButton
-							rkType="clear"
-							style={{ marginTop: 20 }}
-							onPress={() => {
-								this.props.navigation.navigate('PasswordRecovery');
-							}}
-						>
-							<RkText rkType="header6" style={{ color: 'red' }}>
-								Mot de passe oublié ?
 							</RkText>
 						</RkButton>
 						<RkButton

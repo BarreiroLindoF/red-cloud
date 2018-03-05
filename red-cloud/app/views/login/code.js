@@ -1,13 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
 import { View, KeyboardAvoidingView, ScrollView, TouchableOpacity, Text } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
-import { codeRecup, password } from '../../rest/httpRequest';
+import { api, URL } from '../../rest/api';
 
 const styleFile = require('./style/styles');
 
-export class Code extends React.Component {
+const mapStateToProps = (state) => {
+	return {
+		email: state.email,
+	};
+};
+
+class Code extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
 		title: 'Mail envoyé',
@@ -19,22 +26,27 @@ export class Code extends React.Component {
 			code: '',
 			modalVisible: false,
 			message: '',
-			apiResponse: '',
+			token: '',
 		};
 	}
 
 	sendNewPassword() {
-		password(this.props.navigation.state.params.eMail).then((response) => {
-			/*this.setState({ apiResponse: response });
-			this.toogleModal();*/
-			console.log(response);
-		});
+		api()
+			.post(URL.passwordRecovery, {
+				email: this.props.email,
+			})
+			.then((response) => {
+				this.setState({
+					token: response.data.payload,
+					message: response.data.message,
+				});
+				this.toogleModal();
+			});
 	}
 
 	openNewPasswordWindow() {
 		this.props.navigation.navigate('NewPassword', {
-			token: this.state.apiResponse.payload,
-			email: this.props.navigation.state.params.eMail,
+			token: this.state.token,
 		});
 	}
 
@@ -43,15 +55,22 @@ export class Code extends React.Component {
 	}
 
 	checkCode() {
-		codeRecup(this.props.navigation.state.params.eMail, this.state.code).then((response) => {
-			this.setState({ apiResponse: response });
-			if (this.state.apiResponse.success) {
-				this.setState({ message: 'Code valide' });
-			} else {
-				this.setState({ message: 'Code invalide' });
-			}
-			this.toogleModal();
-		});
+		api()
+			.post(URL.code, {
+				email: this.props.email,
+				code: this.state.code,
+			})
+			.then((response) => {
+				if (response.data.success) {
+					this.setState({
+						message: 'Code valide',
+						token: response.data.payload,
+					});
+				} else {
+					this.setState({ message: 'Code invalide' });
+				}
+				this.toogleModal();
+			});
 	}
 
 	renderModal() {
@@ -73,7 +92,7 @@ export class Code extends React.Component {
 					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
 					onPress={() => {
 						this.toogleModal();
-						if (this.state.apiResponse.success) {
+						if (this.state.token !== '') {
 							this.openNewPasswordWindow();
 						}
 					}}
@@ -177,3 +196,5 @@ let styles = {
 		flexDirection: 'row',
 	},
 };
+
+export default connect(mapStateToProps)(Code);

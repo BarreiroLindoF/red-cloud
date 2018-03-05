@@ -1,11 +1,25 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
 import { View, KeyboardAvoidingView, ScrollView, TouchableOpacity, Text } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
-import { password } from '../../rest/httpRequest';
+import { api, URL } from './../../rest/api';
+import { updateEmail } from '../../redux/actions';
 
 const styleFile = require('./style/styles');
+
+const mapStateToProps = (state) => {
+	return {
+		email: state.email,
+	};
+};
+
+const mapDispatchToProps = (dispatch) => ({
+	updateEmail: (email) => {
+		dispatch(updateEmail(email));
+	},
+});
 
 class PasswordRecovery extends React.Component {
 	// eslint-disable-next-line
@@ -23,7 +37,7 @@ class PasswordRecovery extends React.Component {
 	}
 
 	openCodeWindow() {
-		this.props.navigation.navigate('Code', { eMail: this.state.apiResponse.payload });
+		this.props.navigation.navigate('Code');
 	}
 
 	toogleModal() {
@@ -31,10 +45,15 @@ class PasswordRecovery extends React.Component {
 	}
 
 	checkEmail() {
-		password(this.state.eMail).then((response) => {
-			this.setState({ apiResponse: response });
-			this.toogleModal();
-		});
+		api()
+			.post(URL.passwordRecovery, {
+				user: this.state.eMail,
+			})
+			.then((response) => {
+				this.setState({ apiResponse: response.data });
+				this.props.updateEmail(this.state.apiResponse.payload);
+				this.toogleModal();
+			});
 	}
 
 	renderModal() {
@@ -141,4 +160,4 @@ let styles = {
 	},
 };
 
-export default PasswordRecovery;
+export default connect(mapStateToProps, mapDispatchToProps)(PasswordRecovery);

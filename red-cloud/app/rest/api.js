@@ -25,4 +25,7 @@ export const URL = {
 	login: '/api/auth/login',
 	register: '/api/auth/register',
 	selectUser: '/api/check',
+	passwordRecovery: '/api/auth/forgot',
+	code: '/api/auth/code',
+	reset: '/api/auth/reset',
 };
