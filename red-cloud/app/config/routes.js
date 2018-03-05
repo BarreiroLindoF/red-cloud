@@ -7,10 +7,12 @@ import Conditions from './../views/login/conditions';
 import Exemple from './../views/exemple/exemple';
 import Tournois from './../views/tournois/tournois';
 import CreateTeam from './../views/tournois/createTeam';
+import PresentationTournoi from './../views/tournois/presentationTournoi';
 import { StatusBarPadding } from './header';
 
 export const Routes = StackNavigator(
 	{
+		PresentationTournoi: { screen: PresentationTournoi },
 		Login: { screen: Login },
 		PasswordRecovery: { screen: PasswordRecovery },
 		Exemple: { screen: Exemple },
