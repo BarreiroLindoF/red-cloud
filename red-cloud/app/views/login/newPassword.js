@@ -106,6 +106,7 @@ class NewPassword extends React.Component {
 						<Hoshi
 							label={'Nouveau mot de passe'}
 							style={{ marginTop: 150 }}
+							borderColor={checkPassword(this.state.newPassword) ? 'grey' : '#ff4444'}
 							onChangeText={(newPassword) => {
 								this.setState({ newPassword });
 							}}
@@ -115,6 +116,12 @@ class NewPassword extends React.Component {
 						<Hoshi
 							label={'Confirmation nouveau mot de passe'}
 							style={{ marginTop: 20 }}
+							borderColor={
+								checkPassword(this.state.newPasswordConfirmed) &&
+								this.state.newPasswordConfirmed === this.state.newPassword
+									? 'grey'
+									: '#ff4444'
+							}
 							onChangeText={(newPasswordConfirmed) => {
 								this.setState({ newPasswordConfirmed });
 							}}

@@ -97,6 +97,7 @@ class PasswordRecovery extends React.Component {
 						<Hoshi
 							label={'E-Mail ou Username'}
 							style={{ marginTop: 150 }}
+							borderColor={this.state.eMail !== '' ? 'grey' : '#ff4444'}
 							onChangeText={(eMail) => {
 								this.setState({ eMail });
 							}}

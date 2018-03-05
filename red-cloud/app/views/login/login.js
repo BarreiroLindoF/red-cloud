@@ -8,7 +8,6 @@ import { StatusBarPadding } from './../../config/header';
 import { api, URL } from './../../rest/api';
 import { updatePseudo, updatePassword, updateToken } from './../../redux/actions';
 import { checkPassword } from './../../common/check';
-import { login } from '../../rest/httpRequest';
 
 const imageSrc = require('../../assets/images/logo.png');
 const styleFile = require('./style/styles');

@@ -5,6 +5,7 @@ import { View, KeyboardAvoidingView, ScrollView, TouchableOpacity, Text } from '
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
 import { api, URL } from '../../rest/api';
+import { checkCodePassword } from '../../common/check';
 
 const styleFile = require('./style/styles');
 
@@ -114,6 +115,7 @@ class Code extends React.Component {
 						<Hoshi
 							label={'Code (6 caractères)'}
 							style={{ marginTop: 150 }}
+							borderColor={checkCodePassword(this.state.code) ? 'grey' : '#ff4444'}
 							onChangeText={(code) => {
 								this.setState({ code });
 							}}
