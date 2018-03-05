@@ -1,9 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { FlatList, View, Image, TouchableOpacity } from 'react-native';
 import { RkCard, RkStyleSheet, RkText } from 'react-native-ui-kitten';
-import { getAllPosts } from '../../rest/httpRequest';
+import { api, URL } from './../../rest/api';
 
-export class Tournois extends React.Component {
+const mapStateToProps = (state) => ({
+	token: state.token,
+});
+
+class Tournois extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
 		title: 'Liste des tournois',
@@ -24,12 +29,17 @@ export class Tournois extends React.Component {
 	}
 
 	loadPosts() {
-		getAllPosts(this.props.navigation.state.params.token).then((response) => {
-			this.setState({
-				data: response.payload,
-				isFetching: false,
+		api()
+			.get(URL.posts)
+			.then((response) => {
+				this.setState({
+					data: response.data.payload,
+					isFetching: false,
+				});
+			})
+			.catch((error) => {
+				console.log(error);
 			});
-		});
 	}
 
 	todaysDate() {
@@ -123,3 +133,5 @@ const styles = RkStyleSheet.create((theme) => ({
 	},
 	footer: {},
 }));
+
+export default connect(mapStateToProps)(Tournois);

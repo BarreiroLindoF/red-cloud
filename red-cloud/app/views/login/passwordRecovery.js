@@ -7,7 +7,7 @@ import { password } from '../../rest/httpRequest';
 
 const styleFile = require('./style/styles');
 
-export class PasswordRecovery extends React.Component {
+class PasswordRecovery extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
 		title: 'Saisie du mail ou du username',
@@ -140,3 +140,5 @@ let styles = {
 		flexDirection: 'row',
 	},
 };
+
+export default PasswordRecovery;

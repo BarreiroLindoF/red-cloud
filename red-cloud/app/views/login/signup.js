@@ -1,16 +1,59 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { View, ScrollView, KeyboardAvoidingView, TouchableOpacity, Text, Keyboard } from 'react-native';
 import { RkButton, RkText, RkStyleSheet } from 'react-native-ui-kitten';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
+import { api, URL } from '../../rest/api';
+import * as Action from './../../redux/actions';
 
 const regPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-const regEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const regEmail = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const regDate = /([0-2]\d{1}|3[0-1])\.(0\d{1}|1[0-2])\.(19|20)\d{2}/;
 const regNpa = /[1][0-9][0-9][0-9]/;
 const styleFile = require('./style/styles');
 
-export class Signup extends React.Component {
+const mapStateToProps = (state) => {
+	return {
+		nom: state.nom,
+		prenom: state.prenom,
+		pseudo: state.pseudo,
+		email: state.email,
+		npa: state.npa,
+		ville: state.ville,
+		datenaissance: state.datenaissance,
+		password: state.password,
+	};
+};
+
+const mapDispatchToProps = (dispatch) => ({
+	updateNom: (nom) => {
+		dispatch(Action.updateNom(nom));
+	},
+	updatePrenom: (prenom) => {
+		dispatch(Action.updatePrenom(prenom));
+	},
+	updatePseudo: (pseudo) => {
+		dispatch(Action.updatePseudo(pseudo));
+	},
+	updateEmail: (email) => {
+		dispatch(Action.updateEmail(email));
+	},
+	updateNpa: (npa) => {
+		dispatch(Action.updateNPA(npa));
+	},
+	updateVille: (ville) => {
+		dispatch(Action.updateVille(ville));
+	},
+	updateDateNaissance: (date) => {
+		dispatch(Action.updateDateNaissance(date));
+	},
+	updatePassword: (password) => {
+		dispatch(Action.updatePassword(password));
+	},
+});
+
+class Signup extends React.Component {
 	//eslint-disable-next-line
 	static navigationOptions = {
 		title: 'Création de ton compte',
@@ -19,74 +62,85 @@ export class Signup extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			pass: '',
 			validationPass: '',
 			passOk: false,
 			validationPassOk: true,
 			validationEmail: false,
 			dateOk: false,
 			modalVisible: false,
-			name: '',
-			firstName: '',
-			userName: '',
 			npa: false,
-			ville: '',
+			msgModal: '',
 		};
+		this.emailChanged = this.emailChanged.bind(this);
+		this.npaChanged = this.npaChanged.bind(this);
+		this.datenaissanceChanged = this.datenaissanceChanged.bind(this);
+		this.passwordChanged = this.passwordChanged.bind(this);
+		this.validationChanged = this.validationChanged.bind(this);
 	}
 
-	validate(input) {
-		this.setState({ pass: input });
-		this.compareMdp(this.state.validationPass);
-		if (regPassword.test(input)) {
-			this.setState({ passOk: true });
-		} else {
-			this.setState({ passOk: false });
-		}
+	emailChanged(email) {
+		this.setState({ validationEmail: regEmail.test(email) }, this.props.updateEmail(email));
 	}
 
-	compareMdp(input) {
-		this.setState({ validationPass: input });
-		if (input === this.state.pass) {
-			this.setState({ validationPassOk: true });
-		} else {
-			this.setState({ validationPassOk: false });
-		}
+	npaChanged(npa) {
+		this.setState({ npa: regNpa.test(npa) }, this.props.updateNpa(npa));
 	}
 
-	validateEmail(input) {
-		if (regEmail.test(input)) {
-			this.setState({ validationEmail: true });
-		} else {
-			this.setState({ validationEmail: false });
-		}
+	datenaissanceChanged(date) {
+		this.setState({ dateOk: regDate.test(date) }, this.props.updateDateNaissance(date));
 	}
 
-	validateDate(input) {
-		if (regDate.test(input)) {
-			this.setState({ dateOk: true });
-		} else {
-			this.setState({ dateOk: false });
-		}
+	passwordChanged(password) {
+		this.setState({
+			passOk: regPassword.test(password),
+			validationPassOk: password === this.state.validationPass,
+		});
+		this.props.updatePassword(password);
+	}
+
+	validationChanged(validation) {
+		this.setState({
+			validationPass: validation,
+			validationPassOk: this.props.password === validation,
+		});
 	}
 
 	toogleModal() {
 		this.setState({ modalVisible: !this.state.modalVisible });
 	}
 
+	userExist() {
+		api()
+			.post(URL.selectUser, {
+				email: this.props.email,
+				pseudo: this.props.pseudo,
+			})
+			.then((response) => {
+				if (!response.data.success) {
+					this.props.navigation.navigate('ListeJeux');
+				} else {
+					this.setState({ msgModal: response.data.message });
+					this.toogleModal();
+				}
+			});
+	}
+
 	check() {
 		if (this.state.dateOk && this.state.passOk && this.state.validationPassOk && this.state.validationEmail) {
 			if (
-				this.state.name !== '' &&
-				this.state.firstName !== '' &&
-				this.state.userName !== '' &&
-				this.state.npa &&
-				this.state.ville !== ''
+				this.props.nom !== '' &&
+				this.props.prenom !== '' &&
+				this.props.pseudo !== '' &&
+				this.props.npa &&
+				this.props.ville !== ''
 			) {
-				this.props.navigation.navigate('ListeJeux', { condition: false });
+				this.userExist();
 			} else {
+				this.setState({ msgModal: 'Veuillez vérifier que tous les champs sont correctement remplis.' });
 				this.toogleModal();
 			}
 		} else {
+			this.setState({ msgModal: 'Veuillez vérifier que tous les champs sont correctement remplis.' });
 			this.toogleModal();
 		}
 	}
@@ -105,7 +159,7 @@ export class Signup extends React.Component {
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
 			>
-				<RkButton rkType="clear">Veuillez vérifier que tous les champs sont correctement remplis.</RkButton>
+				<RkButton rkType="clear">{this.state.msgModal}</RkButton>
 				<TouchableOpacity
 					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
 					onPress={() => {
@@ -136,34 +190,26 @@ export class Signup extends React.Component {
 						<Hoshi
 							label={'Nom'}
 							borderColor={'grey'}
-							borderColor={this.state.name !== '' ? 'grey' : '#ff4444'}
-							onChangeText={(input) => {
-								this.setState({ name: input });
-							}}
+							borderColor={this.props.nom !== '' ? 'grey' : '#ff4444'}
+							onChangeText={this.props.updateNom}
 						/>
 						<Hoshi
 							label={'Prénom'}
 							borderColor={'grey'}
-							borderColor={this.state.firstName !== '' ? 'grey' : '#ff4444'}
-							onChangeText={(input) => {
-								this.setState({ firstName: input });
-							}}
+							borderColor={this.props.prenom !== '' ? 'grey' : '#ff4444'}
+							onChangeText={this.props.updatePrenom}
 						/>
 						<Hoshi
 							label={'Pseudo'}
 							borderColor={'grey'}
-							borderColor={this.state.userName !== '' ? 'grey' : '#ff4444'}
-							onChangeText={(input) => {
-								this.setState({ userName: input });
-							}}
+							borderColor={this.props.pseudo !== '' ? 'grey' : '#ff4444'}
+							onChangeText={this.props.updatePseudo}
 						/>
 						<Hoshi
 							label={'Email'}
 							keyboardType="email-address"
 							borderColor={this.state.validationEmail ? 'grey' : '#ff4444'}
-							onChangeText={(input) => {
-								this.validateEmail(input);
-							}}
+							onChangeText={this.emailChanged}
 						/>
 						<Hoshi
 							label={'NPA'}
@@ -171,41 +217,31 @@ export class Signup extends React.Component {
 							keyboardType="phone-pad"
 							maxLength={4}
 							borderColor={this.state.npa ? 'grey' : '#ff4444'}
-							onChangeText={(input) => {
-								this.setState({ npa: regNpa.test(input) });
-							}}
+							onChangeText={this.npaChanged}
 						/>
 						<Hoshi
 							label={'Ville'}
 							borderColor={'grey'}
-							borderColor={this.state.ville !== '' ? 'grey' : '#ff4444'}
-							onChangeText={(input) => {
-								this.setState({ ville: input });
-							}}
+							borderColor={this.props.ville !== '' ? 'grey' : '#ff4444'}
+							onChangeText={this.props.updateVille}
 						/>
 						<Hoshi
 							maxLength={10}
 							borderColor={this.state.dateOk ? 'grey' : '#ff4444'}
 							label={'Date de naissance (JJ.MM.AAAA)'}
 							keyboardType="numeric"
-							onChangeText={(input) => {
-								this.validateDate(input);
-							}}
+							onChangeText={this.datenaissanceChanged}
 						/>
 						<Hoshi
 							label={'Mot de passe (8 caractères dont 1 chiffre)'}
 							borderColor={this.state.passOk ? 'grey' : '#ff4444'}
-							onChangeText={(input) => {
-								this.validate(input);
-							}}
+							onChangeText={this.passwordChanged}
 							secureTextEntry
 						/>
 						<Hoshi
 							label={'Validation mot de passe'}
 							borderColor={this.state.validationPassOk ? 'grey' : '#ff4444'}
-							onChangeText={(input) => {
-								this.compareMdp(input);
-							}}
+							onChangeText={this.validationChanged}
 							secureTextEntry
 						/>
 					</ScrollView>
@@ -260,3 +296,5 @@ let styles = RkStyleSheet.create(() => ({
 		justifyContent: 'center',
 	},
 }));
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

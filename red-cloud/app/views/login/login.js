@@ -1,15 +1,36 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
 import { View, Image, KeyboardAvoidingView, ScrollView, Text, TouchableOpacity } from 'react-native';
 import Modal from 'react-native-modalbox';
 import { Hoshi } from 'react-native-textinput-effects';
 import { StatusBarPadding } from './../../config/header';
-import { login } from '../../rest/httpRequest';
+import { api, URL } from './../../rest/api';
+import { updatePseudo, updatePassword, updateToken } from './../../redux/actions';
 
 const imageSrc = require('../../assets/images/logo.png');
 const styleFile = require('./style/styles');
 
-export class Login extends React.Component {
+const mapStateToProps = (state) => {
+	return {
+		pseudo: state.pseudo,
+		password: state.password,
+	};
+};
+
+const mapDispatchToProps = (dispatch) => ({
+	updatePseudo: (pseudo) => {
+		dispatch(updatePseudo(pseudo));
+	},
+	updatePassword: (password) => {
+		dispatch(updatePassword(password));
+	},
+	updateToken: (token) => {
+		dispatch(updateToken(token));
+	},
+});
+
+class Login extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
 		header: null,
@@ -18,8 +39,6 @@ export class Login extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			user: '',
-			password: '',
 			log: false,
 			cptLog: 0,
 			modalVisible: false,
@@ -27,19 +46,25 @@ export class Login extends React.Component {
 	}
 
 	checkLogin() {
-		login(this.state.user, this.state.password).then((response) => {
-			console.log(this.state.user);
-			console.log(this.state.password);
-			console.log(response);
-			if (response.success) {
-				this.props.navigation.navigate('Tournois', { token: response.payload });
-			} else if (this.state.cptLog < 2) {
-				this.state.cptLog++;
-				this.setState({ modalVisible: !this.state.modalVisible });
-			} else {
-				this.props.navigation.navigate('PasswordRecovery');
-			}
-		});
+		api()
+			.post(URL.login, {
+				pseudo: this.props.pseudo,
+				password: this.props.password,
+			})
+			.then((response) => {
+				if (response.data.success) {
+					this.props.updateToken(response.data.payload);
+					this.props.navigation.navigate('Tournois');
+				} else if (this.state.cptLog < 2) {
+					this.state.cptLog++;
+					this.setState({ modalVisible: !this.state.modalVisible });
+				} else {
+					this.props.navigation.navigate('PasswordRecovery');
+				}
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	}
 
 	toogleModal() {
@@ -90,18 +115,14 @@ export class Login extends React.Component {
 						<Hoshi
 							label={'Nom utilisateur'}
 							rkType="textInputLogin"
-							onChangeText={(user) => {
-								this.setState({ user });
-							}}
-							value={this.state.user}
+							onChangeText={this.props.updatePseudo}
+							value={this.props.pseudo}
 						/>
 						<Hoshi
 							label={'Mot de passe'}
 							rkType="textInputLogin"
-							onChangeText={(password) => {
-								this.setState({ password });
-							}}
-							value={this.state.password}
+							onChangeText={this.props.updatePassword}
+							value={this.props.password}
 							secureTextEntry
 						/>
 						<RkButton
@@ -119,22 +140,34 @@ export class Login extends React.Component {
 								color: 'white',
 								marginTop: 20,
 								marginLeft: 50,
-								marginRight: 100,
-								width: 160,
 							}}
 						>
-							Pas encore de compte ?{' '}
+							Pas encore de compte?{' '}
 						</RkText>
 						<RkButton
 							rkType="clear"
-							style={{ marginTop: -20, marginLeft: 160 }}
+							style={{
+								marginTop: -20,
+								marginLeft: 160,
+							}}
 							onPress={() => {
-								this.props.navigation.navigate('Signup', { user: 'Lucy' });
+								this.props.navigation.navigate('Signup');
 							}}
 							title="Signup"
 						>
 							<RkText rktype="header6" style={{ color: 'red' }}>
-								Inscris toi
+								Inscris toi!
+							</RkText>
+						</RkButton>
+						<RkButton
+							rkType="clear"
+							style={{ marginTop: 20 }}
+							onPress={() => {
+								this.props.navigation.navigate('PasswordRecovery');
+							}}
+						>
+							<RkText rkType="header6" style={{ color: 'red' }}>
+								Mot de passe oublié ?
 							</RkText>
 						</RkButton>
 						<RkButton
@@ -195,3 +228,5 @@ let styles = {
 		flexDirection: 'row',
 	},
 };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
