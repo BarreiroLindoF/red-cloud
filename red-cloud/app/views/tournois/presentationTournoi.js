@@ -57,7 +57,7 @@ class PresentationTournoi extends React.Component {
 							fontFamily: 'monospace',
 						}}
 					>
-						{' Counter Strike Source Tournament' /*this.props.navigation.state.params.tournoi.nom*/}
+						{this.props.navigation.state.params.tournoi.titre}
 					</Text>
 				</View>
 				<View
@@ -67,11 +67,10 @@ class PresentationTournoi extends React.Component {
 						marginBottom: 10,
 					}}
 				>
-					{/*this.props.navigation.state.params.tournoi.imageUri*/}
 					<ScrollView contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}>
 						<View>
 							<Image
-								source={{ uri: 'http://192.168.43.95:8000/images/events/cs.jpg' }}
+								source={{ uri: this.props.navigation.state.params.tournoi.imageUri }}
 								style={{
 									width: Dimensions.get('window').width,
 									height: 160,
@@ -153,8 +152,7 @@ class PresentationTournoi extends React.Component {
 						onPress={() => {
 							Share.share({
 								message: Android
-									? "RedCloud est désromais dans ton Store ! N'attends plus et viens rejoindre tes amis et rivaux :)!" +
-										StoreAppUrl
+									? `RedCloud est désromais dans ton Store ! N'attends plus et viens rejoindre tes amis et rivaux :)!" ${StoreAppUrl}`
 									: "RedCloud est désromais dans ton Store ! N'attends plus et viens rejoindre tes amis et rivaux :)!",
 								url: StoreAppUrl,
 								title: 'App RedCloud',
