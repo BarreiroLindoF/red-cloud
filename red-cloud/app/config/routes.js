@@ -25,6 +25,10 @@ export const Routes = StackNavigator(
 		NewPassword: { screen: NewPassword },
 	},
 	{
-		navigationOptions: { headerStyle: { marginTop: StatusBarPadding } },
+		navigationOptions: {
+			headerStyle: {
+				marginTop: StatusBarPadding,
+			},
+		},
 	},
 );
