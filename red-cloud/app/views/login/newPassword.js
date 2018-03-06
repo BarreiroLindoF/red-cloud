@@ -4,6 +4,7 @@ import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
 import { View, KeyboardAvoidingView, ScrollView, TouchableOpacity, Text } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
+import { NavigationActions } from 'react-navigation';
 import { api, URL } from '../../rest/api';
 import { checkPassword } from '../../common/check';
 
@@ -33,7 +34,11 @@ class NewPassword extends React.Component {
 	}
 
 	openLoginWindow() {
-		this.props.navigation.navigate('Login');
+		const resetAction = NavigationActions.reset({
+			index: 0,
+			actions: [NavigationActions.navigate({ routeName: 'Login' })],
+		});
+		this.props.navigation.dispatch(resetAction);
 	}
 
 	toogleModal() {
