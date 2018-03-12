@@ -18,7 +18,9 @@ class ApiForgotPasswordController extends Controller
     public function sendEmailForgotPassword(Request $request) {
         $emailOrUsername = $request->input('user');
 
+
         $user = User::where('email', $emailOrUsername)->orWhere('pseudo', $emailOrUsername)->first();
+
         if ($user === null) {
             return response()->json(new JsonResponse(false, null, 'Cet email ou utilisateur n\'existe pas !'));
         }

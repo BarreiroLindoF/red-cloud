@@ -32,6 +32,7 @@ Route::group(['middleware' => ['api','cors']], function () {
 
 
     Route::get('me/equipes', 'Equipes\ApiEquipesController@getEquipes');
+    Route::post('equipes', 'Equipes\ApiEquipesController@addEquipe');
 });
 
 // secured routes
