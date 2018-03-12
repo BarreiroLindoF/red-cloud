@@ -79,13 +79,7 @@ class PresentationTournoi extends React.Component {
 				<View style={Styles.socialFooter}>
 					<TouchableOpacity
 						onPress={() => {
-							/*Linking.openURL(FaceBookPage);*/
-							Share.share({
-								message: `RedCloud est désromais dans ton Store ! N'attends plus et viens rejoindre tes amis et rivaux :)!
-                                    ${Android ? ' ' : ' '}`,
-								title: 'App RedCloud',
-								image: tournoi.imageUri,
-							});
+							Linking.openURL(FaceBookPage);
 						}}
 					>
 						<Image source={FaceBookImgSrc} style={Styles.logo} />
@@ -95,10 +89,9 @@ class PresentationTournoi extends React.Component {
 						onPress={() => {
 							Share.share({
 								message: `RedCloud est désromais dans ton Store ! N'attends plus et viens rejoindre tes amis et rivaux :)!
-                                    ${Android ? tournoi.imageUri : ''}`,
-								url: StoreAppUrl,
+                                    ${Android ? StoreAppUrl : ''}`,
+								url: undefined,
 								title: 'App RedCloud',
-								image: tournoi.imageUri,
 							});
 						}}
 					>
