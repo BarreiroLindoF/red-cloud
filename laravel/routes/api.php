@@ -29,10 +29,17 @@ Route::group(['middleware' => ['api','cors']], function () {
     Route::post('auth/code', 'Auth\ApiCodeCheckController@checkCode');
     Route::post('auth/reset', 'Auth\ApiResetPasswordController@resetPassword');
     Route::post('check', 'ApiVerificationController@checkUserExist');
+
+
+    Route::get('me/equipes', 'Equipes\ApiEquipesController@getEquipes');
 });
 
 // secured routes
 Route::group(['middleware' => ['jwt-auth', 'api','cors']], function () {
     Route::post('test/login', 'Auth\ApiAuthController@login');
     Route::get('events', 'Events\ApiEventsController@getEvents');
+
+    // Equipes
+
+    //me/equipes goes here
 });
