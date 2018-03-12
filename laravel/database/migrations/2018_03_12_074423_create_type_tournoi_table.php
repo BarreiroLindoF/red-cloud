@@ -15,7 +15,7 @@ class CreateTypeTournoiTable extends Migration
     {
         Schema::create('type_tournoi', function (Blueprint $table) {
             $table->increments('id_type_tournoi');
-			$table->string('designation');
+            $table->string('designation');
         });
     }
 
