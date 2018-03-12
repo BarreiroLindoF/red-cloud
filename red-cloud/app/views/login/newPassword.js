@@ -4,8 +4,9 @@ import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
 import { View, KeyboardAvoidingView, ScrollView, TouchableOpacity, Text } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
-import { api, URL } from './../../rest/api';
-import { updateEmail } from '../../redux/actions';
+import { NavigationActions } from 'react-navigation';
+import { api, URL } from '../../rest/api';
+import { checkPassword } from '../../common/check';
 
 const styleFile = require('./style/styles');
 
@@ -15,45 +16,58 @@ const mapStateToProps = (state) => {
 	};
 };
 
-const mapDispatchToProps = (dispatch) => ({
-	updateEmail: (email) => {
-		dispatch(updateEmail(email));
-	},
-});
-
-class PasswordRecovery extends React.Component {
+class NewPassword extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
-		title: 'Saisie du mail ou du username',
+		title: 'Saisie du nouveau mot de passe',
 	};
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			eMail: '',
-			modalVisible: false,
+			code: '',
+			newPassword: '',
+			newPasswordConfirmed: '',
 			apiResponse: '',
+			modalVisible: false,
 		};
 	}
 
-	openCodeWindow() {
-		this.props.navigation.navigate('Code');
+	openLoginWindow() {
+		const resetAction = NavigationActions.reset({
+			index: 0,
+			actions: [NavigationActions.navigate({ routeName: 'Login' })],
+		});
+		this.props.navigation.dispatch(resetAction);
 	}
 
 	toogleModal() {
 		this.setState({ modalVisible: !this.state.modalVisible });
 	}
 
-	checkEmail() {
-		api()
-			.post(URL.passwordRecovery, {
-				user: this.state.eMail,
-			})
-			.then((response) => {
-				this.setState({ apiResponse: response.data });
-				this.props.updateEmail(this.state.apiResponse.payload);
-				this.toogleModal();
-			});
+	checkPasswords() {
+		let errorMessage = '';
+		if (!checkPassword(this.state.newPassword)) {
+			errorMessage = 'Le mot de passe doit avoir au moins 8 caracteres avec 1 chiffre.';
+		}
+		if (!this.state.newPasswordConfirmed === this.state.newPassword) {
+			errorMessage = 'Veuillez entrer 2x le même mot de passe.';
+		}
+		if (errorMessage === '') {
+			api()
+				.post(URL.reset, {
+					email: this.props.email,
+					token: this.props.navigation.state.params.token,
+					password: this.state.newPasswordConfirmed,
+				})
+				.then((response) => {
+					this.setState({ apiResponse: response.data, message: 'Mot de passe modifié' });
+					this.toogleModal();
+				});
+		} else {
+			this.setState({ message: errorMessage });
+			this.toogleModal();
+		}
 	}
 
 	renderModal() {
@@ -70,13 +84,13 @@ class PasswordRecovery extends React.Component {
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
 			>
-				<RkButton rkType="clear">{this.state.apiResponse.message}</RkButton>
+				<RkButton rkType="clear"> {this.state.message} </RkButton>
 				<TouchableOpacity
 					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
 					onPress={() => {
 						this.toogleModal();
 						if (this.state.apiResponse.success) {
-							this.openCodeWindow();
+							this.openLoginWindow();
 						}
 					}}
 				>
@@ -95,19 +109,35 @@ class PasswordRecovery extends React.Component {
 					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
 						{this.renderModal()}
 						<Hoshi
-							label={'E-Mail ou Username'}
+							label={'Nouveau mot de passe'}
 							style={{ marginTop: 150 }}
-							borderColor={this.state.eMail !== '' ? 'grey' : '#ff4444'}
-							onChangeText={(eMail) => {
-								this.setState({ eMail });
+							borderColor={checkPassword(this.state.newPassword) ? 'grey' : '#ff4444'}
+							onChangeText={(newPassword) => {
+								this.setState({ newPassword });
 							}}
-							value={this.state.eMail}
+							value={this.state.newPassword}
+							secureTextEntry
+						/>
+						<Hoshi
+							label={'Confirmation nouveau mot de passe'}
+							style={{ marginTop: 20 }}
+							borderColor={
+								checkPassword(this.state.newPasswordConfirmed) &&
+								this.state.newPasswordConfirmed === this.state.newPassword
+									? 'grey'
+									: '#ff4444'
+							}
+							onChangeText={(newPasswordConfirmed) => {
+								this.setState({ newPasswordConfirmed });
+							}}
+							value={this.state.newPasswordConfirmed}
+							secureTextEntry
 						/>
 						<RkButton
 							rkType="social"
 							style={styles.buttonSend}
 							onPress={() => {
-								this.checkEmail();
+								this.checkPasswords();
 							}}
 						>
 							<RkText rkType="awesome hero accentColor" style={{ color: 'white' }}>
@@ -161,4 +191,4 @@ let styles = {
 	},
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PasswordRecovery);
+export default connect(mapStateToProps)(NewPassword);

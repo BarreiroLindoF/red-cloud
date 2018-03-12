@@ -4,8 +4,8 @@ import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
 import { View, KeyboardAvoidingView, ScrollView, TouchableOpacity, Text } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
-import { api, URL } from './../../rest/api';
-import { updateEmail } from '../../redux/actions';
+import { api, URL } from '../../rest/api';
+import { checkCodePassword } from '../../common/check';
 
 const styleFile = require('./style/styles');
 
@@ -15,43 +15,61 @@ const mapStateToProps = (state) => {
 	};
 };
 
-const mapDispatchToProps = (dispatch) => ({
-	updateEmail: (email) => {
-		dispatch(updateEmail(email));
-	},
-});
-
-class PasswordRecovery extends React.Component {
+class Code extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
-		title: 'Saisie du mail ou du username',
+		title: 'Mail envoyé',
 	};
 
 	constructor(props) {
 		super(props);
 		this.state = {
-			eMail: '',
+			code: '',
 			modalVisible: false,
-			apiResponse: '',
+			message: '',
+			token: '',
 		};
 	}
 
-	openCodeWindow() {
-		this.props.navigation.navigate('Code');
+	sendNewPassword() {
+		api()
+			.post(URL.passwordRecovery, {
+				email: this.props.email,
+			})
+			.then((response) => {
+				this.setState({
+					token: response.data.payload,
+					message: response.data.message,
+				});
+				this.toogleModal();
+			});
+	}
+
+	openNewPasswordWindow() {
+		this.props.navigation.navigate('NewPassword', {
+			token: this.state.token,
+		});
 	}
 
 	toogleModal() {
 		this.setState({ modalVisible: !this.state.modalVisible });
 	}
 
-	checkEmail() {
+	checkCode() {
 		api()
-			.post(URL.passwordRecovery, {
-				user: this.state.eMail,
+			.post(URL.code, {
+				email: this.props.email,
+				code: this.state.code,
 			})
 			.then((response) => {
-				this.setState({ apiResponse: response.data });
-				this.props.updateEmail(this.state.apiResponse.payload);
+				if (response.data.success) {
+					this.setState({
+						message: 'Code valide',
+						token: response.data.payload,
+					});
+				} else {
+					this.setState({ message: 'Code invalide' });
+				}
 				this.toogleModal();
 			});
 	}
@@ -70,13 +88,13 @@ class PasswordRecovery extends React.Component {
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
 			>
-				<RkButton rkType="clear">{this.state.apiResponse.message}</RkButton>
+				<RkButton rkType="clear">{this.state.message} </RkButton>
 				<TouchableOpacity
 					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
 					onPress={() => {
 						this.toogleModal();
-						if (this.state.apiResponse.success) {
-							this.openCodeWindow();
+						if (this.state.token !== '') {
+							this.openNewPasswordWindow();
 						}
 					}}
 				>
@@ -95,23 +113,43 @@ class PasswordRecovery extends React.Component {
 					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
 						{this.renderModal()}
 						<Hoshi
-							label={'E-Mail ou Username'}
+							label={'Code (6 caractères)'}
 							style={{ marginTop: 150 }}
-							borderColor={this.state.eMail !== '' ? 'grey' : '#ff4444'}
-							onChangeText={(eMail) => {
-								this.setState({ eMail });
+							borderColor={checkCodePassword(this.state.code) ? 'grey' : '#ff4444'}
+							onChangeText={(code) => {
+								this.setState({ code });
 							}}
-							value={this.state.eMail}
+							value={this.state.code}
 						/>
 						<RkButton
 							rkType="social"
 							style={styles.buttonSend}
 							onPress={() => {
-								this.checkEmail();
+								this.checkCode();
 							}}
 						>
 							<RkText rkType="awesome hero accentColor" style={{ color: 'white' }}>
 								Envoyer
+							</RkText>
+						</RkButton>
+						<RkText
+							style={{
+								color: 'white',
+								marginTop: 50,
+								marginLeft: 50,
+							}}
+						>
+							Pensez à consulter vos spams ou{' '}
+						</RkText>
+						<RkButton
+							rkType="clear"
+							style={{}}
+							onPress={() => {
+								this.sendNewPassword();
+							}}
+						>
+							<RkText rkType="header6" style={{ color: 'red' }}>
+								renvoyer un nouveau code
 							</RkText>
 						</RkButton>
 					</ScrollView>
@@ -161,4 +199,4 @@ let styles = {
 	},
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(PasswordRecovery);
+export default connect(mapStateToProps)(Code);
