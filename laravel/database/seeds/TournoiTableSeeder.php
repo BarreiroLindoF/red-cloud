@@ -15,7 +15,7 @@ class TournoiTableSeeder extends Seeder
             'titre' => 'Guerre du pouvoir',
             'description' => 'La plus grande guerre prévue en terre d\'Azeroth',
             'participants_max' => 200,
-            'event_id_event' => 4,
+            'event_id_event' => 3,
             'jeu_id_jeu' => 1,
             'type_tournoi_id_type_tournoi' => 2,
         ]);
@@ -31,7 +31,7 @@ class TournoiTableSeeder extends Seeder
             'titre' => 'Oeuf de Pâques',
             'description' => 'Récolte le plus dn\'oeufs de Pâques pour gagner la récompense ultime !',
             'participants_max' => 20,
-            'event_id_event' => 5,
+            'event_id_event' => 4,
             'jeu_id_jeu' => 3,
             'type_tournoi_id_type_tournoi' => 1,
         ]);
@@ -39,7 +39,7 @@ class TournoiTableSeeder extends Seeder
             'titre' => 'Libère ton talent dans PUBG !',
             'description' => 'Descripion Description blablabla !',
             'participants_max' => 50,
-            'event_id_event' => 6,
+            'event_id_event' => 5,
             'jeu_id_jeu' => 4,
             'type_tournoi_id_type_tournoi' => 2,
         ]);
@@ -47,7 +47,7 @@ class TournoiTableSeeder extends Seeder
             'titre' => 'FiFa',
             'description' => 'Récolte le plus dn\'oeufs de Pâques pour gagner la récompense ultime !',
             'participants_max' => 20,
-            'event_id_event' => 8,
+            'event_id_event' => 7,
             'jeu_id_jeu' => 5,
             'type_tournoi_id_type_tournoi' => 1,
         ]);
@@ -55,7 +55,7 @@ class TournoiTableSeeder extends Seeder
             'titre' => 'Tournoi BattleField 1',
             'description' => 'Descripion Description blablabla !',
             'participants_max' => 20,
-            'event_id_event' => 7,
+            'event_id_event' => 6,
             'jeu_id_jeu' => 6,
             'type_tournoi_id_type_tournoi' => 1,
         ]);
@@ -63,7 +63,7 @@ class TournoiTableSeeder extends Seeder
             'titre' => 'Tournoi Halo 5',
             'description' => 'Descripion Description blablabla !',
             'participants_max' => 20,
-            'event_id_event' => 10,
+            'event_id_event' => 9,
             'jeu_id_jeu' => 7,
             'type_tournoi_id_type_tournoi' => 1,
         ]);
@@ -71,7 +71,7 @@ class TournoiTableSeeder extends Seeder
             'titre' => 'Tournoi Fortnite',
             'description' => 'Descripion Description blablabla !',
             'participants_max' => 20,
-            'event_id_event' => 9,
+            'event_id_event' => 8,
             'jeu_id_jeu' => 8,
             'type_tournoi_id_type_tournoi' => 1,
         ]);
@@ -79,7 +79,7 @@ class TournoiTableSeeder extends Seeder
             'titre' => 'Heroes of the Storm',
             'description' => 'Descripion Description blablabla !',
             'participants_max' => 20,
-            'event_id_event' => 12,
+            'event_id_event' => 11,
             'jeu_id_jeu' => 9,
             'type_tournoi_id_type_tournoi' => 1,
         ]);
@@ -87,7 +87,7 @@ class TournoiTableSeeder extends Seeder
             'titre' => 'Tournoi de LOL',
             'description' => 'Récolte le plus dn\'oeufs de Pâques pour gagner la récompense ultime !',
             'participants_max' => 20,
-            'event_id_event' => 11,
+            'event_id_event' => 10,
             'jeu_id_jeu' => 10,
             'type_tournoi_id_type_tournoi' => 1,
         ]);

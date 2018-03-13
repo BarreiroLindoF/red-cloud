@@ -62,7 +62,7 @@ class PresentationTournoi extends React.Component {
 		return (
 			<View style={Styles.container}>
 				<View style={Styles.rubanHaut}>
-					<Text style={Styles.title}>{this.state.tournoi.titre}</Text>
+					<Text style={Styles.title}>{this.state.event.titre}</Text>
 				</View>
 				<View style={Styles.containerScrollView}>
 					<ScrollView
@@ -83,7 +83,7 @@ class PresentationTournoi extends React.Component {
 						</View>
 						<View>
 							<Text multiline style={Styles.text}>
-								{this.state.tournoi.description}
+								{this.state.event.description}
 							</Text>
 						</View>
 						<View style={Styles.btnContainer}>
