@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, Linking, Share } from 'react-native';
 import { RkButton, RkText } from 'react-native-ui-kitten';
+import { api, URL } from './../../rest/api';
 
 const Dimensions = require('Dimensions');
 
@@ -29,18 +30,39 @@ class PresentationTournoi extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			reglement:
-				'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \n\n Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \n\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. \n\nNemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. \n\n',
+			tournoi: '',
+			event: props.navigation.state.params.event,
 			heightScrollViewDisplayed: 420,
 		};
 	}
 
+	componentWillMount() {
+		api()
+			.post(URL.tournament, {
+				tournoi: this.state.event.id_event,
+			})
+			.then((response) => {
+				console.log(response.data.payload);
+				this.setState({
+					tournoi: response.data.payload,
+				});
+				/* 				if (response.data.success) {
+					this.props.updateToken(response.data.payload);
+					this.props.navigation.navigate('Tournois');
+				} else {
+					this.props.navigation.navigate('PasswordRecovery');
+				} */
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+
 	render() {
-		const tournoi = this.props.navigation.state.params.tournoi;
 		return (
 			<View style={Styles.container}>
 				<View style={Styles.rubanHaut}>
-					<Text style={Styles.title}>{tournoi.titre}</Text>
+					<Text style={Styles.title}>{this.state.tournoi.titre}</Text>
 				</View>
 				<View style={Styles.containerScrollView}>
 					<ScrollView
@@ -51,7 +73,7 @@ class PresentationTournoi extends React.Component {
 					>
 						<View>
 							<Image
-								source={{ uri: tournoi.imageUri }}
+								source={{ uri: this.state.event.imageUri }} // A modifier une fois qu'on a clarifier l'histoire d'évènements et de tournoi
 								style={{
 									width: Dimensions.get('window').width,
 									height: this.state.heightScrollViewDisplayed / proportionImageScrollView,
@@ -61,7 +83,7 @@ class PresentationTournoi extends React.Component {
 						</View>
 						<View>
 							<Text multiline style={Styles.text}>
-								{this.state.reglement}
+								{this.state.tournoi.description}
 							</Text>
 						</View>
 						<View style={Styles.btnContainer}>

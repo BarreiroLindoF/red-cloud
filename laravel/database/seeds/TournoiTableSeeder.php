@@ -13,7 +13,7 @@ class TournoiTableSeeder extends Seeder
     {
         DB::table('tournoi')->insert([
             'titre' => 'Guerre du pouvoir',
-            'description' => 'La plus grande guerre prévue en terre dn\'Azeroth',
+            'description' => 'La plus grande guerre prévue en terre d\'Azeroth',
             'participants_max' => 200,
             'event_id_event' => 4,
             'jeu_id_jeu' => 1,
@@ -28,27 +28,75 @@ class TournoiTableSeeder extends Seeder
             'type_tournoi_id_type_tournoi' => 1,
         ]);
         DB::table('tournoi')->insert([
-            'titre' => 'UE vs US',
-            'description' => 'Combat pour mettre fin à ln\'oppression américaine !',
-            'participants_max' => 50,
-            'event_id_event' => 1,
-            'jeu_id_jeu' => 11,
-            'type_tournoi_id_type_tournoi' => 2,
-        ]);
-        DB::table('tournoi')->insert([
-            'titre' => 'Liberation de Genève',
-            'description' => 'Met fin à la monarchie française en pleine ville de Genève',
-            'participants_max' => 50,
-            'event_id_event' => 7,
-            'jeu_id_jeu' => 6,
-            'type_tournoi_id_type_tournoi' => 2,
-        ]);
-        DB::table('tournoi')->insert([
             'titre' => 'Oeuf de Pâques',
             'description' => 'Récolte le plus dn\'oeufs de Pâques pour gagner la récompense ultime !',
             'participants_max' => 20,
             'event_id_event' => 5,
             'jeu_id_jeu' => 3,
+            'type_tournoi_id_type_tournoi' => 1,
+        ]);
+        DB::table('tournoi')->insert([
+            'titre' => 'Libère ton talent dans PUBG !',
+            'description' => 'Descripion Description blablabla !',
+            'participants_max' => 50,
+            'event_id_event' => 6,
+            'jeu_id_jeu' => 4,
+            'type_tournoi_id_type_tournoi' => 2,
+        ]);
+        DB::table('tournoi')->insert([
+            'titre' => 'FiFa',
+            'description' => 'Récolte le plus dn\'oeufs de Pâques pour gagner la récompense ultime !',
+            'participants_max' => 20,
+            'event_id_event' => 8,
+            'jeu_id_jeu' => 5,
+            'type_tournoi_id_type_tournoi' => 1,
+        ]);
+        DB::table('tournoi')->insert([
+            'titre' => 'Tournoi BattleField 1',
+            'description' => 'Descripion Description blablabla !',
+            'participants_max' => 20,
+            'event_id_event' => 7,
+            'jeu_id_jeu' => 6,
+            'type_tournoi_id_type_tournoi' => 1,
+        ]);
+        DB::table('tournoi')->insert([
+            'titre' => 'Tournoi Halo 5',
+            'description' => 'Descripion Description blablabla !',
+            'participants_max' => 20,
+            'event_id_event' => 10,
+            'jeu_id_jeu' => 7,
+            'type_tournoi_id_type_tournoi' => 1,
+        ]);
+        DB::table('tournoi')->insert([
+            'titre' => 'Tournoi Fortnite',
+            'description' => 'Descripion Description blablabla !',
+            'participants_max' => 20,
+            'event_id_event' => 9,
+            'jeu_id_jeu' => 8,
+            'type_tournoi_id_type_tournoi' => 1,
+        ]);
+        DB::table('tournoi')->insert([
+            'titre' => 'Heroes of the Storm',
+            'description' => 'Descripion Description blablabla !',
+            'participants_max' => 20,
+            'event_id_event' => 12,
+            'jeu_id_jeu' => 9,
+            'type_tournoi_id_type_tournoi' => 1,
+        ]);
+        DB::table('tournoi')->insert([
+            'titre' => 'Tournoi de LOL',
+            'description' => 'Récolte le plus dn\'oeufs de Pâques pour gagner la récompense ultime !',
+            'participants_max' => 20,
+            'event_id_event' => 11,
+            'jeu_id_jeu' => 10,
+            'type_tournoi_id_type_tournoi' => 1,
+        ]);
+        DB::table('tournoi')->insert([
+            'titre' => 'Tournoi CS',
+            'description' => 'Récolte le plus dn\'oeufs de Pâques pour gagner la récompense ultime !',
+            'participants_max' => 20,
+            'event_id_event' => 1,
+            'jeu_id_jeu' => 11,
             'type_tournoi_id_type_tournoi' => 1,
         ]);
     }

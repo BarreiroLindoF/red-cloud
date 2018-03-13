@@ -24,12 +24,6 @@ class EventSeeder extends Seeder
             'date' => \Carbon\Carbon::today(),
         ]);
         DB::table('event')->insert([
-            'titre' => 'Tournoi de MarioKart sur Wii!',
-            'description' => 'Tous a vos manettes de Wii ! Le tournoi de MarioKart ouvre ses portes. Tous sur la ligne de depart, a vos marques, pret, partez!',
-            'imageUri' => 'marioKart.jpg',
-            'date' => \Carbon\Carbon::today(),
-        ]);
-        DB::table('event')->insert([
             'titre' => 'Evenement World of Warcraft !',
             'description' => 'Le plus grand tournoi de World of Warcraft ouvre ses portes, alors n\'attendez plus et venez vous y inscrire !',
             'imageUri' => 'wow.jpg',
