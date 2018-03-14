@@ -11,9 +11,8 @@ class ApiTournamentController extends Controller
 {
     //
     public function getTournoi(Request $request) {
-        $id = $request->input('tournoi');
-        $tournament = Tournoi::all()->where('id_tournoi',$id);
-        Error_log($tournament[1]);
+        $id = $request->input('event');
+        $tournament = Tournoi::all()->where('event_id_event',$id);
         return response()->json(new JsonResponse(true, $tournament , null));
     }
 }

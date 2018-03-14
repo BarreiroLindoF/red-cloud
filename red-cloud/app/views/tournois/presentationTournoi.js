@@ -30,7 +30,7 @@ class PresentationTournoi extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			tournoi: '',
+			tournois: '',
 			event: props.navigation.state.params.event,
 			heightScrollViewDisplayed: 420,
 		};
@@ -38,20 +38,13 @@ class PresentationTournoi extends React.Component {
 
 	componentWillMount() {
 		api()
-			.post(URL.tournament, {
-				tournoi: this.state.event.id_event,
+			.post(URL.tournaments, {
+				event: this.state.event.id_event,
 			})
 			.then((response) => {
-				console.log(response.data.payload);
 				this.setState({
-					tournoi: response.data.payload,
+					tournois: response.data.payload,
 				});
-				/* 				if (response.data.success) {
-					this.props.updateToken(response.data.payload);
-					this.props.navigation.navigate('Tournois');
-				} else {
-					this.props.navigation.navigate('PasswordRecovery');
-				} */
 			})
 			.catch((error) => {
 				console.log(error);
@@ -73,7 +66,7 @@ class PresentationTournoi extends React.Component {
 					>
 						<View>
 							<Image
-								source={{ uri: this.state.event.imageUri }} // A modifier une fois qu'on a clarifier l'histoire d'évènements et de tournoi
+								source={{ uri: this.state.event.imageUri }}
 								style={{
 									width: Dimensions.get('window').width,
 									height: this.state.heightScrollViewDisplayed / proportionImageScrollView,
