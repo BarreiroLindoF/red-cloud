@@ -35,5 +35,5 @@ Route::group(['middleware' => ['api','cors']], function () {
 Route::group(['middleware' => ['jwt-auth', 'api','cors']], function () {
     Route::post('test/login', 'Auth\ApiAuthController@login');
     Route::get('events', 'Events\ApiEventsController@getEvents');
-    Route::post('tournament', 'Tournament\ApiTournamentController@getTournoi');
+    Route::get('events/{id}/tournaments', 'Tournament\ApiTournamentController@getTournois');
 });

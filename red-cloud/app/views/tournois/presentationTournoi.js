@@ -30,21 +30,26 @@ class PresentationTournoi extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			tournois: '',
+			tournois: [],
+			tournoi: {},
 			event: props.navigation.state.params.event,
 			heightScrollViewDisplayed: 420,
 		};
+		this.loadTournaments();
 	}
 
-	componentWillMount() {
+	loadTournaments() {
 		api()
-			.post(URL.tournaments, {
-				event: this.state.event.id_event,
+			.get(URL.tournaments, {
+				params: {
+					id: this.state.event.id_event,
+				},
 			})
 			.then((response) => {
 				this.setState({
-					tournois: response.data.payload,
+					tournois: response.data.payload[0],
 				});
+				console.log(this.state.tournois);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -55,7 +60,7 @@ class PresentationTournoi extends React.Component {
 		return (
 			<View style={Styles.container}>
 				<View style={Styles.rubanHaut}>
-					<Text style={Styles.title}>{this.state.event.titre}</Text>
+					<Text style={Styles.title}>{this.state.tournois.titre}</Text>
 				</View>
 				<View style={Styles.containerScrollView}>
 					<ScrollView
@@ -66,7 +71,7 @@ class PresentationTournoi extends React.Component {
 					>
 						<View>
 							<Image
-								source={{ uri: this.state.event.imageUri }}
+								source={{ uri: this.state.tournois.imageUri }}
 								style={{
 									width: Dimensions.get('window').width,
 									height: this.state.heightScrollViewDisplayed / proportionImageScrollView,
@@ -76,7 +81,7 @@ class PresentationTournoi extends React.Component {
 						</View>
 						<View>
 							<Text multiline style={Styles.text}>
-								{this.state.event.description}
+								{this.state.tournois.description}
 							</Text>
 						</View>
 						<View style={Styles.btnContainer}>
