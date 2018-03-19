@@ -18,7 +18,6 @@ class Tournois extends React.Component {
 		super(props);
 
 		this.renderItem = this.renderItem.bind(this);
-		this.loadPosts = this.loadPosts.bind(this);
 
 		this.state = {
 			data: [],
@@ -70,7 +69,7 @@ class Tournois extends React.Component {
 				delayPressIn={70}
 				activeOpacity={0.8}
 				onPress={() => {
-					this.props.navigation.navigate('Exemple', { user: info.item.index });
+					this.props.navigation.navigate('PresentationTournoi', { tournoi: info.item });
 				}}
 			>
 				<RkCard rkType="blog" style={styles.card}>
