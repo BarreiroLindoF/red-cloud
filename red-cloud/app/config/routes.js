@@ -10,6 +10,7 @@ import Conditions from './../views/login/conditions';
 import CreateTeam from './../views/tournois/createTeam';
 import Code from './../views/login/code';
 import NewPassword from './../views/login/newPassword';
+import Exemple from './../views/exemple/exemple';
 
 // Configuration imports
 import { StatusBarPadding } from './header';
@@ -25,6 +26,7 @@ export const Routes = StackNavigator(
 		Code: { screen: Code },
 		NewPassword: { screen: NewPassword },
 		Tabs: { screen: Tabs },
+		Exemple: { screen: Exemple },
 	},
 	{
 		navigationOptions: { headerStyle: { marginTop: StatusBarPadding } },

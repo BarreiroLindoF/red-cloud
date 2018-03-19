@@ -9,7 +9,7 @@ class Contact extends React.Component {
 		header: null,
 		tabBarLabel: 'Contact',
 		tabBarIcon: () => {
-			return <Icon size={24} color="white" name="place" />;
+			return <Icon size={24} color="red" name="place" />;
 		},
 	};
 	render() {

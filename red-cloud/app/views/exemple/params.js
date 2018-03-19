@@ -9,7 +9,7 @@ class Params extends React.Component {
 		header: null,
 		tabBarLabel: 'Paramètres',
 		tabBarIcon: () => {
-			return <Icon size={24} color="white" name="settings" />;
+			return <Icon size={24} color="red" name="settings" />;
 		},
 	};
 	render() {

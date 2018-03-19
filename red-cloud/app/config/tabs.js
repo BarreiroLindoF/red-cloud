@@ -27,31 +27,16 @@ export default TabNavigator(
 	},
 	{
 		navigationOptions: { headerStyle: { marginTop: StatusBarPadding } },
+		backBehavior: 'none',
+		lazy: true,
 		tabBarComponent: NavigationComponent,
 		tabBarPosition: 'bottom',
 		tabBarOptions: {
 			bottomNavigationOptions: {
+				shifting: true,
 				labelColor: 'white',
-				backgroundColor: 'red',
-				rippleColor: 'white',
-				tabs: {
-					Events: {
-						barBackgroundColor: '#37474F',
-						labelColor: 'black',
-					},
-					Menu: {
-						barBackgroundColor: '#37474F',
-						labelColor: 'black',
-					},
-					Contact: {
-						barBackgroundColor: '#37474F',
-						labelColor: 'black',
-					},
-					Params: {
-						barBackgroundColor: '#37474F',
-						labelColor: 'black',
-					},
-				},
+				backgroundColor: 'black',
+				//rippleColor: 'rgba(255,255,255,1)',
 			},
 		},
 	},

@@ -9,7 +9,7 @@ class Menu extends React.Component {
 		header: null,
 		tabBarLabel: 'Menu',
 		tabBarIcon: () => {
-			return <Icon size={24} color="white" name="local-bar" />;
+			return <Icon size={24} color="red" name="local-bar" />;
 		},
 	};
 	render() {

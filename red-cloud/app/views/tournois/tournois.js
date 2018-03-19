@@ -17,7 +17,7 @@ class Tournois extends React.Component {
 		header: null,
 		tabBarLabel: 'Events',
 		tabBarIcon: () => {
-			return <Icon size={24} color="white" name="event" />;
+			return <Icon size={24} color="red" name="event" />;
 		},
 	};
 
