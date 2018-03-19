@@ -55,7 +55,7 @@ class Login extends React.Component {
 			.then((response) => {
 				if (response.data.success) {
 					this.props.updateToken(response.data.payload);
-					this.props.navigation.navigate('Tournois');
+					this.props.navigation.navigate('Events');
 				} else if (this.state.cptLog < 2) {
 					this.state.cptLog++;
 					this.setState({ modalVisible: !this.state.modalVisible });
