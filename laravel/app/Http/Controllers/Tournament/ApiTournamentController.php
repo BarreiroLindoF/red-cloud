@@ -12,7 +12,12 @@ class ApiTournamentController extends Controller
     //
     public function getTournois(Request $request) {
         $idEvent = $request->id;
-        $tournament = Tournoi::select('*')->where('event_id_event',$idEvent)->get();
-        return response()->json(new JsonResponse(true, $tournament , null));
+        $tournaments = Tournoi::select('*')->where('event_id_event',$idEvent)->get();
+
+        foreach ($tournaments as $tournament) {
+            $tournament->setAttribute('imageUri', $request->root() . $tournament->pathToImages . $tournament->getAttribute('imageUri'));
+        }
+
+        return response()->json(new JsonResponse(true, $tournaments , null));
     }
 }

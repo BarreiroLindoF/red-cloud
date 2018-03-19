@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tournoi extends Model
 {
+    public $pathToImages = '/images/tournaments/';
     /**
      * The table associated with the model.
      *

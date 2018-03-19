@@ -1,6 +1,6 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image, Linking, Share } from 'react-native';
-import { RkButton, RkText } from 'react-native-ui-kitten';
+import { View, Text, ScrollView, TouchableOpacity, Image, Linking, Share, FlatList } from 'react-native';
+import { RkButton, RkTheme, RkText } from 'react-native-ui-kitten';
 import { api, URL } from './../../rest/api';
 
 const Dimensions = require('Dimensions');
@@ -21,7 +21,7 @@ const Android = require('react-native').Platform.OS === 'android';
 
 const StoreAppUrl = 'https://play.google.com/store/apps/details?id=com.bigredcloud.app'; //A changer une fois en prod
 
-class PresentationTournoi extends React.Component {
+class PresentationEventTournoi extends React.Component {
 	//eslint-disable-next-line
 	static navigationOptions = {
 		title: 'Tournoi au RedCloud',
@@ -32,35 +32,72 @@ class PresentationTournoi extends React.Component {
 		this.state = {
 			tournois: [],
 			tournoi: {},
-			event: props.navigation.state.params.event,
 			heightScrollViewDisplayed: 420,
+			isFetching: true,
 		};
-		this.loadTournaments();
+		const params = this.getNavigationParams();
+		if (params.eventDisplay !== undefined && params.eventDisplay !== false) {
+			this.loadTournaments();
+		}
+		this.renderItem = this.renderItem.bind(this);
+	}
+
+	getNavigationParams() {
+		return this.props.navigation.state.params || {};
 	}
 
 	loadTournaments() {
 		api()
 			.get(URL.tournaments, {
 				params: {
-					id: this.state.event.id_event,
+					id: this.props.navigation.state.params.item.id_event,
 				},
 			})
 			.then((response) => {
 				this.setState({
-					tournois: response.data.payload[0],
+					tournois: response.data.payload,
+					isFetching: false,
 				});
-				console.log(this.state.tournois);
 			})
 			.catch((error) => {
 				console.log(error);
 			});
 	}
 
+	keyExtractor(post) {
+		return post.id_tournoi;
+	}
+
+	renderItem(tournoi) {
+		return (
+			<View style={Styles.tournamentsContainer}>
+				<View style={Styles.txtTounamentContainer}>
+					<RkText>{tournoi.item.titre}</RkText>
+				</View>
+				<View style={Styles.btnTournamentContainer}>
+					<RkButton
+						rkType="dark"
+						onPress={() => {
+							this.props.navigation.navigate('PresentationEventTournoi', {
+								item: tournoi.item,
+								eventDisplay: false,
+							});
+						}}
+					>
+						<RkText style={Styles.fontBtn}> En savoir plus </RkText>
+					</RkButton>
+				</View>
+			</View>
+		);
+	}
+
 	render() {
+		const itemToDisplay = this.props.navigation.state.params.item;
+		const eventDisplay = this.props.navigation.state.params.eventDisplay;
 		return (
 			<View style={Styles.container}>
 				<View style={Styles.rubanHaut}>
-					<Text style={Styles.title}>{this.state.tournois.titre}</Text>
+					<Text style={Styles.title}>{itemToDisplay.titre}</Text>
 				</View>
 				<View style={Styles.containerScrollView}>
 					<ScrollView
@@ -71,7 +108,9 @@ class PresentationTournoi extends React.Component {
 					>
 						<View>
 							<Image
-								source={{ uri: this.state.tournois.imageUri }}
+								source={{
+									uri: 'http://192.168.153.1:8000/images/events/leagueOfLegends.jpg',
+								}} /*itemToDisplay.imageUri*/
 								style={{
 									width: Dimensions.get('window').width,
 									height: this.state.heightScrollViewDisplayed / proportionImageScrollView,
@@ -81,18 +120,23 @@ class PresentationTournoi extends React.Component {
 						</View>
 						<View>
 							<Text multiline style={Styles.text}>
-								{this.state.tournois.description}
+								{itemToDisplay.description}
 							</Text>
 						</View>
-						<View style={Styles.btnContainer}>
-							<RkButton rkType="social" style={Styles.btn}>
-								<RkText rkType="awesome hero accentColor" style={Styles.fontBtn}>
-									Je m'inscris !
-								</RkText>
-							</RkButton>
-						</View>
+						{eventDisplay && (
+							<FlatList
+								data={this.state.tournois}
+								renderItem={this.renderItem}
+								keyExtractor={this.keyExtractor}
+								refreshing={this.state.isFetching}
+								onRefresh={() => {
+									this.loadTournaments();
+								}}
+							/>
+						)}
 					</ScrollView>
 				</View>
+
 				<View style={Styles.bottomLineContainer}>
 					<Text style={Styles.bottomLine} />
 				</View>
@@ -191,16 +235,23 @@ let Styles = {
 		lineHeight: 20,
 		paddingTop: 10,
 	},
-	btnContainer: {
+	tournamentsContainer: {
 		flexDirection: 'row',
+		paddingTop: 20,
+		paddingLeft: 20,
+	},
+	txtTounamentContainer: {
+		alignItems: 'center',
 		justifyContent: 'center',
 	},
-	btn: {
-		backgroundColor: 'black',
+	btnTournamentContainer: {
+		alignItems: 'flex-end',
+		flex: 1,
+		paddingRight: 10,
 	},
 	fontBtn: {
 		color: 'white',
-		fontWeight: 'bold',
+		textAlign: 'center',
 	},
 	bottomLineContainer: {
 		flexDirection: 'row',
@@ -222,4 +273,11 @@ let Styles = {
 	},
 };
 
-export default PresentationTournoi;
+RkTheme.setType('RkButton', 'dark', {
+	container: {
+		backgroundColor: 'black',
+		height: 35,
+	},
+});
+
+export default PresentationEventTournoi;
