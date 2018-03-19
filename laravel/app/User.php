@@ -58,9 +58,10 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
 
+    /**
     public function equipes() {
         return $this->belongsToMany('App\Equipe', 'user_equipe',
             'user_id_user', 'equipe_id_equipe');
-    }
+    }*/
 
 }

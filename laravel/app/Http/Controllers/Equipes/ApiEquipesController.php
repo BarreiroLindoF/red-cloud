@@ -1,5 +1,8 @@
 <?php
 
+/**
+    N'EST PLUS FONCTIONNEL
+ */
 namespace App\Http\Controllers\Equipes;
 
 use App\Equipe;

@@ -15,11 +15,8 @@ class DatabaseSeeder extends Seeder
         $this->call(EventSeeder::class);
         $this->call(TypeJeuTableSeeder::class);
         $this->call(JeuTableSeeder::class);
-        $this->call(TypeEquipeTableSeeder::class);
-        $this->call(EquipeTableSeeder::class);
         $this->call(TypeTournoiTableSeeder::class);
         $this->call(TournoiTableSeeder::class);
-        $this->call(UserEquipeSeeder::class);
         $this->call(CategorieBoissonSeeder::class);
         $this->call(CategorieNourritureSeeder::class);
         $this->call(BoissonSeeder::class);
