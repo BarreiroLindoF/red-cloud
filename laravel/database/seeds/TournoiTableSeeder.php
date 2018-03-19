@@ -13,7 +13,7 @@ class TournoiTableSeeder extends Seeder
     {
         DB::table('tournoi')->insert([
             'titre' => 'Guerre du pouvoir',
-            'description' => 'La plus grande guerre prévue en terre dn\'Azeroth',
+            'description' => 'La plus grande guerre prévue en terre d\'Azeroth',
             'participants_max' => 200,
             'event_id_event' => 4,
             'jeu_id_jeu' => 1,
@@ -29,7 +29,7 @@ class TournoiTableSeeder extends Seeder
         ]);
         DB::table('tournoi')->insert([
             'titre' => 'UE vs US',
-            'description' => 'Combat pour mettre fin à ln\'oppression américaine !',
+            'description' => 'Combat pour mettre fin à l\'oppression américaine !',
             'participants_max' => 50,
             'event_id_event' => 1,
             'jeu_id_jeu' => 11,
