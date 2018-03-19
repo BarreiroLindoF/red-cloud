@@ -25,7 +25,7 @@ class User extends Authenticatable implements JWTSubject
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'pivot'
     ];
 
     /**
@@ -57,4 +57,10 @@ class User extends Authenticatable implements JWTSubject
              ]
         ];
     }
+
+    public function equipes() {
+        return $this->belongsToMany('App\Equipe', 'user_equipe',
+            'user_id_user', 'equipe_id_equipe');
+    }
+
 }
