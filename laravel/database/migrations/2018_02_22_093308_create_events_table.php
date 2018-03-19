@@ -18,7 +18,7 @@ class CreateEventsTable extends Migration
             $table->string('titre');
             $table->longText('description');
             $table->string('imageUri');
-            $table->date('date');
+            $table->dateTime('dateHeureDebut');
         });
     }
 
