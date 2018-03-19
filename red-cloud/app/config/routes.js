@@ -7,7 +7,7 @@ import Conditions from './../views/login/conditions';
 import Exemple from './../views/exemple/exemple';
 import Tournois from './../views/tournois/tournois';
 import CreateTeam from './../views/tournois/createTeam';
-import PresentationTournoi from './../views/tournois/presentationTournoi';
+import PresentationEventTournoi from './../views/tournois/presentationEventTournoi';
 import Code from './../views/login/code';
 import NewPassword from './../views/login/newPassword';
 import { StatusBarPadding } from './header';
@@ -22,9 +22,9 @@ export const Routes = StackNavigator(
 		ListeJeux: { screen: ListeJeux },
 		Conditions: { screen: Conditions },
 		CreateTeam: { screen: CreateTeam },
-		PresentationTournoi: { screen: PresentationTournoi },
 		Code: { screen: Code },
 		NewPassword: { screen: NewPassword },
+		PresentationEventTournoi: { screen: PresentationEventTournoi },
 	},
 	{
 		navigationOptions: { headerStyle: { marginTop: StatusBarPadding } },

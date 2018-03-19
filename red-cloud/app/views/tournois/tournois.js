@@ -69,7 +69,7 @@ class Tournois extends React.Component {
 				delayPressIn={70}
 				activeOpacity={0.8}
 				onPress={() => {
-					this.props.navigation.navigate('PresentationTournoi', { tournoi: info.item });
+					this.props.navigation.navigate('PresentationEventTournoi', { item: info.item, eventDisplay: true });
 				}}
 			>
 				<RkCard rkType="blog" style={styles.card}>

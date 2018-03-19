@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image, Linking, Share } from 'react-native';
-import { RkButton, RkText } from 'react-native-ui-kitten';
+import { View, Text, ScrollView, TouchableOpacity, Image, Linking, Share, FlatList } from 'react-native';
+import { RkButton, RkTheme, RkText } from 'react-native-ui-kitten';
+import { api, URL } from './../../rest/api';
 
 const Dimensions = require('Dimensions');
 
@@ -20,7 +21,7 @@ const Android = require('react-native').Platform.OS === 'android';
 
 const StoreAppUrl = 'https://play.google.com/store/apps/details?id=com.bigredcloud.app'; //A changer une fois en prod
 
-class PresentationTournoi extends React.Component {
+class PresentationEventTournoi extends React.Component {
 	//eslint-disable-next-line
 	static navigationOptions = {
 		title: 'Tournoi au RedCloud',
@@ -29,18 +30,74 @@ class PresentationTournoi extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			reglement:
-				'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. \n\n Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. \n\nExcepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. \n\nNemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. \n\n',
+			tournois: [],
+			tournoi: {},
 			heightScrollViewDisplayed: 420,
+			isFetching: true,
 		};
+		const params = this.getNavigationParams();
+		if (params.eventDisplay !== undefined && params.eventDisplay !== false) {
+			this.loadTournaments();
+		}
+		this.renderItem = this.renderItem.bind(this);
+	}
+
+	getNavigationParams() {
+		return this.props.navigation.state.params || {};
+	}
+
+	loadTournaments() {
+		api()
+			.get(URL.tournaments, {
+				params: {
+					id: this.props.navigation.state.params.item.id_event,
+				},
+			})
+			.then((response) => {
+				this.setState({
+					tournois: response.data.payload,
+					isFetching: false,
+				});
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+
+	keyExtractor(post) {
+		return post.id_tournoi;
+	}
+
+	renderItem(tournoi) {
+		return (
+			<View style={Styles.tournamentsContainer}>
+				<View style={Styles.txtTounamentContainer}>
+					<RkText>{tournoi.item.titre}</RkText>
+				</View>
+				<View style={Styles.btnTournamentsContainer}>
+					<RkButton
+						rkType="dark"
+						onPress={() => {
+							this.props.navigation.navigate('PresentationEventTournoi', {
+								item: tournoi.item,
+								eventDisplay: false,
+							});
+						}}
+					>
+						<RkText style={Styles.fontBtn}> En savoir plus </RkText>
+					</RkButton>
+				</View>
+			</View>
+		);
 	}
 
 	render() {
-		const tournoi = this.props.navigation.state.params.tournoi;
+		const itemToDisplay = this.props.navigation.state.params.item;
+		const eventDisplay = this.props.navigation.state.params.eventDisplay;
 		return (
 			<View style={Styles.container}>
 				<View style={Styles.rubanHaut}>
-					<Text style={Styles.title}>{tournoi.titre}</Text>
+					<Text style={Styles.title}>{itemToDisplay.titre}</Text>
 				</View>
 				<View style={Styles.containerScrollView}>
 					<ScrollView
@@ -51,7 +108,9 @@ class PresentationTournoi extends React.Component {
 					>
 						<View>
 							<Image
-								source={{ uri: tournoi.imageUri }}
+								source={{
+									uri: itemToDisplay.imageUri,
+								}}
 								style={{
 									width: Dimensions.get('window').width,
 									height: this.state.heightScrollViewDisplayed / proportionImageScrollView,
@@ -61,18 +120,35 @@ class PresentationTournoi extends React.Component {
 						</View>
 						<View>
 							<Text multiline style={Styles.text}>
-								{this.state.reglement}
+								{itemToDisplay.description}
 							</Text>
 						</View>
-						<View style={Styles.btnContainer}>
-							<RkButton rkType="social" style={Styles.btn}>
-								<RkText rkType="awesome hero accentColor" style={Styles.fontBtn}>
-									Je m'inscris !
-								</RkText>
-							</RkButton>
-						</View>
+						{eventDisplay && (
+							<View>
+								<Text style={{ textDecorationLine: 'underline', fontSize: 16 }}>
+									{'\n\n'}Liste des tounois de l'évènement
+								</Text>
+								<FlatList
+									data={this.state.tournois}
+									renderItem={this.renderItem}
+									keyExtractor={this.keyExtractor}
+									refreshing={this.state.isFetching}
+									onRefresh={() => {
+										this.loadTournaments();
+									}}
+								/>
+							</View>
+						)}
+						{!eventDisplay && (
+							<View style={Styles.btnSubscribeContainer}>
+								<RkButton rkType="dark" onPress={() => {}}>
+									<RkText style={Styles.fontBtn}> Inscris toi ! </RkText>
+								</RkButton>
+							</View>
+						)}
 					</ScrollView>
 				</View>
+
 				<View style={Styles.bottomLineContainer}>
 					<Text style={Styles.bottomLine} />
 				</View>
@@ -171,16 +247,28 @@ let Styles = {
 		lineHeight: 20,
 		paddingTop: 10,
 	},
-	btnContainer: {
+	tournamentsContainer: {
 		flexDirection: 'row',
+		paddingTop: 20,
+		paddingLeft: 20,
+	},
+	txtTounamentContainer: {
+		alignItems: 'center',
 		justifyContent: 'center',
 	},
-	btn: {
-		backgroundColor: 'black',
+	btnTournamentsContainer: {
+		alignItems: 'flex-end',
+		flex: 1,
+		paddingRight: 10,
+	},
+	btnSubscribeContainer: {
+		paddingTop: 20,
+		alignItems: 'center',
+		flex: 1,
 	},
 	fontBtn: {
 		color: 'white',
-		fontWeight: 'bold',
+		textAlign: 'center',
 	},
 	bottomLineContainer: {
 		flexDirection: 'row',
@@ -202,4 +290,12 @@ let Styles = {
 	},
 };
 
-export default PresentationTournoi;
+RkTheme.setType('RkButton', 'dark', {
+	container: {
+		backgroundColor: 'black',
+		height: 35,
+		width: 150,
+	},
+});
+
+export default PresentationEventTournoi;
