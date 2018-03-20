@@ -19,6 +19,7 @@ class CreateTournoiTable extends Migration
             $table->string('imageUri');
             $table->string('description', 2000);
             $table->string('reglementUri');
+            $table->float('prix_inscription');
             $table->integer('participants_max');
             $table->integer('event_id_event')->unsigned();
             $table->foreign('event_id_event')->references('id_event')->on('event');

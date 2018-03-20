@@ -28,4 +28,4 @@ class Tournoi extends Model
      *
      * @var array
      */
-    protected $fillable = ['titre', 'description', 'participants_max', 'event_id_event','jeu_id_jeu','type_tournoi_id_type_tournoi'];}
+    protected $fillable = ['titre', 'description', 'reglementUri', 'prix_inscription', 'participants_max', 'event_id_event','jeu_id_jeu','type_tournoi_id_type_tournoi'];}
