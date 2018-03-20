@@ -64,4 +64,12 @@ class User extends Authenticatable implements JWTSubject
             'user_id_user', 'equipe_id_equipe');
     }*/
 
+    /**
+     * Get the comments for the blog post.
+     */
+    public function participations()
+    {
+        return $this->hasMany('App\Participation');
+    }
+
 }

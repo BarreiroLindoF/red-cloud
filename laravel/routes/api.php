@@ -30,7 +30,7 @@ Route::group(['middleware' => ['api','cors']], function () {
     Route::post('auth/reset', 'Auth\ApiResetPasswordController@resetPassword');
     Route::post('check', 'ApiVerificationController@checkUserExist');
     Route::get('tournaments/{id}/rules', 'Tournament\ApiTournamentController@getTournoisRules');
-
+    Route::post('me/participation/tournoi/{id}', 'Tournament\ApiTournamentController@addParticipation');
 });
 
 // secured routes
