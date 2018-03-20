@@ -20,4 +20,14 @@ class ApiTournamentController extends Controller
 
         return response()->json(new JsonResponse(true, $tournaments , null));
     }
+
+    public function getTournoisRules(Request $request) {
+        $idTournoi = $request->id;
+        $tournoi = Tournoi::find($idTournoi);
+        if ($tournoi === null) {
+            return response()->json(new JsonResponse(false, null, 'Ce tournoi n\'existe pas'));
+        }
+        $path = public_path() . $tournoi->pathToRules . $tournoi->getAttribute('reglementUri');
+        return response()->download($path, $tournoi->getAttribute('reglementUri'));
+    }
 }

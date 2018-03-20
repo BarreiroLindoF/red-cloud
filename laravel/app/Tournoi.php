@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tournoi extends Model
 {
     public $pathToImages = '/images/tournaments/';
+    public $pathToRules = '/documents/rules/tournaments/';
     /**
      * The table associated with the model.
      *
