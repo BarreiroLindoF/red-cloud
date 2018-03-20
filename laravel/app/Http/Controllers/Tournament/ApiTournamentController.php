@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Tournament;
 
 use App\Http\Controllers\JsonResponse;
+use App\Paiement;
 use App\Participation;
 use App\Tournoi;
 use Carbon\Carbon;
@@ -53,15 +54,25 @@ class ApiTournamentController extends Controller
             return response()->json(new JsonResponse(false, null, 'Problèmes lors du paiement. Veuillez contacter votre banque!'));
         }
         // user has paid and can subscribe
-        
-
         $participation = new Participation();
         $participation->setAttribute('date_inscription', Carbon::now());
         $participation->setAttribute('nom_equipe', $request->input('nom_equipe'));
         $participation->setAttribute('tournoi_id_tournoi', $id_tournoi);
-        $participation->setAttribute('user_id_user', 1);
+        $participation->setAttribute('user_id_user', $user->id);
         $participation->save();
-        return response()->json(new JsonResponse(true, $participation, null));
+
+        $paiement = new Paiement();
+        $paiement->setAttribute('nom_carte', $request->input('nom_carte'));
+        $paiement->setAttribute('no_carte', $request->input('no_carte'));
+        $date = new Carbon();
+        $date->month($request->input('mois_carte'));
+        $date->year($request->input('annee_carte'));
+        $paiement->setAttribute('date_expiration', $date);
+        $paiement->setAttribute('participation_id_participation', $participation->getAttribute('id_participation'));
+        $paiement->setAttribute('pays_id_pays', 1);
+        $paiement->save();
+
+        return response()->json(new JsonResponse(true, $paiement, null));
 
         /*$tournoi = Tournoi::find($idTournoi);
         if ($tournoi === null) {
@@ -72,6 +83,10 @@ class ApiTournamentController extends Controller
     }
 
     private function paymentOk($request) {
-
+        // nom_carte
+        // no_carte
+        // mois_carte
+        // annee_carte
+        return true;
     }
 }
