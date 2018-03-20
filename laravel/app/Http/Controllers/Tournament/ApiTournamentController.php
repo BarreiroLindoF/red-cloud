@@ -19,6 +19,8 @@ class ApiTournamentController extends Controller
 
         foreach ($tournaments as $tournament) {
             $tournament->setAttribute('imageUri', $request->root() . $tournament->pathToImages . $tournament->getAttribute('imageUri'));
+            $idTournament = $tournament->getAttribute('id_tournoi');
+            $tournament->participants = Participation::where('tournoi_id_tournoi', $idTournament)->count();
         }
 
         return response()->json(new JsonResponse(true, $tournaments , null));

@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, Linking, Share, FlatList } from 'react-native';
 import { RkButton, RkTheme, RkText } from 'react-native-ui-kitten';
+import { Hoshi } from 'react-native-textinput-effects';
+
 import { api, URL } from './../../rest/api';
 
 const Dimensions = require('Dimensions');
@@ -34,6 +36,7 @@ class PresentationEventTournoi extends React.Component {
 			tournoi: {},
 			heightScrollViewDisplayed: 420,
 			isFetching: true,
+			nomEquipe: '',
 		};
 		const params = this.getNavigationParams();
 		if (params.eventDisplay !== undefined && params.eventDisplay !== false) {
@@ -47,13 +50,11 @@ class PresentationEventTournoi extends React.Component {
 	}
 
 	loadTournaments() {
+		const url = URL.tournaments.replace('{$id}', this.props.navigation.state.params.item.id_event);
 		api()
-			.get(URL.tournaments, {
-				params: {
-					id: this.props.navigation.state.params.item.id_event,
-				},
-			})
+			.get(url)
 			.then((response) => {
+				console.log(response);
 				this.setState({
 					tournois: response.data.payload,
 					isFetching: false,
@@ -61,6 +62,24 @@ class PresentationEventTournoi extends React.Component {
 			})
 			.catch((error) => {
 				console.log(error);
+			});
+	}
+
+	checkTeamName(nomEquipe, idTournoi) {
+		const url = URL.teamCheck.replace('{$id}', idTournoi);
+		api()
+			.post(url, {
+				nom_equipe: nomEquipe,
+			})
+			.then((response) => {
+				if (response.data.success) {
+					// send user to paying screen
+				} else {
+					// show error message to user
+				}
+			})
+			.catch((error) => {
+				console.error(error);
 			});
 	}
 
@@ -87,6 +106,43 @@ class PresentationEventTournoi extends React.Component {
 						<RkText style={Styles.fontBtn}> En savoir plus </RkText>
 					</RkButton>
 				</View>
+			</View>
+		);
+	}
+
+	renderInscription(tournoi) {
+		if (tournoi.participants_max - tournoi.participants > 0) {
+			return (
+				<View>
+					<Text>Prix par inscription: {tournoi.prix_inscription}.- CHF</Text>
+					<Text>Nombre d'inscriptions limite : {tournoi.participants_max}</Text>
+					<Text>Nombre de places disponibles : {tournoi.participants_max - tournoi.participants}</Text>
+					<Text>Vous avez encore jusqu'au ... pour vous inscrire.</Text>
+					<Hoshi
+						label={'Le nom de ton équipe'}
+						rkType="textInputLogin"
+						onChangeText={(nomEquipe) => {
+							this.setState({ nomEquipe });
+						}}
+						borderColor={this.state.nomEquipe !== '' ? 'grey' : '#ff4444'}
+						value={this.state.nomEquipe}
+					/>
+					<View style={Styles.btnSubscribeContainer}>
+						<RkButton
+							rkType="dark"
+							onPress={() => {
+								this.checkTeamName(this.state.nomEquipe, tournoi.id_tournoi);
+							}}
+						>
+							<RkText style={Styles.fontBtn}> Inscris toi ! </RkText>
+						</RkButton>
+					</View>
+				</View>
+			);
+		}
+		return (
+			<View>
+				<Text>Les inscriptions sont fermées!</Text>
 			</View>
 		);
 	}
@@ -140,10 +196,11 @@ class PresentationEventTournoi extends React.Component {
 							</View>
 						)}
 						{!eventDisplay && (
-							<View style={Styles.btnSubscribeContainer}>
-								<RkButton rkType="dark" onPress={() => {}}>
-									<RkText style={Styles.fontBtn}> Inscris toi ! </RkText>
-								</RkButton>
+							<View>
+								<View style={Styles.bottomLineContainer}>
+									<Text style={Styles.bottomLine} />
+								</View>
+								{this.renderInscription(itemToDisplay)}
 							</View>
 						)}
 					</ScrollView>

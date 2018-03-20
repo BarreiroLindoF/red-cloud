@@ -13,7 +13,7 @@ class ParticipationTableSeeder extends Seeder
     {
         DB::table('participation')->insert([
             'date_inscription' => \Carbon\Carbon::now(),
-            'tournoi_id_tournoi' => 1,
+            'tournoi_id_tournoi' => 11,
             'user_id_user' => 1,
             'nom_equipe' => 'Equipe',
         ]);
@@ -21,6 +21,13 @@ class ParticipationTableSeeder extends Seeder
         DB::table('participation')->insert([
             'date_inscription' => \Carbon\Carbon::now(),
             'tournoi_id_tournoi' => 2,
+            'user_id_user' => 1,
+            'nom_equipe' => 'Equipe',
+        ]);
+
+        DB::table('participation')->insert([
+            'date_inscription' => \Carbon\Carbon::now(),
+            'tournoi_id_tournoi' => 1,
             'user_id_user' => 1,
             'nom_equipe' => 'Equipe',
         ]);
