@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTypeEquipeTable extends Migration
+class CreateOffreTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ class CreateTypeEquipeTable extends Migration
      */
     public function up()
     {
-        Schema::create('typeEquipe', function (Blueprint $table) {
-            $table->increments('id_type_equipe');
-            $table->string('designation_type_equipe');
+        Schema::create('offre', function (Blueprint $table) {
+            $table->increments('id_offre');
+            $table->string('description');
+            $table->integer('prix');
+            $table->dateTime('date_debut');
+            $table->dateTime('date_expiration');
         });
     }
 
@@ -26,6 +29,6 @@ class CreateTypeEquipeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('type_equipe');
+        Schema::dropIfExists('offre');
     }
 }

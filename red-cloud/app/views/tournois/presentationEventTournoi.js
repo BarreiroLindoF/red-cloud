@@ -74,7 +74,7 @@ class PresentationEventTournoi extends React.Component {
 				<View style={Styles.txtTounamentContainer}>
 					<RkText>{tournoi.item.titre}</RkText>
 				</View>
-				<View style={Styles.btnTournamentContainer}>
+				<View style={Styles.btnTournamentsContainer}>
 					<RkButton
 						rkType="dark"
 						onPress={() => {
@@ -109,8 +109,8 @@ class PresentationEventTournoi extends React.Component {
 						<View>
 							<Image
 								source={{
-									uri: 'http://192.168.153.1:8000/images/events/leagueOfLegends.jpg',
-								}} /*itemToDisplay.imageUri*/
+									uri: itemToDisplay.imageUri,
+								}}
 								style={{
 									width: Dimensions.get('window').width,
 									height: this.state.heightScrollViewDisplayed / proportionImageScrollView,
@@ -124,15 +124,27 @@ class PresentationEventTournoi extends React.Component {
 							</Text>
 						</View>
 						{eventDisplay && (
-							<FlatList
-								data={this.state.tournois}
-								renderItem={this.renderItem}
-								keyExtractor={this.keyExtractor}
-								refreshing={this.state.isFetching}
-								onRefresh={() => {
-									this.loadTournaments();
-								}}
-							/>
+							<View>
+								<Text style={{ textDecorationLine: 'underline', fontSize: 16 }}>
+									{'\n\n'}Liste des tounois de l'évènement
+								</Text>
+								<FlatList
+									data={this.state.tournois}
+									renderItem={this.renderItem}
+									keyExtractor={this.keyExtractor}
+									refreshing={this.state.isFetching}
+									onRefresh={() => {
+										this.loadTournaments();
+									}}
+								/>
+							</View>
+						)}
+						{!eventDisplay && (
+							<View style={Styles.btnSubscribeContainer}>
+								<RkButton rkType="dark" onPress={() => {}}>
+									<RkText style={Styles.fontBtn}> Inscris toi ! </RkText>
+								</RkButton>
+							</View>
 						)}
 					</ScrollView>
 				</View>
@@ -244,10 +256,15 @@ let Styles = {
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
-	btnTournamentContainer: {
+	btnTournamentsContainer: {
 		alignItems: 'flex-end',
 		flex: 1,
 		paddingRight: 10,
+	},
+	btnSubscribeContainer: {
+		paddingTop: 20,
+		alignItems: 'center',
+		flex: 1,
 	},
 	fontBtn: {
 		color: 'white',
@@ -277,6 +294,7 @@ RkTheme.setType('RkButton', 'dark', {
 	container: {
 		backgroundColor: 'black',
 		height: 35,
+		width: 150,
 	},
 });
 
