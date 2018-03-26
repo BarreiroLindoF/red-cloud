@@ -14,7 +14,7 @@ class CreateBoissonTable extends Migration
     public function up()
     {
         Schema::create('boisson', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id_boisson');
             $table->string('nom');
             $table->integer('prix');
             $table->integer('categorie_boisson_id_categorie_boisson')->unsigned();

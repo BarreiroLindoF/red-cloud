@@ -5,7 +5,7 @@ class Exemple extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = ({ navigation }) => ({
 		title: `Chat with ${navigation.state.params.user}`,
-		headerLeft: null, // ne pas avoir flèche pour revenir en arriere
+		//headerLeft: null, // ne pas avoir flèche pour revenir en arriere
 	});
 	render() {
 		const { params } = this.props.navigation.state;

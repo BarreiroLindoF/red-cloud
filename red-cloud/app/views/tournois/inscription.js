@@ -39,7 +39,7 @@ class Inscription extends React.Component {
 			})
 			.then((response) => {
 				if (response.data.success) {
-					this.props.navigation.navigate('Tournois');
+					this.props.navigation.navigate('Tabs');
 				} else {
 					this.setState({
 						errorMessage: response.data.message,
@@ -50,17 +50,6 @@ class Inscription extends React.Component {
 			.catch((error) => {
 				console.error(error);
 			});
-		/*
-			{
-				"nom_equipe" : "Flagfdvfio",
-				"nom_carte": "Flavio",
-				"no_carte": 123123,
-				"mois_carte": 7,
-				"annee_carte": 2019
-			}
-		*/
-
-		return null;
 	}
 
 	toggleModal() {

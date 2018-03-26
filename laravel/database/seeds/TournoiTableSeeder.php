@@ -140,6 +140,7 @@ class TournoiTableSeeder extends Seeder
             'prix_inscription' => 100,
             'reglementUri' => 'go.pdf',
             'event_id_event' => 1,
+            'reglementUri' => 'go.pdf',
             'jeu_id_jeu' => 11,
             'type_tournoi_id_type_tournoi' => 1,
         ]);
@@ -151,6 +152,7 @@ class TournoiTableSeeder extends Seeder
             'reglementUri' => 'go.pdf',
             'prix_inscription' => 100,
             'event_id_event' => 1,
+            'reglementUri' => 'go.pdf',
             'jeu_id_jeu' => 11,
             'type_tournoi_id_type_tournoi' => 1,
         ]);
