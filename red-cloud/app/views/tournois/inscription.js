@@ -25,6 +25,7 @@ class Inscription extends React.Component {
 			anneeCarte: null,
 			modalVisible: false,
 			errorMessage: '',
+			inscriptionFaite: false,
 		};
 	}
 
@@ -40,7 +41,11 @@ class Inscription extends React.Component {
 			})
 			.then((response) => {
 				if (response.data.success) {
-					this.props.navigation.navigate('Tabs');
+					this.setState({
+						inscriptionFaite: true,
+						errorMessage: 'Inscription validée!',
+						modalVisible: true,
+					});
 				} else {
 					this.setState({
 						errorMessage: response.data.message,
@@ -76,6 +81,9 @@ class Inscription extends React.Component {
 					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
 					onPress={() => {
 						this.toggleModal();
+						if (this.state.inscriptionFaite) {
+							this.props.navigation.navigate('Tabs');
+						}
 					}}
 				>
 					<View>
