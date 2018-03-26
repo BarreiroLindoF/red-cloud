@@ -2,9 +2,9 @@ import React from 'react';
 import { RkText } from 'react-native-ui-kitten';
 import { Text, View } from 'react-native';
 import LogoHeader from './../../components/avatar/logoHeader';
-import stylesWhite from './../../styles/StyleSheetW';
+import stylesBlack from './../../assets/styles/StyleSheetB';
 
-class Exemple extends React.Component {
+class exempleB extends React.Component {
 	//eslint-disable-next-line
 	static navigationOptions = {
 		headerTitle: <LogoHeader />,
@@ -14,10 +14,8 @@ class Exemple extends React.Component {
 	render() {
 		return (
 			<View>
-				<View style={stylesWhite.redStrip}>
-					<RkText rkType="hero" style={stylesWhite.title}>
-						Exemple
-					</RkText>
+				<View>
+					<RkText rkType="hero">Exemple</RkText>
 				</View>
 				<View>
 					<Text> CONTENT </Text>
@@ -27,4 +25,4 @@ class Exemple extends React.Component {
 	}
 }
 
-export default Exemple;
+export default exempleB;

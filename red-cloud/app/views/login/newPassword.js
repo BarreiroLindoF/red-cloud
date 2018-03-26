@@ -7,6 +7,7 @@ import Modal from 'react-native-modalbox';
 import { NavigationActions } from 'react-navigation';
 import { api, URL } from '../../rest/api';
 import { checkPassword } from '../../common/check';
+import LogoHeader from './../../components/avatar/logoHeader';
 
 const styleFile = require('./style/styles');
 
@@ -19,7 +20,9 @@ const mapStateToProps = (state) => {
 class NewPassword extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
-		title: 'Saisie du nouveau mot de passe',
+		headerTitle: <LogoHeader />,
+		color: 'white',
+		//title: 'Saisie du nouveau mot de passe',
 	};
 
 	constructor(props) {

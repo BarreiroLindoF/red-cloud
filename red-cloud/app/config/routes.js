@@ -15,18 +15,23 @@ import { StatusBarPadding } from './header';
 export const Routes = StackNavigator(
 	{
 		Login: { screen: Login },
-		PasswordRecovery: { screen: PasswordRecovery },
-		Exemple: { screen: Exemple },
 		Tournois: { screen: Tournois },
+		PresentationTournoi: { screen: PresentationTournoi },
+		PasswordRecovery: { screen: PasswordRecovery },
 		Signup: { screen: Signup },
 		ListeJeux: { screen: ListeJeux },
 		Conditions: { screen: Conditions },
 		CreateTeam: { screen: CreateTeam },
-		PresentationTournoi: { screen: PresentationTournoi },
 		Code: { screen: Code },
 		NewPassword: { screen: NewPassword },
+		Exemple: { screen: Exemple },
 	},
 	{
-		navigationOptions: { headerStyle: { marginTop: StatusBarPadding } },
+		navigationOptions: {
+			headerStyle: {
+				marginTop: StatusBarPadding,
+				backgroundColor: 'black',
+			},
+		},
 	},
 );

@@ -6,6 +6,7 @@ import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
 import { api, URL } from '../../rest/api';
 import { checkCodePassword } from '../../common/check';
+import LogoHeader from './../../components/avatar/logoHeader';
 
 const styleFile = require('./style/styles');
 
@@ -18,7 +19,9 @@ const mapStateToProps = (state) => {
 class Code extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
-		title: 'Mail envoyé',
+		//title: 'Mail envoyé',
+		headerTitle: <LogoHeader />,
+		color: 'white',
 	};
 
 	constructor(props) {

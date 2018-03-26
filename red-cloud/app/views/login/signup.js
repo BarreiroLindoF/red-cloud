@@ -7,6 +7,8 @@ import Modal from 'react-native-modalbox';
 import { api, URL } from '../../rest/api';
 import * as Action from './../../redux/actions';
 import * as Check from './../../common/check';
+import LogoHeader from './../../components/avatar/logoHeader';
+import stylesBlack from './../../styles/StyleSheetB';
 
 const styleFile = require('./style/styles');
 
@@ -53,7 +55,9 @@ const mapDispatchToProps = (dispatch) => ({
 class Signup extends React.Component {
 	//eslint-disable-next-line
 	static navigationOptions = {
-		title: 'Création de ton compte',
+		headerTitle: <LogoHeader />,
+		color: 'white',
+		//title: 'Création de ton compte',
 	};
 
 	constructor(props) {
@@ -164,6 +168,9 @@ class Signup extends React.Component {
 		const { navigate } = this.props.navigation;
 		return (
 			<KeyboardAvoidingView style={styleFile.screen} behavior="padding" keyboardVerticalOffset={55}>
+				<View>
+					<Text style={stylesBlack.title}>Crée ton compte</Text>
+				</View>
 				<View
 					style={{
 						flex: 1,

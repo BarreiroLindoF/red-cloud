@@ -1,8 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { FlatList, View, Image, TouchableOpacity } from 'react-native';
-import { RkCard, RkStyleSheet, RkText } from 'react-native-ui-kitten';
+import { FlatList, View, Image, TouchableOpacity, Text } from 'react-native';
+import { RkCard, RkText } from 'react-native-ui-kitten';
 import { api, URL } from './../../rest/api';
+import stylesWhite from './../../styles/StyleSheetW';
+import LogoHeader from './../../components/avatar/logoHeader';
 
 const mapStateToProps = (state) => ({
 	token: state.token,
@@ -11,7 +13,8 @@ const mapStateToProps = (state) => ({
 class Tournois extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
-		title: 'Liste des tournois',
+		headerTitle: <LogoHeader />,
+		color: 'white',
 	};
 
 	constructor(props) {
@@ -72,17 +75,14 @@ class Tournois extends React.Component {
 					this.props.navigation.navigate('PresentationTournoi', { tournoi: info.item });
 				}}
 			>
-				<RkCard rkType="blog" style={styles.card}>
-					<View rkCardHeader style={styles.content}>
-						<RkText style={styles.section} rkType="header4">
-							{info.item.titre}
-						</RkText>
-					</View>
-
+				<RkCard rkType="blog" style={stylesWhite.cardTournament}>
 					<Image rkCardImg source={{ uri: info.item.imageUri }} />
 
-					<View rkCardContent>
+					<View rkCardContent style={stylesWhite.marginCardContent}>
 						<View>
+							<RkText style={stylesWhite.title} rkType="header4">
+								{info.item.titre}
+							</RkText>
 							<RkText rkType="primary3 mediumLine" numberOfLines={2}>
 								{info.item.description}
 							</RkText>
@@ -90,11 +90,12 @@ class Tournois extends React.Component {
 					</View>
 
 					<View rkCardFooter>
-						<View style={styles.userInfo}>
+						<View>
 							<RkText rkType="header6" />
 						</View>
 						<RkText rkType="secondary2 hintColor">{info.item.date}</RkText>
 					</View>
+					<View style={stylesWhite.redLineBottom} />
 				</RkCard>
 			</TouchableOpacity>
 		);
@@ -102,35 +103,22 @@ class Tournois extends React.Component {
 
 	render() {
 		return (
-			<FlatList
-				data={this.state.data}
-				renderItem={this.renderItem}
-				keyExtractor={this.keyExtractor}
-				refreshing={this.state.isFetching}
-				onRefresh={() => {
-					this.loadPosts();
-				}}
-				contentContainerStyle={styles.container}
-			/>
+			<View style={stylesWhite.mainContentContainer}>
+				<View style={stylesWhite.redStrip}>
+					<Text style={stylesWhite.title}>Les tournois & Events</Text>
+				</View>
+				<FlatList
+					data={this.state.data}
+					renderItem={this.renderItem}
+					keyExtractor={this.keyExtractor}
+					refreshing={this.state.isFetching}
+					onRefresh={() => {
+						this.loadPosts();
+					}}
+				/>
+			</View>
 		);
 	}
 }
-
-//eslint-disable-next-line
-const styles = RkStyleSheet.create((theme) => ({
-	container: {
-		backgroundColor: theme.colors.screen.scroll,
-		paddingVertical: 8,
-		paddingHorizontal: 12,
-	},
-	card: {
-		marginVertical: 8,
-	},
-	section: {
-		fontSize: 16,
-		fontWeight: 'bold',
-	},
-	footer: {},
-}));
 
 export default connect(mapStateToProps)(Tournois);
