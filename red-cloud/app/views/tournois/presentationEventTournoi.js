@@ -155,7 +155,13 @@ class PresentationEventTournoi extends React.Component {
 	}
 
 	renderInscription(tournoi) {
-		if (tournoi.participants_max - tournoi.participants > 0) {
+		if (tournoi.inscrit) {
+			return (
+				<View>
+					<Text>Vous êtes déjà inscrit !</Text>
+				</View>
+			);
+		} else if (tournoi.participants_max - tournoi.participants > 0) {
 			return (
 				<View>
 					<Text>Prix par inscription: {tournoi.prix_inscription}.- CHF</Text>

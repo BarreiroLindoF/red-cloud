@@ -34,12 +34,12 @@ Route::group(['middleware' => ['api','cors']], function () {
     // New routes
     Route::post('me/participation/tournoi/{id}', 'Tournament\ApiTournamentController@addParticipation');
     Route::post('tournaments/{id}/team', 'ApiVerificationController@checkTeamExist');
-
+    Route::get('events', 'Events\ApiEventsController@getEvents');
 });
 
 // secured routes
 Route::group(['middleware' => ['jwt-auth', 'api','cors']], function () {
     Route::post('test/login', 'Auth\ApiAuthController@login');
-    Route::get('events', 'Events\ApiEventsController@getEvents');
     Route::get('events/{id}/tournaments', 'Tournament\ApiTournamentController@getTournois');
+
 });
