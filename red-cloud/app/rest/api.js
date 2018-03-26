@@ -30,4 +30,5 @@ export const URL = {
 	reset: '/api/auth/reset',
 	tournaments: '/api/events/{$id}/tournaments',
 	teamCheck: '/api/tournaments/{$id}/team',
+	inscription: '/api/me/participation/tournoi/{$id}',
 };

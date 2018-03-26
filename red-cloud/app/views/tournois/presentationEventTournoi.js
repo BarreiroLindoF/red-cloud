@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image, Linking, Share, FlatList } from 'react-native';
 import { RkButton, RkTheme, RkText } from 'react-native-ui-kitten';
+import Modal from 'react-native-modalbox';
 import { Hoshi } from 'react-native-textinput-effects';
 
 import { api, URL } from './../../rest/api';
@@ -23,6 +24,8 @@ const Android = require('react-native').Platform.OS === 'android';
 
 const StoreAppUrl = 'https://play.google.com/store/apps/details?id=com.bigredcloud.app'; //A changer une fois en prod
 
+const styleFile = require('./styles');
+
 class PresentationEventTournoi extends React.Component {
 	//eslint-disable-next-line
 	static navigationOptions = {
@@ -37,6 +40,8 @@ class PresentationEventTournoi extends React.Component {
 			heightScrollViewDisplayed: 420,
 			isFetching: true,
 			nomEquipe: '',
+			errorMessage: '',
+			modalVisible: false,
 		};
 		const params = this.getNavigationParams();
 		if (params.eventDisplay !== undefined && params.eventDisplay !== false) {
@@ -54,7 +59,6 @@ class PresentationEventTournoi extends React.Component {
 		api()
 			.get(url)
 			.then((response) => {
-				console.log(response);
 				this.setState({
 					tournois: response.data.payload,
 					isFetching: false,
@@ -66,6 +70,10 @@ class PresentationEventTournoi extends React.Component {
 	}
 
 	checkTeamName(nomEquipe, idTournoi) {
+		if (this.state.nomEquipe === '') {
+			this.setState({ errorMessage: "Veuillez entrer un nom d'équipe" }, this.toggleModal());
+			return;
+		}
 		const url = URL.teamCheck.replace('{$id}', idTournoi);
 		api()
 			.post(url, {
@@ -73,9 +81,12 @@ class PresentationEventTournoi extends React.Component {
 			})
 			.then((response) => {
 				if (response.data.success) {
-					// send user to paying screen
+					this.props.navigation.navigate('Inscription', {
+						nomEquipe,
+						idTournoi,
+					});
 				} else {
-					// show error message to user
+					this.setState({ errorMessage: response.data.message }, this.toggleModal());
 				}
 			})
 			.catch((error) => {
@@ -85,6 +96,10 @@ class PresentationEventTournoi extends React.Component {
 
 	keyExtractor(post) {
 		return post.id_tournoi;
+	}
+
+	toggleModal() {
+		this.setState({ modalVisible: !this.state.modalVisible });
 	}
 
 	renderItem(tournoi) {
@@ -107,6 +122,35 @@ class PresentationEventTournoi extends React.Component {
 					</RkButton>
 				</View>
 			</View>
+		);
+	}
+
+	renderModal() {
+		return (
+			<Modal
+				style={{
+					backgroundColor: 'transparent',
+					justifyContent: 'center',
+					alignItems: 'center',
+					height: 400,
+					width: 300,
+				}}
+				position={'center'}
+				isOpen={this.state.modalVisible}
+				backdropOpacity={0.8}
+			>
+				<RkButton rkType="clear">{this.state.errorMessage}</RkButton>
+				<TouchableOpacity
+					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
+					onPress={() => {
+						this.toggleModal();
+					}}
+				>
+					<View>
+						<Text style={{ color: 'black' }}>Retour</Text>
+					</View>
+				</TouchableOpacity>
+			</Modal>
 		);
 	}
 
@@ -152,6 +196,7 @@ class PresentationEventTournoi extends React.Component {
 		const eventDisplay = this.props.navigation.state.params.eventDisplay;
 		return (
 			<View style={Styles.container}>
+				{this.renderModal()}
 				<View style={Styles.rubanHaut}>
 					<Text style={Styles.title}>{itemToDisplay.titre}</Text>
 				</View>

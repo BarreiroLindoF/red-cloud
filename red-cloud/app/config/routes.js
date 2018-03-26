@@ -6,6 +6,7 @@ import ListeJeux from './../views/login/listeJeux';
 import Conditions from './../views/login/conditions';
 import Exemple from './../views/exemple/exemple';
 import Tournois from './../views/tournois/tournois';
+import Inscription from './../views/tournois/inscription';
 import CreateTeam from './../views/tournois/createTeam';
 import PresentationEventTournoi from './../views/tournois/presentationEventTournoi';
 import Code from './../views/login/code';
@@ -25,6 +26,7 @@ export const Routes = StackNavigator(
 		Code: { screen: Code },
 		NewPassword: { screen: NewPassword },
 		PresentationEventTournoi: { screen: PresentationEventTournoi },
+		Inscription: { screen: Inscription },
 	},
 	{
 		navigationOptions: { headerStyle: { marginTop: StatusBarPadding } },
