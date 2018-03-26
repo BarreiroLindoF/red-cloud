@@ -54,6 +54,7 @@ class Login extends React.Component {
 				password: this.props.password,
 			})
 			.then((response) => {
+				console.log(response);
 				if (response.data.success) {
 					this.props.updateToken(response.data.payload);
 					this.openEvents();
