@@ -26,10 +26,10 @@ class ApiAuthController extends Controller
 
         try {
             if (!$jwt = JWTAuth::attempt($credentials)) {
-                return response()->json(new JsonResponse(false, null, 'Login erronées !'),401);
+                return response()->json(new JsonResponse(false, null, 'Login erronées !'));
             }
         } catch (JWTAuthException $e) {
-            return response()->json(new JsonResponse(false, null, "Erreur lors de la création du token!"), 500);
+            return response()->json(new JsonResponse(false, null, "Erreur lors de la création du token!"));
         }
         return response()->json(new JsonResponse(true, $jwt, "Token créé avec succès"));
     }
