@@ -14,7 +14,7 @@ class CreateNourritureTable extends Migration
     public function up()
     {
         Schema::create('nourriture', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id_nourriture');
             $table->string('nom');
             $table->integer('prix');
             $table->integer('categorie_nourriture_id_categorie_nourriture')->unsigned();
