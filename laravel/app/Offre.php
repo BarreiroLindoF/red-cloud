@@ -16,6 +16,6 @@ class Offre extends Model
     }
 
     public function boissons(){
-        return $this->belongsToMany('App\Nourriture', 'boissons_offres', 'offre_id_offre', 'boisson_id_boisson');
+        return $this->belongsToMany('App\Boisson', 'boissons_offres', 'offre_id_offre', 'boisson_id_boisson');
     }
 }

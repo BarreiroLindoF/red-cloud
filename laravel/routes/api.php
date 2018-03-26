@@ -36,6 +36,7 @@ Route::group(['middleware' => ['api','cors']], function () {
 
     Route::get('menu', 'Menu\ApiMenuController@getMenu');
     Route::get('offres', 'Menu\ApiOffresController@getOffres');
+    Route::get('offre', 'Menu\ApiOffresController@getOffre');
 });
 
 // secured routes
