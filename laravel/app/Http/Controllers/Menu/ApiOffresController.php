@@ -19,7 +19,7 @@ class ApiOffresController extends Controller{
     }
 
     public function getOffre(Request $request){
-        $idOffre = $request->input('idOffre');
+        $idOffre = $request->id;
         $offre = Offre::find($idOffre);
         $offre->nourritures;
         $offre->boissons;
