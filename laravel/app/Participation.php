@@ -4,16 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Event extends Model
+class Participation extends Model
 {
-    public $pathToImages = '/images/events/';
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'event';
-    protected $primaryKey = 'id_event';
+    protected $table = 'participation';
+    protected $primaryKey = 'id_participation';
 
     /**
      * Indicates if the model should be timestamped.
@@ -27,6 +27,16 @@ class Event extends Model
      *
      * @var array
      */
-    protected $fillable = ['titre', 'description', 'imageUri', 'dateHeureDebut'];
+    protected $fillable = [
+        'date_inscription', 'tournoi_id_tournoi', 'user_id_user', 'nom_equipe'
+    ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+    ];
 
 }

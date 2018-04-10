@@ -28,4 +28,7 @@ export const URL = {
 	passwordRecovery: '/api/auth/forgot',
 	code: '/api/auth/code',
 	reset: '/api/auth/reset',
+	tournaments: '/api/events/{$id}/tournaments',
+	teamCheck: '/api/tournaments/{$id}/team',
+	inscription: '/api/me/participation/tournoi/{$id}',
 };

@@ -2,6 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { FlatList, View, Image, TouchableOpacity } from 'react-native';
 import { RkCard, RkStyleSheet, RkText } from 'react-native-ui-kitten';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { StatusBarPaddingView } from './../../config/header';
+
 import { api, URL } from './../../rest/api';
 
 const mapStateToProps = (state) => ({
@@ -11,7 +14,11 @@ const mapStateToProps = (state) => ({
 class Tournois extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
-		title: 'Liste des tournois',
+		header: null,
+		tabBarLabel: 'Events',
+		tabBarIcon: () => {
+			return <Icon size={24} color="red" name="event" />;
+		},
 	};
 
 	constructor(props) {
@@ -65,38 +72,44 @@ class Tournois extends React.Component {
 
 	renderItem(info) {
 		return (
-			<TouchableOpacity
-				delayPressIn={70}
-				activeOpacity={0.8}
-				onPress={() => {
-					this.props.navigation.navigate('PresentationTournoi', { tournoi: info.item });
-				}}
-			>
-				<RkCard rkType="blog" style={styles.card}>
-					<View rkCardHeader style={styles.content}>
-						<RkText style={styles.section} rkType="header4">
-							{info.item.titre}
-						</RkText>
-					</View>
-
-					<Image rkCardImg source={{ uri: info.item.imageUri }} />
-
-					<View rkCardContent>
-						<View>
-							<RkText rkType="primary3 mediumLine" numberOfLines={2}>
-								{info.item.description}
+			<View>
+				<StatusBarPaddingView />
+				<TouchableOpacity
+					delayPressIn={70}
+					activeOpacity={0.8}
+					onPress={() => {
+						this.props.navigation.navigate('PresentationEventTournoi', {
+							item: info.item,
+							eventDisplay: true,
+						});
+					}}
+				>
+					<RkCard rkType="blog" style={styles.card}>
+						<View rkCardHeader style={styles.content}>
+							<RkText style={styles.section} rkType="header4">
+								{info.item.titre}
 							</RkText>
 						</View>
-					</View>
 
-					<View rkCardFooter>
-						<View style={styles.userInfo}>
-							<RkText rkType="header6" />
+						<Image rkCardImg source={{ uri: info.item.imageUri }} />
+
+						<View rkCardContent>
+							<View>
+								<RkText rkType="primary3 mediumLine" numberOfLines={2}>
+									{info.item.description}
+								</RkText>
+							</View>
 						</View>
-						<RkText rkType="secondary2 hintColor">{info.item.date}</RkText>
-					</View>
-				</RkCard>
-			</TouchableOpacity>
+
+						<View rkCardFooter>
+							<View style={styles.userInfo}>
+								<RkText rkType="header6" />
+							</View>
+							<RkText rkType="secondary2 hintColor">{info.item.date}</RkText>
+						</View>
+					</RkCard>
+				</TouchableOpacity>
+			</View>
 		);
 	}
 

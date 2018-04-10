@@ -4,6 +4,7 @@ import { View, ScrollView, KeyboardAvoidingView, Text, StyleSheet, TouchableOpac
 import { RkText, RkButton } from 'react-native-ui-kitten';
 import CheckBox from 'react-native-check-box';
 import Modal from 'react-native-modalbox';
+import { NavigationActions } from 'react-navigation';
 import { updateConditions, updateToken } from './../../redux/actions';
 import { api, URL } from '../../rest/api';
 
@@ -91,7 +92,7 @@ class ListeJeux extends React.Component {
 						.then((response) => {
 							if (response.data.success) {
 								this.props.updateToken(response.data.payload);
-								this.props.navigation.navigate('Tournois');
+								this.openEvents();
 							}
 						})
 						.catch((error) => {
@@ -102,6 +103,14 @@ class ListeJeux extends React.Component {
 			.catch((error) => {
 				console.log(error);
 			});
+	}
+
+	openEvents() {
+		const resetAction = NavigationActions.reset({
+			index: 0,
+			actions: [NavigationActions.navigate({ routeName: 'Tabs' })],
+		});
+		this.props.navigation.dispatch(resetAction);
 	}
 
 	renderModal() {

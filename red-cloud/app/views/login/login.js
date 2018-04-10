@@ -4,6 +4,7 @@ import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
 import { View, Image, KeyboardAvoidingView, ScrollView, Text, TouchableOpacity } from 'react-native';
 import Modal from 'react-native-modalbox';
 import { Hoshi } from 'react-native-textinput-effects';
+import { NavigationActions } from 'react-navigation';
 import { StatusBarPadding } from './../../config/header';
 import { api, URL } from './../../rest/api';
 import { updatePseudo, updatePassword, updateToken } from './../../redux/actions';
@@ -53,9 +54,10 @@ class Login extends React.Component {
 				password: this.props.password,
 			})
 			.then((response) => {
+				console.log(response);
 				if (response.data.success) {
 					this.props.updateToken(response.data.payload);
-					this.props.navigation.navigate('Tournois');
+					this.openEvents();
 				} else if (this.state.cptLog < 2) {
 					this.state.cptLog++;
 					this.setState({ modalVisible: !this.state.modalVisible });
@@ -66,6 +68,14 @@ class Login extends React.Component {
 			.catch((error) => {
 				console.log(error);
 			});
+	}
+
+	openEvents() {
+		const resetAction = NavigationActions.reset({
+			index: 0,
+			actions: [NavigationActions.navigate({ routeName: 'Tabs' })],
+		});
+		this.props.navigation.dispatch(resetAction);
 	}
 
 	toogleModal() {

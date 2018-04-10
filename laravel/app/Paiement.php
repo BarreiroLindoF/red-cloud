@@ -4,15 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Equipe extends Model
+class Paiement extends Model
 {
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'equipe';
-    protected $primaryKey = 'id_equipe';
+    protected $table = 'paiement';
+    protected $primaryKey = 'id_paiement';
 
     /**
      * Indicates if the model should be timestamped.
@@ -26,7 +27,9 @@ class Equipe extends Model
      *
      * @var array
      */
-    protected $fillable = ['id_titre', 'nom_equipe', 'type_equipe'];
+    protected $fillable = [
+        'nom_carte', 'no_carte', 'date_expiration', 'participation_id_participation', 'pays_id_pays'
+    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -34,11 +37,6 @@ class Equipe extends Model
      * @var array
      */
     protected $hidden = [
-        'pivot', 'type_equipe'
     ];
 
-    public function users() {
-        return $this->belongsToMany('App\User', 'user_equipe',
-            'equipe_id_equipe', 'user_id_user');
-    }
 }

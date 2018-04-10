@@ -15,8 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call(EventSeeder::class);
         $this->call(TypeJeuTableSeeder::class);
         $this->call(JeuTableSeeder::class);
-        $this->call(TypeEquipeTableSeeder::class);
-        $this->call(EquipeTableSeeder::class);
         $this->call(TypeTournoiTableSeeder::class);
         $this->call(TournoiTableSeeder::class);
         $this->call(CategorieBoissonSeeder::class);
@@ -27,6 +25,8 @@ class DatabaseSeeder extends Seeder
         $this->call(BoissonsOffresSeeder::class);
         $this->call(NourrituresOffresSeeder::class);
         $this->call(UserEquipeSeeder::class);
-
+        $this->call(ParticipationTableSeeder::class);
+        $this->call(PaiementTableSeeder::class);
+        $this->call(PaysTableSeeder::class);
     }
 }

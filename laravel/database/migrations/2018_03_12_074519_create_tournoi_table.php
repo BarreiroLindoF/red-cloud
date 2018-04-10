@@ -16,7 +16,10 @@ class CreateTournoiTable extends Migration
         Schema::create('tournoi', function (Blueprint $table) {
             $table->increments('id_tournoi');
             $table->string('titre');
-            $table->string('description');
+            $table->string('imageUri');
+            $table->string('description', 2000);
+            $table->string('reglementUri');
+            $table->float('prix_inscription');
             $table->integer('participants_max');
             $table->integer('event_id_event')->unsigned();
             $table->foreign('event_id_event')->references('id_event')->on('event');

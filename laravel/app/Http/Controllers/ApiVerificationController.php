@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Participation;
 use App\User;
 use Illuminate\Http\Request;
 
@@ -24,5 +25,18 @@ class ApiVerificationController extends Controller
         } else {
             return response()->json(new JsonResponse(true, $email, 'Cet email et ce pseudo existent déjà, merci de bien vouloir les changer.'));
         }
+    }
+
+    public function checkTeamExist (Request $request)
+    {
+        $idTournoi = $request->id;
+        $participations = Participation::where('tournoi_id_tournoi', $idTournoi)->get();
+        foreach ($participations as $participation) {
+            if ($participation->getAttribute('nom_equipe') == $request->input('nom_equipe')) {
+                return response()->json(new JsonResponse(false, null, 'Cette équipe existe déjà, merci de bien vouloir la changer.'));
+            }
+        }
+        return response()->json(new JsonResponse(true, null, 'Valide!'));
+
     }
 }
