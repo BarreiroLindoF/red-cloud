@@ -14,6 +14,7 @@ const YoutubeImgSrc = require('../../assets/images/youtube-logo.png');
 const TwitchImgSrc = require('../../assets/images/twitch-logo.png');
 const TwitterImgSrc = require('../../assets/images/twitter-logo.png');
 const PartageImgSrc = require('../../assets/images/share-logo.png');
+const PDFImgSrc = require('../../assets/images/pdf.png');
 
 const FaceBookPage = 'https://www.facebook.com/WEIRDnet/';
 const TwitterPage = 'https://twitter.com/The_eBar';
@@ -243,14 +244,14 @@ class PresentationEventTournoi extends React.Component {
 						{!eventDisplay && (
 							<View>
 								<View style={Styles.btnSubscribeContainer}>
-									<RkButton
-										rkType="dark"
+									<RkText> Voir le règlement : </RkText>
+									<TouchableOpacity
 										onPress={() => {
 											Linking.openURL(itemToDisplay.reglementUri);
 										}}
 									>
-										<RkText style={Styles.fontBtn}> Règlement! </RkText>
-									</RkButton>
+										<Image source={PDFImgSrc} style={Styles.logo} />
+									</TouchableOpacity>
 								</View>
 								<View style={Styles.bottomLineContainer}>
 									<Text style={Styles.bottomLine} />
