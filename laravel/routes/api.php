@@ -41,11 +41,12 @@ Route::group(['middleware' => ['api','cors']], function () {
     Route::get('menu', 'Menu\ApiMenuController@getMenu');
     Route::get('offres', 'Menu\ApiOffresController@getOffres');
     Route::get('offre/{id}', 'Menu\ApiOffresController@getOffre');
+
+    Route::get('events', 'Events\ApiEventsController@getEvents');
+    Route::get('events/{id}/tournaments', 'Tournament\ApiTournamentController@getTournois');
 });
 
 // secured routes
 Route::group(['middleware' => ['jwt-auth', 'api','cors']], function () {
     Route::post('test/login', 'Auth\ApiAuthController@login');
-    Route::get('events', 'Events\ApiEventsController@getEvents');
-    Route::get('events/{id}/tournaments', 'Tournament\ApiTournamentController@getTournois');
 });

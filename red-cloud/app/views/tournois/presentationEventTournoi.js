@@ -242,6 +242,16 @@ class PresentationEventTournoi extends React.Component {
 						)}
 						{!eventDisplay && (
 							<View>
+								<View style={Styles.btnSubscribeContainer}>
+									<RkButton
+										rkType="dark"
+										onPress={() => {
+											Linking.openURL(itemToDisplay.reglementUri);
+										}}
+									>
+										<RkText style={Styles.fontBtn}> Règlement! </RkText>
+									</RkButton>
+								</View>
 								<View style={Styles.bottomLineContainer}>
 									<Text style={Styles.bottomLine} />
 								</View>
