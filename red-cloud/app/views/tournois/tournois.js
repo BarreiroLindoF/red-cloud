@@ -81,6 +81,7 @@ class Tournois extends React.Component {
 						this.props.navigation.navigate('PresentationEventTournoi', {
 							item: info.item,
 							eventDisplay: true,
+							date: info.item.dateHeureDebut,
 						});
 					}}
 				>
@@ -105,7 +106,7 @@ class Tournois extends React.Component {
 							<View style={styles.userInfo}>
 								<RkText rkType="header6" />
 							</View>
-							<RkText rkType="secondary2 hintColor">{info.item.date}</RkText>
+							<RkText rkType="secondary2 hintColor">{info.item.dateHeureDebut}</RkText>
 						</View>
 					</RkCard>
 				</TouchableOpacity>

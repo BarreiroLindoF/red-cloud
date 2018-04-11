@@ -115,6 +115,7 @@ class PresentationEventTournoi extends React.Component {
 							this.props.navigation.navigate('PresentationEventTournoi', {
 								item: tournoi.item,
 								eventDisplay: false,
+								date: this.props.navigation.state.params.date,
 							});
 						}}
 					>
@@ -154,14 +155,16 @@ class PresentationEventTournoi extends React.Component {
 		);
 	}
 
-	renderInscription(tournoi) {
+	renderInscription(tournoi, date) {
 		if (tournoi.participants_max - tournoi.participants > 0) {
 			return (
 				<View>
 					<Text>Prix par inscription: {tournoi.prix_inscription}.- CHF</Text>
 					<Text>Nombre d'inscriptions limite : {tournoi.participants_max}</Text>
 					<Text>Nombre de places disponibles : {tournoi.participants_max - tournoi.participants}</Text>
-					<Text>Vous avez encore jusqu'au ... pour vous inscrire.</Text>
+					<Text>Vous avez encore jusqu'au {date} pour vous inscrire.</Text>
+					<Text>Le tournoi commencera à {tournoi.heureDebut}. Ne soyez pas en retard !</Text>
+
 					<Hoshi
 						label={'Le nom de ton équipe'}
 						rkType="textInputLogin"
@@ -245,7 +248,7 @@ class PresentationEventTournoi extends React.Component {
 								<View style={Styles.bottomLineContainer}>
 									<Text style={Styles.bottomLine} />
 								</View>
-								{this.renderInscription(itemToDisplay)}
+								{this.renderInscription(itemToDisplay, this.props.navigation.state.params.date)}
 							</View>
 						)}
 					</ScrollView>

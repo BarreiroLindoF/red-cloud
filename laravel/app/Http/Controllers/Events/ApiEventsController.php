@@ -14,6 +14,8 @@ class ApiEventsController extends Controller
 
         foreach ($events as $event) {
             $event->setAttribute('imageUri', $request->root() . $event->pathToImages . $event->getAttribute('imageUri'));
+            $date = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $event->getAttribute('dateHeureDebut'))->format('d-m-Y');
+            $event->setAttribute('dateHeureDebut', $date);
         }
 
         return response()->json(new JsonResponse(true, $events , null));
