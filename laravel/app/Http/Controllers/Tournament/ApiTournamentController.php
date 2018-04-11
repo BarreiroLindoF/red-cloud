@@ -20,20 +20,11 @@ class ApiTournamentController extends Controller
         foreach ($tournaments as $tournament) {
             $tournament->setAttribute('imageUri', $request->root() . $tournament->pathToImages . $tournament->getAttribute('imageUri'));
             $idTournament = $tournament->getAttribute('id_tournoi');
+            $tournament->setAttribute('reglementUri',$request->root() . $tournament->pathToRules . $tournament->getAttribute('reglementUri'));
             $tournament->participants = Participation::where('tournoi_id_tournoi', $idTournament)->count();
         }
 
         return response()->json(new JsonResponse(true, $tournaments , null));
-    }
-
-    public function getTournoisRules(Request $request) {
-        $idTournoi = $request->id;
-        $tournoi = Tournoi::find($idTournoi);
-        if ($tournoi === null) {
-            return response()->json(new JsonResponse(false, null, 'Ce tournoi n\'existe pas'));
-        }
-        $path = public_path() . $tournoi->pathToRules . $tournoi->getAttribute('reglementUri');
-        return response()->download($path, $tournoi->getAttribute('reglementUri'));
     }
 
     public function addParticipation(Request $request) {

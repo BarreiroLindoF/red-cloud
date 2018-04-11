@@ -29,7 +29,6 @@ Route::group(['middleware' => ['api','cors']], function () {
     Route::post('auth/code', 'Auth\ApiCodeCheckController@checkCode');
     Route::post('auth/reset', 'Auth\ApiResetPasswordController@resetPassword');
     Route::post('check', 'ApiVerificationController@checkUserExist');
-    Route::get('tournaments/{id}/rules', 'Tournament\ApiTournamentController@getTournoisRules');
 
     // New routes
     Route::post('me/participation/tournoi/{id}', 'Tournament\ApiTournamentController@addParticipation');
@@ -41,11 +40,12 @@ Route::group(['middleware' => ['api','cors']], function () {
     Route::get('menu', 'Menu\ApiMenuController@getMenu');
     Route::get('offres', 'Menu\ApiOffresController@getOffres');
     Route::get('offre/{id}', 'Menu\ApiOffresController@getOffre');
+
+    Route::get('events', 'Events\ApiEventsController@getEvents');
+    Route::get('events/{id}/tournaments', 'Tournament\ApiTournamentController@getTournois');
 });
 
 // secured routes
 Route::group(['middleware' => ['jwt-auth', 'api','cors']], function () {
     Route::post('test/login', 'Auth\ApiAuthController@login');
-    Route::get('events', 'Events\ApiEventsController@getEvents');
-    Route::get('events/{id}/tournaments', 'Tournament\ApiTournamentController@getTournois');
 });

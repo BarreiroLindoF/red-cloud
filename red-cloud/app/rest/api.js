@@ -31,4 +31,5 @@ export const URL = {
 	tournaments: '/api/events/{$id}/tournaments',
 	teamCheck: '/api/tournaments/{$id}/team',
 	inscription: '/api/me/participation/tournoi/{$id}',
+	rules: '/api/tournaments/{$id}/rules',
 };
