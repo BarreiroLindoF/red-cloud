@@ -266,8 +266,9 @@ class PresentationEventTournoi extends React.Component {
 				backdropOpacity={0.6}
 				position={'center'}
 				isOpen={this.state.modalEquipesVisible}
+				swipeToClose={false}
 			>
-				<View style={Styles.flatListContainer}>
+				<ScrollView style={Styles.flatListContainer} scrollEnabled>
 					<FlatList
 						style={Styles.flatList}
 						data={this.state.equipes}
@@ -275,7 +276,7 @@ class PresentationEventTournoi extends React.Component {
 						ItemSeparatorComponent={this.FlatListItemSeparator}
 						renderItem={({ item }) => <Text style={Styles.item}> {item.nom_equipe} </Text>}
 					/>
-				</View>
+				</ScrollView>
 				<TouchableOpacity
 					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
 					onPress={() => {
