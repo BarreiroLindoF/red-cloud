@@ -15,6 +15,8 @@ const initialState = {
 
 const updateUser = (state = initialState, action) => {
 	switch (action.type) {
+		case Actions.RESET:
+			return { initialState };
 		case Actions.UPDATE_NOM:
 			return { ...state, nom: action.payload };
 		case Actions.UPDATE_PRENOM:
