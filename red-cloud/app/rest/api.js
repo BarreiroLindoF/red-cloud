@@ -32,4 +32,5 @@ export const URL = {
 	teamCheck: '/api/tournaments/{$id}/team',
 	inscription: '/api/me/participation/tournoi/{$id}',
 	rules: '/api/tournaments/{$id}/rules',
+	participants: '/api/tournois/{$id}/participants',
 };

@@ -43,16 +43,34 @@ class PresentationEventTournoi extends React.Component {
 			nomEquipe: '',
 			errorMessage: '',
 			modalVisible: false,
+			modalEquipesVisible: false,
+			equipes: [],
 		};
 		const params = this.getNavigationParams();
 		if (params.eventDisplay !== undefined && params.eventDisplay !== false) {
 			this.loadTournaments();
 		}
 		this.renderItem = this.renderItem.bind(this);
+		this.renderLstEquipe = this.renderLstEquipe.bind(this);
 	}
 
 	getNavigationParams() {
 		return this.props.navigation.state.params || {};
+	}
+
+	getLstEquipes(idTournoi) {
+		const url = URL.participants.replace('{$id}', idTournoi);
+		api()
+			.get(url)
+			.then((response) => {
+				this.setState({
+					equipes: response.data.payload,
+				});
+				console.log(this.state.equipes);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	}
 
 	loadTournaments() {
@@ -68,6 +86,14 @@ class PresentationEventTournoi extends React.Component {
 			.catch((error) => {
 				console.log(error);
 			});
+	}
+
+	FlatListItemSeparator() {
+		return (
+			<View style={Styles.separatorContainer}>
+				<View style={Styles.separator} />
+			</View>
+		);
 	}
 
 	checkTeamName(nomEquipe, idTournoi) {
@@ -99,8 +125,41 @@ class PresentationEventTournoi extends React.Component {
 		return post.id_tournoi;
 	}
 
+	keyExtractorEquipe(equipe) {
+		return equipe.user_id_user;
+	}
+
 	toggleModal() {
 		this.setState({ modalVisible: !this.state.modalVisible });
+	}
+
+	toggleModalEquipes() {
+		this.setState({ modalEquipesVisible: !this.state.modalEquipesVisible });
+	}
+
+	lstInscrits(tournoi) {
+		return (
+			<View>
+				<Text>
+					Nombre de places disponibles : {tournoi.participants_max - tournoi.participants}
+					{tournoi.participants > 0 && (
+						<Text>
+							<Text> (Liste des inscris </Text>
+							<Text
+								style={{ color: 'red' }}
+								onPress={() => {
+									this.getLstEquipes(tournoi.id_tournoi);
+									this.toggleModalEquipes();
+								}}
+							>
+								ici
+							</Text>
+							<Text>)</Text>
+						</Text>
+					)}
+				</Text>
+			</View>
+		);
 	}
 
 	renderItem(tournoi) {
@@ -162,7 +221,7 @@ class PresentationEventTournoi extends React.Component {
 				<View>
 					<Text>Prix par inscription: {tournoi.prix_inscription}.- CHF</Text>
 					<Text>Nombre d'inscriptions limite : {tournoi.participants_max}</Text>
-					<Text>Nombre de places disponibles : {tournoi.participants_max - tournoi.participants}</Text>
+					{this.lstInscrits(tournoi)}
 					<Text>Vous avez encore jusqu'au {date} pour vous inscrire.</Text>
 					<Text>Le tournoi commencera à {tournoi.heureDebut}. Ne soyez pas en retard !</Text>
 
@@ -195,12 +254,49 @@ class PresentationEventTournoi extends React.Component {
 		);
 	}
 
+	renderLstEquipe() {
+		return (
+			<Modal
+				style={{
+					backgroundColor: 'transparent',
+					alignItems: 'center',
+					height: 250,
+					width: 250,
+				}}
+				backdropOpacity={0.6}
+				position={'center'}
+				isOpen={this.state.modalEquipesVisible}
+			>
+				<View style={Styles.flatListContainer}>
+					<FlatList
+						style={Styles.flatList}
+						data={this.state.equipes}
+						keyExtractor={this.keyExtractorEquipe}
+						ItemSeparatorComponent={this.FlatListItemSeparator}
+						renderItem={({ item }) => <Text style={Styles.item}> {item.nom_equipe} </Text>}
+					/>
+				</View>
+				<TouchableOpacity
+					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
+					onPress={() => {
+						this.toggleModalEquipes();
+					}}
+				>
+					<View>
+						<Text style={{ color: 'black' }}>Retour</Text>
+					</View>
+				</TouchableOpacity>
+			</Modal>
+		);
+	}
+
 	render() {
 		const itemToDisplay = this.props.navigation.state.params.item;
 		const eventDisplay = this.props.navigation.state.params.eventDisplay;
 		return (
 			<View style={Styles.container}>
 				{this.renderModal()}
+				{this.renderLstEquipe()}
 				<View style={Styles.rubanHaut}>
 					<Text style={Styles.title}>{itemToDisplay.titre}</Text>
 				</View>
@@ -403,6 +499,33 @@ let Styles = {
 		marginBottom: 25,
 		paddingLeft: 35,
 		paddingRight: 35,
+	},
+	flatListContainer: {
+		width: 250,
+		borderRadius: 10,
+		backgroundColor: 'white',
+		flex: 1,
+		paddingBottom: 10,
+	},
+
+	item: {
+		padding: 10,
+		fontSize: 18,
+		height: 44,
+	},
+	flatlist: {
+		width: 250,
+		paddingTop: 10,
+	},
+	separatorContainer: {
+		height: 1,
+		width: '100%',
+		alignItems: 'center',
+	},
+	separator: {
+		height: 1,
+		backgroundColor: 'grey',
+		width: '85%',
 	},
 };
 
