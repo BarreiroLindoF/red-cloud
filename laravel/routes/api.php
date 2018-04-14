@@ -37,6 +37,8 @@ Route::group(['middleware' => ['api','cors']], function () {
     Route::get('me/equipes', 'Equipes\ApiEquipesController@getEquipes');
     Route::post('equipes', 'Equipes\ApiEquipesController@addEquipe');
 
+    Route::get('tournois/{id}/participants', 'Participations\ApiParticipationsController@getParticipants');
+
     Route::get('menu', 'Menu\ApiMenuController@getMenu');
     Route::get('offres', 'Menu\ApiOffresController@getOffres');
     Route::get('offre/{id}', 'Menu\ApiOffresController@getOffre');
