@@ -33,6 +33,10 @@ export const Routes = StackNavigator(
 		Exemple: { screen: Exemple },
 	},
 	{
-		navigationOptions: { headerStyle: { marginTop: StatusBarPadding } },
+		navigationOptions: {
+			headerStyle: {
+				marginTop: StatusBarPadding,
+			},
+		},
 	},
 );
