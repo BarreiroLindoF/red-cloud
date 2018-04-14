@@ -1,10 +1,11 @@
+// Navigation imports
 import { TabNavigator } from 'react-navigation';
 import { NavigationComponent } from 'react-native-material-bottom-navigation';
 
 // View imports
 import Tournois from './../views/tournois/tournois';
 import Menu from './../views/exemple/menu';
-import Contact from './../views/exemple/contact';
+import Contact from './../views/contact/contact';
 import Params from './../views/exemple/params';
 
 // Configuration imports
