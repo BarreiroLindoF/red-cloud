@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
-import { View, KeyboardAvoidingView, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { View, KeyboardAvoidingView, ScrollView, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
 import { api, URL } from './../../rest/api';
@@ -33,6 +33,7 @@ class PasswordRecovery extends React.Component {
 			eMail: '',
 			modalVisible: false,
 			apiResponse: '',
+			isFetching: false,
 		};
 	}
 
@@ -45,12 +46,13 @@ class PasswordRecovery extends React.Component {
 	}
 
 	checkEmail() {
+		this.setState({ isFetching: true });
 		api()
 			.post(URL.passwordRecovery, {
 				user: this.state.eMail,
 			})
 			.then((response) => {
-				this.setState({ apiResponse: response.data });
+				this.setState({ isFetching: false, apiResponse: response.data });
 				this.props.updateEmail(this.state.apiResponse.payload);
 				this.toogleModal();
 			});
@@ -88,6 +90,25 @@ class PasswordRecovery extends React.Component {
 		);
 	}
 
+	renderButtonEnvoyer() {
+		if (this.state.isFetching) {
+			return <ActivityIndicator size="large" color="red" style={{ paddingTop: 45 }} />;
+		}
+		return (
+			<RkButton
+				rkType="social"
+				style={styles.buttonSend}
+				onPress={() => {
+					this.checkEmail();
+				}}
+			>
+				<RkText rkType="awesome hero accentColor" style={{ color: 'white' }}>
+					Envoyer
+				</RkText>
+			</RkButton>
+		);
+	}
+
 	render() {
 		return (
 			<KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={55}>
@@ -103,17 +124,7 @@ class PasswordRecovery extends React.Component {
 							}}
 							value={this.state.eMail}
 						/>
-						<RkButton
-							rkType="social"
-							style={styles.buttonSend}
-							onPress={() => {
-								this.checkEmail();
-							}}
-						>
-							<RkText rkType="awesome hero accentColor" style={{ color: 'white' }}>
-								Envoyer
-							</RkText>
-						</RkButton>
+						{this.renderButtonEnvoyer()}
 					</ScrollView>
 				</View>
 			</KeyboardAvoidingView>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
-import { View, Image, KeyboardAvoidingView, ScrollView, Text, TouchableOpacity } from 'react-native';
+import { View, Image, KeyboardAvoidingView, ScrollView, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Modal from 'react-native-modalbox';
 import { Hoshi } from 'react-native-textinput-effects';
 import { NavigationActions } from 'react-navigation';
@@ -44,6 +44,7 @@ class Login extends React.Component {
 			log: false,
 			cptLog: 0,
 			modalVisible: false,
+			isFetching: false,
 		};
 	}
 
@@ -54,13 +55,15 @@ class Login extends React.Component {
 				password: this.props.password,
 			})
 			.then((response) => {
-				console.log(response);
 				if (response.data.success) {
 					this.props.updateToken(response.data.payload);
 					this.openEvents();
 				} else if (this.state.cptLog < 2) {
 					this.state.cptLog++;
-					this.setState({ modalVisible: !this.state.modalVisible });
+					this.setState({
+						modalVisible: !this.state.modalVisible,
+						isFetching: false,
+					});
 				} else {
 					this.props.navigation.navigate('PasswordRecovery');
 				}
@@ -116,6 +119,23 @@ class Login extends React.Component {
 		);
 	}
 
+	renderLoginButton() {
+		if (this.state.isFetching) {
+			return <ActivityIndicator size="large" color="red" style={{ paddingTop: 15 }} />;
+		}
+		return (
+			<RkButton
+				rkType="social"
+				style={styles.buttonSignIn}
+				onPress={() => {
+					this.setState({ isFetching: true }, this.checkLogin());
+				}}
+			>
+				<RkText rkType="awesome hero accentColor">Se Connecter</RkText>
+			</RkButton>
+		);
+	}
+
 	render() {
 		return (
 			<KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={55}>
@@ -138,15 +158,7 @@ class Login extends React.Component {
 							value={this.props.password}
 							secureTextEntry
 						/>
-						<RkButton
-							rkType="social"
-							style={styles.buttonSignIn}
-							onPress={() => {
-								this.checkLogin();
-							}}
-						>
-							<RkText rkType="awesome hero accentColor">Se Connecter</RkText>
-						</RkButton>
+						{this.renderLoginButton()}
 						<RkText
 							rkType="primary3"
 							style={{

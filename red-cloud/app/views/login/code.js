@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
-import { View, KeyboardAvoidingView, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { View, KeyboardAvoidingView, ScrollView, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
 import { api, URL } from '../../rest/api';
@@ -28,6 +28,7 @@ class Code extends React.Component {
 			modalVisible: false,
 			message: '',
 			token: '',
+			isFetching: false,
 		};
 	}
 
@@ -56,6 +57,7 @@ class Code extends React.Component {
 	}
 
 	checkCode() {
+		this.setState({ isFetching: true });
 		api()
 			.post(URL.code, {
 				email: this.props.email,
@@ -66,9 +68,10 @@ class Code extends React.Component {
 					this.setState({
 						message: 'Code valide',
 						token: response.data.payload,
+						isFetching: false,
 					});
 				} else {
-					this.setState({ message: 'Code invalide' });
+					this.setState({ message: 'Code invalide', isFetching: false });
 				}
 				this.toogleModal();
 			});
@@ -106,6 +109,25 @@ class Code extends React.Component {
 		);
 	}
 
+	renderButtonEnvoyer() {
+		if (this.state.isFetching) {
+			return <ActivityIndicator size="large" color="red" style={{ paddingTop: 45 }} />;
+		}
+		return (
+			<RkButton
+				rkType="social"
+				style={styles.buttonSend}
+				onPress={() => {
+					this.checkCode();
+				}}
+			>
+				<RkText rkType="awesome hero accentColor" style={{ color: 'white' }}>
+					Envoyer
+				</RkText>
+			</RkButton>
+		);
+	}
+
 	render() {
 		return (
 			<KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={55}>
@@ -121,17 +143,7 @@ class Code extends React.Component {
 							}}
 							value={this.state.code}
 						/>
-						<RkButton
-							rkType="social"
-							style={styles.buttonSend}
-							onPress={() => {
-								this.checkCode();
-							}}
-						>
-							<RkText rkType="awesome hero accentColor" style={{ color: 'white' }}>
-								Envoyer
-							</RkText>
-						</RkButton>
+						{this.renderButtonEnvoyer()}
 						<RkText
 							style={{
 								color: 'white',
