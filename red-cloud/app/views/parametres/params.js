@@ -42,7 +42,7 @@ class Params extends React.Component {
 				<RkCard rkType="blog" style={styles.card}>
 					<View rkCardContent>
 						<RkText rkType="primary3 mediumLine">
-							<Icon size={24} color="red" name="power-settings-new" />
+							<Icon size={24} color="#cc0000" name="power-settings-new" />
 							<Text>Déconnexion</Text>
 						</RkText>
 					</View>

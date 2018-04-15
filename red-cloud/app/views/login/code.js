@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
-import { View, KeyboardAvoidingView, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { View, KeyboardAvoidingView, ScrollView, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
 import { api, URL } from '../../rest/api';
@@ -28,20 +28,27 @@ class Code extends React.Component {
 			modalVisible: false,
 			message: '',
 			token: '',
+			isFetching: false,
+			sendingMail: false,
 		};
 	}
 
 	sendNewPassword() {
+		this.setState({ sendingMail: true });
 		api()
 			.post(URL.passwordRecovery, {
-				email: this.props.email,
+				user: this.props.email,
 			})
 			.then((response) => {
 				this.setState({
-					token: response.data.payload,
+					sendingMail: false,
 					message: response.data.message,
 				});
 				this.toogleModal();
+			})
+			.catch((error) => {
+				console.error(error);
+				this.setState({ sendingMail: false });
 			});
 	}
 
@@ -56,6 +63,7 @@ class Code extends React.Component {
 	}
 
 	checkCode() {
+		this.setState({ isFetching: true });
 		api()
 			.post(URL.code, {
 				email: this.props.email,
@@ -66,9 +74,10 @@ class Code extends React.Component {
 					this.setState({
 						message: 'Code valide',
 						token: response.data.payload,
+						isFetching: false,
 					});
 				} else {
-					this.setState({ message: 'Code invalide' });
+					this.setState({ message: 'Code invalide', isFetching: false });
 				}
 				this.toogleModal();
 			});
@@ -106,6 +115,55 @@ class Code extends React.Component {
 		);
 	}
 
+	renderButtonEnvoyer() {
+		if (this.state.isFetching) {
+			return <ActivityIndicator size="large" color="#cc0000" style={{ paddingTop: 45 }} />;
+		}
+		return (
+			<RkButton
+				rkType="social"
+				style={styles.buttonSend}
+				onPress={() => {
+					this.checkCode();
+				}}
+			>
+				<RkText rkType="awesome hero accentColor" style={{ color: 'white' }}>
+					Envoyer
+				</RkText>
+			</RkButton>
+		);
+	}
+
+	renderRenvoiEmail() {
+		if (this.state.sendingMail) {
+			return <ActivityIndicator size="large" color="white" style={{ paddingTop: 45 }} />;
+		}
+		return (
+			<View>
+				<RkText
+					style={{
+						color: 'white',
+						marginTop: 50,
+						marginLeft: 50,
+					}}
+				>
+					Pensez à consulter vos spams ou{' '}
+				</RkText>
+				<RkButton
+					rkType="clear"
+					style={{}}
+					onPress={() => {
+						this.sendNewPassword();
+					}}
+				>
+					<RkText rkType="header6" style={{ color: 'red' }}>
+						renvoyer un nouveau code
+					</RkText>
+				</RkButton>
+			</View>
+		);
+	}
+
 	render() {
 		return (
 			<KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={55}>
@@ -121,37 +179,8 @@ class Code extends React.Component {
 							}}
 							value={this.state.code}
 						/>
-						<RkButton
-							rkType="social"
-							style={styles.buttonSend}
-							onPress={() => {
-								this.checkCode();
-							}}
-						>
-							<RkText rkType="awesome hero accentColor" style={{ color: 'white' }}>
-								Envoyer
-							</RkText>
-						</RkButton>
-						<RkText
-							style={{
-								color: 'white',
-								marginTop: 50,
-								marginLeft: 50,
-							}}
-						>
-							Pensez à consulter vos spams ou{' '}
-						</RkText>
-						<RkButton
-							rkType="clear"
-							style={{}}
-							onPress={() => {
-								this.sendNewPassword();
-							}}
-						>
-							<RkText rkType="header6" style={{ color: 'red' }}>
-								renvoyer un nouveau code
-							</RkText>
-						</RkButton>
+						{this.renderButtonEnvoyer()}
+						{this.renderRenvoiEmail()}
 					</ScrollView>
 				</View>
 			</KeyboardAvoidingView>
