@@ -35,11 +35,10 @@ class Code extends React.Component {
 	sendNewPassword() {
 		api()
 			.post(URL.passwordRecovery, {
-				email: this.props.email,
+				user: this.props.email,
 			})
 			.then((response) => {
 				this.setState({
-					token: response.data.payload,
 					message: response.data.message,
 				});
 				this.toogleModal();
