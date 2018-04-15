@@ -159,7 +159,7 @@ class PresentationEventTournoi extends React.Component {
 						<Text>
 							<Text> (Liste des inscris </Text>
 							<Text
-								style={{ color: 'red' }}
+								style={{ color: '#cc0000' }}
 								onPress={() => {
 									this.getLstEquipes(tournoi.id_tournoi);
 									this.toggleModalEquipes();
@@ -230,7 +230,7 @@ class PresentationEventTournoi extends React.Component {
 
 	renderButtonInscription(tournoi) {
 		if (this.state.isFetchingTeamName) {
-			return <ActivityIndicator size="large" color="red" style={{ paddingTop: 15 }} />;
+			return <ActivityIndicator size="large" color="#cc0000" style={{ paddingTop: 15 }} />;
 		}
 		return (
 			<View style={Styles.btnSubscribeContainer}>

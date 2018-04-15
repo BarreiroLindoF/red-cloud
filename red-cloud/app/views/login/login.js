@@ -121,7 +121,7 @@ class Login extends React.Component {
 
 	renderLoginButton() {
 		if (this.state.isFetching) {
-			return <ActivityIndicator size="large" color="red" style={{ paddingTop: 15 }} />;
+			return <ActivityIndicator size="large" color="#cc0000" style={{ paddingTop: 15 }} />;
 		}
 		return (
 			<RkButton

@@ -176,7 +176,7 @@ class Signup extends React.Component {
 
 	renderButtonSuivant() {
 		if (this.state.isFetching) {
-			return <ActivityIndicator size="large" color="red" style={{ paddingTop: 15 }} />;
+			return <ActivityIndicator size="large" color="#cc0000" style={{ paddingTop: 15 }} />;
 		}
 		return (
 			<RkButton
@@ -276,7 +276,7 @@ class Signup extends React.Component {
 								navigate('Login');
 							}}
 						>
-							<RkText style={{ color: 'red' }}> Connectez-vous ici </RkText>
+							<RkText style={{ color: '#cc0000' }}> Connectez-vous ici </RkText>
 						</RkButton>
 					</View>
 				</View>

@@ -113,7 +113,7 @@ class Code extends React.Component {
 
 	renderButtonEnvoyer() {
 		if (this.state.isFetching) {
-			return <ActivityIndicator size="large" color="red" style={{ paddingTop: 45 }} />;
+			return <ActivityIndicator size="large" color="#cc0000" style={{ paddingTop: 45 }} />;
 		}
 		return (
 			<RkButton
