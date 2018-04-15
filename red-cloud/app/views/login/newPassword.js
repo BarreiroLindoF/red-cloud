@@ -8,6 +8,7 @@ import { NavigationActions } from 'react-navigation';
 import { api, URL } from '../../rest/api';
 import { checkPassword } from '../../common/check';
 import LogoHeader from './../../components/avatar/logoHeader';
+import stylesBlack from './../../styles/StyleSheetB';
 
 const styleFile = require('./style/styles');
 
@@ -138,12 +139,12 @@ class NewPassword extends React.Component {
 						/>
 						<RkButton
 							rkType="social"
-							style={styles.buttonSend}
+							style={stylesBlack.btnStyle}
 							onPress={() => {
 								this.checkPasswords();
 							}}
 						>
-							<RkText rkType="awesome hero accentColor" style={{ color: 'white' }}>
+							<RkText rkType="awesome hero accentColor" style={stylesBlack.btnFont}>
 								Envoyer
 							</RkText>
 						</RkButton>

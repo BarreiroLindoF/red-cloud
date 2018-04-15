@@ -5,6 +5,7 @@ import Signup from './../views/login/signup';
 import ListeJeux from './../views/login/listeJeux';
 import Conditions from './../views/login/conditions';
 import Exemple from './../views/exemple/exemple';
+import ExempleB from './../views/exemple/exempleB';
 import Tournois from './../views/tournois/tournois';
 import CreateTeam from './../views/tournois/createTeam';
 import PresentationTournoi from './../views/tournois/presentationTournoi';
@@ -25,6 +26,7 @@ export const Routes = StackNavigator(
 		Code: { screen: Code },
 		NewPassword: { screen: NewPassword },
 		Exemple: { screen: Exemple },
+		ExempleB: { screen: ExempleB },
 	},
 	{
 		navigationOptions: {

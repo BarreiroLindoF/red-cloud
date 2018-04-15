@@ -167,18 +167,15 @@ class Signup extends React.Component {
 	render() {
 		const { navigate } = this.props.navigation;
 		return (
-			<KeyboardAvoidingView style={styleFile.screen} behavior="padding" keyboardVerticalOffset={55}>
+			<KeyboardAvoidingView
+				style={stylesBlack.mainContentContainer}
+				behavior="padding"
+				keyboardVerticalOffset={55}
+			>
 				<View>
 					<Text style={stylesBlack.title}>Crée ton compte</Text>
 				</View>
-				<View
-					style={{
-						flex: 1,
-						paddingLeft: 10,
-						flexDirection: 'column',
-						justifyContent: 'space-between',
-					}}
-				>
+				<View>
 					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
 						<Hoshi
 							label={'Nom'}
@@ -239,20 +236,20 @@ class Signup extends React.Component {
 						/>
 					</ScrollView>
 				</View>
-				<View style={styles.save}>
+				<View style={stylesBlack.btnPosition}>
 					<RkButton
-						style={{ backgroundColor: 'white' }}
+						style={stylesBlack.btnStyle}
 						rkType="social"
 						onPress={() => {
 							Keyboard.dismiss();
 							this.check();
 						}}
 					>
-						<RkText style={{ color: 'black' }}>Suivant</RkText>
+						<RkText>Suivant</RkText>
 					</RkButton>
 				</View>
-				<View style={styles.footer}>
-					<View style={styles.textRow}>
+				<View style={stylesBlack.footerAccounts}>
+					<View>
 						<RkText style={{ color: 'white' }} rkType="primary3">
 							Vous avez déjà un compte ?
 						</RkText>
@@ -262,7 +259,7 @@ class Signup extends React.Component {
 								navigate('Login');
 							}}
 						>
-							<RkText style={{ color: 'red' }}> Connectez-vous ici </RkText>
+							<RkText style={stylesBlack.linkText}> Connectez-vous ici </RkText>
 						</RkButton>
 					</View>
 				</View>
@@ -271,23 +268,5 @@ class Signup extends React.Component {
 		);
 	}
 }
-
-//eslint-disable-next-line
-let styles = RkStyleSheet.create(() => ({
-	save: {
-		marginTop: 25,
-		marginBottom: 10,
-		flexDirection: 'row',
-		justifyContent: 'flex-end',
-	},
-	footer: {
-		justifyContent: 'flex-end',
-		marginBottom: 5,
-	},
-	textRow: {
-		flexDirection: 'row',
-		justifyContent: 'center',
-	},
-}));
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);
