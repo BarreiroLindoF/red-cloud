@@ -132,7 +132,8 @@ class Signup extends React.Component {
 				}
 			})
 			.catch((error) => {
-				console.log(error);
+				this.setState({ isFetching: false });
+				console.error(error);
 			});
 	}
 

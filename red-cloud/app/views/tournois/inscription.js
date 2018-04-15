@@ -51,6 +51,7 @@ class Inscription extends React.Component {
 				}
 			})
 			.catch((error) => {
+				this.setState({ isFetching: false });
 				console.error(error);
 			});
 	}

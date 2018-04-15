@@ -55,6 +55,10 @@ class PasswordRecovery extends React.Component {
 				this.setState({ isFetching: false, apiResponse: response.data });
 				this.props.updateEmail(this.state.apiResponse.payload);
 				this.toogleModal();
+			})
+			.catch((error) => {
+				console.error(error);
+				this.setState({ isFetching: false });
 			});
 	}
 

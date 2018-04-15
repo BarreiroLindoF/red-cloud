@@ -66,7 +66,8 @@ class NewPassword extends React.Component {
 					this.setState({ isFetching: false, apiResponse: response.data, message: 'Mot de passe modifié' });
 					this.toogleModal();
 				})
-				.catch(() => {
+				.catch((error) => {
+					console.error(error);
 					this.setState({ isFetching: false });
 				});
 		} else {

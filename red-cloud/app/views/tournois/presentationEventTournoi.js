@@ -80,7 +80,7 @@ class PresentationEventTournoi extends React.Component {
 				console.log(this.state.equipes);
 			})
 			.catch((error) => {
-				console.log(error);
+				console.error(error);
 			});
 	}
 
@@ -130,6 +130,7 @@ class PresentationEventTournoi extends React.Component {
 				}
 			})
 			.catch((error) => {
+				this.setState({ isFetchingTeamName: false });
 				console.error(error);
 			});
 	}

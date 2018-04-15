@@ -45,6 +45,10 @@ class Code extends React.Component {
 					message: response.data.message,
 				});
 				this.toogleModal();
+			})
+			.catch((error) => {
+				console.error(error);
+				this.setState({ sendingMail: false });
 			});
 	}
 
