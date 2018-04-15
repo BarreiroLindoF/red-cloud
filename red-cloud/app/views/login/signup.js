@@ -1,6 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, ScrollView, KeyboardAvoidingView, TouchableOpacity, Text, Keyboard } from 'react-native';
+import {
+	View,
+	ScrollView,
+	KeyboardAvoidingView,
+	TouchableOpacity,
+	Text,
+	Keyboard,
+	ActivityIndicator,
+} from 'react-native';
 import { RkButton, RkText, RkStyleSheet } from 'react-native-ui-kitten';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
@@ -67,6 +75,7 @@ class Signup extends React.Component {
 			modalVisible: false,
 			npa: false,
 			msgModal: '',
+			isFetching: false,
 		};
 		this.emailChanged = this.emailChanged.bind(this);
 		this.npaChanged = this.npaChanged.bind(this);
@@ -107,18 +116,24 @@ class Signup extends React.Component {
 	}
 
 	userExist() {
+		this.setState({ isFetching: true });
 		api()
 			.post(URL.selectUser, {
 				email: this.props.email,
 				pseudo: this.props.pseudo,
 			})
 			.then((response) => {
+				this.setState({ isFetching: false });
 				if (!response.data.success) {
 					this.props.navigation.navigate('ListeJeux');
 				} else {
 					this.setState({ msgModal: response.data.message });
 					this.toogleModal();
 				}
+			})
+			.catch((error) => {
+				this.setState({ isFetching: false });
+				console.error(error);
 			});
 	}
 
@@ -157,6 +172,24 @@ class Signup extends React.Component {
 					</View>
 				</TouchableOpacity>
 			</Modal>
+		);
+	}
+
+	renderButtonSuivant() {
+		if (this.state.isFetching) {
+			return <ActivityIndicator size="large" color="#cc0000" style={{ paddingTop: 15 }} />;
+		}
+		return (
+			<RkButton
+				style={{ backgroundColor: 'white' }}
+				rkType="social"
+				onPress={() => {
+					Keyboard.dismiss();
+					this.check();
+				}}
+			>
+				<RkText style={{ color: 'black' }}>Suivant</RkText>
+			</RkButton>
 		);
 	}
 
@@ -232,18 +265,7 @@ class Signup extends React.Component {
 						/>
 					</ScrollView>
 				</View>
-				<View style={styles.save}>
-					<RkButton
-						style={{ backgroundColor: 'white' }}
-						rkType="social"
-						onPress={() => {
-							Keyboard.dismiss();
-							this.check();
-						}}
-					>
-						<RkText style={{ color: 'black' }}>Suivant</RkText>
-					</RkButton>
-				</View>
+				<View style={styles.save}>{this.renderButtonSuivant()}</View>
 				<View style={styles.footer}>
 					<View style={styles.textRow}>
 						<RkText style={{ color: 'white' }} rkType="primary3">
@@ -255,7 +277,7 @@ class Signup extends React.Component {
 								navigate('Login');
 							}}
 						>
-							<RkText style={{ color: 'red' }}> Connectez-vous ici </RkText>
+							<RkText style={{ color: '#cc0000' }}> Connectez-vous ici </RkText>
 						</RkButton>
 					</View>
 				</View>

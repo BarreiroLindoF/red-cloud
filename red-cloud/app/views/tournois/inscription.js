@@ -1,6 +1,6 @@
 import React from 'react';
 import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
-import { Text, View, KeyboardAvoidingView, ScrollView, TouchableOpacity } from 'react-native';
+import { Text, View, KeyboardAvoidingView, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
 import { StatusBarPadding } from './../../config/header';
@@ -24,11 +24,13 @@ class Inscription extends React.Component {
 			anneeCarte: null,
 			modalVisible: false,
 			errorMessage: '',
+			isFetching: false,
 		};
 	}
 
 	inscription() {
 		const url = URL.inscription.replace('{$id}', this.props.navigation.state.params.idTournoi);
+		this.setState({ isFetching: true });
 		api()
 			.post(url, {
 				nom_equipe: this.props.navigation.state.params.nomEquipe,
@@ -42,12 +44,14 @@ class Inscription extends React.Component {
 					this.props.navigation.navigate('Tabs');
 				} else {
 					this.setState({
+						isFetching: false,
 						errorMessage: response.data.message,
 						modalVisible: true,
 					});
 				}
 			})
 			.catch((error) => {
+				this.setState({ isFetching: false });
 				console.error(error);
 			});
 	}
@@ -82,6 +86,23 @@ class Inscription extends React.Component {
 					</View>
 				</TouchableOpacity>
 			</Modal>
+		);
+	}
+
+	renderButtonInscrire() {
+		if (this.state.isFetching) {
+			return <ActivityIndicator size="large" color="white" style={{ paddingTop: 15 }} />;
+		}
+		return (
+			<RkButton
+				rkType="social"
+				style={styles.buttonSignIn}
+				onPress={() => {
+					this.inscription();
+				}}
+			>
+				<RkText rkType="awesome hero accentColor">S'inscrire</RkText>
+			</RkButton>
 		);
 	}
 
@@ -139,15 +160,7 @@ class Inscription extends React.Component {
 							borderColor={true ? 'grey' : '#ff4444'}
 							value={this.state.anneeCarte}
 						/>
-						<RkButton
-							rkType="social"
-							style={styles.buttonSignIn}
-							onPress={() => {
-								this.inscription();
-							}}
-						>
-							<RkText rkType="awesome hero accentColor">S'inscrire</RkText>
-						</RkButton>
+						{this.renderButtonInscrire()}
 					</ScrollView>
 				</View>
 			</KeyboardAvoidingView>
