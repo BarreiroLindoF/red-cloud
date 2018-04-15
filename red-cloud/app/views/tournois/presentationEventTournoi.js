@@ -1,5 +1,15 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image, Linking, Share, FlatList } from 'react-native';
+import {
+	View,
+	Text,
+	ScrollView,
+	TouchableOpacity,
+	Image,
+	Linking,
+	Share,
+	FlatList,
+	ActivityIndicator,
+} from 'react-native';
 import { RkButton, RkTheme, RkText } from 'react-native-ui-kitten';
 import Modal from 'react-native-modalbox';
 import { Hoshi } from 'react-native-textinput-effects';
@@ -45,6 +55,7 @@ class PresentationEventTournoi extends React.Component {
 			modalVisible: false,
 			modalEquipesVisible: false,
 			equipes: [],
+			isFetchingTeamName: false,
 		};
 		const params = this.getNavigationParams();
 		if (params.eventDisplay !== undefined && params.eventDisplay !== false) {
@@ -102,11 +113,13 @@ class PresentationEventTournoi extends React.Component {
 			return;
 		}
 		const url = URL.teamCheck.replace('{$id}', idTournoi);
+		this.setState({ isFetchingTeamName: true });
 		api()
 			.post(url, {
 				nom_equipe: nomEquipe,
 			})
 			.then((response) => {
+				this.setState({ isFetchingTeamName: false });
 				if (response.data.success) {
 					this.props.navigation.navigate('Inscription', {
 						nomEquipe,
@@ -215,6 +228,24 @@ class PresentationEventTournoi extends React.Component {
 		);
 	}
 
+	renderButtonInscription(tournoi) {
+		if (this.state.isFetchingTeamName) {
+			return <ActivityIndicator size="large" color="red" style={{ paddingTop: 15 }} />;
+		}
+		return (
+			<View style={Styles.btnSubscribeContainer}>
+				<RkButton
+					rkType="dark"
+					onPress={() => {
+						this.checkTeamName(this.state.nomEquipe, tournoi.id_tournoi);
+					}}
+				>
+					<RkText style={Styles.fontBtn}> Inscris toi ! </RkText>
+				</RkButton>
+			</View>
+		);
+	}
+
 	renderInscription(tournoi, date) {
 		if (tournoi.participants_max - tournoi.participants > 0) {
 			return (
@@ -234,16 +265,7 @@ class PresentationEventTournoi extends React.Component {
 						borderColor={this.state.nomEquipe !== '' ? 'grey' : '#ff4444'}
 						value={this.state.nomEquipe}
 					/>
-					<View style={Styles.btnSubscribeContainer}>
-						<RkButton
-							rkType="dark"
-							onPress={() => {
-								this.checkTeamName(this.state.nomEquipe, tournoi.id_tournoi);
-							}}
-						>
-							<RkText style={Styles.fontBtn}> Inscris toi ! </RkText>
-						</RkButton>
-					</View>
+					{this.renderButtonInscription(tournoi)}
 				</View>
 			);
 		}
