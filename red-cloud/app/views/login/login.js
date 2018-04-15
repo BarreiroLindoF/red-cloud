@@ -65,6 +65,7 @@ class Login extends React.Component {
 						isFetching: false,
 					});
 				} else {
+					this.setState({ isFetching: false });
 					this.props.navigation.navigate('PasswordRecovery');
 				}
 			})
@@ -177,6 +178,7 @@ class Login extends React.Component {
 								marginLeft: 160,
 							}}
 							onPress={() => {
+								this.setState({ isFetching: false });
 								this.props.navigation.navigate('Signup');
 							}}
 							title="Signup"
@@ -189,6 +191,7 @@ class Login extends React.Component {
 							rkType="clear"
 							style={{ marginTop: 20 }}
 							onPress={() => {
+								this.setState({ isFetching: false });
 								this.props.navigation.navigate('PasswordRecovery');
 							}}
 						>

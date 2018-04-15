@@ -1,6 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { View, ScrollView, KeyboardAvoidingView, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+	View,
+	ScrollView,
+	KeyboardAvoidingView,
+	Text,
+	StyleSheet,
+	TouchableOpacity,
+	ActivityIndicator,
+} from 'react-native';
 import { RkText, RkButton } from 'react-native-ui-kitten';
 import CheckBox from 'react-native-check-box';
 import Modal from 'react-native-modalbox';
@@ -53,7 +61,9 @@ class ListeJeux extends React.Component {
 			],
 			checkedByUser: [],
 			modalVisible: false,
-			conditionsAccepted: false,
+			modalMessage: '',
+			isFetching: false,
+			userCreated: false,
 		};
 	}
 
@@ -71,6 +81,14 @@ class ListeJeux extends React.Component {
 	}
 
 	createUser() {
+		if (!this.props.conditions) {
+			this.setState({
+				modalMessage: 'Merci de bien vouloir accepter les condtions avant de finaliser votre compte.',
+				modalVisible: true,
+			});
+			return;
+		}
+		this.setState({ isFetching: true });
 		api()
 			.post(URL.register, {
 				nom: this.props.nom,
@@ -90,17 +108,25 @@ class ListeJeux extends React.Component {
 							password: this.props.password,
 						})
 						.then((response) => {
+							this.setState({ isFetching: false });
 							if (response.data.success) {
 								this.props.updateToken(response.data.payload);
-								this.openEvents();
+								this.setState({
+									userCreated: true,
+									modalMessage:
+										'Votre compte a été crée avec succès ! Vous allez être redirigé vers la liste des tournois.',
+									modalVisible: true,
+								});
 							}
 						})
 						.catch((error) => {
+							this.setState({ isFetching: false });
 							console.error(error);
 						});
 				}
 			})
 			.catch((error) => {
+				this.setState({ isFetching: false });
 				console.log(error);
 			});
 	}
@@ -126,18 +152,14 @@ class ListeJeux extends React.Component {
 				position={'center'}
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
-				onClosed={() => {
-					return this.props.conditions ? this.createUser() : '';
-				}}
 			>
-				<RkButton rkType="clear">
-					{this.props.conditions
-						? 'Votre compte a été crée avec succès ! Vous allez être redirigé vers la liste des tournois.'
-						: 'Merci de bien vouloir accepter les condtions avant de finaliser votre compte.'}
-				</RkButton>
+				<RkButton rkType="clear">{this.state.modalMessage}</RkButton>
 				<TouchableOpacity
 					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
 					onPress={() => {
+						if (this.state.userCreated) {
+							this.openEvents();
+						}
 						this.toogleModal();
 					}}
 				>
@@ -160,6 +182,29 @@ class ListeJeux extends React.Component {
 				checkBoxColor="white"
 			/>
 		));
+	}
+
+	renderSuivant() {
+		if (this.state.isFetching) {
+			return (
+				<View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 35 }}>
+					<ActivityIndicator size="large" color="#cc0000" style={{ paddingTop: 15 }} />
+				</View>
+			);
+		}
+		return (
+			<View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 35 }}>
+				<RkButton
+					style={{ backgroundColor: 'white' }}
+					rkType="social"
+					onPress={() => {
+						this.createUser();
+					}}
+				>
+					<RkText style={{ color: 'black' }}>Suivant</RkText>
+				</RkButton>
+			</View>
+		);
 	}
 
 	render() {
@@ -208,17 +253,7 @@ class ListeJeux extends React.Component {
 					</View>
 				</View>
 				{this.renderModal()}
-				<View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 35 }}>
-					<RkButton
-						style={{ backgroundColor: 'white' }}
-						rkType="social"
-						onPress={() => {
-							this.toogleModal();
-						}}
-					>
-						<RkText style={{ color: 'black' }}>Suivant</RkText>
-					</RkButton>
-				</View>
+				{this.renderSuivant()}
 			</KeyboardAvoidingView>
 		);
 	}
