@@ -5,7 +5,7 @@ import { NavigationComponent } from 'react-native-material-bottom-navigation';
 import Tournois from './../views/tournois/tournois';
 import Menu from './../views/exemple/menu';
 import Contact from './../views/exemple/contact';
-import Params from './../views/exemple/params';
+import Params from './../views/parametres/params';
 
 // Configuration imports
 import { StatusBarPadding } from './header';

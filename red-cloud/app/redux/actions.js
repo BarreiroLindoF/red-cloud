@@ -1,3 +1,4 @@
+export const RESET = 'RESET';
 export const UPDATE_NOM = 'UPDATE_NOM';
 export const UPDATE_PRENOM = 'UPDATE_PRENOM';
 export const UPDATE_PSEUDO = 'UPDATE_PSEUDO';
@@ -8,6 +9,12 @@ export const UPDATE_DATE_NAISSANCE = 'UPDATE_DATE_NAISSANCE';
 export const UPDATE_PASSWORD = 'UPDATE_PASSWORD';
 export const UPDATE_TOKEN = 'UPDATE_TOKEN';
 export const UPDATE_CONDITIONS = 'UPDATE_CONDITIONS';
+
+export function resetStore() {
+	return {
+		type: RESET,
+	};
+}
 
 export function updateNom(payload) {
 	return {
