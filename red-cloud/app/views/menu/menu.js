@@ -20,25 +20,30 @@ class Menu extends React.Component {
 			data: null,
 		};
 		this.loadData();
+		this.afficherData = this.afficherData.bind(this);
 	}
 
 	loadData() {
 		api()
 			.get(URL.menu)
 			.then((response) => {
-				console.log(response.data);
+				//console.log(response.data.payload);
 				this.setState(
 					{
 						data: response.data.payload,
 					},
-					console.log(this.state.data),
+					this.afficherData,
 				);
 				//console.log(response.data.payload.Nourritures[1]);
 				//console.log(this.state.data.Nourritures);
 			})
 			.catch((error) => {
-				console.log(error);
+				console.error(error);
 			});
+	}
+
+	afficherData() {
+		console.log(this.state.data.boissons);
 	}
 
 	/*render() {
@@ -55,12 +60,12 @@ class Menu extends React.Component {
                 </View>
             </View>
         );
-    }*/
+	}*/
 
 	render() {
 		return (
 			<View>
-				<Text>{this.state.data.Boissons[0].nom}</Text>
+				<Text>{this.state.data.boissons[0].nom}</Text>
 			</View>
 		);
 	}
