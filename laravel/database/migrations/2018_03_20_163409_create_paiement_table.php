@@ -16,7 +16,7 @@ class CreatePaiementTable extends Migration
         Schema::create('paiement', function (Blueprint $table) {
             $table->increments('id_paiement');
             $table->string('nom_carte');
-            $table->integer('no_carte');
+            $table->bigInteger('no_carte');
             $table->date('date_expiration');
             $table->integer('participation_id_participation')->unsigned();
             $table->integer('pays_id_pays')->unsigned();
