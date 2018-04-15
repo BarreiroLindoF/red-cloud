@@ -130,6 +130,9 @@ class Signup extends React.Component {
 					this.setState({ msgModal: response.data.message });
 					this.toogleModal();
 				}
+			})
+			.catch((error) => {
+				console.log(error);
 			});
 	}
 

@@ -29,16 +29,19 @@ class Code extends React.Component {
 			message: '',
 			token: '',
 			isFetching: false,
+			sendingMail: false,
 		};
 	}
 
 	sendNewPassword() {
+		this.setState({ sendingMail: true });
 		api()
 			.post(URL.passwordRecovery, {
 				user: this.props.email,
 			})
 			.then((response) => {
 				this.setState({
+					sendingMail: false,
 					message: response.data.message,
 				});
 				this.toogleModal();
@@ -127,6 +130,36 @@ class Code extends React.Component {
 		);
 	}
 
+	renderRenvoiEmail() {
+		if (this.state.sendingMail) {
+			return <ActivityIndicator size="large" color="white" style={{ paddingTop: 45 }} />;
+		}
+		return (
+			<View>
+				<RkText
+					style={{
+						color: 'white',
+						marginTop: 50,
+						marginLeft: 50,
+					}}
+				>
+					Pensez à consulter vos spams ou{' '}
+				</RkText>
+				<RkButton
+					rkType="clear"
+					style={{}}
+					onPress={() => {
+						this.sendNewPassword();
+					}}
+				>
+					<RkText rkType="header6" style={{ color: 'red' }}>
+						renvoyer un nouveau code
+					</RkText>
+				</RkButton>
+			</View>
+		);
+	}
+
 	render() {
 		return (
 			<KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={55}>
@@ -143,26 +176,7 @@ class Code extends React.Component {
 							value={this.state.code}
 						/>
 						{this.renderButtonEnvoyer()}
-						<RkText
-							style={{
-								color: 'white',
-								marginTop: 50,
-								marginLeft: 50,
-							}}
-						>
-							Pensez à consulter vos spams ou{' '}
-						</RkText>
-						<RkButton
-							rkType="clear"
-							style={{}}
-							onPress={() => {
-								this.sendNewPassword();
-							}}
-						>
-							<RkText rkType="header6" style={{ color: 'red' }}>
-								renvoyer un nouveau code
-							</RkText>
-						</RkButton>
+						{this.renderRenvoiEmail()}
 					</ScrollView>
 				</View>
 			</KeyboardAvoidingView>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
-import { View, KeyboardAvoidingView, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { View, KeyboardAvoidingView, ScrollView, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
 import { NavigationActions } from 'react-navigation';
@@ -30,6 +30,7 @@ class NewPassword extends React.Component {
 			newPasswordConfirmed: '',
 			apiResponse: '',
 			modalVisible: false,
+			isFetching: false,
 		};
 	}
 
@@ -54,6 +55,7 @@ class NewPassword extends React.Component {
 			errorMessage = 'Veuillez entrer 2x le même mot de passe.';
 		}
 		if (errorMessage === '') {
+			this.setState({ isFetching: true });
 			api()
 				.post(URL.reset, {
 					email: this.props.email,
@@ -61,8 +63,11 @@ class NewPassword extends React.Component {
 					password: this.state.newPasswordConfirmed,
 				})
 				.then((response) => {
-					this.setState({ apiResponse: response.data, message: 'Mot de passe modifié' });
+					this.setState({ isFetching: false, apiResponse: response.data, message: 'Mot de passe modifié' });
 					this.toogleModal();
+				})
+				.catch(() => {
+					this.setState({ isFetching: false });
 				});
 		} else {
 			this.setState({ message: errorMessage });
@@ -102,6 +107,25 @@ class NewPassword extends React.Component {
 		);
 	}
 
+	renderButtonEnvoyer() {
+		if (this.state.isFetching) {
+			return <ActivityIndicator size="large" color="red" style={{ paddingTop: 45 }} />;
+		}
+		return (
+			<RkButton
+				rkType="social"
+				style={styles.buttonSend}
+				onPress={() => {
+					this.checkPasswords();
+				}}
+			>
+				<RkText rkType="awesome hero accentColor" style={{ color: 'white' }}>
+					Envoyer
+				</RkText>
+			</RkButton>
+		);
+	}
+
 	render() {
 		return (
 			<KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={55}>
@@ -133,17 +157,7 @@ class NewPassword extends React.Component {
 							value={this.state.newPasswordConfirmed}
 							secureTextEntry
 						/>
-						<RkButton
-							rkType="social"
-							style={styles.buttonSend}
-							onPress={() => {
-								this.checkPasswords();
-							}}
-						>
-							<RkText rkType="awesome hero accentColor" style={{ color: 'white' }}>
-								Envoyer
-							</RkText>
-						</RkButton>
+						{this.renderButtonEnvoyer()}
 					</ScrollView>
 				</View>
 			</KeyboardAvoidingView>
