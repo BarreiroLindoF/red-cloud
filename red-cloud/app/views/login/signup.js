@@ -15,6 +15,8 @@ import Modal from 'react-native-modalbox';
 import { api, URL } from '../../rest/api';
 import * as Action from './../../redux/actions';
 import * as Check from './../../common/check';
+import LogoHeader from './../../components/avatar/logoHeader';
+import stylesBlack from './../../styles/StyleSheetB';
 
 const styleFile = require('./style/styles');
 
@@ -61,7 +63,9 @@ const mapDispatchToProps = (dispatch) => ({
 class Signup extends React.Component {
 	//eslint-disable-next-line
 	static navigationOptions = {
-		title: 'Création de ton compte',
+		headerTitle: <LogoHeader />,
+		color: 'white',
+		//title: 'Création de ton compte',
 	};
 
 	constructor(props) {
@@ -180,31 +184,33 @@ class Signup extends React.Component {
 			return <ActivityIndicator size="large" color="#cc0000" style={{ paddingTop: 15 }} />;
 		}
 		return (
-			<RkButton
-				style={{ backgroundColor: 'white' }}
-				rkType="social"
-				onPress={() => {
-					Keyboard.dismiss();
-					this.check();
-				}}
-			>
-				<RkText style={{ color: 'black' }}>Suivant</RkText>
-			</RkButton>
+			<View style={stylesBlack.btnPosition}>
+				<RkButton
+					style={stylesBlack.btnStyle}
+					rkType="social"
+					onPress={() => {
+						Keyboard.dismiss();
+						this.check();
+					}}
+				>
+					<RkText>Suivant</RkText>
+				</RkButton>
+			</View>
 		);
 	}
 
 	render() {
 		const { navigate } = this.props.navigation;
 		return (
-			<KeyboardAvoidingView style={styleFile.screen} behavior="padding" keyboardVerticalOffset={55}>
-				<View
-					style={{
-						flex: 1,
-						paddingLeft: 10,
-						flexDirection: 'column',
-						justifyContent: 'space-between',
-					}}
-				>
+			<KeyboardAvoidingView
+				style={stylesBlack.mainContentContainer}
+				behavior="padding"
+				keyboardVerticalOffset={55}
+			>
+				<View>
+					<Text style={stylesBlack.title}>Crée ton compte</Text>
+				</View>
+				<View>
 					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
 						<Hoshi
 							label={'Nom'}
@@ -265,9 +271,10 @@ class Signup extends React.Component {
 						/>
 					</ScrollView>
 				</View>
-				<View style={styles.save}>{this.renderButtonSuivant()}</View>
-				<View style={styles.footer}>
-					<View style={styles.textRow}>
+				{this.renderButtonSuivant()}
+
+				<View style={stylesBlack.footerAccounts}>
+					<View>
 						<RkText style={{ color: 'white' }} rkType="primary3">
 							Vous avez déjà un compte ?
 						</RkText>
@@ -277,7 +284,7 @@ class Signup extends React.Component {
 								navigate('Login');
 							}}
 						>
-							<RkText style={{ color: '#cc0000' }}> Connectez-vous ici </RkText>
+							<RkText style={stylesBlack.linkText}> Connectez-vous ici </RkText>
 						</RkButton>
 					</View>
 				</View>
@@ -286,23 +293,5 @@ class Signup extends React.Component {
 		);
 	}
 }
-
-//eslint-disable-next-line
-let styles = RkStyleSheet.create(() => ({
-	save: {
-		marginTop: 25,
-		marginBottom: 10,
-		flexDirection: 'row',
-		justifyContent: 'flex-end',
-	},
-	footer: {
-		justifyContent: 'flex-end',
-		marginBottom: 5,
-	},
-	textRow: {
-		flexDirection: 'row',
-		justifyContent: 'center',
-	},
-}));
 
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);

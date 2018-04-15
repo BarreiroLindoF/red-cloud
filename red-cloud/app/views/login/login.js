@@ -9,6 +9,7 @@ import { StatusBarPadding } from './../../config/header';
 import { api, URL } from './../../rest/api';
 import { updatePseudo, updatePassword, updateToken } from './../../redux/actions';
 import { checkPassword } from './../../common/check';
+import stylesBlack from './../../styles/StyleSheetB';
 
 const imageSrc = require('../../assets/images/logo.png');
 const styleFile = require('./style/styles');
@@ -88,7 +89,12 @@ class Login extends React.Component {
 	}
 
 	renderImage() {
-		const image = <Image source={imageSrc} style={{ width: 200, height: 270, marginHorizontal: 80 }} />;
+		const image = (
+			<Image
+				source={imageSrc}
+				style={{ width: 200, height: 270, justifyContent: 'center', alignItems: 'center' }}
+			/>
+		);
 		return image;
 	}
 
@@ -126,21 +132,29 @@ class Login extends React.Component {
 			return <ActivityIndicator size="large" color="#cc0000" style={{ paddingTop: 15 }} />;
 		}
 		return (
-			<RkButton
-				rkType="social"
-				style={styles.buttonSignIn}
-				onPress={() => {
-					this.setState({ isFetching: true }, this.checkLogin());
-				}}
-			>
-				<RkText rkType="awesome hero accentColor">Se Connecter</RkText>
-			</RkButton>
+			<View style={stylesBlack.btnPosition}>
+				<RkButton
+					rkType="social"
+					style={stylesBlack.btnStyle}
+					onPress={() => {
+						this.setState({ isFetching: true }, this.checkLogin());
+					}}
+				>
+					<RkText rkType="awesome hero accentColor" style={stylesBlack.btnFont}>
+						Se Connecter
+					</RkText>
+				</RkButton>
+			</View>
 		);
 	}
 
 	render() {
 		return (
-			<KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={55}>
+			<KeyboardAvoidingView
+				style={stylesBlack.mainContentContainer}
+				behavior="padding"
+				keyboardVerticalOffset={55}
+			>
 				<View>
 					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
 						{this.renderImage()}
@@ -173,29 +187,24 @@ class Login extends React.Component {
 						</RkText>
 						<RkButton
 							rkType="clear"
-							style={{
-								marginTop: -20,
-								marginLeft: 160,
-							}}
 							onPress={() => {
 								this.setState({ isFetching: false });
 								this.props.navigation.navigate('Signup');
 							}}
 							title="Signup"
 						>
-							<RkText rktype="header6" style={{ color: 'red' }}>
+							<RkText rktype="header6" style={stylesBlack.linkText}>
 								Inscris toi!
 							</RkText>
 						</RkButton>
 						<RkButton
 							rkType="clear"
-							style={{ marginTop: 20 }}
 							onPress={() => {
 								this.setState({ isFetching: false });
 								this.props.navigation.navigate('PasswordRecovery');
 							}}
 						>
-							<RkText rkType="header6" style={{ color: 'red' }}>
+							<RkText rkType="header6" style={stylesBlack.linkText}>
 								Mot de passe oublié ?
 							</RkText>
 						</RkButton>
@@ -215,36 +224,5 @@ RkTheme.setType('RkTextInput', 'textInputLogin', {
 	color: 'white',
 	placeholderTextColor: 'gray',
 });
-
-let styles = {
-	font: {
-		height: 60,
-		marginHorizontal: 50,
-		color: 'white',
-	},
-	screen: {
-		paddingTop: StatusBarPadding,
-		padding: 10,
-		flex: 1,
-		backgroundColor: 'black',
-	},
-	footer: {
-		justifyContent: 'flex-end',
-		flex: 1,
-	},
-	buttonSignIn: {
-		backgroundColor: 'white',
-		marginLeft: 50,
-		marginTop: 20,
-		width: 250,
-	},
-	save: {
-		marginVertical: 9,
-	},
-	textRow: {
-		justifyContent: 'center',
-		flexDirection: 'row',
-	},
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

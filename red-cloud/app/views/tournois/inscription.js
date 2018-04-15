@@ -4,6 +4,7 @@ import { Text, View, KeyboardAvoidingView, ScrollView, TouchableOpacity, Activit
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
 import { StatusBarPadding } from './../../config/header';
+import * as Check from './../../common/check';
 import { api, URL } from './../../rest/api';
 
 const styleFile = require('./styles');
@@ -25,6 +26,7 @@ class Inscription extends React.Component {
 			modalVisible: false,
 			errorMessage: '',
 			isFetching: false,
+			inscriptionFaite: false,
 		};
 	}
 
@@ -41,7 +43,11 @@ class Inscription extends React.Component {
 			})
 			.then((response) => {
 				if (response.data.success) {
-					this.props.navigation.navigate('Tabs');
+					this.setState({
+						inscriptionFaite: true,
+						errorMessage: 'Inscription validée!',
+						modalVisible: true,
+					});
 				} else {
 					this.setState({
 						isFetching: false,
@@ -79,6 +85,9 @@ class Inscription extends React.Component {
 					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
 					onPress={() => {
 						this.toggleModal();
+						if (this.state.inscriptionFaite) {
+							this.props.navigation.navigate('Tabs');
+						}
 					}}
 				>
 					<View>
@@ -121,7 +130,7 @@ class Inscription extends React.Component {
 							onChangeText={(nomCarte) => {
 								this.setState({ nomCarte });
 							}}
-							borderColor={true ? 'grey' : '#ff4444'}
+							borderColor={this.state.nomCarte !== '' ? 'grey' : '#ff4444'}
 							value={this.state.nomCarte}
 						/>
 						<Hoshi
@@ -130,7 +139,7 @@ class Inscription extends React.Component {
 							onChangeText={(noCarte) => {
 								this.setState({ noCarte });
 							}}
-							borderColor={true ? 'grey' : '#ff4444'}
+							borderColor={Check.checkNumeroCarte(this.state.noCarte) ? 'grey' : '#ff4444'}
 							value={this.state.noCarte}
 						/>
 						<Hoshi
@@ -139,7 +148,7 @@ class Inscription extends React.Component {
 							onChangeText={(troisChiffres) => {
 								this.setState({ troisChiffres });
 							}}
-							borderColor={true ? 'grey' : '#ff4444'}
+							borderColor={Check.checkTroisChiffresCarte(this.state.troisChiffres) ? 'grey' : '#ff4444'}
 							value={this.state.troisChiffres}
 						/>
 						<Hoshi
@@ -148,7 +157,7 @@ class Inscription extends React.Component {
 							onChangeText={(moisCarte) => {
 								this.setState({ moisCarte });
 							}}
-							borderColor={true ? 'grey' : '#ff4444'}
+							borderColor={Check.checkMonth(this.state.moisCarte) ? 'grey' : '#ff4444'}
 							value={this.state.moisCarte}
 						/>
 						<Hoshi
@@ -157,7 +166,7 @@ class Inscription extends React.Component {
 							onChangeText={(anneeCarte) => {
 								this.setState({ anneeCarte });
 							}}
-							borderColor={true ? 'grey' : '#ff4444'}
+							borderColor={Check.checkAnneeCarte(this.state.anneeCarte) ? 'grey' : '#ff4444'}
 							value={this.state.anneeCarte}
 						/>
 						{this.renderButtonInscrire()}

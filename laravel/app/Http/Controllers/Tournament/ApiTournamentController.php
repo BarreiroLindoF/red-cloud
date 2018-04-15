@@ -16,12 +16,22 @@ class ApiTournamentController extends Controller
     public function getTournois(Request $request) {
         $idEvent = $request->id;
         $tournaments = Tournoi::select('*')->where('event_id_event',$idEvent)->get();
+        $user = \JWTAuth::parseToken()->authenticate();
 
         foreach ($tournaments as $tournament) {
             $tournament->setAttribute('imageUri', $request->root() . $tournament->pathToImages . $tournament->getAttribute('imageUri'));
             $idTournament = $tournament->getAttribute('id_tournoi');
             $tournament->setAttribute('reglementUri',$request->root() . $tournament->pathToRules . $tournament->getAttribute('reglementUri'));
             $tournament->participants = Participation::where('tournoi_id_tournoi', $idTournament)->count();
+            $participations = Participation::where('tournoi_id_tournoi', $idTournament)->get();
+            $tournament->inscrit = false;
+            foreach ($participations as $participation) {
+                if ($participation->getAttribute('user_id_user') === $user->id) {
+                    $tournament->inscrit = true;
+                    break;
+                }
+            }
+            $tournament->participants = $participations->count();
         }
 
         return response()->json(new JsonResponse(true, $tournaments , null));
@@ -64,7 +74,6 @@ class ApiTournamentController extends Controller
         $paiement->setAttribute('participation_id_participation', $participation->getAttribute('id_participation'));
         $paiement->setAttribute('pays_id_pays', 1);
         $paiement->save();
-
         return response()->json(new JsonResponse(true, $paiement, null));
 
         /*$tournoi = Tournoi::find($idTournoi);
