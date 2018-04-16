@@ -56,9 +56,12 @@ class Inscription extends React.Component {
 					});
 				}
 			})
-			.catch((error) => {
-				this.setState({ isFetching: false });
-				console.error(error);
+			.catch(() => {
+				this.setState({
+					isFetching: false,
+					errorMessage: "Problème de connexion au serveur lors de l'inscription",
+					modalVisible: true,
+				});
 			});
 	}
 
