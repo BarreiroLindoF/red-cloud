@@ -133,9 +133,12 @@ class Signup extends React.Component {
 					this.toogleModal();
 				}
 			})
-			.catch((error) => {
-				this.setState({ isFetching: false });
-				console.error(error);
+			.catch(() => {
+				this.setState({
+					isFetching: false,
+					msgModal: 'Problème lors de la connexion au serveur',
+					modalVisible: true,
+				});
 			});
 	}
 

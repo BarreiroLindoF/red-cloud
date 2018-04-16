@@ -126,12 +126,21 @@ class PresentationEventTournoi extends React.Component {
 						idTournoi,
 					});
 				} else {
-					this.setState({ errorMessage: response.data.message }, this.toggleModal());
+					this.setState(
+						{
+							isFetchingTeamName: false,
+							errorMessage: response.data.message,
+						},
+						this.toggleModal(),
+					);
 				}
 			})
-			.catch((error) => {
-				this.setState({ isFetchingTeamName: false });
-				console.error(error);
+			.catch(() => {
+				this.setState({
+					isFetchingTeamName: false,
+					errorMessage: "Problèmes de connexion au serveur lors de l'inscription !",
+					modalVisible: true,
+				});
 			});
 	}
 

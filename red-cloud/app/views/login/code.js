@@ -46,9 +46,12 @@ class Code extends React.Component {
 				});
 				this.toogleModal();
 			})
-			.catch((error) => {
-				console.error(error);
-				this.setState({ sendingMail: false });
+			.catch(() => {
+				this.setState({
+					sendingMail: false,
+					message: "Problème de connexion au serveur lors de l'envoi du mail.",
+					modalVisible: true,
+				});
 			});
 	}
 
@@ -80,6 +83,13 @@ class Code extends React.Component {
 					this.setState({ message: 'Code invalide', isFetching: false });
 				}
 				this.toogleModal();
+			})
+			.catch(() => {
+				this.setState({
+					message: 'Problème de connexion au serveur lors de la vérification du code !',
+					isFetching: false,
+					modalVisible: true,
+				});
 			});
 	}
 
