@@ -13,6 +13,7 @@ import PresentationEventTournoi from './../views/tournois/presentationEventTourn
 import Code from './../views/login/code';
 import NewPassword from './../views/login/newPassword';
 import Exemple from './../views/exemple/exemple';
+import Menu from './../views/menu/menu';
 
 // Configuration imports
 import { StatusBarPadding } from './header';
@@ -31,6 +32,7 @@ export const Routes = StackNavigator(
 		Inscription: { screen: Inscription },
 		Tabs: { screen: Tabs },
 		Exemple: { screen: Exemple },
+		Menu: { screen: Menu },
 	},
 	{
 		navigationOptions: {
