@@ -40,9 +40,10 @@ Route::group(['middleware' => ['api','cors']], function () {
     Route::get('tournois/{id}/participants', 'Participations\ApiParticipationsController@getParticipants');
 
     Route::get('menu', 'Menu\ApiMenuController@getMenu');
+    Route::get('categorie/{idCat}', 'Menu\ApiMenuController@getCategorie');
     Route::get('offres', 'Menu\ApiOffresController@getOffres');
     Route::get('offre/{id}', 'Menu\ApiOffresController@getOffre');
-
+    
     Route::get('events', 'Events\ApiEventsController@getEvents');
     Route::get('events/{id}/tournaments', 'Tournament\ApiTournamentController@getTournois');
 });
