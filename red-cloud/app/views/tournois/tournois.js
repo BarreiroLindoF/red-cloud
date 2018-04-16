@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { FlatList, View, Image, TouchableOpacity } from 'react-native';
+import { FlatList, View, Image, TouchableOpacity, Text } from 'react-native';
 import { RkCard, RkStyleSheet, RkText } from 'react-native-ui-kitten';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { StatusBarPaddingView } from './../../config/header';
@@ -72,8 +72,7 @@ class Tournois extends React.Component {
 
 	renderItem(info) {
 		return (
-			<View>
-				<StatusBarPaddingView />
+			<View style={Styles.container}>
 				<TouchableOpacity
 					delayPressIn={70}
 					activeOpacity={0.8}
@@ -116,16 +115,22 @@ class Tournois extends React.Component {
 
 	render() {
 		return (
-			<FlatList
-				data={this.state.data}
-				renderItem={this.renderItem}
-				keyExtractor={this.keyExtractor}
-				refreshing={this.state.isFetching}
-				onRefresh={() => {
-					this.loadPosts();
-				}}
-				contentContainerStyle={styles.container}
-			/>
+			<View style={Styles.container}>
+				<StatusBarPaddingView />
+				<View style={Styles.rubanHaut}>
+					<Text style={Styles.title}>Événement</Text>
+				</View>
+				<FlatList
+					data={this.state.data}
+					renderItem={this.renderItem}
+					keyExtractor={this.keyExtractor}
+					refreshing={this.state.isFetching}
+					onRefresh={() => {
+						this.loadPosts();
+					}}
+					contentContainerStyle={styles.container}
+				/>
+			</View>
 		);
 	}
 }
@@ -145,6 +150,55 @@ const styles = RkStyleSheet.create((theme) => ({
 		fontWeight: 'bold',
 	},
 	footer: {},
+}));
+
+let Styles = RkStyleSheet.create((theme) => ({
+	containerCard: {
+		backgroundColor: theme.colors.screen.scroll,
+		paddingVertical: 8,
+		paddingHorizontal: 12,
+	},
+	card: {
+		marginVertical: 8,
+	},
+	centerContent: {
+		alignItems: 'center',
+	},
+	boldText: {
+		fontWeight: 'bold',
+	},
+	logo: {
+		width: 200,
+		height: 200,
+		resizeMode: 'stretch',
+	},
+	container: {
+		flex: 1,
+		backgroundColor: 'white',
+	},
+	rubanHaut: {
+		backgroundColor: '#cc0000',
+		paddingBottom: 10,
+		paddingTop: 10,
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'flex-start',
+		borderColor: 'black',
+		borderBottomWidth: 1,
+		borderTopWidth: 1,
+	},
+	title: {
+		color: 'white',
+		backgroundColor: 'black',
+		padding: 10,
+		fontWeight: 'bold',
+		fontFamily: 'monospace',
+	},
+	containerScrollView: {
+		backgroundColor: 'white',
+		flex: 1,
+		marginBottom: 10,
+	},
 }));
 
 export default connect(mapStateToProps)(Tournois);

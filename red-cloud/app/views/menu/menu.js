@@ -81,7 +81,7 @@ class Menu extends React.Component {
 	}
 	render() {
 		return (
-			<View>
+			<View style={Styles.container}>
 				<StatusBarPaddingView />
 				<View style={Styles.rubanHaut}>
 					<Text style={Styles.title}>Menu</Text>
@@ -128,6 +128,10 @@ const styles = RkStyleSheet.create((theme) => ({
 }));
 
 const Styles = {
+	container: {
+		flex: 1,
+		backgroundColor: 'white',
+	},
 	rubanHaut: {
 		backgroundColor: '#cc0000',
 		paddingBottom: 10,

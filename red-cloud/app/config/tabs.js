@@ -29,7 +29,7 @@ export default TabNavigator(
 	{
 		navigationOptions: { headerStyle: { marginTop: StatusBarPadding } },
 		backBehavior: 'none',
-		lazy: true,
+		lazy: false,
 		tabBarComponent: NavigationComponent,
 		tabBarPosition: 'bottom',
 		tabBarOptions: {

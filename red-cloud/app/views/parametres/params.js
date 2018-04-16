@@ -58,7 +58,6 @@ class Params extends React.Component {
 				<View style={Styles.rubanHaut}>
 					<Text style={Styles.title}>Paramètres</Text>
 				</View>
-				<StatusBarPaddingView />
 				<View style={Styles.containerCard}>{this.renderDeconnexion()}</View>
 			</View>
 		);
