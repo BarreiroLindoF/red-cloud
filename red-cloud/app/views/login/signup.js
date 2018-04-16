@@ -273,6 +273,7 @@ class Signup extends React.Component {
 								height: 50,
 								borderBottomColor: '#b9c1ca',
 								borderBottomWidth: 2,
+								marginTop: 10,
 							}}
 						>
 							<RkButton
@@ -289,7 +290,9 @@ class Signup extends React.Component {
 									style={{
 										color: '#6a7989',
 										paddingLeft: '0.5%',
-										fontSize: 16,
+										fontSize: this.state.dateNaissance === 'Date de naissance' ? 16 : 18,
+										fontWeight:
+											this.state.dateNaissance !== 'Date de naissance' ? 'bold' : 'normal',
 									}}
 								>
 									{' '}
