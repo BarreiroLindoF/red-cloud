@@ -1,7 +1,10 @@
 import React from 'react';
 import { Text, View, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { RkStyleSheet } from 'react-native-ui-kitten';
+
 import { StatusBarPaddingView } from './../../config/header';
+
 import { api, URL } from './../../rest/api';
 
 class Menu extends React.Component {
@@ -17,59 +20,84 @@ class Menu extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data: null,
+			boissons: [],
+			nourritures: [],
+			isFetching: false,
 		};
 		this.loadData();
-		this.afficherData = this.afficherData.bind(this);
 	}
 
 	loadData() {
+		this.setState({ isFetching: true });
 		api()
 			.get(URL.menu)
 			.then((response) => {
-				//console.log(response.data.payload);
-				this.setState(
-					{
-						data: response.data.payload,
-					},
-					this.afficherData,
-				);
-				//console.log(response.data.payload.Nourritures[1]);
-				//console.log(this.state.data.Nourritures);
+				this.setState({
+					isFetching: false,
+					boissons: response.data.payload.boissons,
+					nourritures: response.data.payload.nourritures,
+				});
 			})
 			.catch((error) => {
-				console.error(error);
+				console.log(error);
 			});
 	}
 
-	afficherData() {
-		console.log(this.state.data.boissons);
+	keyExtractorNourriture(nourriture) {
+		return nourriture.id_nourriture;
 	}
 
-	/*render() {
-        return (
-            <View>
-                <StatusBarPaddingView />
-                <View style={Styles.rubanHaut}>
-					<Text style={Styles.title}>Menu</Text>
-				</View>
-                <View>
-                    <Text style={Styles.subTitle}> Nourriture </Text>
-                    <Text>{this.state.data}</Text>
-                    <Text style={Styles.subTitle}> Boisson </Text>
-                </View>
-            </View>
-        );
-	}*/
+	keyExtractorBoisson(boisson) {
+		return boisson.id_boisson;
+	}
 
+	renderNourriture(nourriture) {
+		return <Text>{nourriture.item.nom}</Text>;
+	}
+
+	renderBoisson(boisson) {
+		return (
+			<View>
+				<Text>{boisson.item.nom}</Text>
+			</View>
+		);
+	}
 	render() {
 		return (
 			<View>
-				<Text>{this.state.data.boissons[0].nom}</Text>
+				<StatusBarPaddingView />
+				<FlatList
+					data={this.state.boissons}
+					renderItem={this.renderBoisson}
+					keyExtractor={this.keyExtractorBoisson}
+					refreshing={this.state.isFetching}
+					onRefresh={() => {
+						this.loadData();
+					}}
+					contentContainerStyle={styles.container}
+				/>
+				<FlatList
+					data={this.state.nourritures}
+					renderItem={this.renderNourriture}
+					keyExtractor={this.keyExtractorNourriture}
+					refreshing={false}
+					onRefresh={() => {
+						this.loadData();
+					}}
+					contentContainerStyle={styles.container}
+				/>
 			</View>
 		);
 	}
 }
+
+const styles = RkStyleSheet.create((theme) => ({
+	container: {
+		backgroundColor: theme.colors.screen.scroll,
+		paddingVertical: 8,
+		paddingHorizontal: 12,
+	},
+}));
 
 const Styles = {
 	rubanHaut: {
