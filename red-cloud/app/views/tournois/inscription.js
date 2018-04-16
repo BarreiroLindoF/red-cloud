@@ -31,6 +31,18 @@ class Inscription extends React.Component {
 	}
 
 	inscription() {
+		if (
+			!Check.checkNumeroCarte(this.state.noCarte) ||
+			!Check.checkTroisChiffresCarte(this.state.troisChiffres) ||
+			!Check.checkMonth(this.state.moisCarte) ||
+			!Check.checkAnneeCarte(this.state.anneeCarte)
+		) {
+			this.setState({
+				modalVisible: true,
+				errorMessage: 'Veuillez remplir tous les champs correctement !',
+			});
+			return;
+		}
 		const url = URL.inscription.replace('{$id}', this.props.navigation.state.params.idTournoi);
 		this.setState({ isFetching: true });
 		api()
