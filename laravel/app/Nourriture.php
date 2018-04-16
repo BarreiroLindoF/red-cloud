@@ -14,4 +14,8 @@ class Nourriture extends Model
     public function offres(){
         return $this->belongsToMany('App\Offre', 'nourritures_offres', 'nourriture_id_nourriture', 'offre_id_offre');
     }
+
+    public function categorie(){
+        return $this->hasOne('App\CategorieNourriture');
+    }
 }

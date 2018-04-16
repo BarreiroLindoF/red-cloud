@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, FlatList } from 'react-native';
+import { Text, View, FlatList, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { RkStyleSheet } from 'react-native-ui-kitten';
 
@@ -52,13 +52,27 @@ class Menu extends React.Component {
 	}
 
 	renderNourriture(nourriture) {
-		return <Text>{nourriture.item.nom}</Text>;
+		return (
+			<View style={Styles.textContainer}>
+				<View style={Styles.leftContainer}>
+					<Text>{nourriture.item.nom}</Text>
+				</View>
+				<View style={Styles.rightContainer}>
+					<Text>{nourriture.item.prix}.-</Text>
+				</View>
+			</View>
+		);
 	}
 
 	renderBoisson(boisson) {
 		return (
-			<View>
-				<Text>{boisson.item.nom}</Text>
+			<View style={Styles.textContainer}>
+				<View style={Styles.leftContainer}>
+					<Text>{boisson.item.nom}</Text>
+				</View>
+				<View style={Styles.rightContainer}>
+					<Text>{boisson.item.prix}.-</Text>
+				</View>
 			</View>
 		);
 	}
@@ -66,26 +80,37 @@ class Menu extends React.Component {
 		return (
 			<View>
 				<StatusBarPaddingView />
-				<FlatList
-					data={this.state.boissons}
-					renderItem={this.renderBoisson}
-					keyExtractor={this.keyExtractorBoisson}
-					refreshing={this.state.isFetching}
-					onRefresh={() => {
-						this.loadData();
-					}}
-					contentContainerStyle={styles.container}
-				/>
-				<FlatList
-					data={this.state.nourritures}
-					renderItem={this.renderNourriture}
-					keyExtractor={this.keyExtractorNourriture}
-					refreshing={false}
-					onRefresh={() => {
-						this.loadData();
-					}}
-					contentContainerStyle={styles.container}
-				/>
+				<View style={Styles.rubanHaut}>
+					<Text style={Styles.title}>Menu</Text>
+				</View>
+				<ScrollView>
+					<View>
+						<Text style={Styles.subTitle}>Boissons</Text>
+					</View>
+					<FlatList
+						data={this.state.boissons}
+						renderItem={this.renderBoisson}
+						keyExtractor={this.keyExtractorBoisson}
+						refreshing={this.state.isFetching}
+						onRefresh={() => {
+							this.loadData();
+						}}
+						contentContainerStyle={styles.container}
+					/>
+					<View>
+						<Text style={Styles.subTitle}>Nourritures</Text>
+					</View>
+					<FlatList
+						data={this.state.nourritures}
+						renderItem={this.renderNourriture}
+						keyExtractor={this.keyExtractorNourriture}
+						refreshing={false}
+						onRefresh={() => {
+							this.loadData();
+						}}
+						contentContainerStyle={styles.container}
+					/>
+				</ScrollView>
 			</View>
 		);
 	}
@@ -121,6 +146,18 @@ const Styles = {
 	subTitle: {
 		color: 'black',
 		fontSize: 30,
+	},
+	textContainer: {
+		flexDirection: 'row',
+	},
+	leftContainer: {
+		flex: 1,
+		alignItems: 'flex-start',
+	},
+	rightContainer: {
+		flex: 1,
+		alignItems: 'flex-end',
+		marginRight: 20,
 	},
 };
 export default Menu;
