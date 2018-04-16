@@ -40,11 +40,16 @@ class Params extends React.Component {
 				}}
 			>
 				<RkCard rkType="blog" style={Styles.card}>
-					<View rkCardContent>
-						<RkText rkType="primary3 mediumLine">
-							<Icon size={24} color="#cc0000" name="power-settings-new" />
-							Déconnexion
-						</RkText>
+					<View rkCardContent style={Styles.centerContent}>
+						<Icon
+							size={24}
+							color="#cc0000"
+							name="power-settings-new"
+							style={{
+								alignContent: 'center',
+							}}
+						/>
+						<Text style={{ paddingLeft: 10 }}>Déconnexion</Text>
 					</View>
 				</RkCard>
 			</TouchableOpacity>
@@ -75,6 +80,8 @@ let Styles = RkStyleSheet.create((theme) => ({
 		marginVertical: 8,
 	},
 	centerContent: {
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
 		alignItems: 'center',
 	},
 	boldText: {
