@@ -59,15 +59,26 @@ class ApiRegisterController extends Controller
 
     protected function create(Request $request)
     {
-	return response()->json(new JsonResponse(true, User::create([
-	    'nom' => $request->input('nom'),
-        'prenom' => $request->input('prenom'),
-        'pseudo' => $request->input('pseudo'),
-        'ville' => $request->input('ville'),
-        'npa' => $request->input('npa'),
-        'datenaissance' => $request->input('datenaissance'),
-        'email' => $request->input('email'),
-	    'password' => bcrypt($request->input('password')),
-        ]), null));
+        $user = User::create([
+            'nom' => $request->input('nom'),
+            'prenom' => $request->input('prenom'),
+            'pseudo' => $request->input('pseudo'),
+            'ville' => $request->input('ville'),
+            'npa' => $request->input('npa'),
+            'datenaissance' => $request->input('datenaissance'),
+            'email' => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+        ]);
+        $jeux = $request->input('jeux');
+        // Créer un tableau pour tout ajouter en une seule requête à la BDD
+        $data = array();
+        foreach($jeux as $jeu) {
+            $data[] = [
+                'user_id_user' => $user->id,
+                'jeu_id_jeu' => $jeu
+            ];
+        }
+        \DB::table('favoris')->insert($data);
+	    return response()->json(new JsonResponse(true, $user, null));
     }
 }

@@ -14,7 +14,7 @@ import { RkText, RkButton } from 'react-native-ui-kitten';
 import CheckBox from 'react-native-check-box';
 import Modal from 'react-native-modalbox';
 import { NavigationActions } from 'react-navigation';
-import { updateConditions, updateToken } from './../../redux/actions';
+import { updateConditions, updateToken, updateIdsJeux } from './../../redux/actions';
 import { api, URL } from '../../rest/api';
 import LogoHeader from './../../components/avatar/logoHeader';
 
@@ -30,6 +30,7 @@ const mapStateToProps = (state) => ({
 	datenaissance: state.datenaissance,
 	password: state.password,
 	conditions: state.conditions,
+	jeux: state.jeux,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -39,9 +40,10 @@ const mapDispatchToProps = (dispatch) => ({
 	updateToken: (token) => {
 		dispatch(updateToken(token));
 	},
+	updateIdsJeux: (id) => {
+		dispatch(updateIdsJeux(id));
+	},
 });
-
-const checkedByUser = [];
 
 class ListeJeux extends React.Component {
 	//eslint-disable-next-line
@@ -71,16 +73,14 @@ class ListeJeux extends React.Component {
 					checkBoxesFiltered: response.data.payload,
 					isFetchingJeux: false,
 				});
+			})
+			.catch((error) => {
+				console.log(error);
 			});
 	}
 
 	onClick(idJeu) {
-		const index = checkedByUser.indexOf(idJeu);
-		if (index === -1) {
-			checkedByUser.push(idJeu);
-		} else {
-			checkedByUser.splice(index, 1);
-		}
+		this.props.updateIdsJeux(idJeu);
 	}
 
 	toogleModal() {
@@ -106,6 +106,7 @@ class ListeJeux extends React.Component {
 				ville: this.props.ville,
 				datenaissance: this.props.datenaissance,
 				password: this.props.password,
+				jeux: this.props.jeux,
 			})
 			.then((reponse) => {
 				if (reponse.data.success) {

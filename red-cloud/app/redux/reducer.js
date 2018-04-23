@@ -11,12 +11,21 @@ const initialState = {
 	password: '',
 	token: '',
 	conditions: false,
+	jeux: [],
 };
 
 const updateUser = (state = initialState, action) => {
 	switch (action.type) {
 		case Actions.RESET:
 			return { initialState };
+		/* eslint-disable */
+		case Actions.UPDATE_IDS:
+			const index = state.jeux.indexOf(action.payload);
+			if (index === -1) {
+				return { ...state, jeux: state.jeux.concat(action.payload) };
+			}
+			return { ...state, jeux: state.jeux.filter((id) => id !== action.payload) };
+		/* eslint-enable */
 		case Actions.UPDATE_NOM:
 			return { ...state, nom: action.payload };
 		case Actions.UPDATE_PRENOM:
