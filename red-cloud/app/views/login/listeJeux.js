@@ -1,4 +1,5 @@
 import React from 'react';
+import { SearchBar } from 'react-native-elements';
 import { connect } from 'react-redux';
 import {
 	View,
@@ -50,6 +51,16 @@ class ListeJeux extends React.Component {
 		super(props);
 		this.state = {
 			checkBoxes: [
+				'Counter Strike',
+				'Dofus',
+				'Fortnite',
+				'Mario Kart',
+				"PlayerUnknown's Battelgrounds",
+				'World of Warcraft',
+				'Fifa 2018',
+				'League of Legends',
+			],
+			checkBoxesFiltered: [
 				'Counter Strike',
 				'Dofus',
 				'Fortnite',
@@ -143,6 +154,17 @@ class ListeJeux extends React.Component {
 		this.props.navigation.dispatch(resetAction);
 	}
 
+	resetSearch() {
+		this.setState({ checkBoxesFiltered: this.state.checkBoxes });
+	}
+
+	makeSearch(searchingTerm) {
+		const filteredGames = this.state.checkBoxes.filter((Game) => {
+			return Game.toLowerCase().indexOf(searchingTerm.toLowerCase()) !== -1;
+		});
+		this.setState({ checkBoxesFiltered: filteredGames });
+	}
+
 	renderModal() {
 		return (
 			<Modal
@@ -176,16 +198,20 @@ class ListeJeux extends React.Component {
 	}
 
 	renderCheckboxes() {
-		return this.state.checkBoxes.map((checkbox, index) => (
-			<CheckBox
-				key={index}
-				style={{ flex: 1, padding: 10 }}
-				leftText={this.state.checkBoxes[index]}
-				leftTextStyle={{ color: 'grey' }}
-				onClick={() => this.onClick(this.state.checkBoxes[index])}
-				checkBoxColor="white"
-			/>
-		));
+		return this.state.checkBoxesFiltered.length === 0 ? (
+			<Text style={{ color: 'grey' }}> Aucun jeux ne correspond à votre recherche...</Text>
+		) : (
+			this.state.checkBoxesFiltered.map((checkbox, index) => (
+				<CheckBox
+					key={index}
+					style={{ flex: 1, padding: 10 }}
+					leftText={this.state.checkBoxesFiltered[index]}
+					leftTextStyle={{ color: 'grey' }}
+					onClick={() => this.onClick(this.state.checkBoxesFiltered[index])}
+					checkBoxColor="white"
+				/>
+			))
+		);
 	}
 
 	renderSuivant() {
@@ -215,6 +241,16 @@ class ListeJeux extends React.Component {
 		const { navigate } = this.props.navigation;
 		return (
 			<KeyboardAvoidingView style={styleFile.screen} behavior="padding" keyboardVerticalOffset={55}>
+				<SearchBar
+					containerStyle={{ backgroundColor: 'black' }}
+					round
+					clearIcon
+					onChangeText={(input) => {
+						this.makeSearch(input);
+					}}
+					onClear={this.resetSearch}
+					placeholder="Rechercher..."
+				/>
 				<RkText style={{ color: 'grey', paddingTop: 20, paddingBottom: 25 }} rkType="primary3">
 					Sélectionnez vos jeux favoris :
 				</RkText>
