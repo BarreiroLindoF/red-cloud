@@ -203,7 +203,8 @@ class ListeJeux extends React.Component {
 		) : (
 			this.state.checkBoxesFiltered.map((checkbox, index) => (
 				<CheckBox
-					key={index}
+					key={this.state.checkBoxesFiltered[index].id_jeu}
+					isChecked={this.props.jeux.includes(this.state.checkBoxesFiltered[index].id_jeu)}
 					style={{ flex: 1, padding: 10 }}
 					leftText={this.state.checkBoxesFiltered[index].nom}
 					leftTextStyle={{ color: 'grey' }}
