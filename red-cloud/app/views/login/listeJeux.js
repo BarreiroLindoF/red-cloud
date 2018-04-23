@@ -41,6 +41,8 @@ const mapDispatchToProps = (dispatch) => ({
 	},
 });
 
+const checkedByUser = [];
+
 class ListeJeux extends React.Component {
 	//eslint-disable-next-line
 	static navigationOptions = ({ navigation } = {
@@ -55,7 +57,6 @@ class ListeJeux extends React.Component {
 		this.state = {
 			checkBoxes: [],
 			checkBoxesFiltered: [],
-			checkedByUser: [],
 			modalVisible: false,
 			modalMessage: '',
 			isFetching: false,
@@ -73,12 +74,12 @@ class ListeJeux extends React.Component {
 			});
 	}
 
-	onClick(data) {
-		const checkTable = this.state.checkedByUser.find((element) => {
-			return element === data;
-		});
-		if (checkTable === undefined) {
-			this.state.checkedByUser.push(data);
+	onClick(idJeu) {
+		const index = checkedByUser.indexOf(idJeu);
+		if (index === -1) {
+			checkedByUser.push(idJeu);
+		} else {
+			checkedByUser.splice(index, 1);
 		}
 	}
 
@@ -205,7 +206,7 @@ class ListeJeux extends React.Component {
 					style={{ flex: 1, padding: 10 }}
 					leftText={this.state.checkBoxesFiltered[index].nom}
 					leftTextStyle={{ color: 'grey' }}
-					onClick={() => this.onClick(this.state.checkBoxesFiltered[index].nom)}
+					onClick={() => this.onClick(this.state.checkBoxesFiltered[index].id_jeu)}
 					checkBoxColor="white"
 				/>
 			))
