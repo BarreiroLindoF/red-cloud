@@ -17,7 +17,7 @@ const initialState = {
 const updateUser = (state = initialState, action) => {
 	switch (action.type) {
 		case Actions.RESET:
-			return { initialState };
+			return initialState;
 		/* eslint-disable */
 		case Actions.UPDATE_IDS:
 			const index = state.jeux.indexOf(action.payload);
