@@ -2,11 +2,13 @@ import React from 'react';
 import { FlatList, View, Image, TouchableOpacity } from 'react-native';
 import { RkCard, RkStyleSheet, RkText } from 'react-native-ui-kitten';
 import { api, URL } from '../../rest/api';
+import LogoHeader from './../../components/avatar/logoHeader';
 
 class CreateTeam extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
-		title: "Création d'une team",
+		headerTitle: <LogoHeader />,
+		color: 'white',
 	};
 
 	constructor(props) {

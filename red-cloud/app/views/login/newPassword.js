@@ -7,6 +7,8 @@ import Modal from 'react-native-modalbox';
 import { NavigationActions } from 'react-navigation';
 import { api, URL } from '../../rest/api';
 import { checkPassword } from '../../common/check';
+import LogoHeader from './../../components/avatar/logoHeader';
+import stylesBlack from './../../styles/StyleSheetB';
 
 const styleFile = require('./style/styles');
 
@@ -19,7 +21,9 @@ const mapStateToProps = (state) => {
 class NewPassword extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
-		title: 'Saisie du nouveau mot de passe',
+		headerTitle: <LogoHeader />,
+		color: 'white',
+		//title: 'Saisie du nouveau mot de passe',
 	};
 
 	constructor(props) {
@@ -119,12 +123,12 @@ class NewPassword extends React.Component {
 		return (
 			<RkButton
 				rkType="social"
-				style={styles.buttonSend}
+				style={stylesBlack.btnStyle}
 				onPress={() => {
 					this.checkPasswords();
 				}}
 			>
-				<RkText rkType="awesome hero accentColor" style={{ color: 'white' }}>
+				<RkText rkType="awesome hero accentColor" style={stylesBlack.btnFont}>
 					Envoyer
 				</RkText>
 			</RkButton>

@@ -6,6 +6,8 @@ import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
 import { api, URL } from './../../rest/api';
 import { updateEmail } from '../../redux/actions';
+import LogoHeader from './../../components/avatar/logoHeader';
+import stylesBlack from './../../styles/StyleSheetB';
 
 const styleFile = require('./style/styles');
 
@@ -24,7 +26,9 @@ const mapDispatchToProps = (dispatch) => ({
 class PasswordRecovery extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
-		title: 'Saisie du mail ou du username',
+		headerTitle: <LogoHeader />,
+		color: 'white',
+		//title: 'Saisie du mail ou du username',
 	};
 
 	constructor(props) {
@@ -99,23 +103,28 @@ class PasswordRecovery extends React.Component {
 			return <ActivityIndicator size="large" color="#cc0000" style={{ paddingTop: 45 }} />;
 		}
 		return (
-			<RkButton
-				rkType="social"
-				style={styles.buttonSend}
-				onPress={() => {
-					this.checkEmail();
-				}}
-			>
-				<RkText rkType="awesome hero accentColor" style={{ color: 'white' }}>
-					Envoyer
-				</RkText>
-			</RkButton>
+			<View style={stylesBlack.btnPosition}>
+				<RkButton
+					rkType="social"
+					onPress={() => {
+						this.checkEmail();
+					}}
+					style={stylesBlack.btnStyle}
+				>
+					<RkText rkType="awesome hero accentColor" style={stylesBlack.btnFont}>
+						Envoyer
+					</RkText>
+				</RkButton>
+			</View>
 		);
 	}
 
 	render() {
 		return (
 			<KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={55}>
+				<View>
+					<Text style={stylesBlack.title}>Mot de passe oublié?</Text>
+				</View>
 				<View>
 					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
 						{this.renderModal()}
@@ -160,12 +169,6 @@ let styles = {
 	footer: {
 		justifyContent: 'flex-end',
 		flex: 1,
-	},
-	buttonSend: {
-		backgroundColor: 'red',
-		marginLeft: 50,
-		marginTop: 50,
-		width: 250,
 	},
 	save: {
 		marginVertical: 9,

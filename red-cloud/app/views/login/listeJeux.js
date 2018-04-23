@@ -16,6 +16,7 @@ import Modal from 'react-native-modalbox';
 import { NavigationActions } from 'react-navigation';
 import { updateConditions, updateToken } from './../../redux/actions';
 import { api, URL } from '../../rest/api';
+import LogoHeader from './../../components/avatar/logoHeader';
 
 const styleFile = require('./style/styles');
 
@@ -43,7 +44,9 @@ const mapDispatchToProps = (dispatch) => ({
 class ListeJeux extends React.Component {
 	//eslint-disable-next-line
 	static navigationOptions = ({ navigation } = {
-		title: 'Création de ton compte',
+		headerTitle: <LogoHeader />,
+		color: 'white',
+		//title: 'Création de ton compte',
 		condition: false,
 	});
 
