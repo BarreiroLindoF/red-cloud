@@ -11,20 +11,20 @@ class TypeJeuTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('typeJeu')->insert([
-            'designation_type_jeu' => 'MMORPG',
+        DB::table('type_jeu')->insert([
+            'designation' => 'MMORPG',
         ]);
-        DB::table('typeJeu')->insert([
-            'designation_type_jeu' => 'Course',
+        DB::table('type_jeu')->insert([
+            'designation' => 'Course',
         ]);
-        DB::table('typeJeu')->insert([
-            'designation_type_jeu' => 'FPS',
+        DB::table('type_jeu')->insert([
+            'designation' => 'FPS',
         ]);
-        DB::table('typeJeu')->insert([
-            'designation_type_jeu' => 'Foot',
+        DB::table('type_jeu')->insert([
+            'designation' => 'Foot',
         ]);
-        DB::table('typeJeu')->insert([
-            'designation_type_jeu' => 'MOBA',
+        DB::table('type_jeu')->insert([
+            'designation' => 'MOBA',
         ]);
     }
 }

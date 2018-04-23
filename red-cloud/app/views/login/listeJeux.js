@@ -53,32 +53,24 @@ class ListeJeux extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			checkBoxes: [
-				'Counter Strike',
-				'Dofus',
-				'Fortnite',
-				'Mario Kart',
-				"PlayerUnknown's Battelgrounds",
-				'World of Warcraft',
-				'Fifa 2018',
-				'League of Legends',
-			],
-			checkBoxesFiltered: [
-				'Counter Strike',
-				'Dofus',
-				'Fortnite',
-				'Mario Kart',
-				"PlayerUnknown's Battelgrounds",
-				'World of Warcraft',
-				'Fifa 2018',
-				'League of Legends',
-			],
+			checkBoxes: [],
+			checkBoxesFiltered: [],
 			checkedByUser: [],
 			modalVisible: false,
 			modalMessage: '',
 			isFetching: false,
+			isFetchingJeux: true,
 			userCreated: false,
 		};
+		api()
+			.get(URL.jeux)
+			.then((response) => {
+				this.setState({
+					checkBoxes: response.data.payload,
+					checkBoxesFiltered: response.data.payload,
+					isFetchingJeux: false,
+				});
+			});
 	}
 
 	onClick(data) {
@@ -163,7 +155,7 @@ class ListeJeux extends React.Component {
 
 	makeSearch(searchingTerm) {
 		const filteredGames = this.state.checkBoxes.filter((Game) => {
-			return Game.toLowerCase().indexOf(searchingTerm.toLowerCase()) !== -1;
+			return Game.nom.toLowerCase().indexOf(searchingTerm.toLowerCase()) !== -1;
 		});
 		this.setState({ checkBoxesFiltered: filteredGames });
 	}
@@ -201,6 +193,9 @@ class ListeJeux extends React.Component {
 	}
 
 	renderCheckboxes() {
+		if (this.state.isFetchingJeux) {
+			return <ActivityIndicator size="large" color="white" style={{ paddingTop: 15 }} />;
+		}
 		return this.state.checkBoxesFiltered.length === 0 ? (
 			<Text style={{ color: 'grey' }}> Aucun jeux ne correspond à votre recherche...</Text>
 		) : (
@@ -208,9 +203,9 @@ class ListeJeux extends React.Component {
 				<CheckBox
 					key={index}
 					style={{ flex: 1, padding: 10 }}
-					leftText={this.state.checkBoxesFiltered[index]}
+					leftText={this.state.checkBoxesFiltered[index].nom}
 					leftTextStyle={{ color: 'grey' }}
-					onClick={() => this.onClick(this.state.checkBoxesFiltered[index])}
+					onClick={() => this.onClick(this.state.checkBoxesFiltered[index].nom)}
 					checkBoxColor="white"
 				/>
 			))

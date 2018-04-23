@@ -15,10 +15,9 @@ class CreateJeuTable extends Migration
     {
         Schema::create('jeu', function (Blueprint $table) {
             $table->increments('id_jeu');
-            $table->string('nom_jeu');
-            $table->integer('type_jeu')->unsigned();
-            $table->foreign('type_jeu')->references('id_type_jeu')->on('typeJeu');
-
+            $table->string('nom');
+            $table->integer('type_jeu_id_type_jeu')->unsigned();
+            $table->foreign('type_jeu_id_type_jeu')->references('id_type_jeu')->on('type_jeu');
         });
     }
 
