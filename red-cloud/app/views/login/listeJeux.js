@@ -1,5 +1,6 @@
 import React from 'react';
-import { SearchBar } from 'react-native-elements';
+import MultiSelect from 'react-native-multiple-select';
+import { SearchBar, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import {
 	View,
@@ -72,6 +73,13 @@ class ListeJeux extends React.Component {
 				'World of Warcraft',
 				'Fifa 2018',
 				'League of Legends',
+			],
+			categories: [
+				{ id: 1, name: 'MMORPG' },
+				{ id: 2, name: 'Course' },
+				{ id: 3, name: 'FPS' },
+				{ id: 4, name: 'Foot' },
+				{ id: 5, name: 'MOBA' },
 			],
 			checkedByUser: [],
 			modalVisible: false,
@@ -200,6 +208,40 @@ class ListeJeux extends React.Component {
 		);
 	}
 
+	renderFilters() {
+		/* 		return this.state.categories.map((checkbox, index) => (
+			<Button
+				key={index}
+				title={this.state.categories[index]}
+				buttonStyle={{}}
+				textStyle={{ fontSize: 12, fontWeight: 'normal' }}
+				onClick={() => this.onClick(this.state.categories[index])}
+			/>
+		)); */
+		const items = this.state.categories;
+		return (
+			<MultiSelect
+				hideTags
+				items={items}
+				uniqueKey="id"
+				ref={(component) => {
+					this.multiSelect = component;
+				}}
+				onSelectedItemsChange={this.onSelectedItemsChange}
+				selectText="Selectionner des filtres..."
+				fixedHeight
+				tagRemoveIconColor="#CCC"
+				tagBorderColor="#CCC"
+				tagTextColor="#CCC"
+				selectedItemTextColor="#CCC"
+				selectedItemIconColor="#CCC"
+				itemTextColor="#000"
+				displayKey="name"
+				searchInputStyle={{ color: '#CCC' }}
+			/>
+		);
+	}
+
 	renderCheckboxes() {
 		return this.state.checkBoxesFiltered.length === 0 ? (
 			<Text style={{ color: 'grey' }}> Aucun jeux ne correspond à votre recherche...</Text>
@@ -243,31 +285,50 @@ class ListeJeux extends React.Component {
 	render() {
 		const { navigate } = this.props.navigation;
 		return (
-			<KeyboardAvoidingView style={styleFile.screen} behavior="padding" keyboardVerticalOffset={55}>
-				<SearchBar
-					containerStyle={{ backgroundColor: 'black' }}
-					round
-					clearIcon
-					onChangeText={(input) => {
-						this.makeSearch(input);
-					}}
-					onClear={this.resetSearch}
-					placeholder="Rechercher..."
-				/>
-				<RkText style={{ color: 'grey', paddingTop: 20, paddingBottom: 25 }} rkType="primary3">
-					Sélectionnez vos jeux favoris :
-				</RkText>
+			<View style={styleFile.screen}>
+				<KeyboardAvoidingView style={{ minHeight: 450 }} behavior="padding" keyboardVerticalOffset={55}>
+					<SearchBar
+						containerStyle={{ backgroundColor: 'black' }}
+						round
+						clearIcon
+						onChangeText={(input) => {
+							this.makeSearch(input);
+						}}
+						onClear={this.resetSearch}
+						placeholder="Rechercher..."
+					/>
+					<View
+						style={{
+							backgroundColor: 'red',
+							flex: 1,
+						}}
+					>
+						{this.renderFilters()}
+					</View>
+					<RkText style={{ color: 'grey', paddingTop: 20, paddingBottom: 25 }} rkType="primary3">
+						Sélectionnez vos jeux favoris :
+					</RkText>
+					<View
+						style={{
+							flex: 1,
+							paddingLeft: 10,
+							paddingBottom: 20,
+						}}
+					>
+						<ScrollView>{this.renderCheckboxes()}</ScrollView>
+					</View>
+					{this.renderModal()}
+				</KeyboardAvoidingView>
 				<View
 					style={{
-						flex: 1,
-						paddingLeft: 10,
+						flexDirection: 'row',
+						paddingLeft: 12,
 						paddingBottom: 20,
+						paddingRight: 10,
+						paddingTop: 20,
 					}}
 				>
-					<ScrollView>{this.renderCheckboxes()}</ScrollView>
-				</View>
-				<View style={{ flexDirection: 'row', paddingLeft: 25, paddingBottom: 40, paddingRight: 9 }}>
-					<View style={{ flexDirection: 'row' }}>
+					<View style={{ paddingLeft: 5, flexDirection: 'row' }}>
 						<Text style={{ color: 'grey' }}>Accepter les </Text>
 						<Text
 							onPress={() => {
@@ -295,9 +356,8 @@ class ListeJeux extends React.Component {
 						/>
 					</View>
 				</View>
-				{this.renderModal()}
 				{this.renderSuivant()}
-			</KeyboardAvoidingView>
+			</View>
 		);
 	}
 }
