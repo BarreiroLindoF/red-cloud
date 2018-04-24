@@ -10,6 +10,7 @@ export const UPDATE_DATE_NAISSANCE = 'UPDATE_DATE_NAISSANCE';
 export const UPDATE_PASSWORD = 'UPDATE_PASSWORD';
 export const UPDATE_TOKEN = 'UPDATE_TOKEN';
 export const UPDATE_CONDITIONS = 'UPDATE_CONDITIONS';
+export const USER_LOGIN = 'USER_LOGIN';
 
 // Game actions
 export const UPDATE_IDS = 'UPDATE_IDS';
@@ -86,6 +87,13 @@ export function updateToken(payload) {
 export function updateConditions(payload) {
 	return {
 		type: UPDATE_CONDITIONS,
+		payload,
+	};
+}
+
+export function userLogin(payload) {
+	return {
+		type: USER_LOGIN,
 		payload,
 	};
 }

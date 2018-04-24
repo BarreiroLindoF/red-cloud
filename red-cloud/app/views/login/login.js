@@ -7,7 +7,7 @@ import { Hoshi } from 'react-native-textinput-effects';
 import { NavigationActions } from 'react-navigation';
 import { StatusBarPadding } from './../../config/header';
 import { api, URL } from './../../rest/api';
-import { updatePseudo, updatePassword, updateToken } from './../../redux/actions';
+import { updatePseudo, updatePassword, userLogin } from './../../redux/actions';
 import { checkPassword } from './../../common/check';
 import stylesBlack from './../../styles/StyleSheetB';
 
@@ -28,8 +28,8 @@ const mapDispatchToProps = (dispatch) => ({
 	updatePassword: (password) => {
 		dispatch(updatePassword(password));
 	},
-	updateToken: (token) => {
-		dispatch(updateToken(token));
+	userLogin: (user) => {
+		dispatch(userLogin(user));
 	},
 });
 
@@ -58,7 +58,7 @@ class Login extends React.Component {
 			})
 			.then((response) => {
 				if (response.data.success) {
-					this.props.updateToken(response.data.payload);
+					this.props.userLogin(response.data.payload);
 					this.openEvents();
 				} else if (this.state.cptLog < 2) {
 					this.state.cptLog++;

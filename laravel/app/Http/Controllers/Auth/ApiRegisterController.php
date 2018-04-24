@@ -79,6 +79,7 @@ class ApiRegisterController extends Controller
             ];
         }
         \DB::table('favoris')->insert($data);
+        $user->jeux = $jeux;
 	    return response()->json(new JsonResponse(true, $user, null));
     }
 }

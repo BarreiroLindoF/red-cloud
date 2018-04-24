@@ -26,6 +26,19 @@ const updateUser = (state = initialState, action) => {
 			}
 			return { ...state, jeux: state.jeux.filter((id) => id !== action.payload) };
 		/* eslint-enable */
+		case Actions.USER_LOGIN:
+			return {
+				...state,
+				nom: action.payload.nom,
+				prenom: action.payload.prenom,
+				pseudo: action.payload.pseudo,
+				email: action.payload.email,
+				npa: action.payload.npa,
+				ville: action.payload.ville,
+				datenaissance: action.payload.datenaissance,
+				token: action.payload.token,
+				jeux: action.payload.jeux,
+			};
 		case Actions.UPDATE_NOM:
 			return { ...state, nom: action.payload };
 		case Actions.UPDATE_PRENOM:

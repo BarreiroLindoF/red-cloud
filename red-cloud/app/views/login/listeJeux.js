@@ -14,7 +14,7 @@ import { RkText, RkButton } from 'react-native-ui-kitten';
 import CheckBox from 'react-native-check-box';
 import Modal from 'react-native-modalbox';
 import { NavigationActions } from 'react-navigation';
-import { updateConditions, updateToken, updateIdsJeux } from './../../redux/actions';
+import { updateConditions, userLogin, updateIdsJeux } from './../../redux/actions';
 import { api, URL } from '../../rest/api';
 import LogoHeader from './../../components/avatar/logoHeader';
 
@@ -37,8 +37,8 @@ const mapDispatchToProps = (dispatch) => ({
 	changerConditions: (conditions) => {
 		dispatch(updateConditions(conditions));
 	},
-	updateToken: (token) => {
-		dispatch(updateToken(token));
+	userLogin: (token) => {
+		dispatch(userLogin(token));
 	},
 	updateIdsJeux: (id) => {
 		dispatch(updateIdsJeux(id));
@@ -119,7 +119,7 @@ class ListeJeux extends React.Component {
 						.then((response) => {
 							this.setState({ isFetching: false });
 							if (response.data.success) {
-								this.props.updateToken(response.data.payload);
+								this.props.userLogin(response.data.payload);
 								this.setState({
 									userCreated: true,
 									modalMessage:
@@ -145,7 +145,20 @@ class ListeJeux extends React.Component {
 	}
 
 	updateJeuxFavoris() {
-		console.log('Faire la modification ici...');
+		api()
+			.put(URL.updateJeux, {
+				jeux: this.props.jeux,
+			})
+			.then(() => {
+				this.props.navigation.dispatch(NavigationActions.back());
+			})
+			.catch(() => {
+				this.setState({
+					modalMessage: 'Problème lors de la sauvegarde...',
+					modalVisible: true,
+					userCreated: false,
+				});
+			});
 	}
 
 	openEvents() {
