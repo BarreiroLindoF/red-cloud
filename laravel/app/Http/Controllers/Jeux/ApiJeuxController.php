@@ -16,4 +16,5 @@ class ApiJeuxController extends Controller
             ->get();
         return response()->json(new JsonResponse(true, $jeux , null));
     }
+
 }

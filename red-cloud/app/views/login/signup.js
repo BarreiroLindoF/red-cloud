@@ -131,7 +131,9 @@ class Signup extends React.Component {
 			.then((response) => {
 				this.setState({ isFetching: false });
 				if (!response.data.success) {
-					this.props.navigation.navigate('ListeJeux');
+					this.props.navigation.navigate('ListeJeux', {
+						isSigningUp: true,
+					});
 				} else {
 					this.setState({ msgModal: response.data.message });
 					this.toogleModal();

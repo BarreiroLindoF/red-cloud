@@ -64,6 +64,7 @@ class ListeJeux extends React.Component {
 			isFetching: false,
 			isFetchingJeux: true,
 			userCreated: false,
+			isSigningUp: this.props.navigation.state.params.isSigningUp,
 		};
 		api()
 			.get(URL.jeux)
@@ -141,6 +142,10 @@ class ListeJeux extends React.Component {
 				this.setState({ isFetching: false });
 				console.log(error);
 			});
+	}
+
+	updateJeuxFavoris() {
+		console.log('Faire la modification ici...');
 	}
 
 	openEvents() {
@@ -223,23 +228,67 @@ class ListeJeux extends React.Component {
 				</View>
 			);
 		}
+		let buttonText;
+		if (this.state.isSigningUp) {
+			buttonText = 'Suivant';
+		} else {
+			buttonText = 'Sauvegarder';
+		}
 		return (
 			<View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 35 }}>
 				<RkButton
 					style={{ backgroundColor: 'white' }}
 					rkType="social"
 					onPress={() => {
-						this.createUser();
+						if (this.state.isSigningUp) {
+							this.createUser();
+						} else {
+							this.updateJeuxFavoris();
+						}
 					}}
 				>
-					<RkText style={{ color: 'black' }}>Suivant</RkText>
+					<RkText style={{ color: 'black' }}>{buttonText}</RkText>
 				</RkButton>
 			</View>
 		);
 	}
 
+	renderConditions() {
+		if (!this.state.isSigningUp) return;
+		return (
+			<View style={{ flexDirection: 'row', paddingLeft: 25, paddingBottom: 40, paddingRight: 9 }}>
+				<View style={{ flexDirection: 'row' }}>
+					<Text style={{ color: 'grey' }}>Accepter les </Text>
+					<Text
+						onPress={() => {
+							this.props.navigation.navigate('Conditions');
+						}}
+						style={{ color: 'red' }}
+					>
+						conditions générales{' '}
+					</Text>
+				</View>
+				<View
+					style={{
+						flexDirection: 'row',
+						justifyContent: 'flex-end',
+						flex: 1,
+					}}
+				>
+					<CheckBox
+						right
+						onClick={() => {
+							this.props.changerConditions(!this.props.conditions);
+						}}
+						checkBoxColor="white"
+						isChecked={this.props.conditions}
+					/>
+				</View>
+			</View>
+		);
+	}
+
 	render() {
-		const { navigate } = this.props.navigation;
 		return (
 			<KeyboardAvoidingView style={styleFile.screen} behavior="padding" keyboardVerticalOffset={55}>
 				<SearchBar
@@ -264,35 +313,7 @@ class ListeJeux extends React.Component {
 				>
 					<ScrollView>{this.renderCheckboxes()}</ScrollView>
 				</View>
-				<View style={{ flexDirection: 'row', paddingLeft: 25, paddingBottom: 40, paddingRight: 9 }}>
-					<View style={{ flexDirection: 'row' }}>
-						<Text style={{ color: 'grey' }}>Accepter les </Text>
-						<Text
-							onPress={() => {
-								navigate('Conditions');
-							}}
-							style={{ color: 'red' }}
-						>
-							conditions générales{' '}
-						</Text>
-					</View>
-					<View
-						style={{
-							flexDirection: 'row',
-							justifyContent: 'flex-end',
-							flex: 1,
-						}}
-					>
-						<CheckBox
-							right
-							onClick={() => {
-								this.props.changerConditions(!this.props.conditions);
-							}}
-							checkBoxColor="white"
-							isChecked={this.props.conditions}
-						/>
-					</View>
-				</View>
+				{this.renderConditions()}
 				{this.renderModal()}
 				{this.renderSuivant()}
 			</KeyboardAvoidingView>

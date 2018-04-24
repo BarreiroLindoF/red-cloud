@@ -49,6 +49,7 @@ Route::group(['middleware' => ['api','cors']], function () {
 
     // Jeu
     Route::get('jeux', 'Jeux\ApiJeuxController@getJeux');
+    Route::put('me/jeux', 'Jeux\ApiJeuxFavorisController@modifierJeux');
 });
 
 // secured routes
