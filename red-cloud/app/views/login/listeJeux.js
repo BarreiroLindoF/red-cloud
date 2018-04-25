@@ -15,7 +15,7 @@ import { RkText, RkButton } from 'react-native-ui-kitten';
 import CheckBox from 'react-native-check-box';
 import Modal from 'react-native-modalbox';
 import { NavigationActions } from 'react-navigation';
-import { updateConditions, updateToken } from './../../redux/actions';
+import { updateConditions, userLogin, updateIdsJeux } from './../../redux/actions';
 import { api, URL } from '../../rest/api';
 import LogoHeader from './../../components/avatar/logoHeader';
 
@@ -31,14 +31,18 @@ const mapStateToProps = (state) => ({
 	datenaissance: state.datenaissance,
 	password: state.password,
 	conditions: state.conditions,
+	jeux: state.jeux,
 });
 
 const mapDispatchToProps = (dispatch) => ({
 	changerConditions: (conditions) => {
 		dispatch(updateConditions(conditions));
 	},
-	updateToken: (token) => {
-		dispatch(updateToken(token));
+	userLogin: (token) => {
+		dispatch(userLogin(token));
+	},
+	updateIdsJeux: (id) => {
+		dispatch(updateIdsJeux(id));
 	},
 });
 
@@ -54,26 +58,6 @@ class ListeJeux extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			checkBoxes: [
-				'Counter Strike',
-				'Dofus',
-				'Fortnite',
-				'Mario Kart',
-				"PlayerUnknown's Battelgrounds",
-				'World of Warcraft',
-				'Fifa 2018',
-				'League of Legends',
-			],
-			checkBoxesFiltered: [
-				'Counter Strike',
-				'Dofus',
-				'Fortnite',
-				'Mario Kart',
-				"PlayerUnknown's Battelgrounds",
-				'World of Warcraft',
-				'Fifa 2018',
-				'League of Legends',
-			],
 			categories: [
 				{ id: 1, name: 'MMORPG' },
 				{ id: 2, name: 'Course' },
@@ -82,21 +66,32 @@ class ListeJeux extends React.Component {
 				{ id: 5, name: 'MOBA' },
 			],
 			checkedByUser: [],
+			checkBoxes: [],
+			checkBoxesFiltered: [],
 			modalVisible: false,
 			modalMessage: '',
 			isFetching: false,
+			isFetchingJeux: true,
 			userCreated: false,
 			selectedItems: [],
+			isSigningUp: this.props.navigation.state.params.isSigningUp,
 		};
+		api()
+			.get(URL.jeux)
+			.then((response) => {
+				this.setState({
+					checkBoxes: response.data.payload,
+					checkBoxesFiltered: response.data.payload,
+					isFetchingJeux: false,
+				});
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	}
 
-	onClick(data) {
-		const checkTable = this.state.checkedByUser.find((element) => {
-			return element === data;
-		});
-		if (checkTable === undefined) {
-			this.state.checkedByUser.push(data);
-		}
+	onClick(idJeu) {
+		this.props.updateIdsJeux(idJeu);
 	}
 
 	toogleModal() {
@@ -122,6 +117,7 @@ class ListeJeux extends React.Component {
 				ville: this.props.ville,
 				datenaissance: this.props.datenaissance,
 				password: this.props.password,
+				jeux: this.props.jeux,
 			})
 			.then((reponse) => {
 				if (reponse.data.success) {
@@ -133,7 +129,7 @@ class ListeJeux extends React.Component {
 						.then((response) => {
 							this.setState({ isFetching: false });
 							if (response.data.success) {
-								this.props.updateToken(response.data.payload);
+								this.props.userLogin(response.data.payload);
 								this.setState({
 									userCreated: true,
 									modalMessage:
@@ -158,6 +154,23 @@ class ListeJeux extends React.Component {
 			});
 	}
 
+	updateJeuxFavoris() {
+		api()
+			.put(URL.updateJeux, {
+				jeux: this.props.jeux,
+			})
+			.then(() => {
+				this.props.navigation.dispatch(NavigationActions.back());
+			})
+			.catch(() => {
+				this.setState({
+					modalMessage: 'Problème lors de la sauvegarde...',
+					modalVisible: true,
+					userCreated: false,
+				});
+			});
+	}
+
 	openEvents() {
 		const resetAction = NavigationActions.reset({
 			index: 0,
@@ -172,7 +185,7 @@ class ListeJeux extends React.Component {
 
 	makeSearch(searchingTerm) {
 		const filteredGames = this.state.checkBoxes.filter((Game) => {
-			return Game.toLowerCase().indexOf(searchingTerm.toLowerCase()) !== -1;
+			return Game.nom.toLowerCase().indexOf(searchingTerm.toLowerCase()) !== -1;
 		});
 		this.setState({ checkBoxesFiltered: filteredGames });
 	}
@@ -210,16 +223,20 @@ class ListeJeux extends React.Component {
 	}
 
 	renderCheckboxes() {
+		if (this.state.isFetchingJeux) {
+			return <ActivityIndicator size="large" color="white" style={{ paddingTop: 15 }} />;
+		}
 		return this.state.checkBoxesFiltered.length === 0 ? (
 			<Text style={{ color: 'grey' }}> Aucun jeux ne correspond à votre recherche...</Text>
 		) : (
 			this.state.checkBoxesFiltered.map((checkbox, index) => (
 				<CheckBox
-					key={index}
+					key={this.state.checkBoxesFiltered[index].id_jeu}
+					isChecked={this.props.jeux.includes(this.state.checkBoxesFiltered[index].id_jeu)}
 					style={{ flex: 1, padding: 10 }}
-					leftText={this.state.checkBoxesFiltered[index]}
+					leftText={this.state.checkBoxesFiltered[index].nom}
 					leftTextStyle={{ color: 'grey' }}
-					onClick={() => this.onClick(this.state.checkBoxesFiltered[index])}
+					onClick={() => this.onClick(this.state.checkBoxesFiltered[index].id_jeu)}
 					checkBoxColor="white"
 				/>
 			))
@@ -234,16 +251,26 @@ class ListeJeux extends React.Component {
 				</View>
 			);
 		}
+		let buttonText;
+		if (this.state.isSigningUp) {
+			buttonText = 'Suivant';
+		} else {
+			buttonText = 'Sauvegarder';
+		}
 		return (
 			<View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 35 }}>
 				<RkButton
 					style={{ backgroundColor: 'white' }}
 					rkType="social"
 					onPress={() => {
-						this.createUser();
+						if (this.state.isSigningUp) {
+							this.createUser();
+						} else {
+							this.updateJeuxFavoris();
+						}
 					}}
 				>
-					<RkText style={{ color: 'black' }}>Suivant</RkText>
+					<RkText style={{ color: 'black' }}>{buttonText}</RkText>
 				</RkButton>
 			</View>
 		);
@@ -260,9 +287,42 @@ class ListeJeux extends React.Component {
 		});
 		this.setState({ checkBoxesFiltered: filteredGames });
 	} */
+	renderConditions() {
+		if (!this.state.isSigningUp) return;
+		return (
+			<View style={{ flexDirection: 'row', paddingLeft: 25, paddingBottom: 40, paddingRight: 9 }}>
+				<View style={{ flexDirection: 'row' }}>
+					<Text style={{ color: 'grey' }}>Accepter les </Text>
+					<Text
+						onPress={() => {
+							this.props.navigation.navigate('Conditions');
+						}}
+						style={{ color: 'red' }}
+					>
+						conditions générales{' '}
+					</Text>
+				</View>
+				<View
+					style={{
+						flexDirection: 'row',
+						justifyContent: 'flex-end',
+						flex: 1,
+					}}
+				>
+					<CheckBox
+						right
+						onClick={() => {
+							this.props.changerConditions(!this.props.conditions);
+						}}
+						checkBoxColor="white"
+						isChecked={this.props.conditions}
+					/>
+				</View>
+			</View>
+		);
+	}
 
 	render() {
-		const { navigate } = this.props.navigation;
 		return (
 			<View style={styleFile.screen}>
 				<KeyboardAvoidingView style={{ minHeight: 450 }} behavior="padding" keyboardVerticalOffset={55}>
@@ -311,43 +371,8 @@ class ListeJeux extends React.Component {
 					</View>
 					{this.renderModal()}
 				</KeyboardAvoidingView>
-				<View
-					style={{
-						flexDirection: 'row',
-						paddingLeft: 12,
-						paddingBottom: 20,
-						paddingRight: 10,
-						paddingTop: 20,
-					}}
-				>
-					<View style={{ paddingLeft: 5, flexDirection: 'row' }}>
-						<Text style={{ color: 'grey' }}>Accepter les </Text>
-						<Text
-							onPress={() => {
-								navigate('Conditions');
-							}}
-							style={{ color: 'red' }}
-						>
-							conditions générales{' '}
-						</Text>
-					</View>
-					<View
-						style={{
-							flexDirection: 'row',
-							justifyContent: 'flex-end',
-							flex: 1,
-						}}
-					>
-						<CheckBox
-							right
-							onClick={() => {
-								this.props.changerConditions(!this.props.conditions);
-							}}
-							checkBoxColor="white"
-							isChecked={this.props.conditions}
-						/>
-					</View>
-				</View>
+				{this.renderConditions()}
+				{this.renderModal()}
 				{this.renderSuivant()}
 			</View>
 		);

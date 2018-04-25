@@ -13,9 +13,9 @@ class CreateTypeJeuTable extends Migration
      */
     public function up()
     {
-        Schema::create('typeJeu', function (Blueprint $table) {
+        Schema::create('type_jeu', function (Blueprint $table) {
             $table->increments('id_type_jeu');
-            $table->string('designation_type_jeu');
+            $table->string('designation');
         });
     }
 
@@ -26,7 +26,7 @@ class CreateTypeJeuTable extends Migration
      */
     public function down()
     {
-        Schema::table('typeJeu', function (Blueprint $table) {
+        Schema::table('type_jeu', function (Blueprint $table) {
 
         });
     }

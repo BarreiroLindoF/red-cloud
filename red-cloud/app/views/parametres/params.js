@@ -31,6 +31,12 @@ class Params extends React.Component {
 		this.props.navigation.dispatch(resetAction);
 	}
 
+	openListeJeuxView() {
+		this.props.navigation.navigate('ListeJeux', {
+			isSigningUp: false,
+		});
+	}
+
 	renderDeconnexion() {
 		return (
 			<TouchableOpacity
@@ -56,6 +62,30 @@ class Params extends React.Component {
 		);
 	}
 
+	renderJeuxFavoris() {
+		return (
+			<TouchableOpacity
+				onPress={() => {
+					this.openListeJeuxView();
+				}}
+			>
+				<RkCard rkType="blog" style={Styles.card}>
+					<View rkCardContent style={Styles.centerContent}>
+						<Icon
+							size={24}
+							color="#cc0000"
+							name="games"
+							style={{
+								alignContent: 'center',
+							}}
+						/>
+						<Text style={{ paddingLeft: 10 }}>Modifier jeux favoris</Text>
+					</View>
+				</RkCard>
+			</TouchableOpacity>
+		);
+	}
+
 	render() {
 		return (
 			<View style={Styles.container}>
@@ -64,6 +94,7 @@ class Params extends React.Component {
 					<Text style={Styles.title}>Paramètres</Text>
 				</View>
 				<View style={Styles.containerCard}>{this.renderDeconnexion()}</View>
+				<View style={Styles.containerCard}>{this.renderJeuxFavoris()}</View>
 			</View>
 		);
 	}
