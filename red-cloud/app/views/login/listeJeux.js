@@ -1,6 +1,6 @@
 import React from 'react';
-import MultiSelect from 'react-native-multiple-select';
 import { SearchBar, Button } from 'react-native-elements';
+import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import { connect } from 'react-redux';
 import {
 	View,
@@ -86,6 +86,7 @@ class ListeJeux extends React.Component {
 			modalMessage: '',
 			isFetching: false,
 			userCreated: false,
+			selectedItems: [],
 		};
 	}
 
@@ -208,40 +209,6 @@ class ListeJeux extends React.Component {
 		);
 	}
 
-	renderFilters() {
-		/* 		return this.state.categories.map((checkbox, index) => (
-			<Button
-				key={index}
-				title={this.state.categories[index]}
-				buttonStyle={{}}
-				textStyle={{ fontSize: 12, fontWeight: 'normal' }}
-				onClick={() => this.onClick(this.state.categories[index])}
-			/>
-		)); */
-		const items = this.state.categories;
-		return (
-			<MultiSelect
-				hideTags
-				items={items}
-				uniqueKey="id"
-				ref={(component) => {
-					this.multiSelect = component;
-				}}
-				onSelectedItemsChange={this.onSelectedItemsChange}
-				selectText="Selectionner des filtres..."
-				fixedHeight
-				tagRemoveIconColor="#CCC"
-				tagBorderColor="#CCC"
-				tagTextColor="#CCC"
-				selectedItemTextColor="#CCC"
-				selectedItemIconColor="#CCC"
-				itemTextColor="#000"
-				displayKey="name"
-				searchInputStyle={{ color: '#CCC' }}
-			/>
-		);
-	}
-
 	renderCheckboxes() {
 		return this.state.checkBoxesFiltered.length === 0 ? (
 			<Text style={{ color: 'grey' }}> Aucun jeux ne correspond à votre recherche...</Text>
@@ -282,6 +249,18 @@ class ListeJeux extends React.Component {
 		);
 	}
 
+	onSelectedItemsChange = (selectedItems) => {
+		console.log(selectedItems);
+		this.setState({ selectedItems });
+	};
+
+	/* 	makeFilterSearch() {
+		const filteredGames = this.state.checkBoxes.filter((Game) => {
+			return Game.toLowerCase().indexOf(searchingTerm.toLowerCase()) !== -1;
+		});
+		this.setState({ checkBoxesFiltered: filteredGames });
+	} */
+
 	render() {
 		const { navigate } = this.props.navigation;
 		return (
@@ -297,13 +276,26 @@ class ListeJeux extends React.Component {
 						onClear={this.resetSearch}
 						placeholder="Rechercher..."
 					/>
-					<View
-						style={{
-							backgroundColor: 'red',
-							flex: 1,
-						}}
-					>
-						{this.renderFilters()}
+					<View style={{ justifyContent: 'center', paddingTop: 10, marginLeft: 8, marginRight: 5 }}>
+						<SectionedMultiSelect
+							items={this.state.categories}
+							uniqueKey="id"
+							selectText="Choisir un filtre..."
+							selectedText="filtres choisis"
+							confirmText="Valider"
+							showDropDowns
+							colors={{
+								primary: 'black',
+								sucess: 'red',
+								text: 'black',
+								chipColor: 'red',
+								selectToggleTextColor: 'grey',
+							}}
+							modalAnimationType="slide"
+							hideSearch
+							onSelectedItemsChange={this.onSelectedItemsChange}
+							selectedItems={this.state.selectedItems}
+						/>
 					</View>
 					<RkText style={{ color: 'grey', paddingTop: 20, paddingBottom: 25 }} rkType="primary3">
 						Sélectionnez vos jeux favoris :
@@ -376,6 +368,9 @@ const styles = StyleSheet.create({
 		flex: 1,
 		justifyContent: 'center',
 		alignItems: 'center',
+	},
+	test: {
+		color: 'red',
 	},
 });
 
