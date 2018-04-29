@@ -68,13 +68,14 @@ class ListeJeux extends React.Component {
 			checkedByUser: [],
 			checkBoxes: [],
 			checkBoxesFiltered: [],
+			searchingTermTest: '',
 			modalVisible: false,
 			modalMessage: '',
 			isFetching: false,
 			isFetchingJeux: true,
 			userCreated: false,
 			selectedItems: [],
-			isSigningUp: this.props.navigation.state.params.isSigningUp,
+			isSigningUp: true, //this.props.navigation.state.params.isSigningUp,
 		};
 		api()
 			.get(URL.jeux)
@@ -179,15 +180,29 @@ class ListeJeux extends React.Component {
 		this.props.navigation.dispatch(resetAction);
 	}
 
-	resetSearch() {
-		this.setState({ checkBoxesFiltered: this.state.checkBoxes });
+	async resetSearch() {
+		await this.setState({ checkBoxesFiltered: this.state.checkBoxes });
+		this.makeFilterSearch(this.state.selectedItems);
 	}
 
-	makeSearch(searchingTerm) {
-		const filteredGames = this.state.checkBoxes.filter((Game) => {
-			return Game.nom.toLowerCase().indexOf(searchingTerm.toLowerCase()) !== -1;
-		});
-		this.setState({ checkBoxesFiltered: filteredGames });
+	async makeSearch(searchingTerm) {
+		if (searchingTerm === '') {
+			//Obliger de faire ce test pour quand l'utilisateur efface le text de recherche sans cliquer sur la croix
+			this.setState({ searchingTermTest: searchingTerm });
+			await this.resetSearch();
+		}
+		let filteredGames = [];
+		if (this.state.checkBoxesFiltered.length > 0) {
+			filteredGames = this.state.checkBoxesFiltered.filter((Game) => {
+				return Game.nom.toLowerCase().indexOf(searchingTerm.toLowerCase()) !== -1;
+			});
+		} else {
+			filteredGames = this.state.checkBoxes.filter((Game) => {
+				return Game.nom.toLowerCase().indexOf(searchingTerm.toLowerCase()) !== -1;
+			});
+		}
+		console.log(searchingTerm);
+		this.setState({ checkBoxesFiltered: filteredGames, searchingTermTest: searchingTerm });
 	}
 
 	renderModal() {
@@ -277,16 +292,30 @@ class ListeJeux extends React.Component {
 	}
 
 	onSelectedItemsChange = (selectedItems) => {
-		console.log(selectedItems);
 		this.setState({ selectedItems });
+		this.makeFilterSearch(selectedItems);
 	};
 
-	/* 	makeFilterSearch() {
-		const filteredGames = this.state.checkBoxes.filter((Game) => {
-			return Game.toLowerCase().indexOf(searchingTerm.toLowerCase()) !== -1;
-		});
-		this.setState({ checkBoxesFiltered: filteredGames });
-	} */
+	async makeFilterSearch(filtersTerms) {
+		const filteredGames = [];
+		for (let i = 0; i < filtersTerms.length; i++) {
+			filteredGames.push(
+				this.state.checkBoxes.filter((Game) => {
+					return Game.designation.toLowerCase().indexOf(filtersTerms[i].toLowerCase()) !== -1;
+				}),
+			);
+		}
+		if (filtersTerms.length > 0) {
+			const flattenedFilteredGames = [].concat(...filteredGames); //FilteredGames est devenu un tableau qui contient un tableau par catégorie de filtre appliqué, fonc je le transforme en un tableau d'objets (flatten)
+			await this.setState({ checkBoxesFiltered: flattenedFilteredGames });
+		} else {
+			await this.setState({ checkBoxesFiltered: this.state.checkBoxes });
+		}
+		if (this.state.searchingTermTest !== '') {
+			this.makeSearch(this.state.searchingTermTest);
+		}
+	}
+
 	renderConditions() {
 		if (!this.state.isSigningUp) return;
 		return (
@@ -333,13 +362,15 @@ class ListeJeux extends React.Component {
 						onChangeText={(input) => {
 							this.makeSearch(input);
 						}}
-						onClear={this.resetSearch}
+						onClearText={() => {
+							this.resetSearch();
+						}}
 						placeholder="Rechercher..."
 					/>
 					<View style={{ justifyContent: 'center', paddingTop: 10, marginLeft: 8, marginRight: 5 }}>
 						<SectionedMultiSelect
 							items={this.state.categories}
-							uniqueKey="id"
+							uniqueKey="name"
 							selectText="Choisir un filtre..."
 							selectedText="filtres choisis"
 							confirmText="Valider"
@@ -369,7 +400,6 @@ class ListeJeux extends React.Component {
 					>
 						<ScrollView>{this.renderCheckboxes()}</ScrollView>
 					</View>
-					{this.renderModal()}
 				</KeyboardAvoidingView>
 				{this.renderConditions()}
 				{this.renderModal()}
