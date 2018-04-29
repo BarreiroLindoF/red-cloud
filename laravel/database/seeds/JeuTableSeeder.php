@@ -55,6 +55,52 @@ class JeuTableSeeder extends Seeder
             'nom' => 'Counter Strike',
             'type_jeu_id_type_jeu' => 3,
         ]);
+
+
+        DB::table('jeu')->insert([
+            'nom' => 'Forza 5',
+            'type_jeu_id_type_jeu' => 2,
+        ]);
+        DB::table('jeu')->insert([
+            'nom' => 'Need for Speed Most Wanted 2',
+            'type_jeu_id_type_jeu' => 2,
+        ]);
+        DB::table('jeu')->insert([
+            'nom' => 'Project cars 2',
+            'type_jeu_id_type_jeu' => 2,
+        ]);
+        DB::table('jeu')->insert([
+            'nom' => 'Gran Turismo 6',
+            'type_jeu_id_type_jeu' => 2,
+        ]);
+        DB::table('jeu')->insert([
+            'nom' => 'Call of Duty WWII',
+            'type_jeu_id_type_jeu' => 3,
+        ]);
+        DB::table('jeu')->insert([
+            'nom' => 'Star Wars Battlefront',
+            'type_jeu_id_type_jeu' => 3,
+        ]);
+        DB::table('jeu')->insert([
+            'nom' => 'Soulcalibur VI',
+            'type_jeu_id_type_jeu' => 6,
+        ]);
+        DB::table('jeu')->insert([
+            'nom' => 'Tekken 7',
+            'type_jeu_id_type_jeu' => 6,
+        ]);
+        DB::table('jeu')->insert([
+            'nom' => 'Mortal Kombat XL',
+            'type_jeu_id_type_jeu' => 6,
+        ]);
+        DB::table('jeu')->insert([
+            'nom' => 'Dragon Ball Z FighterZ',
+            'type_jeu_id_type_jeu' => 6,
+        ]);
+        DB::table('jeu')->insert([
+            'nom' => 'Mario Party',
+            'type_jeu_id_type_jeu' => 7,
+        ]);
     }
 }
 

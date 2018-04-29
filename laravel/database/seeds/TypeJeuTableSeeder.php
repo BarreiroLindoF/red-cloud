@@ -26,5 +26,11 @@ class TypeJeuTableSeeder extends Seeder
         DB::table('type_jeu')->insert([
             'designation' => 'MOBA',
         ]);
+        DB::table('type_jeu')->insert([
+            'designation' => 'COMBAT',
+        ]);
+        DB::table('type_jeu')->insert([
+            'designation' => 'PLATEAU',
+        ]);
     }
 }

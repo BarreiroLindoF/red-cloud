@@ -89,6 +89,18 @@ class ListeJeux extends React.Component {
 			.catch((error) => {
 				console.log(error);
 			});
+		api()
+			.get(URL.categoriesJeux)
+			.then((response) => {
+				console.log(response.data.payload);
+				this.setState({
+					categories: response.data.payload,
+					isFetchingJeux: false,
+				});
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	}
 
 	onClick(idJeu) {
@@ -370,7 +382,7 @@ class ListeJeux extends React.Component {
 					<View style={{ justifyContent: 'center', paddingTop: 10, marginLeft: 8, marginRight: 5 }}>
 						<SectionedMultiSelect
 							items={this.state.categories}
-							uniqueKey="name"
+							uniqueKey="designation"
 							selectText="Choisir un filtre..."
 							selectedText="filtres choisis"
 							confirmText="Valider"
