@@ -6,6 +6,7 @@ import { NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { StatusBarPaddingView } from './../../config/header';
 import { resetStore } from './../../redux/actions';
+import { api, URL } from '../../rest/api';
 
 const mapDispatchToProps = (dispatch) => ({
 	resetStore: () => {
@@ -22,6 +23,13 @@ class Params extends React.Component {
 			return <Icon size={24} color="red" name="settings" />;
 		},
 	};
+
+	deconnect() {
+		api()
+			.get(URL.deconnexion)
+			.then(() => {})
+			.catch(() => {});
+	}
 
 	openLoginView() {
 		const resetAction = NavigationActions.reset({
@@ -41,6 +49,7 @@ class Params extends React.Component {
 		return (
 			<TouchableOpacity
 				onPress={() => {
+					this.deconnect();
 					this.props.resetStore();
 					this.openLoginView();
 				}}

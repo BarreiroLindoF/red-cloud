@@ -23,6 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('datenaissance');
             $table->string('email')->unique();
             $table->string('password');
+            $table->string('notificationtoken')->nullable();
         });
     }
 

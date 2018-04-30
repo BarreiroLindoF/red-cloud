@@ -12,6 +12,7 @@ const initialState = {
 	token: '',
 	conditions: false,
 	jeux: [],
+	notificationToken: '',
 };
 
 const updateUser = (state = initialState, action) => {
@@ -38,6 +39,7 @@ const updateUser = (state = initialState, action) => {
 				datenaissance: action.payload.datenaissance,
 				token: action.payload.token,
 				jeux: action.payload.jeux,
+				notificationToken: action.payload.notificationtoken,
 			};
 		case Actions.UPDATE_NOM:
 			return { ...state, nom: action.payload };
