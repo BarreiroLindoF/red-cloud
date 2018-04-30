@@ -233,94 +233,91 @@ class Signup extends React.Component {
 				<View>
 					<Text style={stylesBlack.title}>Crée ton compte</Text>
 				</View>
-				<View>
-					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
-						<Hoshi
-							label={'Nom'}
-							borderColor={'grey'}
-							borderColor={this.props.nom !== '' ? 'grey' : '#ff4444'}
-							onChangeText={this.props.updateNom}
-						/>
-						<Hoshi
-							label={'Prénom'}
-							borderColor={'grey'}
-							borderColor={this.props.prenom !== '' ? 'grey' : '#ff4444'}
-							onChangeText={this.props.updatePrenom}
-						/>
-						<Hoshi
-							label={'Pseudo'}
-							borderColor={'grey'}
-							borderColor={this.props.pseudo !== '' ? 'grey' : '#ff4444'}
-							onChangeText={this.props.updatePseudo}
-						/>
-						<Hoshi
-							label={'Email'}
-							keyboardType="email-address"
-							borderColor={this.state.validationEmail ? 'grey' : '#ff4444'}
-							onChangeText={this.emailChanged}
-						/>
-						<Hoshi
-							label={'NPA'}
-							borderColor={'grey'}
-							keyboardType="phone-pad"
-							maxLength={4}
-							borderColor={this.state.npa ? 'grey' : '#ff4444'}
-							onChangeText={this.npaChanged}
-						/>
-						<Hoshi
-							label={'Ville'}
-							borderColor={'grey'}
-							borderColor={this.props.ville !== '' ? 'grey' : '#ff4444'}
-							onChangeText={this.props.updateVille}
-						/>
-						<View
+				<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
+					<Hoshi
+						label={'Nom'}
+						borderColor={'grey'}
+						borderColor={this.props.nom !== '' ? 'grey' : '#ff4444'}
+						onChangeText={this.props.updateNom}
+					/>
+					<Hoshi
+						label={'Prénom'}
+						borderColor={'grey'}
+						borderColor={this.props.prenom !== '' ? 'grey' : '#ff4444'}
+						onChangeText={this.props.updatePrenom}
+					/>
+					<Hoshi
+						label={'Pseudo'}
+						borderColor={'grey'}
+						borderColor={this.props.pseudo !== '' ? 'grey' : '#ff4444'}
+						onChangeText={this.props.updatePseudo}
+					/>
+					<Hoshi
+						label={'Email'}
+						keyboardType="email-address"
+						borderColor={this.state.validationEmail ? 'grey' : '#ff4444'}
+						onChangeText={this.emailChanged}
+					/>
+					<Hoshi
+						label={'NPA'}
+						borderColor={'grey'}
+						keyboardType="phone-pad"
+						maxLength={4}
+						borderColor={this.state.npa ? 'grey' : '#ff4444'}
+						onChangeText={this.npaChanged}
+					/>
+					<Hoshi
+						label={'Ville'}
+						borderColor={'grey'}
+						borderColor={this.props.ville !== '' ? 'grey' : '#ff4444'}
+						onChangeText={this.props.updateVille}
+					/>
+					<View
+						style={{
+							backgroundColor: 'black',
+							height: 50,
+							borderBottomColor: '#b9c1ca',
+							borderBottomWidth: 2,
+							marginTop: 10,
+						}}
+					>
+						<RkButton
 							style={{
 								backgroundColor: 'black',
-								height: 50,
-								borderBottomColor: '#b9c1ca',
-								borderBottomWidth: 2,
-								marginTop: 10,
+								width: '100%',
+								justifyContent: 'flex-start',
+							}}
+							onPress={() => {
+								this.renderDatePicker();
 							}}
 						>
-							<RkButton
+							<Text
 								style={{
-									backgroundColor: 'black',
-									width: '100%',
-									justifyContent: 'flex-start',
-								}}
-								onPress={() => {
-									this.renderDatePicker();
+									color: '#6a7989',
+									paddingLeft: '0.5%',
+									fontSize: this.state.dateNaissance === 'Date de naissance' ? 16 : 18,
+									fontWeight: this.state.dateNaissance !== 'Date de naissance' ? 'bold' : 'normal',
 								}}
 							>
-								<Text
-									style={{
-										color: '#6a7989',
-										paddingLeft: '0.5%',
-										fontSize: this.state.dateNaissance === 'Date de naissance' ? 16 : 18,
-										fontWeight:
-											this.state.dateNaissance !== 'Date de naissance' ? 'bold' : 'normal',
-									}}
-								>
-									{' '}
-									{this.state.dateNaissance}{' '}
-								</Text>
-							</RkButton>
-						</View>
+								{' '}
+								{this.state.dateNaissance}{' '}
+							</Text>
+						</RkButton>
+					</View>
 
-						<Hoshi
-							label={'Mot de passe (8 caractères dont 1 chiffre)'}
-							borderColor={this.state.passOk ? 'grey' : '#ff4444'}
-							onChangeText={this.passwordChanged}
-							secureTextEntry
-						/>
-						<Hoshi
-							label={'Validation mot de passe'}
-							borderColor={this.state.validationPassOk ? 'grey' : '#ff4444'}
-							onChangeText={this.validationChanged}
-							secureTextEntry
-						/>
-					</ScrollView>
-				</View>
+					<Hoshi
+						label={'Mot de passe (8 caractères dont 1 chiffre)'}
+						borderColor={this.state.passOk ? 'grey' : '#ff4444'}
+						onChangeText={this.passwordChanged}
+						secureTextEntry
+					/>
+					<Hoshi
+						label={'Validation mot de passe'}
+						borderColor={this.state.validationPassOk ? 'grey' : '#ff4444'}
+						onChangeText={this.validationChanged}
+						secureTextEntry
+					/>
+				</ScrollView>
 				{this.renderButtonSuivant()}
 
 				<View style={stylesBlack.footerAccounts}>
