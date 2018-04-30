@@ -58,13 +58,7 @@ class ListeJeux extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			categories: [
-				{ id: 1, name: 'MMORPG' },
-				{ id: 2, name: 'Course' },
-				{ id: 3, name: 'FPS' },
-				{ id: 4, name: 'Foot' },
-				{ id: 5, name: 'MOBA' },
-			],
+			categories: [],
 			checkedByUser: [],
 			checkBoxes: [],
 			checkBoxesFiltered: [],
@@ -92,11 +86,14 @@ class ListeJeux extends React.Component {
 		api()
 			.get(URL.categoriesJeux)
 			.then((response) => {
-				console.log(response.data.payload);
-				this.setState({
-					categories: response.data.payload,
-					isFetchingJeux: false,
-				});
+				console.log(this.state.categories);
+				this.setState(
+					{
+						categories: response.data.payload,
+						isFetchingJeux: false,
+					},
+					console.log(this.state.categories),
+				);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -213,7 +210,6 @@ class ListeJeux extends React.Component {
 				return Game.nom.toLowerCase().indexOf(searchingTerm.toLowerCase()) !== -1;
 			});
 		}
-		console.log(searchingTerm);
 		this.setState({ checkBoxesFiltered: filteredGames, searchingTermTest: searchingTerm });
 	}
 
@@ -383,6 +379,7 @@ class ListeJeux extends React.Component {
 						<SectionedMultiSelect
 							items={this.state.categories}
 							uniqueKey="designation"
+							displayKey="designation"
 							selectText="Choisir un filtre..."
 							selectedText="filtres choisis"
 							confirmText="Valider"
