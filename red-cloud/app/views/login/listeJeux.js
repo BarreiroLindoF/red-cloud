@@ -122,9 +122,13 @@ class ListeJeux extends React.Component {
 								});
 							}
 						})
-						.catch((error) => {
-							this.setState({ isFetching: false });
-							console.error(error);
+						.catch(() => {
+							this.setState({
+								isFetching: false,
+								userCreated: false,
+								modalMessage: 'Problème de connexion au serveur !',
+								modalVisible: true,
+							});
 						});
 				}
 			})

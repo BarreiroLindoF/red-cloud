@@ -45,6 +45,7 @@ class Login extends React.Component {
 			log: false,
 			cptLog: 0,
 			modalVisible: false,
+			modalMessage: '',
 			isFetching: false,
 		};
 	}
@@ -62,7 +63,8 @@ class Login extends React.Component {
 				} else if (this.state.cptLog < 2) {
 					this.state.cptLog++;
 					this.setState({
-						modalVisible: !this.state.modalVisible,
+						modalVisible: true,
+						modalMessage: "Nom d'utilisateur ou mot de passe incorrect",
 						isFetching: false,
 					});
 				} else {
@@ -70,9 +72,12 @@ class Login extends React.Component {
 					this.props.navigation.navigate('PasswordRecovery');
 				}
 			})
-			.catch((error) => {
-				console.error(error);
-				this.setState({ isFetching: false });
+			.catch(() => {
+				this.setState({
+					modalVisible: true,
+					modalMessage: 'Problème de connexion au serveur !',
+					isFetching: false,
+				});
 			});
 	}
 
@@ -112,7 +117,7 @@ class Login extends React.Component {
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
 			>
-				<RkButton rkType="clear">Nom d'utilisateur ou mot de passe incorrect</RkButton>
+				<RkButton rkType="clear">{this.state.modalMessage}</RkButton>
 				<TouchableOpacity
 					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
 					onPress={() => {

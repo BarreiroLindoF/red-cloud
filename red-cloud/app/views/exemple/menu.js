@@ -16,6 +16,9 @@ class Menu extends React.Component {
 		return (
 			<View>
 				<StatusBarPaddingView />
+				<View style={Styles.rubanHaut}>
+					<Text style={Styles.title}>Menu</Text>
+				</View>
 				<View>
 					<Text>Menu ici</Text>
 				</View>
@@ -23,5 +26,26 @@ class Menu extends React.Component {
 		);
 	}
 }
+
+let Styles = {
+	rubanHaut: {
+		backgroundColor: '#cc0000',
+		paddingBottom: 10,
+		paddingTop: 10,
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'flex-start',
+		borderColor: 'black',
+		borderBottomWidth: 1,
+		borderTopWidth: 1,
+	},
+	title: {
+		color: 'white',
+		backgroundColor: 'black',
+		padding: 10,
+		fontWight: 'bold',
+		fontFamily: 'monospace',
+	},
+};
 
 export default Menu;

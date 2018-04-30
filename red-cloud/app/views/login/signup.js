@@ -8,6 +8,7 @@ import {
 	Text,
 	Keyboard,
 	ActivityIndicator,
+	DatePickerAndroid,
 } from 'react-native';
 import { RkButton, RkText, RkStyleSheet } from 'react-native-ui-kitten';
 import { Hoshi } from 'react-native-textinput-effects';
@@ -76,6 +77,7 @@ class Signup extends React.Component {
 			validationPassOk: true,
 			validationEmail: false,
 			dateOk: false,
+			dateNaissance: 'Date de naissance',
 			modalVisible: false,
 			npa: false,
 			msgModal: '',
@@ -97,7 +99,7 @@ class Signup extends React.Component {
 	}
 
 	datenaissanceChanged(date) {
-		this.setState({ dateOk: Check.checkDate(date) }, this.props.updateDateNaissance(date));
+		this.setState({ dateOk: true }, this.props.updateDateNaissance(date));
 	}
 
 	passwordChanged(password) {
@@ -135,9 +137,12 @@ class Signup extends React.Component {
 					this.toogleModal();
 				}
 			})
-			.catch((error) => {
-				this.setState({ isFetching: false });
-				console.error(error);
+			.catch(() => {
+				this.setState({
+					isFetching: false,
+					msgModal: 'Problème lors de la connexion au serveur',
+					modalVisible: true,
+				});
 			});
 	}
 
@@ -199,6 +204,24 @@ class Signup extends React.Component {
 		);
 	}
 
+	async renderDatePicker() {
+		try {
+			const { action, year, month, day } = await DatePickerAndroid.open({
+				// Use `new Date()` for current date.
+				// May 25 2020. Month 0 is January.
+				mode: 'spinner',
+				date: new Date(2010, 1, 12),
+			});
+
+			if (action !== DatePickerAndroid.dismissedAction) {
+				this.setState({ dateNaissance: day + '.' + month + '.' + year });
+				this.datenaissanceChanged(this.state.dateNaissance);
+			}
+		} catch ({ code, message }) {
+			console.warn('Cannot open date picker', message);
+		}
+	}
+
 	render() {
 		const { navigate } = this.props.navigation;
 		return (
@@ -250,13 +273,40 @@ class Signup extends React.Component {
 							borderColor={this.props.ville !== '' ? 'grey' : '#ff4444'}
 							onChangeText={this.props.updateVille}
 						/>
-						<Hoshi
-							maxLength={10}
-							borderColor={this.state.dateOk ? 'grey' : '#ff4444'}
-							label={'Date de naissance (JJ.MM.AAAA)'}
-							keyboardType="numeric"
-							onChangeText={this.datenaissanceChanged}
-						/>
+						<View
+							style={{
+								backgroundColor: 'black',
+								height: 50,
+								borderBottomColor: '#b9c1ca',
+								borderBottomWidth: 2,
+								marginTop: 10,
+							}}
+						>
+							<RkButton
+								style={{
+									backgroundColor: 'black',
+									width: '100%',
+									justifyContent: 'flex-start',
+								}}
+								onPress={() => {
+									this.renderDatePicker();
+								}}
+							>
+								<Text
+									style={{
+										color: '#6a7989',
+										paddingLeft: '0.5%',
+										fontSize: this.state.dateNaissance === 'Date de naissance' ? 16 : 18,
+										fontWeight:
+											this.state.dateNaissance !== 'Date de naissance' ? 'bold' : 'normal',
+									}}
+								>
+									{' '}
+									{this.state.dateNaissance}{' '}
+								</Text>
+							</RkButton>
+						</View>
+
 						<Hoshi
 							label={'Mot de passe (8 caractères dont 1 chiffre)'}
 							borderColor={this.state.passOk ? 'grey' : '#ff4444'}

@@ -35,6 +35,7 @@ class NewPassword extends React.Component {
 			apiResponse: '',
 			modalVisible: false,
 			isFetching: false,
+			message: '',
 		};
 	}
 
@@ -70,9 +71,12 @@ class NewPassword extends React.Component {
 					this.setState({ isFetching: false, apiResponse: response.data, message: 'Mot de passe modifié' });
 					this.toogleModal();
 				})
-				.catch((error) => {
-					console.error(error);
-					this.setState({ isFetching: false });
+				.catch(() => {
+					this.setState({
+						isFetching: false,
+						modalVisible: true,
+						message: 'Problème de connexion au serveur !',
+					});
 				});
 		} else {
 			this.setState({ message: errorMessage });

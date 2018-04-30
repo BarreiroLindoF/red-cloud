@@ -4,9 +4,9 @@ import { NavigationComponent } from 'react-native-material-bottom-navigation';
 
 // View imports
 import Tournois from './../views/tournois/tournois';
-import Menu from './../views/exemple/menu';
 import Contact from './../views/contact/contact';
 import Params from './../views/parametres/params';
+import Menu from './../views/menu/menu';
 
 // Configuration imports
 import { StatusBarPadding } from './header';
@@ -29,7 +29,7 @@ export default TabNavigator(
 	{
 		navigationOptions: { headerStyle: { marginTop: StatusBarPadding } },
 		backBehavior: 'none',
-		lazy: true,
+		lazy: false,
 		tabBarComponent: NavigationComponent,
 		tabBarPosition: 'bottom',
 		tabBarOptions: {

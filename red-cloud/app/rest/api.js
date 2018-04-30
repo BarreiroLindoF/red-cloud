@@ -33,4 +33,5 @@ export const URL = {
 	inscription: '/api/me/participation/tournoi/{$id}',
 	rules: '/api/tournaments/{$id}/rules',
 	participants: '/api/tournois/{$id}/participants',
+	menu: '/api/menu',
 };

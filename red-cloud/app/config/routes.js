@@ -12,6 +12,7 @@ import Inscription from './../views/tournois/inscription';
 import CreateTeam from './../views/tournois/createTeam';
 import PresentationEventTournoi from './../views/tournois/presentationEventTournoi';
 import Code from './../views/login/code';
+import Menu from './../views/menu/menu';
 
 // Configuration imports
 import { StatusBarPadding } from './header';
@@ -29,6 +30,7 @@ export const Routes = StackNavigator(
 		PresentationEventTournoi: { screen: PresentationEventTournoi },
 		Inscription: { screen: Inscription },
 		Tabs: { screen: Tabs },
+		Menu: { screen: Menu },
 	},
 	{
 		navigationOptions: {
