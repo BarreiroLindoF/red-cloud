@@ -19,6 +19,11 @@ class CreateEventsTable extends Migration
             $table->longText('description');
             $table->string('imageUri');
             $table->dateTime('dateHeureDebut');
+            $table->string('page_twitter_url');
+            $table->string('page_facebook_url');
+            $table->string('page_youtube_url');
+            $table->string('page_twitch_url');
+            $table->string('msg_partage');
         });
     }
 

@@ -20,6 +20,7 @@ class ApiTournamentController extends Controller
 
         foreach ($tournaments as $tournament) {
             $tournament->setAttribute('imageUri', $request->root() . $tournament->pathToImages . $tournament->getAttribute('imageUri'));
+            $tournament->setAttribute('msg_partage', $tournament->msg_partage_tournoi_part1 . $tournament->getAttribute('titre') . $tournament->msg_partage_tournoi_part2 );
             $idTournament = $tournament->getAttribute('id_tournoi');
             $tournament->setAttribute('reglementUri',$request->root() . $tournament->pathToRules . $tournament->getAttribute('reglementUri'));
             $tournament->participants = Participation::where('tournoi_id_tournoi', $idTournament)->count();

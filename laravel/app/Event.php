@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Event extends Model
 {
     public $pathToImages = '/images/events/';
+    public $msg_partage_event_part1 = 'Vous aussi, venez consulter les tout nouveaux tournois de l\'évènement : ';
+    public $msg_partage_event_part2=' Tout ceci est possible dans le Bar E-Sport RedCloud à Genève. Cliquez ici, consulter la liste et inscrivez-vous, c\'est aussi simple que cela.';
     /**
      * The table associated with the model.
      *

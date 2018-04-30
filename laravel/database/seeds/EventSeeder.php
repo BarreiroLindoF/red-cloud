@@ -13,22 +13,37 @@ class EventSeeder extends Seeder
     public function run()
     {
         DB::table('event')->insert([
-            'titre' => 'Enorme evenement CS!',
+            'titre' => 'Evenement hebdomadaire!',
             'description' => 'L\'action des joueurs de Counter-Strike se deroule en plusieurs manches, ou rounds, d\'une duree par defaut de cinq minutes, sur une carte de jeu, ou map.',
             'imageUri' => 'cs.jpg',
             'dateHeureDebut' => \Carbon\Carbon::now()->addDays(7),
+            'page_twitter_url'=>'https://twitter.com/BarriereEsport',
+            'page_facebook_url'=>'https://www.facebook.com/esporteventsDACH/',
+            'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
+            'page_twitch_url'=>'https://www.twitch.tv/esportevents',
+            'msg_partage'=>'',
         ]);
         DB::table('event')->insert([
-            'titre' => 'Tournoi de MarioKart sur Wii!',
+            'titre' => 'Evenement Course!',
             'description' => 'Tous a vos manettes de Wii ! Le tournoi de MarioKart ouvre ses portes. Tous sur la ligne de depart, a vos marques, pret, partez!',
             'imageUri' => 'marioKart.jpg',
             'dateHeureDebut' => \Carbon\Carbon::now()->addDays(14),
+            'page_twitter_url'=>'https://twitter.com/BarriereEsport',
+            'page_facebook_url'=>'https://www.facebook.com/esporteventsDACH/',
+            'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
+            'page_twitch_url'=>'https://www.twitch.tv/esportevents',
+            'msg_partage'=>'',
         ]);
         DB::table('event')->insert([
             'titre' => 'Evenement World of Warcraft !',
             'description' => 'Le plus grand tournoi de World of Warcraft ouvre ses portes, alors n\'attendez plus et venez vous y inscrire !',
             'imageUri' => 'wow.jpg',
             'dateHeureDebut' => \Carbon\Carbon::now()->addDays(17),
+            'page_twitter_url'=>'https://twitter.com/BarriereEsport',
+            'page_facebook_url'=>'https://www.facebook.com/esporteventsDACH/',
+            'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
+            'page_twitch_url'=>'https://www.twitch.tv/esportevents',
+            'msg_partage'=>'',
         ]);
 
         DB::table('event')->insert([
@@ -36,6 +51,11 @@ class EventSeeder extends Seeder
             'description' => 'Qui n\'a jamais reve de pouvoir jouer a Dofus avec ses potes tout en sirotant une biere dans son bar favoris ? C\'etait une question rhetorique, venez au plus vite vous inscrire au tournoi Dofus !',
             'imageUri' => 'dofus.jpg',
             'dateHeureDebut' => \Carbon\Carbon::now()->addDays(19),
+            'page_twitter_url'=>'https://twitter.com/BarriereEsport',
+            'page_facebook_url'=>'https://www.facebook.com/esporteventsDACH/',
+            'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
+            'page_twitch_url'=>'https://www.twitch.tv/esportevents',
+            'msg_partage'=>'',
         ]);
 
         DB::table('event')->insert([
@@ -43,42 +63,77 @@ class EventSeeder extends Seeder
             'description' => 'Qui n\'a jamais reve de pouvoir jouer a Pubg avec ses potes tout en sirotant une biere dans son bar favoris ? Inscrivez-vous au tournoi de Players Unknown\'s Battlegrounds !',
             'imageUri' => 'pubg.jpg',
             'dateHeureDebut' => \Carbon\Carbon::now()->addDays(25),
+            'page_twitter_url'=>'https://twitter.com/BarriereEsport',
+            'page_facebook_url'=>'https://www.facebook.com/esporteventsDACH/',
+            'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
+            'page_twitch_url'=>'https://www.twitch.tv/esportevents',
+            'msg_partage'=>'',
         ]);
         DB::table('event')->insert([
             'titre' => 'Evenement de Battlefield !',
             'description' => 'Qui n\'a jamais reve de pouvoir jouer a Battlefield avec ses potes tout en sirotant une biere dans son bar favoris ? C\'etait une question rhetorique, venez au plus vite vous inscrire au tournoi Battlefield !',
             'imageUri' => 'battlefield1.jpg',
             'dateHeureDebut' => \Carbon\Carbon::now()->addDays(40),
+            'page_twitter_url'=>'https://twitter.com/BarriereEsport',
+            'page_facebook_url'=>'https://www.facebook.com/esporteventsDACH/',
+            'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
+            'page_twitch_url'=>'https://www.twitch.tv/esportevents',
+            'msg_partage'=>'',
         ]);
         DB::table('event')->insert([
             'titre' => 'Evenement Fifa 2018 !',
             'description' => 'Venez nombreux vous inscrire au tournoi de Fifa 2018 et profitez des nouveautes du bar pour vous requinquer entre deux parties.',
             'imageUri' => 'fifa18.jpg',
             'dateHeureDebut' => \Carbon\Carbon::now()->addDays(41),
+            'page_twitter_url'=>'https://twitter.com/BarriereEsport',
+            'page_facebook_url'=>'https://www.facebook.com/esporteventsDACH/',
+            'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
+            'page_twitch_url'=>'https://www.twitch.tv/esportevents',
+            'msg_partage'=>'',
         ]);
         DB::table('event')->insert([
             'titre' => 'Evenement Fortnite !',
             'description' => 'Venez nombreux vous inscrire au tournoi de Fifa 2018 et profitez des nouveautes du bar pour vous requinquer entre deux parties. tournoi Dofus !',
             'imageUri' => 'fortnite.jpg',
             'dateHeureDebut' => \Carbon\Carbon::now()->addDays(42),
+            'page_twitter_url'=>'https://twitter.com/BarriereEsport',
+            'page_facebook_url'=>'https://www.facebook.com/esporteventsDACH/',
+            'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
+            'page_twitch_url'=>'https://www.twitch.tv/esportevents',
+            'msg_partage'=>'',
         ]);
         DB::table('event')->insert([
             'titre' => 'Evenement Halo 5',
             'description' => 'Le tournoi Halo 5 est enfin disponible dans notre bar et vous attend ! Nous vous attendons avec impatience.',
             'imageUri' => 'halo5.jpg',
             'dateHeureDebut' => \Carbon\Carbon::now()->addDays(45),
+            'page_twitter_url'=>'https://twitter.com/BarriereEsport',
+            'page_facebook_url'=>'https://www.facebook.com/esporteventsDACH/',
+            'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
+            'page_twitch_url'=>'https://www.twitch.tv/esportevents',
+            'msg_partage'=>'',
         ]);
         DB::table('event')->insert([
             'titre' => 'Evenement de LOL !',
             'description' => 'Le tournoi League of Legends est enfin disponible dans notre bar et vous attend ! Nous vous attendons avec impatience.',
             'imageUri' => 'leagueOfLegends.jpg',
             'dateHeureDebut' => \Carbon\Carbon::now()->addDays(50),
+            'page_twitter_url'=>'https://twitter.com/BarriereEsport',
+            'page_facebook_url'=>'https://www.facebook.com/esporteventsDACH/',
+            'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
+            'page_twitch_url'=>'https://www.twitch.tv/esportevents',
+            'msg_partage'=>'',
         ]);
         DB::table('event')->insert([
             'titre' => 'Evenement de Heroes of the Storm !',
             'description' => 'Le tout nouveau tournoi de Heroes of the Storm vient d\'ouvrir. Inscris ta team pour y participer et venir passer un bon moment dans notre bar ! Attention les places sont limitees.',
             'imageUri' => 'heroesOfTheStorm.jpg',
             'dateHeureDebut' => \Carbon\Carbon::now()->addDays(50),
+            'page_twitter_url'=>'https://twitter.com/BarriereEsport',
+            'page_facebook_url'=>'https://www.facebook.com/esporteventsDACH/',
+            'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
+            'page_twitch_url'=>'https://www.twitch.tv/esportevents',
+            'msg_partage'=>'',
         ]);
     }
 }

@@ -28,6 +28,11 @@ class CreateTournoiTable extends Migration
             $table->foreign('jeu_id_jeu')->references('id_jeu')->on('jeu');
             $table->integer('type_tournoi_id_type_tournoi')->unsigned();
             $table->foreign('type_tournoi_id_type_tournoi')->references('id_type_tournoi')->on('type_tournoi');
+            $table->string('page_twitter_url');
+            $table->string('page_facebook_url');
+            $table->string('page_youtube_url');
+            $table->string('page_twitch_url');
+            $table->string('msg_partage');
         });
     }
 

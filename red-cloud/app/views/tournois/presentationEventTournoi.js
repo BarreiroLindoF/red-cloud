@@ -33,7 +33,7 @@ const YoutubePage = 'https://www.youtube.com/channel/UCRijo3ddMTht_IHyNSNXpNQ';
 
 const Android = require('react-native').Platform.OS === 'android';
 
-const StoreAppUrl = 'https://play.google.com/store/apps/details?id=com.bigredcloud.app'; //A changer une fois en prod
+const StoreAppUrl = Android ? 'https://play.google.com/store/apps/details?id=com.bigredcloud.app' : ''; //A changer une fois en prod
 
 const styleFile = require('./styles');
 
@@ -406,7 +406,7 @@ class PresentationEventTournoi extends React.Component {
 				<View style={Styles.socialFooter}>
 					<TouchableOpacity
 						onPress={() => {
-							Linking.openURL(FaceBookPage);
+							Linking.openURL(itemToDisplay.page_facebook_url);
 						}}
 					>
 						<Image source={FaceBookImgSrc} style={Styles.logo} />
@@ -415,8 +415,7 @@ class PresentationEventTournoi extends React.Component {
 					<TouchableOpacity
 						onPress={() => {
 							Share.share({
-								message: `RedCloud est désromais dans ton Store ! N'attends plus et viens rejoindre tes amis et rivaux :)!
-                                    ${Android ? StoreAppUrl : ''}`,
+								message: itemToDisplay.msg_partage + StoreAppUrl,
 								url: undefined,
 								title: 'App RedCloud',
 							});
@@ -427,7 +426,7 @@ class PresentationEventTournoi extends React.Component {
 
 					<TouchableOpacity
 						onPress={() => {
-							Linking.openURL(TwitterPage);
+							Linking.openURL(itemToDisplay.page_twitter_url);
 						}}
 					>
 						<Image source={TwitterImgSrc} style={Styles.logo} />
@@ -435,7 +434,7 @@ class PresentationEventTournoi extends React.Component {
 
 					<TouchableOpacity
 						onPress={() => {
-							Linking.openURL(TwitchPage);
+							Linking.openURL(itemToDisplay.page_twitch_url);
 						}}
 					>
 						<Image source={TwitchImgSrc} style={Styles.logo} />
@@ -443,7 +442,7 @@ class PresentationEventTournoi extends React.Component {
 
 					<TouchableOpacity
 						onPress={() => {
-							Linking.openURL(YoutubePage);
+							Linking.openURL(itemToDisplay.page_youtube_url);
 						}}
 					>
 						<Image source={YoutubeImgSrc} style={Styles.logo} />

@@ -22,6 +22,11 @@ class TournoiTableSeeder extends Seeder
             'reglementUri' => 'go.pdf',
             'jeu_id_jeu' => 1,
             'type_tournoi_id_type_tournoi' => 2,
+            'page_twitter_url'=>'https://twitter.com/Warcraft',
+            'page_facebook_url'=>'https://www.facebook.com/WorldofWarcraft.de/?brand_redir=184466263718',
+            'page_youtube_url'=>'https://www.youtube.com/user/WorldofWarcraft',
+            'page_twitch_url'=>'https://www.twitch.tv/directory/game/World%20of%20Warcraft',
+            'msg_partage'=>'',
         ]);
         DB::table('tournoi')->insert([
             'titre' => 'Coupe Etoile Arc-En-Ciel',
@@ -34,6 +39,11 @@ class TournoiTableSeeder extends Seeder
             'reglementUri' => 'go.pdf',
             'jeu_id_jeu' => 2,
             'type_tournoi_id_type_tournoi' => 1,
+            'page_twitter_url'=>'https://twitter.com/search?q=%23mariokart',
+            'page_facebook_url'=>'https://www.facebook.com/MarioKartDE/?brand_redir=641705949306617',
+            'page_youtube_url'=>'https://www.youtube.com/watch?v=1dMAe_6dwDs',
+            'page_twitch_url'=>'https://www.twitch.tv/directory/game/Mario%20Kart%208',
+            'msg_partage'=>'',
         ]);
         DB::table('tournoi')->insert([
             'titre' => 'Oeuf de Pâques',
@@ -46,6 +56,11 @@ class TournoiTableSeeder extends Seeder
             'reglementUri' => 'go.pdf',
             'jeu_id_jeu' => 3,
             'type_tournoi_id_type_tournoi' => 1,
+            'page_twitter_url'=>'https://twitter.com/DOFUSfr',
+            'page_facebook_url'=>'https://www.facebook.com/DOFUS/',
+            'page_youtube_url'=>'https://www.youtube.com/user/dofus',
+            'page_twitch_url'=>'https://www.twitch.tv/directory/game/Dofus',
+            'msg_partage'=>'',
         ]);
         DB::table('tournoi')->insert([
             'titre' => 'Libère ton talent dans PUBG !',
@@ -58,6 +73,11 @@ class TournoiTableSeeder extends Seeder
             'reglementUri' => 'go.pdf',
             'jeu_id_jeu' => 4,
             'type_tournoi_id_type_tournoi' => 2,
+            'page_twitter_url'=>'https://twitter.com/PUBG',
+            'page_facebook_url'=>'https://www.facebook.com/gaming/playerunknownsbattlegrounds/?sub_view=videos&fbsource=1103&external_ref=game_search_unit',
+            'page_youtube_url'=>'https://www.youtube.com/channel/UCT1d4QydLziQUmp_lqQirMQ',
+            'page_twitch_url'=>'https://www.twitch.tv/directory/game/PLAYERUNKNOWN\'S%20BATTLEGROUNDS',
+            'msg_partage'=>'',
         ]);
         DB::table('tournoi')->insert([
             'titre' => 'FiFa',
@@ -70,6 +90,11 @@ class TournoiTableSeeder extends Seeder
             'reglementUri' => 'go.pdf',
             'jeu_id_jeu' => 5,
             'type_tournoi_id_type_tournoi' => 1,
+            'page_twitter_url'=>'https://twitter.com/_BeFoot',
+            'page_facebook_url'=>'https://www.facebook.com/easportsfifa.fr/',
+            'page_youtube_url'=>'https://www.youtube.com/user/EAsportsfootball',
+            'page_twitch_url'=>'https://www.twitch.tv/directory/game/FIFA%2018',
+            'msg_partage'=>'',
         ]);
         DB::table('tournoi')->insert([
             'titre' => 'Tournoi BattleField 1',
@@ -82,6 +107,11 @@ class TournoiTableSeeder extends Seeder
             'reglementUri' => 'go.pdf',
             'jeu_id_jeu' => 6,
             'type_tournoi_id_type_tournoi' => 1,
+            'page_twitter_url'=>'https://twitter.com/Battlefield',
+            'page_facebook_url'=>'https://www.facebook.com/groups/Battlefield5/',
+            'page_youtube_url'=>'https://www.youtube.com/user/Battlefield',
+            'page_twitch_url'=>'https://www.twitch.tv/directory/game/Battlefield%201',
+            'msg_partage'=>'',
         ]);
         DB::table('tournoi')->insert([
             'titre' => 'Tournoi Halo 5',
@@ -94,6 +124,11 @@ class TournoiTableSeeder extends Seeder
             'reglementUri' => 'go.pdf',
             'jeu_id_jeu' => 7,
             'type_tournoi_id_type_tournoi' => 1,
+            'page_twitter_url'=>'https://twitter.com/Halo',
+            'page_facebook_url'=>'https://www.facebook.com/Fansdehalo5/',
+            'page_youtube_url'=>'https://www.youtube.com/watch?v=v2uEb5Vrtwk',
+            'page_twitch_url'=>'https://www.twitch.tv/directory/game/Halo%205%3A%20Guardians',
+            'msg_partage'=>'',
         ]);
         DB::table('tournoi')->insert([
             'titre' => 'Tournoi Fortnite',
@@ -106,6 +141,11 @@ class TournoiTableSeeder extends Seeder
             'reglementUri' => 'go.pdf',
             'jeu_id_jeu' => 8,
             'type_tournoi_id_type_tournoi' => 1,
+            'page_twitter_url'=>'https://twitter.com/FortniteGame',
+            'page_facebook_url'=>'https://www.facebook.com/FortniteFRA/',
+            'page_youtube_url'=>'https://www.youtube.com/channel/UCZDxHqJRVGXvWIxAjoVU0cg',
+            'page_twitch_url'=>'https://www.twitch.tv/directory/game/Fortnite',
+            'msg_partage'=>'',
         ]);
         DB::table('tournoi')->insert([
             'titre' => 'Heroes of the Storm',
@@ -118,6 +158,11 @@ class TournoiTableSeeder extends Seeder
             'reglementUri' => 'go.pdf',
             'jeu_id_jeu' => 9,
             'type_tournoi_id_type_tournoi' => 1,
+            'page_twitter_url'=>'https://twitter.com/BlizzHeroes',
+            'page_facebook_url'=>'https://www.facebook.com/heroesofthestorm.de/?brand_redir=526330610781529',
+            'page_youtube_url'=>'https://www.youtube.com/user/BlizzHeroes',
+            'page_twitch_url'=>'https://www.twitch.tv/directory/game/Heroes%20of%20the%20Storm',
+            'msg_partage'=>'',
         ]);
         DB::table('tournoi')->insert([
             'titre' => 'Tournoi de LOL',
@@ -130,6 +175,11 @@ class TournoiTableSeeder extends Seeder
             'reglementUri' => 'go.pdf',
             'jeu_id_jeu' => 10,
             'type_tournoi_id_type_tournoi' => 1,
+            'page_twitter_url'=>'https://twitter.com/LeagueOfLegends',
+            'page_facebook_url'=>'https://www.facebook.com/leagueoflegends/',
+            'page_youtube_url'=>'https://www.youtube.com/user/RiotGamesInc',
+            'page_twitch_url'=>'https://www.twitch.tv/directory/game/League%20of%20Legends',
+            'msg_partage'=>'',
         ]);
         DB::table('tournoi')->insert([
             'titre' => 'Tournoi CS',
@@ -142,6 +192,11 @@ class TournoiTableSeeder extends Seeder
             'reglementUri' => 'go.pdf',
             'jeu_id_jeu' => 11,
             'type_tournoi_id_type_tournoi' => 1,
+            'page_twitter_url'=>'https://twitter.com/ESLCS',
+            'page_facebook_url'=>'https://www.facebook.com/CounterStrike/?ref=br_rs',
+            'page_youtube_url'=>'https://www.youtube.com/channel/UC00V7qiby55raDY3LVHBS5Q',
+            'page_twitch_url'=>'https://www.twitch.tv/directory/game/Counter-Strike%3A%20Global%20Offensive',
+            'msg_partage'=>'',
         ]);
         DB::table('tournoi')->insert([
             'titre' => 'Tournoi MarioKart',
@@ -155,6 +210,11 @@ class TournoiTableSeeder extends Seeder
             'reglementUri' => 'go.pdf',
             'jeu_id_jeu' => 11,
             'type_tournoi_id_type_tournoi' => 1,
+            'page_twitter_url'=>'https://twitter.com/search?q=%23mariokart',
+            'page_facebook_url'=>'https://www.facebook.com/MarioKartDE/?brand_redir=641705949306617',
+            'page_youtube_url'=>'https://www.youtube.com/watch?v=1dMAe_6dwDs',
+            'page_twitch_url'=>'https://www.twitch.tv/directory/game/Mario%20Kart%208',
+            'msg_partage'=>'',
         ]);
         DB::table('tournoi')->insert([
             'titre' => 'Tournoi World of Warcraft',
@@ -168,6 +228,11 @@ class TournoiTableSeeder extends Seeder
             'reglementUri' => 'go.pdf',
             'jeu_id_jeu' => 11,
             'type_tournoi_id_type_tournoi' => 1,
+            'page_twitter_url'=>'https://twitter.com/Warcraft',
+            'page_facebook_url'=>'https://www.facebook.com/WorldofWarcraft.de/?brand_redir=184466263718',
+            'page_youtube_url'=>'https://www.youtube.com/user/WorldofWarcraft',
+            'page_twitch_url'=>'https://www.twitch.tv/directory/game/World%20of%20Warcraft',
+            'msg_partage'=>'',
         ]);
     }
 }

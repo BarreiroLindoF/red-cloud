@@ -16,6 +16,7 @@ class ApiEventsController extends Controller
             $event->setAttribute('imageUri', $request->root() . $event->pathToImages . $event->getAttribute('imageUri'));
             $date = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $event->getAttribute('dateHeureDebut'))->format('d-m-Y');
             $event->setAttribute('dateHeureDebut', $date);
+            $event->setAttribute('msg_partage', $event->msg_partage_event_part1 . $event->getAttribute('titre') . $event->msg_partage_event_part2 );
         }
 
         return response()->json(new JsonResponse(true, $events , null));
