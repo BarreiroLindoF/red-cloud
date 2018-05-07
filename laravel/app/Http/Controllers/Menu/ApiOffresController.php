@@ -39,20 +39,21 @@ class ApiOffresController extends Controller {
         $offre->boissons()->attach($request->boissons);
         $offre->nourritures()->attach($request->nourritures);
 */
-        $payload = $this->sendNotifications();
+        $this->sendNotifications();
 
-        return response()->json(new JsonResponse(true, $payload, null));
+        return response()->json(new JsonResponse(true, null, null));
     }
 
     private function sendNotifications() {
-        $users = User::whereNotNull('notificationtoken')->get();
+        $users = User::whereNotNull('notificationtoken')->where('notification_offre', 1)->get();
+        if($users == null) { return; }
         $tokens = array();
         foreach($users as $user) {
             $tokens[] = $user->notificationtoken;
         }
         $notifications = new ExpoNotifications($tokens, 'Nouvelle offre limitée !',
             'Une nouvelle offre est disponible. Lancez l\'application pour la consulter !');
-        return $notifications->send();
+        $notifications->send();
     }
 
 

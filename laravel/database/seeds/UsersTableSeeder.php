@@ -21,6 +21,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'flavio_slb4@hotmail.com',
             'password' => bcrypt('password'),
             'notificationtoken' => null,
+            'notification_offre' => 0,
         ]);
         DB::table('users')->insert([
             'nom' => 'Magnin',
@@ -32,6 +33,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'michou@hotmail.com',
             'password' => bcrypt('password'),
             'notificationtoken' => null,
+            'notification_offre' => 0,
         ]);
         DB::table('users')->insert([
             'nom' => 'Blaricaud',
@@ -43,6 +45,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'BBBoby@hotmail.com',
             'password' => bcrypt('password'),
             'notificationtoken' => null,
+            'notification_offre' => 0,
         ]);
         DB::table('users')->insert([
             'nom' => 'Feirreira',
@@ -54,6 +57,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'Fait-Nez@hotmail.com',
             'password' => bcrypt('password'),
             'notificationtoken' => null,
+            'notification_offre' => 0,
         ]);
         DB::table('users')->insert([
             'nom' => 'Marouane',
@@ -65,6 +69,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'Philou_1212@hotmail.com',
             'password' => bcrypt('password'),
             'notificationtoken' => null,
+            'notification_offre' => 0,
         ]);
     }
 }

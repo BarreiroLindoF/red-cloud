@@ -68,6 +68,7 @@ class ApiRegisterController extends Controller
             'datenaissance' => $request->input('datenaissance'),
             'email' => $request->input('email'),
             'password' => bcrypt($request->input('password')),
+            'notification_offre' => 1,
         ]);
         $jeux = $request->input('jeux');
         // Créer un tableau pour tout ajouter en une seule requête à la BDD
