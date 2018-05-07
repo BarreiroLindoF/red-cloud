@@ -43,6 +43,8 @@ const updateUser = (state = initialState, action) => {
 				notificationToken: action.payload.notificationtoken,
 				notificationOffre: action.payload.notification_offre,
 			};
+		case Actions.UPDATE_NOTIFICATION_OFFRE:
+			return { ...state, notificationOffre: action.payload };
 		case Actions.UPDATE_NOM:
 			return { ...state, nom: action.payload };
 		case Actions.UPDATE_PRENOM:
