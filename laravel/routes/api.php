@@ -53,9 +53,14 @@ Route::group(['middleware' => ['api','cors']], function () {
 
     // Auth
     Route::get('me/deconnexion', 'Auth\ApiAuthController@deconnexion');
+
+    // Partie administration
+    Route::post('offres', 'Menu\ApiOffresController@createOffre');
 });
 
 // secured routes
 Route::group(['middleware' => ['jwt-auth', 'api','cors']], function () {
     Route::post('test/login', 'Auth\ApiAuthController@login');
 });
+
+// Ajouter un groupe pour la partie administrative
