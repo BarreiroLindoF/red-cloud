@@ -25,6 +25,7 @@ class ApiMenuController extends Controller{
         $menu->nourritures = $nourritures;
         $menu->categorieBoisson = $catBoisson;
         $menu->categorieNourriture = $catNourriture;*/
+        sadfhsdafkjhsafkjhsalfkjhlskjfhjkjhasfj
 
         /*$menu = DB::table('boisson')
                 ->join('categorie_boisson', 'id_categorie_boisson', '=', 'categorie_boisson_id_categorie_boisson')
