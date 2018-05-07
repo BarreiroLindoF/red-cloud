@@ -8,6 +8,6 @@ class DataTitle
     public $title;
 
     public function __construct($title) {
-        $this->title;
+        $this->title = $title;
     }
 }

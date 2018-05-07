@@ -20,57 +20,38 @@ class ApiMenuController extends Controller
 
     public function getMenu(Request $request)
     {
-        $nourritures = Nourriture::all();
-        $boissons = Boisson::all();
-        $catBoisson = CategorieBoisson::all();
-        $catNourriture = CategorieNourriture::all();
-        /*$categorie = CategorieNourriture::join('categorie_nourriture', 'categorie_nourriture_id_categorie_nourriture', 'id');
-		$menu = new Menu();
-        $menu->boissons = $boissons;
-        $menu->nourritures = $nourritures;
-        $menu->categorieBoisson = $catBoisson;
-        $menu->categorieNourriture = $catNourriture;*/
-
-        /*$menu = DB::table('boisson')
-                ->join('categorie_boisson', 'id_categorie_boisson', '=', 'categorie_boisson_id_categorie_boisson')
-                ->select('boisson.nom AS boisson_nom', 'categorie_boisson.nom AS categorie_nom')
-                ->groupBy('categorie_nom', 'boisson_nom')
-                ->get();*/
         $boissons = DB::table('categorie_boisson')
-            ->select('categorie_boisson.nom AS categorie_nom', 'boisson.nom AS boisson_nom')
+            ->select('categorie_boisson.nom AS categorie_nom', 'boisson.nom AS element_nom')
             ->join('boisson', 'id_categorie_boisson', '=', 'categorie_boisson_id_categorie_boisson')
             ->orderby('id_categorie_boisson')
-            ->get()->groupBy('categorie_nom');
+            ->get();
 
         $nourriture = DB::table('categorie_nourriture')
-            ->select('categorie_nourriture.nom AS categorie_nom', 'nourriture.nom AS nourriture_nom')
+            ->select('categorie_nourriture.nom AS categorie_nom', 'nourriture.nom AS element_nom')
             ->join('nourriture', 'id_categorie_nourriture', '=', 'categorie_nourriture_id_categorie_nourriture')
             ->orderby('id_categorie_nourriture')
-            ->get()->groupBy('categorie_nom');
+            ->get();
+        
+        $menu = new Menu();
+        $menu->nourritures = $this->getSections($nourriture);
+        $menu->boissons = $this->getSections($boissons);
 
 
+        return response()->json(new JsonResponse(true, $menu, 'Liste de la nourritures chargées'));
+    }
 
-        /*$categories = array();
-        foreach ($nourriture as $n) {
-            if (!in_array($n->categorie_nom, $categories)) {
-                $categories[] = $n->categorie_nom;
-            }
-        }
-*/
+    private function getSections($elements) {
         $sections = array();
-
-        //$categories = var_export($boissons);
-        foreach($boissons as $categorie)  {
-            var_dump($boissons[$categorie[0]->categorie_nom]);
-            foreach($boissons[$categorie[0]->categorie_nom] as $boisson) {
-                //var_dump($boisson);
+        $categorie_avant = null;
+        foreach ($elements as $element) {
+            if (strcmp($categorie_avant, $element->categorie_nom)) {
+                $section = new Section();
+                $section->setSectionTitle($element->categorie_nom);
+                $sections[] = $section;
+                $categorie_avant = $element->categorie_nom;
             }
+            end($sections)->addDataElement($element->element_nom);
         }
-        /*foreach ($boissons as $boisson) {
-            $section = new Section();
-            $section->setSectionTitle($boisson)
-        }*/
-
-        return response()->json(new JsonResponse(true, $boissons, 'Liste de la nourritures chargées'));
+        return $sections;
     }
 }
