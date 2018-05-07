@@ -1,18 +1,27 @@
 import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, Switch } from 'react-native';
 import { RkCard, RkText, RkStyleSheet } from 'react-native-ui-kitten';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { StatusBarPaddingView } from './../../config/header';
-import { resetStore } from './../../redux/actions';
+import { resetStore, updateNotificationOffre } from './../../redux/actions';
 import { api, URL } from '../../rest/api';
 
 const mapDispatchToProps = (dispatch) => ({
 	resetStore: () => {
 		dispatch(resetStore());
 	},
+	updateNotificationOffre: (offre) => {
+		dispatch(updateNotificationOffre(offre));
+	},
 });
+
+const mapStateToProps = (state) => {
+	return {
+		notificationOffre: state.notificationOffre,
+	};
+};
 
 class Params extends React.Component {
 	// eslint-disable-next-line
@@ -23,6 +32,11 @@ class Params extends React.Component {
 			return <Icon size={24} color="red" name="settings" />;
 		},
 	};
+
+	constructor(props) {
+		super(props);
+		this.toggleSwitch = this.toggleSwitch.bind(this);
+	}
 
 	deconnect() {
 		api()
@@ -95,6 +109,19 @@ class Params extends React.Component {
 		);
 	}
 
+	toggleSwitch() {
+		this.props.updateNotificationOffre(this.props.notificationOffre === 1 ? 0 : 1);
+	}
+
+	renderNotificationOffres() {
+		return (
+			<View>
+				<Text>Je veux être notifié ouais {this.props.notificationOffre}</Text>
+				<Switch onValueChange={this.toggleSwitch} value={this.props.notificationOffre === 1} />
+			</View>
+		);
+	}
+
 	render() {
 		return (
 			<View style={Styles.container}>
@@ -104,6 +131,7 @@ class Params extends React.Component {
 				</View>
 				<View style={Styles.containerCard}>{this.renderDeconnexion()}</View>
 				<View style={Styles.containerCard}>{this.renderJeuxFavoris()}</View>
+				{this.renderNotificationOffres()}
 			</View>
 		);
 	}
@@ -160,4 +188,4 @@ let Styles = RkStyleSheet.create((theme) => ({
 	},
 }));
 
-export default connect(null, mapDispatchToProps)(Params);
+export default connect(mapStateToProps, mapDispatchToProps)(Params);
