@@ -4,6 +4,8 @@ namespace App;
 
 class Menu
 {
-    public $boissons;
-    public $nourritures;
+    public $categorieBoisson;
+    public $boissons = [];
+    public $categorieNourriture;
+    public $nourritures = [];
 }
