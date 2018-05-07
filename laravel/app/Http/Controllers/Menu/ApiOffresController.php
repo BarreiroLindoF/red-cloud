@@ -29,7 +29,7 @@ class ApiOffresController extends Controller {
     }
 
     public function createOffre(Request $request) {
-       /* $offre = new Offre();
+        $offre = new Offre();
         $offre->description = $request->description;
         $offre->prix = $request->prix;
         $offre->date_debut = $request->date_debut;
@@ -38,7 +38,7 @@ class ApiOffresController extends Controller {
 
         $offre->boissons()->attach($request->boissons);
         $offre->nourritures()->attach($request->nourritures);
-*/
+
         $this->sendNotifications();
 
         return response()->json(new JsonResponse(true, null, null));
