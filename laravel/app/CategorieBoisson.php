@@ -11,4 +11,7 @@ class CategorieBoisson extends Model {
     public function boissons(){
         return $this->hasMany('App\Boisson');
     }
+
+    protected $fillable = ['id_categorie_boisson', 'nom'];
+
 }

@@ -22,8 +22,10 @@ class Menu extends React.Component {
 		this.state = {
 			boissons: [],
 			nourritures: [],
-			isFetching: false,
+			isFetching: true,
+			categoriesBoissons: [],
 		};
+		this.renderBoisson = this.renderBoisson.bind(this);
 	}
 
 	componentWillMount() {
@@ -31,14 +33,14 @@ class Menu extends React.Component {
 	}
 
 	loadData() {
-		this.setState({ isFetching: true });
 		api()
 			.get(URL.menu)
 			.then((response) => {
 				this.setState({
 					isFetching: false,
-					boissons: response.data.payload.boissons,
-					nourritures: response.data.payload.nourritures,
+					boissons: response.data.payload.Menu.Boissons,
+					nourritures: response.data.payload.Menu.Nourriture,
+					categoriesBoissons: [{ categorie_nom: 'Alcoolisées' }],
 				});
 			})
 			.catch((error) => {
@@ -51,7 +53,12 @@ class Menu extends React.Component {
 	}
 
 	keyExtractorBoisson(boisson) {
-		return boisson.id_boisson;
+		return boisson.categorie_nom;
+	}
+
+	keyExtractorCategoriesBoisson(categorie) {
+		console.log('keyExctractor categories');
+		return categorie.categorie_nom;
 	}
 
 	renderNourriture(nourriture) {
@@ -67,11 +74,30 @@ class Menu extends React.Component {
 		);
 	}
 
+	renderCategoriesBoissons(categorie) {
+		return (
+			<View>
+				{console.log(this.state.boissons)}
+				<Text>{categorie.item.categorie_nom}</Text>
+				<FlatList
+					data={this.state.boissons}
+					renderItem={this.renderBoisson}
+					keyExtractor={this.keyExtractorBoisson}
+					refreshing={this.state.isFetching}
+					onRefresh={() => {
+						this.loadData();
+					}}
+					contentContainerStyle={styles.container}
+				/>
+			</View>
+		);
+	}
+
 	renderBoisson(boisson) {
 		return (
 			<View style={Styles.textContainer}>
 				<View style={Styles.leftContainer}>
-					<Text>{boisson.item.nom}</Text>
+					<Text>{boisson.item.boisson_nom}</Text>
 				</View>
 				<View style={Styles.rightContainer}>
 					<Text>{boisson.item.prix}.-</Text>
@@ -80,6 +106,9 @@ class Menu extends React.Component {
 		);
 	}
 	render() {
+		{
+			console.log(this.state.boissons);
+		}
 		return (
 			<View style={Styles.container}>
 				<StatusBarPaddingView />
@@ -90,19 +119,19 @@ class Menu extends React.Component {
 					<View>
 						<Text style={Styles.subTitle}>Boissons</Text>
 					</View>
+					<View>
+						<Text style={Styles.subTitle}>Nourritures</Text>
+					</View>
 					<FlatList
-						data={this.state.boissons}
-						renderItem={this.renderBoisson}
-						keyExtractor={this.keyExtractorBoisson}
+						data={this.state.categoriesBoissons}
+						renderItem={this.renderCategoriesBoissons}
+						keyExtractor={this.keyExtractorCategoriesBoisson}
 						refreshing={this.state.isFetching}
 						onRefresh={() => {
 							this.loadData();
 						}}
 						contentContainerStyle={styles.container}
 					/>
-					<View>
-						<Text style={Styles.subTitle}>Nourritures</Text>
-					</View>
 					<FlatList
 						data={this.state.nourritures}
 						renderItem={this.renderNourriture}
