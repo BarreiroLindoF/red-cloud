@@ -56,7 +56,7 @@ Route::group(['middleware' => ['api','cors']], function () {
 
     // Partie administration
     Route::post('offres', 'Menu\ApiOffresController@createOffre');
-    Route::post('tournois', 'Events\ApiTournoisController@addTournoi');
+    Route::post('tournois', 'Tournament\ApiTournamentController@addTournoi');
 });
 
 // secured routes
