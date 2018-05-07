@@ -44,6 +44,13 @@ class ApiOffresController extends Controller {
         return response()->json(new JsonResponse(true, null, null));
     }
 
+    public function changeNotificationsOffre(Request $request) {
+        $user = \JWTAuth::parseToken()->authenticate();
+        $user->notification_offre = $request->input('notification_offre');
+        $user->save();
+        return response()->json(new JsonResponse(true, $user, null));
+    }
+
     private function sendNotifications() {
         $users = User::whereNotNull('notificationtoken')->where('notification_offre', 1)->get();
         if($users == null) { return; }

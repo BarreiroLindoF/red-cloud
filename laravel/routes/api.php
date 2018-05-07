@@ -43,6 +43,8 @@ Route::group(['middleware' => ['api','cors']], function () {
     Route::get('categorie/{idCat}', 'Menu\ApiMenuController@getCategorie');
     Route::get('offres', 'Menu\ApiOffresController@getOffres');
     Route::get('offre/{id}', 'Menu\ApiOffresController@getOffre');
+
+    Route::patch('me/offres/notification', 'Menu\ApiOffresController@changeNotificationsOffre');
     
     Route::get('events', 'Events\ApiEventsController@getEvents');
     Route::get('events/{id}/tournaments', 'Tournament\ApiTournamentController@getTournois');
