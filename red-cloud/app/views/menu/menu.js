@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, FlatList, ScrollView } from 'react-native';
+import { Text, View, FlatList, ScrollView, SectionList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { RkStyleSheet } from 'react-native-ui-kitten';
 
@@ -20,12 +20,11 @@ class Menu extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			boissons: [],
-			nourritures: [],
+			sectionsBoissons: [],
+			sectionsNourritures: [],
 			isFetching: true,
 			categoriesBoissons: [],
 		};
-		this.renderBoisson = this.renderBoisson.bind(this);
 	}
 
 	componentWillMount() {
@@ -38,10 +37,11 @@ class Menu extends React.Component {
 			.then((response) => {
 				this.setState({
 					isFetching: false,
-					boissons: response.data.payload.Menu.Boissons,
-					nourritures: response.data.payload.Menu.Nourriture,
+					sectionsBoissons: response.data.payload.boissons,
+					sectionsNourritures: response.data.payload.nourritures,
 					categoriesBoissons: [{ categorie_nom: 'Alcoolisées' }],
 				});
+				console.log(response.data.payload.boissons);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -53,100 +53,62 @@ class Menu extends React.Component {
 	}
 
 	keyExtractorBoisson(boisson) {
-		return boisson.categorie_nom;
+		return boisson.title;
 	}
 
-	keyExtractorCategoriesBoisson(categorie) {
-		console.log('keyExctractor categories');
-		return categorie.categorie_nom;
-	}
-
-	renderNourriture(nourriture) {
+	renderSectionHeader({ section }) {
 		return (
-			<View style={Styles.textContainer}>
-				<View style={Styles.leftContainer}>
-					<Text>{nourriture.item.nom}</Text>
-				</View>
-				<View style={Styles.rightContainer}>
-					<Text>{nourriture.item.prix}.-</Text>
-				</View>
+			<View style={{ marginTop: 10, marginLeft: '2%' }}>
+				<Text>{section.title}</Text>
+				<View style={Styles.separatorContainer} />
 			</View>
 		);
 	}
 
-	renderCategoriesBoissons(categorie) {
-		return (
-			<View>
-				{console.log(this.state.boissons)}
-				<Text>{categorie.item.categorie_nom}</Text>
-				<FlatList
-					data={this.state.boissons}
-					renderItem={this.renderBoisson}
-					keyExtractor={this.keyExtractorBoisson}
-					refreshing={this.state.isFetching}
-					onRefresh={() => {
-						this.loadData();
-					}}
-					contentContainerStyle={styles.container}
-				/>
-			</View>
-		);
-	}
-
-	renderBoisson(boisson) {
-		return (
-			<View style={Styles.textContainer}>
-				<View style={Styles.leftContainer}>
-					<Text>{boisson.item.boisson_nom}</Text>
-				</View>
-				<View style={Styles.rightContainer}>
-					<Text>{boisson.item.prix}.-</Text>
-				</View>
-			</View>
-		);
-	}
 	render() {
-		{
-			console.log(this.state.boissons);
-		}
 		return (
 			<View style={Styles.container}>
 				<StatusBarPaddingView />
 				<View style={Styles.rubanHaut}>
 					<Text style={Styles.title}>Menu</Text>
 				</View>
-				<ScrollView>
+				<ScrollView style={{ marginBottom: 30 }}>
 					<View>
-						<Text style={Styles.subTitle}>Boissons</Text>
+						<Text style={Styles.subTitle}>{this.state.isFetching ? '' : 'Boissons'}</Text>
 					</View>
-					<View>
-						<Text style={Styles.subTitle}>Nourritures</Text>
-					</View>
-					<FlatList
-						data={this.state.categoriesBoissons}
-						renderItem={this.renderCategoriesBoissons}
-						keyExtractor={this.keyExtractorCategoriesBoisson}
-						refreshing={this.state.isFetching}
-						onRefresh={() => {
-							this.loadData();
-						}}
-						contentContainerStyle={styles.container}
+					<SectionList
+						sections={this.state.sectionsBoissons}
+						keyExtractor={this.keyExtractorBoisson}
+						renderSectionHeader={this.renderSectionHeader}
+						renderItem={renderItem}
 					/>
-					<FlatList
-						data={this.state.nourritures}
-						renderItem={this.renderNourriture}
+					<View style={{ marginTop: '7%' }}>
+						<Text style={Styles.subTitle}>{this.state.isFetching ? '' : 'Nourritures'}</Text>
+					</View>
+					<SectionList
+						sections={this.state.sectionsNourritures}
 						keyExtractor={this.keyExtractorNourriture}
-						refreshing={false}
-						onRefresh={() => {
-							this.loadData();
-						}}
-						contentContainerStyle={styles.container}
+						renderSectionHeader={this.renderSectionHeader}
+						renderItem={renderItem}
 					/>
 				</ScrollView>
 			</View>
 		);
 	}
 }
+
+const renderItem = ({ item }) => {
+	return (
+		<View style={Styles.textContainer}>
+			<View style={Styles.leftContainer}>
+				<Text>{item.title}</Text>
+			</View>
+			<View style={Styles.rightContainer}>
+				<Text>{item.prix}.-</Text>
+			</View>
+		</View>
+	);
+};
 
 const styles = RkStyleSheet.create((theme) => ({
 	container: {
@@ -189,11 +151,18 @@ const Styles = {
 	leftContainer: {
 		flex: 1,
 		alignItems: 'flex-start',
+		marginLeft: '7%',
 	},
 	rightContainer: {
 		flex: 1,
 		alignItems: 'flex-end',
 		marginRight: 20,
+	},
+	separatorContainer: {
+		height: 1,
+		backgroundColor: 'gray',
+		marginBottom: 5,
+		marginRight: '4%',
 	},
 };
 export default Menu;

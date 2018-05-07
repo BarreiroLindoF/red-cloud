@@ -21,13 +21,13 @@ class ApiMenuController extends Controller
     public function getMenu(Request $request)
     {
         $boissons = DB::table('categorie_boisson')
-            ->select('categorie_boisson.nom AS categorie_nom', 'boisson.nom AS element_nom')
+            ->select('categorie_boisson.nom AS categorie_nom', 'boisson.nom AS element_nom', 'boisson.prix AS prix')
             ->join('boisson', 'id_categorie_boisson', '=', 'categorie_boisson_id_categorie_boisson')
             ->orderby('id_categorie_boisson')
             ->get();
 
         $nourriture = DB::table('categorie_nourriture')
-            ->select('categorie_nourriture.nom AS categorie_nom', 'nourriture.nom AS element_nom')
+            ->select('categorie_nourriture.nom AS categorie_nom', 'nourriture.nom AS element_nom', 'nourriture.prix AS prix')
             ->join('nourriture', 'id_categorie_nourriture', '=', 'categorie_nourriture_id_categorie_nourriture')
             ->orderby('id_categorie_nourriture')
             ->get();
@@ -50,7 +50,7 @@ class ApiMenuController extends Controller
                 $sections[] = $section;
                 $categorie_avant = $element->categorie_nom;
             }
-            end($sections)->addDataElement($element->element_nom);
+            end($sections)->addDataElement($element->element_nom, $element->prix);
         }
         return $sections;
     }
