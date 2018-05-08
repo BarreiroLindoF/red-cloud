@@ -38,7 +38,7 @@ Route::group(['middleware' => ['api','cors']], function () {
 
     Route::get('menu', 'Menu\ApiMenuController@getMenu'); // Documenté
     Route::get('offres', 'Menu\ApiOffresController@getOffres'); // Doit être documenté après avoir été corrigé
-    Route::get('offre/{id}', 'Menu\ApiOffresController@getOffre'); // Doit être documenté après avoir été corrigé
+    Route::get('offres/{id}', 'Menu\ApiOffresController@getOffre'); // Doit être documenté après avoir été corrigé
     
     Route::get('events', 'Events\ApiEventsController@getEvents'); // Documenté
     Route::get('events/{id}/tournaments', 'Tournament\ApiTournamentController@getTournois'); // Documenté
