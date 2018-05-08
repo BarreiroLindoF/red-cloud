@@ -59,6 +59,21 @@ class Params extends React.Component {
 		});
 	}
 
+	toggleSwitch() {
+		const offre = this.props.notificationOffre === 1 ? 0 : 1;
+		this.props.updateNotificationOffre(offre);
+		api()
+			.patch(URL.notificationOffre, {
+				notification_offre: offre,
+			})
+			.then(() => {
+				console.log('ok');
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+
 	renderDeconnexion() {
 		return (
 			<TouchableOpacity
@@ -109,15 +124,20 @@ class Params extends React.Component {
 		);
 	}
 
-	toggleSwitch() {
-		this.props.updateNotificationOffre(this.props.notificationOffre === 1 ? 0 : 1);
-	}
-
 	renderNotificationOffres() {
 		return (
-			<View>
-				<Text>Je veux être notifié ouais {this.props.notificationOffre}</Text>
-				<Switch onValueChange={this.toggleSwitch} value={this.props.notificationOffre === 1} />
+			<View style={Styles.verticalCenter}>
+				<View>
+					<Text>Je veux être notifié lors de nouvelles offres :</Text>
+				</View>
+				<View style={Styles.alignRight}>
+					<Switch
+						onTintColor="#f77474"
+						thumbTintColor={this.props.notificationOffre === 1 ? 'red' : 'grey'}
+						onValueChange={this.toggleSwitch}
+						value={this.props.notificationOffre === 1}
+					/>
+				</View>
 			</View>
 		);
 	}
@@ -185,6 +205,18 @@ let Styles = RkStyleSheet.create((theme) => ({
 		backgroundColor: 'white',
 		flex: 1,
 		marginBottom: 10,
+	},
+	alignRight: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'flex-end',
+	},
+	verticalCenter: {
+		flexDirection: 'row',
+		paddingHorizontal: 12,
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingTop: 5,
 	},
 }));
 
