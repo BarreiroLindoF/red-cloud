@@ -1,9 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { FlatList, View, Image, TouchableOpacity, Text, Dimensions } from 'react-native';
+import { FlatList, View, Image, TouchableOpacity, Text, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { SearchBar } from 'react-native-elements';
-
-import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 
 import { RkCard, RkText } from 'react-native-ui-kitten';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -16,7 +14,8 @@ const mapStateToProps = (state) => ({
 	token: state.token,
 });
 
-const imgErreur = require('../../assets/images/erreur.png');
+const imgErreur = require('../../assets/images/erreurBlack.png');
+const styles = require('./styles');
 
 class Tournois extends React.Component {
 	// eslint-disable-next-line
@@ -31,14 +30,13 @@ class Tournois extends React.Component {
 
 	constructor(props) {
 		super(props);
-
 		this.renderItem = this.renderItem.bind(this);
 
 		this.state = {
 			data: [],
 			dataFiltered: [],
 			isFetching: true,
-			userSearch: 'asdfasdf',
+			userSearch: '',
 			searchResult: true,
 		};
 		this.loadPosts();
@@ -79,7 +77,6 @@ class Tournois extends React.Component {
 			});
 		}
 		this.setState({ dataFiltered: filteredData, userSearch: searchingTerm });
-		console.log(filteredData.length);
 		this.setState({ searchResult: filteredData.length !== 0 });
 	}
 
@@ -168,10 +165,16 @@ class Tournois extends React.Component {
 					placeholder="Rechercher..."
 				/>
 				{!this.state.searchResult && (
-					<View style={{ height: 200, width: 500 }}>
-						<Image style={{ height: 50, width: Dimensions.get('widht') - 10 }} source={imgErreur} />
-						<Text style={{ color: 'black' }}> Aucun évènement ne correspond à votre recherche...</Text>
-					</View>
+					<KeyboardAvoidingView
+						style={styles.imgNoResultsContainer}
+						behavior="padding"
+						on
+						keyboardVerticalOffset={100}
+					>
+						{Keyboard.dismiss()}
+						<Image style={styles.imgNoResultsTournoi} source={imgErreur} />
+						<Text style={{ marginTop: 15 }}> Aucun évènement ne correspond à votre recherche...</Text>
+					</KeyboardAvoidingView>
 				)}
 				<FlatList
 					data={this.state.dataFiltered}
