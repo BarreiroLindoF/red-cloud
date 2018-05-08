@@ -37,6 +37,7 @@ class Tournois extends React.Component {
 			dataFiltered: [],
 			isFetching: true,
 			userSearch: '',
+			searchResult: true,
 		};
 		this.loadPosts();
 	}
@@ -76,6 +77,8 @@ class Tournois extends React.Component {
 			});
 		}
 		this.setState({ dataFiltered: filteredData, userSearch: searchingTerm });
+		console.log(filteredData.length);
+		this.setState({ searchResult: filteredData.length !== 0 });
 	}
 
 	async resetSearch() {
@@ -162,6 +165,9 @@ class Tournois extends React.Component {
 					}}
 					placeholder="Rechercher..."
 				/>
+				{!this.state.searchResult && (
+					<Text style={{ color: 'black' }}> Aucun évènement ne correspond à votre recherche...</Text>
+				)}
 				<FlatList
 					data={this.state.dataFiltered}
 					renderItem={this.renderItem}
