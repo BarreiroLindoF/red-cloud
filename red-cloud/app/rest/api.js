@@ -36,5 +36,5 @@ export const URL = {
 	menu: '/api/menu',
 	jeux: 'api/jeux',
 	updateJeux: 'api/me/jeux',
-	categoriesJeux: 'api/categoriesJeux',
+	categoriesJeux: 'api/jeux/categories',
 };

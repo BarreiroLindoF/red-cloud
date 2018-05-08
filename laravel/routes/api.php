@@ -23,34 +23,30 @@ Route::middleware('api')->get('/hello_world', function () {
 });
 
 Route::group(['middleware' => ['api','cors']], function () {
-    Route::post('auth/register', 'Auth\ApiRegisterController@create');
-	Route::post('auth/login', 'Auth\ApiAuthController@login');
-    Route::post('auth/forgot', 'Auth\ApiForgotPasswordController@sendEmailForgotPassword');
-    Route::post('auth/code', 'Auth\ApiCodeCheckController@checkCode');
-    Route::post('auth/reset', 'Auth\ApiResetPasswordController@resetPassword');
-    Route::post('check', 'ApiVerificationController@checkUserExist');
+    Route::post('auth/register', 'Auth\ApiRegisterController@create'); // Documenté
+	Route::post('auth/login', 'Auth\ApiAuthController@login'); // Documenté
+    Route::post('auth/forgot', 'Auth\ApiForgotPasswordController@sendEmailForgotPassword'); // Documenté
+    Route::post('auth/code', 'Auth\ApiCodeCheckController@checkCode'); // Documenté
+    Route::post('auth/reset', 'Auth\ApiResetPasswordController@resetPassword'); // Documenté
+    Route::post('check', 'ApiVerificationController@checkUserExist'); // Documenté
 
     // New routes
-    Route::post('me/participation/tournoi/{id}', 'Tournament\ApiTournamentController@addParticipation');
-    Route::post('tournaments/{id}/team', 'ApiVerificationController@checkTeamExist');
+    Route::post('me/participation/tournoi/{id}', 'Tournament\ApiTournamentController@addParticipation'); // Documenté
+    Route::post('tournaments/{id}/team', 'ApiVerificationController@checkTeamExist'); // Documenté
 
-    Route::get('me/equipes', 'Equipes\ApiEquipesController@getEquipes');
-    Route::post('equipes', 'Equipes\ApiEquipesController@addEquipe');
+    Route::get('tournois/{id}/participants', 'Participations\ApiParticipationsController@getParticipants'); // Documenté
 
-    Route::get('tournois/{id}/participants', 'Participations\ApiParticipationsController@getParticipants');
-
-    Route::get('menu', 'Menu\ApiMenuController@getMenu');
-    Route::get('categorie/{idCat}', 'Menu\ApiMenuController@getCategorie');
-    Route::get('offres', 'Menu\ApiOffresController@getOffres');
-    Route::get('offre/{id}', 'Menu\ApiOffresController@getOffre');
+    Route::get('menu', 'Menu\ApiMenuController@getMenu'); // Documenté
+    Route::get('offres', 'Menu\ApiOffresController@getOffres'); // Doit être documenté après avoir été corrigé
+    Route::get('offre/{id}', 'Menu\ApiOffresController@getOffre'); // Doit être documenté après avoir été corrigé
     
-    Route::get('events', 'Events\ApiEventsController@getEvents');
-    Route::get('events/{id}/tournaments', 'Tournament\ApiTournamentController@getTournois');
+    Route::get('events', 'Events\ApiEventsController@getEvents'); // Documenté
+    Route::get('events/{id}/tournaments', 'Tournament\ApiTournamentController@getTournois'); // Documenté
 
     // Jeu
-    Route::get('jeux', 'Jeux\ApiJeuxController@getJeux');
-    Route::get('categoriesJeux', 'Categories\ApiCategoriesController@getCategories');
-    Route::put('me/jeux', 'Jeux\ApiJeuxFavorisController@modifierJeux');
+    Route::get('jeux', 'Jeux\ApiJeuxController@getJeux'); //Documenté
+    Route::get('jeux/categories', 'Categories\ApiCategoriesController@getCategories'); // Documenté
+    Route::put('me/jeux', 'Jeux\ApiJeuxFavorisController@modifierJeux'); // Documenté
 });
 
 // secured routes
