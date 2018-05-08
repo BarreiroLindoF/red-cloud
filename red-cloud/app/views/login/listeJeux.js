@@ -69,7 +69,7 @@ class ListeJeux extends React.Component {
 			isFetchingJeux: true,
 			userCreated: false,
 			selectedItems: [],
-			isSigningUp: true, //this.props.navigation.state.params.isSigningUp,
+			isSigningUp: this.props.navigation.state.params.isSigningUp,
 		};
 		api()
 			.get(URL.jeux)
@@ -287,6 +287,7 @@ class ListeJeux extends React.Component {
 					rkType="social"
 					onPress={() => {
 						if (this.state.isSigningUp) {
+							console.log('create user');
 							this.createUser();
 						} else {
 							this.updateJeuxFavoris();
