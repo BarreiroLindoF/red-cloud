@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { FlatList, View, Image, TouchableOpacity, Text } from 'react-native';
+import { FlatList, View, Image, TouchableOpacity, Text, Dimensions } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
@@ -15,6 +15,8 @@ import LogoHeader from './../../components/avatar/logoHeader';
 const mapStateToProps = (state) => ({
 	token: state.token,
 });
+
+const imgErreur = require('../../assets/images/erreur.png');
 
 class Tournois extends React.Component {
 	// eslint-disable-next-line
@@ -36,7 +38,7 @@ class Tournois extends React.Component {
 			data: [],
 			dataFiltered: [],
 			isFetching: true,
-			userSearch: '',
+			userSearch: 'asdfasdf',
 			searchResult: true,
 		};
 		this.loadPosts();
@@ -166,7 +168,10 @@ class Tournois extends React.Component {
 					placeholder="Rechercher..."
 				/>
 				{!this.state.searchResult && (
-					<Text style={{ color: 'black' }}> Aucun évènement ne correspond à votre recherche...</Text>
+					<View style={{ height: 200, width: 500 }}>
+						<Image style={{ height: 50, width: Dimensions.get('widht') - 10 }} source={imgErreur} />
+						<Text style={{ color: 'black' }}> Aucun évènement ne correspond à votre recherche...</Text>
+					</View>
 				)}
 				<FlatList
 					data={this.state.dataFiltered}
