@@ -48,7 +48,7 @@ class Menu extends React.Component {
 	}
 
 	keyExtractorNourriture(nourriture) {
-		return nourriture.id_nourriture;
+		return nourriture.title;
 	}
 
 	keyExtractorBoisson(boisson) {
