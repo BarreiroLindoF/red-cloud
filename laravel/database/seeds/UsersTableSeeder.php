@@ -54,7 +54,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'nom' => 'Marouane',
             'prenom' => 'Jean-philipe',
-            'pseudo' => 'Flavio',
+            'pseudo' => 'JOBOY',
             'ville' => 'Geneve',
             'npa' => '1234',
             'datenaissance' => '12.12.12',
