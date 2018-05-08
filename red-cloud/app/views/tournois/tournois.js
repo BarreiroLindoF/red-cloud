@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { FlatList, View, Image, TouchableOpacity, Text } from 'react-native';
+import { FlatList, View, Image, TouchableOpacity, Text, KeyboardAvoidingView, Keyboard } from 'react-native';
+import { SearchBar } from 'react-native-elements';
 
 import { RkCard, RkText } from 'react-native-ui-kitten';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -12,6 +13,9 @@ import LogoHeader from './../../components/avatar/logoHeader';
 const mapStateToProps = (state) => ({
 	token: state.token,
 });
+
+const imgErreur = require('../../assets/images/erreurBlack.png');
+const styles = require('./styles');
 
 class Tournois extends React.Component {
 	// eslint-disable-next-line
@@ -26,14 +30,15 @@ class Tournois extends React.Component {
 
 	constructor(props) {
 		super(props);
-
 		this.renderItem = this.renderItem.bind(this);
 
 		this.state = {
 			data: [],
+			dataFiltered: [],
 			isFetching: true,
+			userSearch: '',
+			searchResult: true,
 		};
-
 		this.loadPosts();
 	}
 
@@ -43,12 +48,40 @@ class Tournois extends React.Component {
 			.then((response) => {
 				this.setState({
 					data: response.data.payload,
+					dataFiltered: response.data.payload,
 					isFetching: false,
 				});
+				if (this.state.userSearch !== '') {
+					this.makeSearch(this.state.userSearch);
+				}
 			})
 			.catch((error) => {
 				console.log(error);
 			});
+	}
+
+	async makeSearch(searchingTerm) {
+		if (searchingTerm === '') {
+			//Obliger de faire ce test pour quand l'utilisateur efface le text de recherche sans cliquer sur la croix
+			this.setState({ searchingTermTest: searchingTerm });
+			await this.resetSearch();
+		}
+		let filteredData = [];
+		if (this.state.data.length > 0) {
+			filteredData = this.state.data.filter((Evenement) => {
+				return Evenement.titre.toLowerCase().indexOf(searchingTerm.toLowerCase()) !== -1;
+			});
+		} else {
+			filteredData = this.state.data.filter((Evenement) => {
+				return Evenement.titre.toLowerCase().indexOf(searchingTerm.toLowerCase()) !== -1;
+			});
+		}
+		this.setState({ dataFiltered: filteredData, userSearch: searchingTerm });
+		this.setState({ searchResult: filteredData.length !== 0 });
+	}
+
+	async resetSearch() {
+		await this.setState({ dataFiltered: this.state.data });
 	}
 
 	todaysDate() {
@@ -118,8 +151,33 @@ class Tournois extends React.Component {
 				<View style={stylesWhite.redStrip}>
 					<Text style={stylesWhite.title}>Les tournois & Events</Text>
 				</View>
+				<SearchBar
+					containerStyle={{ backgroundColor: 'white' }}
+					lightTheme
+					round
+					clearIcon
+					onChangeText={(input) => {
+						this.makeSearch(input);
+					}}
+					onClearText={() => {
+						this.resetSearch();
+					}}
+					placeholder="Rechercher..."
+				/>
+				{!this.state.searchResult && (
+					<KeyboardAvoidingView
+						style={styles.imgNoResultsContainer}
+						behavior="padding"
+						on
+						keyboardVerticalOffset={100}
+					>
+						{Keyboard.dismiss()}
+						<Image style={styles.imgNoResultsTournoi} source={imgErreur} />
+						<Text style={{ marginTop: 15 }}> Aucun évènement ne correspond à votre recherche...</Text>
+					</KeyboardAvoidingView>
+				)}
 				<FlatList
-					data={this.state.data}
+					data={this.state.dataFiltered}
 					renderItem={this.renderItem}
 					keyExtractor={this.keyExtractor}
 					refreshing={this.state.isFetching}
