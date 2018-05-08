@@ -117,6 +117,7 @@ class ListeJeux extends React.Component {
 			return;
 		}
 		this.setState({ isFetching: true });
+		console.log(this.props.jeux);
 		api()
 			.post(URL.register, {
 				nom: this.props.nom,
@@ -287,7 +288,6 @@ class ListeJeux extends React.Component {
 					rkType="social"
 					onPress={() => {
 						if (this.state.isSigningUp) {
-							console.log('create user');
 							this.createUser();
 						} else {
 							this.updateJeuxFavoris();
