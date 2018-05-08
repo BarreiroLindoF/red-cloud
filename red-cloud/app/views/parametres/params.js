@@ -66,12 +66,8 @@ class Params extends React.Component {
 			.patch(URL.notificationOffre, {
 				notification_offre: offre,
 			})
-			.then(() => {
-				console.log('ok');
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+			.then(() => {})
+			.catch(() => {});
 	}
 
 	renderDeconnexion() {
