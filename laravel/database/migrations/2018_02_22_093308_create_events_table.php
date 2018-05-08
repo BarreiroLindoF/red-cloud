@@ -24,6 +24,7 @@ class CreateEventsTable extends Migration
             $table->string('page_youtube_url');
             $table->string('page_twitch_url');
             $table->string('msg_partage');
+            $table->string('lienEvenementExterne')->nullable();
         });
     }
 

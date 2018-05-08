@@ -22,6 +22,7 @@ class EventSeeder extends Seeder
             'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
             'page_twitch_url'=>'https://www.twitch.tv/esportevents',
             'msg_partage'=>'',
+            'lienEvenementExterne' => null
         ]);
         DB::table('event')->insert([
             'titre' => 'Evenement Course!',
@@ -33,6 +34,7 @@ class EventSeeder extends Seeder
             'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
             'page_twitch_url'=>'https://www.twitch.tv/esportevents',
             'msg_partage'=>'',
+            'lienEvenementExterne' => null
         ]);
         DB::table('event')->insert([
             'titre' => 'Evenement World of Warcraft !',
@@ -44,6 +46,7 @@ class EventSeeder extends Seeder
             'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
             'page_twitch_url'=>'https://www.twitch.tv/esportevents',
             'msg_partage'=>'',
+            'lienEvenementExterne' => null
         ]);
 
         DB::table('event')->insert([
@@ -56,6 +59,7 @@ class EventSeeder extends Seeder
             'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
             'page_twitch_url'=>'https://www.twitch.tv/esportevents',
             'msg_partage'=>'',
+            'lienEvenementExterne' => null
         ]);
 
         DB::table('event')->insert([
@@ -68,6 +72,7 @@ class EventSeeder extends Seeder
             'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
             'page_twitch_url'=>'https://www.twitch.tv/esportevents',
             'msg_partage'=>'',
+            'lienEvenementExterne' => null
         ]);
         DB::table('event')->insert([
             'titre' => 'Evenement de Battlefield !',
@@ -79,6 +84,7 @@ class EventSeeder extends Seeder
             'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
             'page_twitch_url'=>'https://www.twitch.tv/esportevents',
             'msg_partage'=>'',
+            'lienEvenementExterne' => null
         ]);
         DB::table('event')->insert([
             'titre' => 'Evenement Fifa 2018 !',
@@ -90,6 +96,7 @@ class EventSeeder extends Seeder
             'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
             'page_twitch_url'=>'https://www.twitch.tv/esportevents',
             'msg_partage'=>'',
+            'lienEvenementExterne' => null
         ]);
         DB::table('event')->insert([
             'titre' => 'Evenement Fortnite !',
@@ -101,6 +108,7 @@ class EventSeeder extends Seeder
             'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
             'page_twitch_url'=>'https://www.twitch.tv/esportevents',
             'msg_partage'=>'',
+            'lienEvenementExterne' => null
         ]);
         DB::table('event')->insert([
             'titre' => 'Evenement Halo 5',
@@ -112,6 +120,7 @@ class EventSeeder extends Seeder
             'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
             'page_twitch_url'=>'https://www.twitch.tv/esportevents',
             'msg_partage'=>'',
+            'lienEvenementExterne' => null
         ]);
         DB::table('event')->insert([
             'titre' => 'Evenement de LOL !',
@@ -123,6 +132,7 @@ class EventSeeder extends Seeder
             'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
             'page_twitch_url'=>'https://www.twitch.tv/esportevents',
             'msg_partage'=>'',
+            'lienEvenementExterne' => null
         ]);
         DB::table('event')->insert([
             'titre' => 'Evenement de Heroes of the Storm !',
@@ -134,6 +144,7 @@ class EventSeeder extends Seeder
             'page_youtube_url'=>'https://www.youtube.com/user/LoLeventVoDs',
             'page_twitch_url'=>'https://www.twitch.tv/esportevents',
             'msg_partage'=>'',
+            'lienEvenementExterne' => null
         ]);
     }
 }
