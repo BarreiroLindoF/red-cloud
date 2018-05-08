@@ -22,8 +22,6 @@ class ApiTournamentInscriptionsController extends Controller
             $idTournoi = $inscription->tournoi_id_tournoi;
             $tournoi = DB::table('tournoi')->select()->where('id_tournoi', $idTournoi)->get()->first();
             $event = DB::table('event')->select()->where('id_event', $tournoi->event_id_event )->get()->first();
-            Error_log($today . '   ' . $event->dateHeureDebut);
-            Error_log( $today->diffInDays($event->dateHeureDebut));
             if( min([$today, $event->dateHeureDebut]) != $event->dateHeureDebut ){
                 $lstTournois[] = $tournoi;
             };
