@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, FlatList, ScrollView, SectionList } from 'react-native';
+import { Text, View, ScrollView, SectionList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { RkStyleSheet } from 'react-native-ui-kitten';
 
@@ -41,7 +41,6 @@ class Menu extends React.Component {
 					sectionsNourritures: response.data.payload.nourritures,
 					categoriesBoissons: [{ categorie_nom: 'Alcoolisées' }],
 				});
-				console.log(response.data.payload.boissons);
 			})
 			.catch((error) => {
 				console.log(error);
