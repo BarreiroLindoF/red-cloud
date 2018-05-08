@@ -11,12 +11,34 @@ const initialState = {
 	password: '',
 	token: '',
 	conditions: false,
+	jeux: [],
 };
 
 const updateUser = (state = initialState, action) => {
 	switch (action.type) {
 		case Actions.RESET:
-			return { initialState };
+			return initialState;
+		/* eslint-disable */
+		case Actions.UPDATE_IDS:
+			const index = state.jeux.indexOf(action.payload);
+			if (index === -1) {
+				return { ...state, jeux: state.jeux.concat(action.payload) };
+			}
+			return { ...state, jeux: state.jeux.filter((id) => id !== action.payload) };
+		/* eslint-enable */
+		case Actions.USER_LOGIN:
+			return {
+				...state,
+				nom: action.payload.nom,
+				prenom: action.payload.prenom,
+				pseudo: action.payload.pseudo,
+				email: action.payload.email,
+				npa: action.payload.npa,
+				ville: action.payload.ville,
+				datenaissance: action.payload.datenaissance,
+				token: action.payload.token,
+				jeux: action.payload.jeux,
+			};
 		case Actions.UPDATE_NOM:
 			return { ...state, nom: action.payload };
 		case Actions.UPDATE_PRENOM:

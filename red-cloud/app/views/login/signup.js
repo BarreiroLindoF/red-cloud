@@ -131,7 +131,9 @@ class Signup extends React.Component {
 			.then((response) => {
 				this.setState({ isFetching: false });
 				if (!response.data.success) {
-					this.props.navigation.navigate('ListeJeux');
+					this.props.navigation.navigate('ListeJeux', {
+						isSigningUp: true,
+					});
 				} else {
 					this.setState({ msgModal: response.data.message });
 					this.toogleModal();
@@ -189,7 +191,13 @@ class Signup extends React.Component {
 			return <ActivityIndicator size="large" color="#cc0000" style={{ paddingTop: 15 }} />;
 		}
 		return (
-			<View style={stylesBlack.btnPosition}>
+			<View
+				style={{
+					marginTop: 15,
+					marginBottom: 15,
+					alignItems: 'flex-end',
+				}}
+			>
 				<RkButton
 					style={stylesBlack.btnStyle}
 					rkType="social"

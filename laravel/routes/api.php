@@ -46,6 +46,11 @@ Route::group(['middleware' => ['api','cors']], function () {
     
     Route::get('events', 'Events\ApiEventsController@getEvents');
     Route::get('events/{id}/tournaments', 'Tournament\ApiTournamentController@getTournois');
+
+    // Jeu
+    Route::get('jeux', 'Jeux\ApiJeuxController@getJeux');
+    Route::get('categoriesJeux', 'Categories\ApiCategoriesController@getCategories');
+    Route::put('me/jeux', 'Jeux\ApiJeuxFavorisController@modifierJeux');
 });
 
 // secured routes

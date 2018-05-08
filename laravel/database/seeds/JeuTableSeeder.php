@@ -12,48 +12,94 @@ class JeuTableSeeder extends Seeder
     public function run()
     {
         DB::table('jeu')->insert([
-            'nom_jeu' => 'World of Warcraft',
-            'type_jeu' => 1,
+            'nom' => 'World of Warcraft',
+            'type_jeu_id_type_jeu' => 1,
         ]);
         DB::table('jeu')->insert([
-            'nom_jeu' => 'Mario Kart',
-            'type_jeu' => 2,
+            'nom' => 'Mario Kart',
+            'type_jeu_id_type_jeu' => 2,
         ]);
         DB::table('jeu')->insert([
-            'nom_jeu' => 'Dofus',
-            'type_jeu' => 1,
+            'nom' => 'Dofus',
+            'type_jeu_id_type_jeu' => 1,
         ]);
         DB::table('jeu')->insert([
-            'nom_jeu' => 'PlayerUnknown\'s battlegrounds',
-            'type_jeu' => 3,
+            'nom' => 'PlayerUnknown\'s battlegrounds',
+            'type_jeu_id_type_jeu' => 3,
         ]);
         DB::table('jeu')->insert([
-            'nom_jeu' => 'Fifa 18',
-            'type_jeu' => 4,
+            'nom' => 'Fifa 18',
+            'type_jeu_id_type_jeu' => 4,
         ]);
         DB::table('jeu')->insert([
-            'nom_jeu' => 'Battlefield 1',
-            'type_jeu' => 3,
+            'nom' => 'Battlefield 1',
+            'type_jeu_id_type_jeu' => 3,
         ]);
         DB::table('jeu')->insert([
-            'nom_jeu' => 'Halo 5',
-            'type_jeu' => 3,
+            'nom' => 'Halo 5',
+            'type_jeu_id_type_jeu' => 3,
         ]);
         DB::table('jeu')->insert([
-            'nom_jeu' => 'Fortnite',
-            'type_jeu' => 1,
+            'nom' => 'Fortnite',
+            'type_jeu_id_type_jeu' => 1,
         ]);
         DB::table('jeu')->insert([
-            'nom_jeu' => 'Heroes of the Storm',
-            'type_jeu' => 5,
+            'nom' => 'Heroes of the Storm',
+            'type_jeu_id_type_jeu' => 5,
         ]);
         DB::table('jeu')->insert([
-            'nom_jeu' => 'League of Legends',
-            'type_jeu' => 5,
+            'nom' => 'League of Legends',
+            'type_jeu_id_type_jeu' => 5,
         ]);
         DB::table('jeu')->insert([
-            'nom_jeu' => 'Counter Strike',
-            'type_jeu' => 3,
+            'nom' => 'Counter Strike',
+            'type_jeu_id_type_jeu' => 3,
+        ]);
+
+
+        DB::table('jeu')->insert([
+            'nom' => 'Forza 5',
+            'type_jeu_id_type_jeu' => 2,
+        ]);
+        DB::table('jeu')->insert([
+            'nom' => 'Need for Speed Most Wanted 2',
+            'type_jeu_id_type_jeu' => 2,
+        ]);
+        DB::table('jeu')->insert([
+            'nom' => 'Project cars 2',
+            'type_jeu_id_type_jeu' => 2,
+        ]);
+        DB::table('jeu')->insert([
+            'nom' => 'Gran Turismo 6',
+            'type_jeu_id_type_jeu' => 2,
+        ]);
+        DB::table('jeu')->insert([
+            'nom' => 'Call of Duty WWII',
+            'type_jeu_id_type_jeu' => 3,
+        ]);
+        DB::table('jeu')->insert([
+            'nom' => 'Star Wars Battlefront',
+            'type_jeu_id_type_jeu' => 3,
+        ]);
+        DB::table('jeu')->insert([
+            'nom' => 'Soulcalibur VI',
+            'type_jeu_id_type_jeu' => 6,
+        ]);
+        DB::table('jeu')->insert([
+            'nom' => 'Tekken 7',
+            'type_jeu_id_type_jeu' => 6,
+        ]);
+        DB::table('jeu')->insert([
+            'nom' => 'Mortal Kombat XL',
+            'type_jeu_id_type_jeu' => 6,
+        ]);
+        DB::table('jeu')->insert([
+            'nom' => 'Dragon Ball Z FighterZ',
+            'type_jeu_id_type_jeu' => 6,
+        ]);
+        DB::table('jeu')->insert([
+            'nom' => 'Mario Party',
+            'type_jeu_id_type_jeu' => 7,
         ]);
     }
 }
