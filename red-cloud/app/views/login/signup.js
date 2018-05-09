@@ -9,6 +9,7 @@ import {
 	Keyboard,
 	ActivityIndicator,
 	DatePickerAndroid,
+	BackHandler,
 } from 'react-native';
 import { RkButton, RkText, RkStyleSheet } from 'react-native-ui-kitten';
 import { Hoshi } from 'react-native-textinput-effects';
@@ -85,12 +86,14 @@ class Signup extends React.Component {
 			msgModal: '',
 			isFetching: false,
 			isSigningUp: this.props.navigation.state.params.isSigningUp,
+			title: this.props.navigation.state.params.isSigningUp ? 'Crée ton compte' : 'Modifier compte',
 		};
 		this.emailChanged = this.emailChanged.bind(this);
 		this.npaChanged = this.npaChanged.bind(this);
 		this.datenaissanceChanged = this.datenaissanceChanged.bind(this);
 		this.passwordChanged = this.passwordChanged.bind(this);
 		this.validationChanged = this.validationChanged.bind(this);
+		this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
 	}
 
 	componentWillMount() {
@@ -100,7 +103,17 @@ class Signup extends React.Component {
 			this.datenaissanceChanged(this.props.datenaissance);
 			this.setState({ dateNaissance: this.props.datenaissance });
 			this.saveReduxState();
+			BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
 		}
+	}
+
+	componentWillUnmount() {
+		BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
+	}
+
+	handleBackButtonClick() {
+		this.annulerModification();
+		return false;
 	}
 
 	saveReduxState() {
@@ -219,7 +232,15 @@ class Signup extends React.Component {
 		}
 	}
 
-	annulerModification() {}
+	annulerModification() {
+		this.props.updatePrenom(oldReduxState.prenom);
+		this.props.updateNom(oldReduxState.nom);
+		this.props.updatePseudo(oldReduxState.pseudo);
+		this.props.updateVille(oldReduxState.ville);
+		this.props.updateNpa(oldReduxState.npa);
+		this.props.updateDateNaissance(oldReduxState.datenaissance);
+		this.props.updateEmail(oldReduxState.email);
+	}
 
 	renderModal() {
 		return (
@@ -274,7 +295,19 @@ class Signup extends React.Component {
 
 	renderButton() {
 		if (this.state.isFetching) {
-			return <ActivityIndicator size="large" color="#cc0000" style={{ paddingTop: 15 }} />;
+			return (
+				<ActivityIndicator
+					size="large"
+					color="#cc0000"
+					style={{
+						marginTop: 15,
+						marginBottom: 15,
+						flex: 1,
+						flexDirection: 'row',
+						justifyContent: 'flex-end',
+					}}
+				/>
+			);
 		}
 		let buttonText;
 		if (this.state.isSigningUp) {
@@ -311,6 +344,7 @@ class Signup extends React.Component {
 	}
 
 	renderButtonAnnuler() {
+		if (this.state.isSigningUp || this.state.isFetching) return;
 		return (
 			<View
 				style={{
@@ -324,6 +358,7 @@ class Signup extends React.Component {
 					onPress={() => {
 						Keyboard.dismiss();
 						this.annulerModification();
+						this.props.navigation.goBack();
 					}}
 				>
 					<RkText>Annuler</RkText>
@@ -383,7 +418,6 @@ class Signup extends React.Component {
 	}
 
 	render() {
-		const { navigate } = this.props.navigation;
 		return (
 			<KeyboardAvoidingView
 				style={stylesBlack.mainContentContainer}
@@ -391,7 +425,7 @@ class Signup extends React.Component {
 				keyboardVerticalOffset={55}
 			>
 				<View>
-					<Text style={stylesBlack.title}>Crée ton compte</Text>
+					<Text style={stylesBlack.title}>{this.state.title}</Text>
 				</View>
 				<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
 					<Hoshi
