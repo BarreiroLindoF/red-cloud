@@ -77,7 +77,7 @@ class Signup extends React.Component {
 			validationPassOk: true,
 			validationEmail: false,
 			dateOk: false,
-			dateNaissance: '',
+			dateNaissance: 'Date de naissance',
 			modalVisible: false,
 			npa: false,
 			msgModal: '',
