@@ -37,4 +37,6 @@ export const URL = {
 	jeux: 'api/jeux',
 	updateJeux: 'api/me/jeux',
 	categoriesJeux: 'api/jeux/categories',
+	deconnexion: 'api/me/deconnexion',
+	notificationOffre: 'api/me/offres/notification',
 };
