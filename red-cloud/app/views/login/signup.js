@@ -401,12 +401,15 @@ class Signup extends React.Component {
 				date = this.props.datenaissance.split('.');
 				date = new Date(date[2], date[1] - 1, date[0]);
 			} else {
-				date = new Date(2010, 1, 12);
+				const today = new Date();
+				today.setFullYear(today.getFullYear() - 12);
+				date = today;
 			}
 			const { action, year, month, day } = await DatePickerAndroid.open({
 				// Use `new Date()` for current date.
 				// May 25 2020. Month 0 is January.
 				mode: 'spinner',
+				maxDate: new Date(),
 				date,
 			});
 
