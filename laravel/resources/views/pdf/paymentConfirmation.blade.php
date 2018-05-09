@@ -166,7 +166,7 @@
 </style>
 <head>
     <meta charset="utf-8">
-    <title>Example 1</title>
+    <title>Votre confirmation</title>
 
 </head>
 <body>

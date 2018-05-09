@@ -34,7 +34,6 @@ Route::group(['middleware' => ['api','cors']], function () {
 
     // New routes
     Route::post('me/participation/tournoi/{id}', 'Tournament\ApiTournamentController@addParticipation'); // Documenté
-    Route::post('test/mailConfirmation', 'Tournament\ApiTournamentController@mailConfirmation'); // A supprimer
     Route::post('tournaments/{id}/team', 'ApiVerificationController@checkTeamExist'); // Documenté
 
     //Tournois

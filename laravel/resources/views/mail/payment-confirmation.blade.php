@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Simple Transactional Email</title>
+    <title>Email de transaction</title>
     <style>
         /* -------------------------------------
             GLOBAL RESETS
@@ -282,7 +282,7 @@
             <div class="content">
 
                 <!-- START CENTERED WHITE CONTAINER -->
-                <span class="preheader">This is preheader text. Some clients will show this text as a preview.</span>
+                <span class="preheader">Email de confirmation d'inscription au tournoi.</span>
                 <table class="main">
 
                     <!-- START MAIN CONTENT AREA -->
@@ -312,15 +312,10 @@
                     <table border="0" cellpadding="0" cellspacing="0">
                         <tr>
                             <td class="content-block">
-                                <span class="apple-link">Company Inc, 3 Abbey Road, San Francisco CA 94102</span>
-                                <br> Don't like these emails? <a href="http://i.imgur.com/CScmqnj.gif">Unsubscribe</a>.
+                                <span class="apple-link">RedCloud Sàrl Rue de la Tambourine 17 1227 Carouge</span>
                             </td>
                         </tr>
-                        <tr>
-                            <td class="content-block powered-by">
-                                Powered by <a href="http://htmlemail.io">HTMLemail</a>.
-                            </td>
-                        </tr>
+
                     </table>
                 </div>
                 <!-- END FOOTER -->
