@@ -77,7 +77,7 @@ class Signup extends React.Component {
 			validationPassOk: true,
 			validationEmail: false,
 			dateOk: false,
-			dateNaissance: 'Date de naissance',
+			dateNaissance: '',
 			modalVisible: false,
 			npa: false,
 			msgModal: '',
@@ -95,6 +95,7 @@ class Signup extends React.Component {
 		if (!this.state.isSigningUp) {
 			this.npaChanged(this.props.npa);
 			this.emailChanged(this.props.email);
+			this.datenaissanceChanged(this.props.datenaissance);
 			this.setState({ dateNaissance: this.props.datenaissance });
 		}
 	}
@@ -163,6 +164,43 @@ class Signup extends React.Component {
 		} else {
 			this.setState({ msgModal: 'Veuillez vérifier que tous les champs sont correctement remplis.' });
 			this.toogleModal();
+		}
+	}
+
+	sauvegarder() {
+		if (this.state.dateOk && this.state.validationEmail && this.state.npa) {
+			// send request
+			this.setState({ isFetching: true });
+			api()
+				.patch(URL.modifierUtilisateur, {
+					prenom: this.props.prenom,
+					nom: this.props.nom,
+					pseudo: this.props.pseudo,
+					ville: this.props.ville,
+					npa: this.props.npa,
+					datenaissance: this.props.datenaissance,
+					email: this.props.email,
+				})
+				.then((response) => {
+					this.setState({ isFetching: false });
+					if (response.data.success) {
+						this.props.navigation.goBack();
+					} else {
+						this.setState({
+							modalVisible: true,
+							msgModal: response.data.message,
+						});
+					}
+				})
+				.catch(() => {
+					this.setState({ isFetching: false });
+				});
+		} else {
+			this.setState({
+				msgModal: 'Veuillez vérifier que tous les champs sont correctement remplis.',
+				modalVisible: true,
+				isFetching: false,
+			});
 		}
 	}
 
@@ -240,7 +278,11 @@ class Signup extends React.Component {
 					rkType="social"
 					onPress={() => {
 						Keyboard.dismiss();
-						this.check();
+						if (this.state.isSigningUp) {
+							this.check();
+						} else {
+							this.sauvegarder();
+						}
 					}}
 				>
 					<RkText>{buttonText}</RkText>
@@ -267,7 +309,7 @@ class Signup extends React.Component {
 
 			if (action !== DatePickerAndroid.dismissedAction) {
 				this.setState({
-					dateNaissance: `${day < 10 ? 0 : null}${day}.${month < 10 ? 0 : null}${month + 1}.${year}`,
+					dateNaissance: `${day < 10 ? 0 : ''}${day}.${month < 10 ? 0 : ''}${month + 1}.${year}`,
 				});
 				this.datenaissanceChanged(this.state.dateNaissance);
 			}

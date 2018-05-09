@@ -37,4 +37,5 @@ export const URL = {
 	jeux: 'api/jeux',
 	updateJeux: 'api/me/jeux',
 	categoriesJeux: 'api/jeux/categories',
+	modifierUtilisateur: 'api/me/update',
 };
