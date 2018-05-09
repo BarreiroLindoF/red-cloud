@@ -503,7 +503,10 @@ class Signup extends React.Component {
 						style={{
 							backgroundColor: 'black',
 							height: 50,
-							borderBottomColor: this.state.dateOk ? '#b9c1ca' : '#ff4444',
+							borderBottomColor:
+								this.state.dateOk || this.state.dateNaissance === 'Date de naissance'
+									? '#b9c1ca'
+									: '#ff4444',
 							borderBottomWidth: 2,
 							marginTop: 10,
 						}}
