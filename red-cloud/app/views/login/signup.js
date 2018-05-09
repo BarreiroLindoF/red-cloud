@@ -82,12 +82,21 @@ class Signup extends React.Component {
 			npa: false,
 			msgModal: '',
 			isFetching: false,
+			isSigningUp: this.props.navigation.state.params.isSigningUp,
 		};
 		this.emailChanged = this.emailChanged.bind(this);
 		this.npaChanged = this.npaChanged.bind(this);
 		this.datenaissanceChanged = this.datenaissanceChanged.bind(this);
 		this.passwordChanged = this.passwordChanged.bind(this);
 		this.validationChanged = this.validationChanged.bind(this);
+	}
+
+	componentWillMount() {
+		if (!this.state.isSigningUp) {
+			this.npaChanged(this.props.npa);
+			this.emailChanged(this.props.email);
+			this.setState({ dateNaissance: this.props.datenaissance });
+		}
 	}
 
 	emailChanged(email) {
@@ -186,9 +195,37 @@ class Signup extends React.Component {
 		);
 	}
 
-	renderButtonSuivant() {
+	renderPasswordFields() {
+		if (this.state.isSigningUp) {
+			return (
+				<View>
+					<Hoshi
+						label={'Mot de passe (8 caractères dont 1 chiffre)'}
+						borderColor={this.state.passOk ? 'grey' : '#ff4444'}
+						onChangeText={this.passwordChanged}
+						secureTextEntry
+					/>
+					<Hoshi
+						label={'Validation mot de passe'}
+						borderColor={this.state.validationPassOk ? 'grey' : '#ff4444'}
+						onChangeText={this.validationChanged}
+						secureTextEntry
+					/>
+				</View>
+			);
+		}
+		return;
+	}
+
+	renderButton() {
 		if (this.state.isFetching) {
 			return <ActivityIndicator size="large" color="#cc0000" style={{ paddingTop: 15 }} />;
+		}
+		let buttonText;
+		if (this.state.isSigningUp) {
+			buttonText = 'Suivant';
+		} else {
+			buttonText = 'Enregistrer';
 		}
 		return (
 			<View
@@ -206,7 +243,7 @@ class Signup extends React.Component {
 						this.check();
 					}}
 				>
-					<RkText>Suivant</RkText>
+					<RkText>{buttonText}</RkText>
 				</RkButton>
 			</View>
 		);
@@ -214,20 +251,52 @@ class Signup extends React.Component {
 
 	async renderDatePicker() {
 		try {
+			let date;
+			if (this.props.datenaissance) {
+				date = this.props.datenaissance.split('.');
+				date = new Date(date[2], date[1] - 1, date[0]);
+			} else {
+				date = new Date(2010, 1, 12);
+			}
 			const { action, year, month, day } = await DatePickerAndroid.open({
 				// Use `new Date()` for current date.
 				// May 25 2020. Month 0 is January.
 				mode: 'spinner',
-				date: new Date(2010, 1, 12),
+				date,
 			});
 
 			if (action !== DatePickerAndroid.dismissedAction) {
-				this.setState({ dateNaissance: day + '.' + month + '.' + year });
+				this.setState({
+					dateNaissance: `${day < 10 ? 0 : null}${day}.${month < 10 ? 0 : null}${month + 1}.${year}`,
+				});
 				this.datenaissanceChanged(this.state.dateNaissance);
 			}
 		} catch ({ code, message }) {
 			console.warn('Cannot open date picker', message);
 		}
+	}
+
+	renderFooter() {
+		if (this.state.isSigningUp) {
+			return (
+				<View style={stylesBlack.footerAccounts}>
+					<View>
+						<RkText style={{ color: 'white' }} rkType="primary3">
+							Vous avez déjà un compte ?
+						</RkText>
+						<RkButton
+							rkType="clear"
+							onPress={() => {
+								this.props.navigation.navigate('Login');
+							}}
+						>
+							<RkText style={stylesBlack.linkText}> Connectez-vous ici </RkText>
+						</RkButton>
+					</View>
+				</View>
+			);
+		}
+		return;
 	}
 
 	render() {
@@ -247,24 +316,28 @@ class Signup extends React.Component {
 						borderColor={'grey'}
 						borderColor={this.props.nom !== '' ? 'grey' : '#ff4444'}
 						onChangeText={this.props.updateNom}
+						value={this.props.nom}
 					/>
 					<Hoshi
 						label={'Prénom'}
 						borderColor={'grey'}
 						borderColor={this.props.prenom !== '' ? 'grey' : '#ff4444'}
 						onChangeText={this.props.updatePrenom}
+						value={this.props.prenom}
 					/>
 					<Hoshi
 						label={'Pseudo'}
 						borderColor={'grey'}
 						borderColor={this.props.pseudo !== '' ? 'grey' : '#ff4444'}
 						onChangeText={this.props.updatePseudo}
+						value={this.props.pseudo}
 					/>
 					<Hoshi
 						label={'Email'}
 						keyboardType="email-address"
 						borderColor={this.state.validationEmail ? 'grey' : '#ff4444'}
 						onChangeText={this.emailChanged}
+						value={this.props.email}
 					/>
 					<Hoshi
 						label={'NPA'}
@@ -273,12 +346,14 @@ class Signup extends React.Component {
 						maxLength={4}
 						borderColor={this.state.npa ? 'grey' : '#ff4444'}
 						onChangeText={this.npaChanged}
+						value={this.props.npa}
 					/>
 					<Hoshi
 						label={'Ville'}
 						borderColor={'grey'}
 						borderColor={this.props.ville !== '' ? 'grey' : '#ff4444'}
 						onChangeText={this.props.updateVille}
+						value={this.props.ville}
 					/>
 					<View
 						style={{
@@ -312,37 +387,10 @@ class Signup extends React.Component {
 							</Text>
 						</RkButton>
 					</View>
-
-					<Hoshi
-						label={'Mot de passe (8 caractères dont 1 chiffre)'}
-						borderColor={this.state.passOk ? 'grey' : '#ff4444'}
-						onChangeText={this.passwordChanged}
-						secureTextEntry
-					/>
-					<Hoshi
-						label={'Validation mot de passe'}
-						borderColor={this.state.validationPassOk ? 'grey' : '#ff4444'}
-						onChangeText={this.validationChanged}
-						secureTextEntry
-					/>
+					{this.renderPasswordFields()}
 				</ScrollView>
-				{this.renderButtonSuivant()}
-
-				<View style={stylesBlack.footerAccounts}>
-					<View>
-						<RkText style={{ color: 'white' }} rkType="primary3">
-							Vous avez déjà un compte ?
-						</RkText>
-						<RkButton
-							rkType="clear"
-							onPress={() => {
-								navigate('Login');
-							}}
-						>
-							<RkText style={stylesBlack.linkText}> Connectez-vous ici </RkText>
-						</RkButton>
-					</View>
-				</View>
+				{this.renderButton()}
+				{this.renderFooter()}
 				{this.renderModal()}
 			</KeyboardAvoidingView>
 		);
