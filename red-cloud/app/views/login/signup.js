@@ -61,6 +61,8 @@ const mapDispatchToProps = (dispatch) => ({
 	},
 });
 
+let oldReduxState = null;
+
 class Signup extends React.Component {
 	//eslint-disable-next-line
 	static navigationOptions = {
@@ -97,7 +99,20 @@ class Signup extends React.Component {
 			this.emailChanged(this.props.email);
 			this.datenaissanceChanged(this.props.datenaissance);
 			this.setState({ dateNaissance: this.props.datenaissance });
+			this.saveReduxState();
 		}
+	}
+
+	saveReduxState() {
+		oldReduxState = {
+			prenom: this.props.prenom,
+			nom: this.props.nom,
+			pseudo: this.props.pseudo,
+			ville: this.props.ville,
+			npa: this.props.npa,
+			datenaissance: this.props.datenaissance,
+			email: this.props.email,
+		};
 	}
 
 	emailChanged(email) {
@@ -204,6 +219,8 @@ class Signup extends React.Component {
 		}
 	}
 
+	annulerModification() {}
+
 	renderModal() {
 		return (
 			<Modal
@@ -270,7 +287,9 @@ class Signup extends React.Component {
 				style={{
 					marginTop: 15,
 					marginBottom: 15,
-					alignItems: 'flex-end',
+					flex: 1,
+					flexDirection: 'row',
+					justifyContent: 'flex-end',
 				}}
 			>
 				<RkButton
@@ -286,6 +305,28 @@ class Signup extends React.Component {
 					}}
 				>
 					<RkText>{buttonText}</RkText>
+				</RkButton>
+			</View>
+		);
+	}
+
+	renderButtonAnnuler() {
+		return (
+			<View
+				style={{
+					marginTop: 15,
+					marginBottom: 15,
+				}}
+			>
+				<RkButton
+					style={stylesBlack.btnStyle}
+					rkType="social"
+					onPress={() => {
+						Keyboard.dismiss();
+						this.annulerModification();
+					}}
+				>
+					<RkText>Annuler</RkText>
 				</RkButton>
 			</View>
 		);
@@ -431,7 +472,10 @@ class Signup extends React.Component {
 					</View>
 					{this.renderPasswordFields()}
 				</ScrollView>
-				{this.renderButton()}
+				<View style={{ flexDirection: 'row' }}>
+					{this.renderButtonAnnuler()}
+					{this.renderButton()}
+				</View>
 				{this.renderFooter()}
 				{this.renderModal()}
 			</KeyboardAvoidingView>
