@@ -17,9 +17,8 @@ class PaymentConfirmation extends Mailable
      *
      * @return void
      */
-    public function __construct($pdfPath)
-    {
-        $this->pdf = $pdfPath;
+    public function __construct() {
+
     }
 
     /**
@@ -33,7 +32,12 @@ class PaymentConfirmation extends Mailable
             ->from('noreply@redcloud.com', 'RedCloud')
             ->subject('Confirmation de paiement')
             ->attach($this->pdfPath, [
-                'as' => 'test.pdf',
+                'as' => 'Votre_confirmation.pdf',
                 'mime' => 'application/pdf',
-            ]);    }
+            ]);
+    }
+
+    public function setPath($path){
+        $this->pdfPath = $path;
+    }
 }

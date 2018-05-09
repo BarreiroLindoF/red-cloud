@@ -6,6 +6,7 @@ use App\Http\Controllers\JsonResponse;
 use App\Mail\PaymentConfirmation;
 use App\User;
 use Mail;
+use App\Event;
 use App\Paiement;
 use App\Participation;
 use App\Tournoi;
@@ -79,6 +80,9 @@ class ApiTournamentController extends Controller
         $paiement->setAttribute('participation_id_participation', $participation->getAttribute('id_participation'));
         $paiement->setAttribute('pays_id_pays', 1);
         $paiement->save();
+
+        mailConfirmation($request);
+
         return response()->json(new JsonResponse(true, $paiement, null));
 
         /*$tournoi = Tournoi::find($idTournoi);
@@ -92,16 +96,22 @@ class ApiTournamentController extends Controller
     public function mailConfirmation(Request $request){
         $user = User::where('pseudo', $request->input('pseudo'))->first();
         $tournoi = Tournoi::where('id_tournoi', $request->input('idTournoi'))->first();
+        $participation = Participation::where('user_id_user',$user->id)->where('tournoi_id_tournoi',$tournoi->id_tournoi)->first();
+        $event = Event::where('id_event', $tournoi->event_id_event)->first();
 
-        var_dump($tournoi);
+        $dateTournoi =  Carbon::parse($event->dateHeureDebut)->format('d.m.Y');
+        $heureTournoi =  Carbon::parse($tournoi->heureDebut)->format('H:i');
+        $dateDuJour = Carbon::parse(Carbon::today())->format('d.m.Y');
 
-        $data= ['tournoiNom' => $tournoi->titre, 'tournoiPrix' => $tournoi->prix, 'dateTournoi' => '', 'heureTournoi' => '', 'userName' => '', 'userMail' => '' ];
+        $data= ['dateDuJour' => $dateDuJour,'imageTournoi' => $tournoi->imageUri, 'tournoiNom' => $tournoi->titre, 'tournoiPrix' => $tournoi->prix_inscription, 'dateTournoi' => $dateTournoi, 'heureTournoi' => $heureTournoi, 'userName' => $user->pseudo, 'mailUser' => $user->email, 'mailCompany' => 'redCloud@redCloud.com', 'userTeam' => $participation->nom_equipe ];
+
+        $paymentConfirmation = new PaymentConfirmation();
+        $paymentConfirmation->setPath(resource_path('/views/pdf/paymentConfirmation.pdf'));
         $pdf = PDF::loadView('pdf.paymentConfirmation', $data);
-        $pdf->save(resource_path('./views/pdf/paymentConfirmation.pdf'));
+        $pdf->save(resource_path('/views/pdf/paymentConfirmation.pdf'));
 
 
         $email = $user->email;
-        $paymentConfirmation = new PaymentConfirmation(resource_path('./views/pdf/paymentConfirmation.pdf'));
         Mail::to($email)->send($paymentConfirmation);
         return response()->json(new JsonResponse(true, "", 'Mail envoyé!'));
     }
