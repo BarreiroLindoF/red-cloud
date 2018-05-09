@@ -3,10 +3,14 @@
 namespace App\Http\Controllers\Tournament;
 
 use App\Http\Controllers\JsonResponse;
+use App\Mail\PaymentConfirmation;
+use App\User;
+use Mail;
 use App\Paiement;
 use App\Participation;
 use App\Tournoi;
 use Carbon\Carbon;
+use PDF;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -83,6 +87,23 @@ class ApiTournamentController extends Controller
         }
         $path = public_path() . $tournoi->pathToRules . $tournoi->getAttribute('reglementUri');*/
         //return response()->download($path, $tournoi->getAttribute('reglementUri'));
+    }
+
+    public function mailConfirmation(Request $request){
+        $user = User::where('pseudo', $request->input('pseudo'))->first();
+        $tournoi = Tournoi::where('id_tournoi', $request->input('idTournoi'))->first();
+
+        var_dump($tournoi);
+
+        $data= ['tournoiNom' => $tournoi->titre, 'tournoiPrix' => $tournoi->prix, 'dateTournoi' => '', 'heureTournoi' => '', 'userName' => '', 'userMail' => '' ];
+        $pdf = PDF::loadView('pdf.paymentConfirmation', $data);
+        $pdf->save(resource_path('./views/pdf/paymentConfirmation.pdf'));
+
+
+        $email = $user->email;
+        $paymentConfirmation = new PaymentConfirmation(resource_path('./views/pdf/paymentConfirmation.pdf'));
+        Mail::to($email)->send($paymentConfirmation);
+        return response()->json(new JsonResponse(true, "", 'Mail envoyé!'));
     }
 
     private function paymentOk($request) {

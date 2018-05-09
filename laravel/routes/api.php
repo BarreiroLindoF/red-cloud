@@ -32,6 +32,7 @@ Route::group(['middleware' => ['api','cors']], function () {
 
     // New routes
     Route::post('me/participation/tournoi/{id}', 'Tournament\ApiTournamentController@addParticipation'); // Documenté
+    Route::post('test/mailConfirmation', 'Tournament\ApiTournamentController@mailConfirmation'); // A supprimer
     Route::post('tournaments/{id}/team', 'ApiVerificationController@checkTeamExist'); // Documenté
 
     //Tournois
@@ -41,6 +42,7 @@ Route::group(['middleware' => ['api','cors']], function () {
     Route::get('menu', 'Menu\ApiMenuController@getMenu'); // Documenté
     Route::get('offres', 'Menu\ApiOffresController@getOffres'); // Doit être documenté après avoir été corrigé
     Route::get('offres/{id}', 'Menu\ApiOffresController@getOffre'); // Doit être documenté après avoir été corrigé
+
     
     Route::get('events', 'Events\ApiEventsController@getEvents'); // Documenté
     Route::get('events/{id}/tournaments', 'Tournament\ApiTournamentController@getTournois'); // Documenté
