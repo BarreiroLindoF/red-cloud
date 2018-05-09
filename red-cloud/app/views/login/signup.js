@@ -137,7 +137,34 @@ class Signup extends React.Component {
 	}
 
 	datenaissanceChanged(date) {
-		this.setState({ dateOk: true }, this.props.updateDateNaissance(date));
+		const userDate = date.split('.');
+		//const dixhuit = this.isDate18orMoreYearsOld(userDate[0], userDate[1], userDate[2]);
+
+		const age = this.getAge(userDate[2], userDate[1] - 1, userDate[0]);
+		const valide = age >= 12;
+		if (valide) {
+			this.setState({ dateOk: valide }, this.props.updateDateNaissance(date));
+		} else {
+			this.setState(
+				{
+					dateOk: valide,
+					msgModal: 'Vous devez avoir au moins 12 ans pour pouvoir vous inscrire',
+					modalVisible: true,
+				},
+				this.props.updateDateNaissance(date),
+			);
+		}
+	}
+
+	getAge(year, month, day) {
+		const today = new Date();
+		const birthDate = new Date(year, month, day);
+		let age = today.getFullYear() - birthDate.getFullYear();
+		const m = today.getMonth() - birthDate.getMonth();
+		if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+			age--;
+		}
+		return age;
 	}
 
 	passwordChanged(password) {
@@ -476,7 +503,7 @@ class Signup extends React.Component {
 						style={{
 							backgroundColor: 'black',
 							height: 50,
-							borderBottomColor: '#b9c1ca',
+							borderBottomColor: this.state.dateOk ? '#b9c1ca' : '#ff4444',
 							borderBottomWidth: 2,
 							marginTop: 10,
 						}}
