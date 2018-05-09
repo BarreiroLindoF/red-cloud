@@ -1,3 +1,5 @@
+import { Dimensions } from 'react-native';
+
 const React = require('react-native');
 
 const { StyleSheet } = React;
@@ -18,5 +20,16 @@ module.exports = StyleSheet.create({
 		borderRightWidth: 2,
 		paddingRight: 50,
 		paddingLeft: 50,
+	},
+
+	imgNoResultsTournoi: {
+		resizeMode: 'center',
+		height: 80,
+		width: Dimensions.get('window').width - 80,
+	},
+	imgNoResultsContainer: {
+		alignItems: 'center',
+		flex: 3,
+		justifyContent: 'center',
 	},
 });

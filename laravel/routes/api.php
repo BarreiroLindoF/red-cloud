@@ -30,6 +30,8 @@ Route::group(['middleware' => ['api','cors']], function () {
     Route::post('auth/reset', 'Auth\ApiResetPasswordController@resetPassword'); // Documenté
     Route::post('check', 'ApiVerificationController@checkUserExist'); // Documenté
 
+    Route::patch('me/update', 'Auth\ApiRegisterController@modifyUser'); // NON DOCUMENTÉ
+
     // New routes
     Route::post('me/participation/tournoi/{id}', 'Tournament\ApiTournamentController@addParticipation'); // Documenté
     Route::post('test/mailConfirmation', 'Tournament\ApiTournamentController@mailConfirmation'); // A supprimer
