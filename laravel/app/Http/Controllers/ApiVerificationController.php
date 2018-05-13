@@ -30,7 +30,7 @@ class ApiVerificationController extends Controller
     public function checkTeamExist (Request $request)
     {
         $idTournoi = $request->id;
-        $participations = Participation::where('tournoi_id_tournoi', $idTournoi)->get();
+        $participations = Participation::where('tournoi_id_tournoi', $idTournoi)->where('statut_id_statut', 1 )->get();
         foreach ($participations as $participation) {
             if ($participation->getAttribute('nom_equipe') == $request->input('nom_equipe')) {
                 return response()->json(new JsonResponse(false, null, 'Cette équipe existe déjà, merci de bien vouloir la changer.'));

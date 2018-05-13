@@ -15,7 +15,7 @@ class ApiTournamentInscriptionsController extends Controller
         $user = \JWTAuth::parseToken()->authenticate();
         $id = $user->id;
 
-        $inscriptions = DB::table('participation')->select()->where('user_id_user', $id)->get();
+        $inscriptions = DB::table('participation')->select()->where('user_id_user', $id)->where('statut_id_statut', 1)->get();
 
         $today = \Carbon\Carbon::now();
         foreach ($inscriptions as $inscription) {

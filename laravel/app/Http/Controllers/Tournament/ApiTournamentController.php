@@ -4,10 +4,8 @@ namespace App\Http\Controllers\Tournament;
 
 use App\Http\Controllers\JsonResponse;
 use App\Mail\PaymentConfirmation;
-use App\User;
 use Mail;
 use App\Event;
-use App\Paiement;
 use App\Participation;
 use App\Tournoi;
 use Carbon\Carbon;
@@ -50,7 +48,7 @@ class ApiTournamentController extends Controller
         $tournoi = Tournoi::find($id_tournoi);
 
         // Toutes les participations en lien avec ce tournoi
-        $participations = Participation::where('tournoi_id_tournoi', $id_tournoi)->get();
+        $participations = Participation::where('tournoi_id_tournoi', $id_tournoi)->where('statut_id_statut', 1)->get();
 
         if ($tournoi->getAttribute('participants_max') <= $participations->count()) {
             return response()->json(new JsonResponse(false, null, 'Nous avons atteint de nombre maximale de joueurs!'));
@@ -67,6 +65,7 @@ class ApiTournamentController extends Controller
         $participation->setAttribute('nom_equipe', $request->input('nom_equipe'));
         $participation->setAttribute('tournoi_id_tournoi', $id_tournoi);
         $participation->setAttribute('user_id_user', $user->id);
+        $participation->setAttribute('statut_id_statut', 1);
         $participation->save();
 
         $this->mailConfirmation($user, $tournoi, $participation);

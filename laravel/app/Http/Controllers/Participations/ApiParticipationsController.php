@@ -11,7 +11,7 @@ class ApiParticipationsController extends Controller
 {
     public function getParticipants(Request $request) {
         $idTournoi = $request->id;
-        $participants = Participation::select('user_id_user','nom_equipe')->where('tournoi_id_tournoi',$idTournoi)->get();
+        $participants = Participation::select('user_id_user','nom_equipe')->where('tournoi_id_tournoi',$idTournoi)->where('statut_id_statut', 1)->get();
         return response()->json(new JsonResponse(true, $participants , null));
     }
 }
