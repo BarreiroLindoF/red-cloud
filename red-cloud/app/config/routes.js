@@ -11,6 +11,7 @@ import Conditions from './../views/login/conditions';
 import Inscription from './../views/tournois/inscription';
 import CreateTeam from './../views/tournois/createTeam';
 import PresentationEventTournoi from './../views/tournois/presentationEventTournoi';
+import MesInscriptions from './../views/tournois/mesInscriptions';
 import Code from './../views/login/code';
 
 // Configuration imports
@@ -18,6 +19,7 @@ import { StatusBarPadding } from './header';
 
 export const Routes = StackNavigator(
 	{
+		MesInscriptions: { screen: MesInscriptions },
 		Login: { screen: Login },
 		ListeJeux: { screen: ListeJeux },
 		Signup: { screen: Signup },
