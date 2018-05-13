@@ -6,6 +6,8 @@ import { NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { StatusBarPaddingView } from './../../config/header';
 import { resetStore } from './../../redux/actions';
+import stylesWhite from './../../styles/StyleSheetW';
+import LogoHeader from './../../components/avatar/logoHeader';
 
 const mapDispatchToProps = (dispatch) => ({
 	resetStore: () => {
@@ -16,7 +18,8 @@ const mapDispatchToProps = (dispatch) => ({
 class Params extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
-		header: null,
+		headerTitle: <LogoHeader />,
+		color: 'white',
 		tabBarLabel: 'Paramètres',
 		tabBarIcon: () => {
 			return <Icon size={24} color="red" name="settings" />;
@@ -45,8 +48,8 @@ class Params extends React.Component {
 					this.openLoginView();
 				}}
 			>
-				<RkCard rkType="blog" style={Styles.card}>
-					<View rkCardContent style={Styles.centerContent}>
+				<RkCard rkType="blog" style={stylesWhite.card}>
+					<View rkCardContent style={stylesWhite.centerContent}>
 						<Icon
 							size={24}
 							color="#cc0000"
@@ -55,7 +58,7 @@ class Params extends React.Component {
 								alignContent: 'center',
 							}}
 						/>
-						<Text style={{ paddingLeft: 10 }}>Déconnexion</Text>
+						<Text style={Styles.paddingButton}>Déconnexion</Text>
 					</View>
 				</RkCard>
 			</TouchableOpacity>
@@ -69,8 +72,8 @@ class Params extends React.Component {
 					this.openListeJeuxView();
 				}}
 			>
-				<RkCard rkType="blog" style={Styles.card}>
-					<View rkCardContent style={Styles.centerContent}>
+				<RkCard rkType="blog" style={stylesWhite.card}>
+					<View rkCardContent style={stylesWhite.centerContent}>
 						<Icon
 							size={24}
 							color="#cc0000"
@@ -79,7 +82,7 @@ class Params extends React.Component {
 								alignContent: 'center',
 							}}
 						/>
-						<Text style={{ paddingLeft: 10 }}>Modifier jeux favoris</Text>
+						<Text style={Styles.paddingButton}>Modifier jeux favoris</Text>
 					</View>
 				</RkCard>
 			</TouchableOpacity>
@@ -88,10 +91,10 @@ class Params extends React.Component {
 
 	render() {
 		return (
-			<View style={Styles.container}>
+			<View style={stylesWhite.mainContentContainer}>
 				<StatusBarPaddingView />
-				<View style={Styles.rubanHaut}>
-					<Text style={Styles.title}>Paramètres</Text>
+				<View style={stylesWhite.redStrip}>
+					<Text style={stylesWhite.title}>Paramètres</Text>
 				</View>
 				<View style={Styles.containerCard}>{this.renderDeconnexion()}</View>
 				<View style={Styles.containerCard}>{this.renderJeuxFavoris()}</View>
@@ -106,48 +109,9 @@ let Styles = RkStyleSheet.create((theme) => ({
 		paddingVertical: 8,
 		paddingHorizontal: 12,
 	},
-	card: {
-		marginVertical: 8,
-	},
-	centerContent: {
-		flexDirection: 'row',
-		justifyContent: 'flex-start',
-		alignItems: 'center',
-	},
-	boldText: {
-		fontWeight: 'bold',
-	},
-	logo: {
-		width: 200,
-		height: 200,
-		resizeMode: 'stretch',
-	},
-	container: {
-		flex: 1,
-		backgroundColor: 'white',
-	},
-	rubanHaut: {
-		backgroundColor: '#cc0000',
-		paddingBottom: 10,
-		paddingTop: 10,
-		flexDirection: 'column',
-		justifyContent: 'center',
-		alignItems: 'flex-start',
-		borderColor: 'black',
-		borderBottomWidth: 1,
-		borderTopWidth: 1,
-	},
-	title: {
-		color: 'white',
-		backgroundColor: 'black',
-		padding: 10,
-		fontWeight: 'bold',
-		fontFamily: 'monospace',
-	},
-	containerScrollView: {
-		backgroundColor: 'white',
-		flex: 1,
-		marginBottom: 10,
+
+	paddingButton: {
+		paddingLeft: 10,
 	},
 }));
 

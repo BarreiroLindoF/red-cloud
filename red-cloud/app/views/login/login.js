@@ -12,7 +12,6 @@ import { checkPassword } from './../../common/check';
 import stylesBlack from './../../styles/StyleSheetB';
 
 const imageSrc = require('../../assets/images/logo.png');
-const styleFile = require('./style/styles');
 
 const mapStateToProps = (state) => {
 	return {
@@ -95,10 +94,9 @@ class Login extends React.Component {
 
 	renderImage() {
 		const image = (
-			<Image
-				source={imageSrc}
-				style={{ width: 200, height: 270, justifyContent: 'center', alignItems: 'center' }}
-			/>
+			<View style={stylesBlack.centerContent}>
+				<Image source={imageSrc} style={{ width: 200, height: 270 }} />
+			</View>
 		);
 		return image;
 	}
@@ -106,26 +104,20 @@ class Login extends React.Component {
 	renderModal() {
 		return (
 			<Modal
-				style={{
-					backgroundColor: 'transparent',
-					justifyContent: 'center',
-					alignItems: 'center',
-					height: 400,
-					width: 300,
-				}}
+				style={stylesBlack.modalStyle}
 				position={'center'}
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
 			>
 				<RkButton rkType="clear">{this.state.modalMessage}</RkButton>
 				<TouchableOpacity
-					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
+					style={stylesBlack.modalButton}
 					onPress={() => {
 						this.toogleModal();
 					}}
 				>
 					<View>
-						<Text style={{ color: 'black' }}>Retour</Text>
+						<Text style={stylesBlack.btnFont}>Retour</Text>
 					</View>
 				</TouchableOpacity>
 			</Modal>
@@ -160,7 +152,7 @@ class Login extends React.Component {
 				behavior="padding"
 				keyboardVerticalOffset={55}
 			>
-				<View>
+				<View style={stylesBlack.scrollViewContainer}>
 					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
 						{this.renderImage()}
 						{this.renderModal()}
@@ -180,28 +172,22 @@ class Login extends React.Component {
 							secureTextEntry
 						/>
 						{this.renderLoginButton()}
-						<RkText
-							rkType="primary3"
-							style={{
-								color: 'white',
-								marginTop: 20,
-								marginLeft: 50,
-							}}
-						>
-							Pas encore de compte?{' '}
-						</RkText>
-						<RkButton
-							rkType="clear"
-							onPress={() => {
-								this.setState({ isFetching: false });
-								this.props.navigation.navigate('Signup');
-							}}
-							title="Signup"
-						>
-							<RkText rktype="header6" style={stylesBlack.linkText}>
-								Inscris toi!
-							</RkText>
-						</RkButton>
+						<View style={stylesBlack.centerContent}>
+							<Text style={stylesBlack.mainText}>Pas encore de compte? </Text>
+
+							<RkButton
+								rkType="clear"
+								onPress={() => {
+									this.setState({ isFetching: false });
+									this.props.navigation.navigate('Signup');
+								}}
+								title="Signup"
+							>
+								<RkText rktype="header6" style={stylesBlack.linkText}>
+									Inscris toi!
+								</RkText>
+							</RkButton>
+						</View>
 						<RkButton
 							rkType="clear"
 							onPress={() => {
@@ -223,7 +209,6 @@ class Login extends React.Component {
 RkTheme.setType('RkTextInput', 'textInputLogin', {
 	input: {
 		backgroundColor: 'black',
-		marginLeft: 50,
 		marginHorizontal: 0,
 	},
 	color: 'white',

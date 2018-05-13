@@ -18,6 +18,7 @@ import { NavigationActions } from 'react-navigation';
 import { updateConditions, userLogin, updateIdsJeux } from './../../redux/actions';
 import { api, URL } from '../../rest/api';
 import LogoHeader from './../../components/avatar/logoHeader';
+import stylesBlack from '../../styles/StyleSheetB';
 
 const styleFile = require('./style/styles');
 
@@ -217,20 +218,14 @@ class ListeJeux extends React.Component {
 	renderModal() {
 		return (
 			<Modal
-				style={{
-					backgroundColor: 'transparent',
-					justifyContent: 'center',
-					alignItems: 'center',
-					height: 400,
-					width: 300,
-				}}
+				style={stylesBlack.modalStyle}
 				position={'center'}
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
 			>
 				<RkButton rkType="clear">{this.state.modalMessage}</RkButton>
 				<TouchableOpacity
-					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
+					style={stylesBlack.modalButton}
 					onPress={() => {
 						if (this.state.userCreated) {
 							this.openEvents();
@@ -362,7 +357,7 @@ class ListeJeux extends React.Component {
 
 	render() {
 		return (
-			<View style={styleFile.screen}>
+			<View style={stylesBlack.mainContentContainer}>
 				<KeyboardAvoidingView style={{ minHeight: 450 }} behavior="padding" keyboardVerticalOffset={55}>
 					<SearchBar
 						containerStyle={{ backgroundColor: 'black' }}
@@ -418,25 +413,5 @@ class ListeJeux extends React.Component {
 		);
 	}
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-	},
-	modalContainer: {
-		flex: 1,
-		justifyContent: 'center',
-		backgroundColor: 'black',
-	},
-	innerContainer: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	test: {
-		color: 'red',
-	},
-});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListeJeux);

@@ -19,8 +19,6 @@ import * as Check from './../../common/check';
 import LogoHeader from './../../components/avatar/logoHeader';
 import stylesBlack from './../../styles/StyleSheetB';
 
-const styleFile = require('./style/styles');
-
 const mapStateToProps = (state) => {
 	return {
 		nom: state.nom,
@@ -160,26 +158,20 @@ class Signup extends React.Component {
 	renderModal() {
 		return (
 			<Modal
-				style={{
-					backgroundColor: 'transparent',
-					justifyContent: 'center',
-					alignItems: 'center',
-					height: 400,
-					width: 300,
-				}}
+				style={stylesBlack.modalStyle}
 				position={'center'}
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
 			>
 				<RkButton rkType="clear">{this.state.msgModal}</RkButton>
 				<TouchableOpacity
-					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
+					style={stylesBlack.modalButton}
 					onPress={() => {
 						this.toogleModal();
 					}}
 				>
 					<View>
-						<Text style={{ color: 'black' }}>Retour</Text>
+						<Text style={stylesBlack.btnFont}>Retour</Text>
 					</View>
 				</TouchableOpacity>
 			</Modal>

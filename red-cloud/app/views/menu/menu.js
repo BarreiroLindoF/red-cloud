@@ -7,14 +7,19 @@ import { StatusBarPaddingView } from './../../config/header';
 
 import { api, URL } from './../../rest/api';
 
+//Styles import
+import stylesWhite from './../../styles/StyleSheetW';
+import LogoHeader from './../../components/avatar/logoHeader';
+
 class Menu extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
-		header: null,
 		tabBarLabel: 'Menu',
 		tabBarIcon: () => {
 			return <Icon size={24} color="red" name="local-bar" />;
 		},
+		headerTitle: <LogoHeader />,
+		color: 'white',
 	};
 
 	constructor(props) {
@@ -66,14 +71,14 @@ class Menu extends React.Component {
 
 	render() {
 		return (
-			<View style={Styles.container}>
+			<View style={stylesWhite.mainContentContainer}>
 				<StatusBarPaddingView />
-				<View style={Styles.rubanHaut}>
-					<Text style={Styles.title}>Menu</Text>
+				<View style={stylesWhite.redStrip}>
+					<Text style={stylesWhite.title}>Menu</Text>
 				</View>
-				<ScrollView style={{ marginBottom: 30 }}>
+				<ScrollView style={stylesWhite.scrollViewContainer}>
 					<View>
-						<Text style={Styles.subTitle}>{this.state.isFetching ? '' : 'Boissons'}</Text>
+						<Text style={stylesWhite.subTitle}>{this.state.isFetching ? '' : 'Boissons'}</Text>
 					</View>
 					<SectionList
 						sections={this.state.sectionsBoissons}
@@ -82,7 +87,7 @@ class Menu extends React.Component {
 						renderItem={renderItem}
 					/>
 					<View style={{ marginTop: '7%' }}>
-						<Text style={Styles.subTitle}>{this.state.isFetching ? '' : 'Nourritures'}</Text>
+						<Text style={stylesWhite.subTitle}>{this.state.isFetching ? '' : 'Nourritures'}</Text>
 					</View>
 					<SectionList
 						sections={this.state.sectionsNourritures}
@@ -109,41 +114,7 @@ const renderItem = ({ item }) => {
 	);
 };
 
-const styles = RkStyleSheet.create((theme) => ({
-	container: {
-		backgroundColor: theme.colors.screen.scroll,
-		paddingVertical: 8,
-		paddingHorizontal: 12,
-	},
-}));
-
 const Styles = {
-	container: {
-		flex: 1,
-		backgroundColor: 'white',
-	},
-	rubanHaut: {
-		backgroundColor: '#cc0000',
-		paddingBottom: 10,
-		paddingTop: 10,
-		flexDirection: 'column',
-		justifyContent: 'center',
-		alignItems: 'flex-start',
-		borderColor: 'black',
-		borderBottomWidth: 1,
-		borderTopWidth: 1,
-	},
-	title: {
-		color: 'white',
-		backgroundColor: 'black',
-		padding: 10,
-		fontWeight: 'bold',
-		fontFamily: 'monospace',
-	},
-	subTitle: {
-		color: 'black',
-		fontSize: 30,
-	},
 	textContainer: {
 		flexDirection: 'row',
 	},

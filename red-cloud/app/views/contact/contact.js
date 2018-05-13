@@ -1,6 +1,6 @@
 // React imports
 import React from 'react';
-import { Text, View, TouchableOpacity, Linking, Platform, Image } from 'react-native';
+import { Text, View, TouchableOpacity, Linking, Platform, Image, ScrollView } from 'react-native';
 
 // External imports
 import { phonecall, email } from 'react-native-communications';
@@ -10,6 +10,10 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 // Configurations imports
 import { StatusBarPaddingView } from './../../config/header';
+
+//Styles import
+import stylesWhite from './../../styles/StyleSheetW';
+import LogoHeader from './../../components/avatar/logoHeader';
 
 // Image imports
 const mapImageSource = require('../../assets/icons/map.png');
@@ -29,11 +33,12 @@ const longitudeRedCloud = '6.138465';
 class Contact extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
-		header: null,
 		tabBarLabel: 'Contact',
 		tabBarIcon: () => {
 			return <Icon size={24} color="red" name="place" />;
 		},
+		headerTitle: <LogoHeader />,
+		color: 'white',
 	};
 
 	renderInformations() {
@@ -44,8 +49,10 @@ class Contact extends React.Component {
 						phonecall(cellPhoneNumber, true);
 					}}
 				>
-					<Text style={Styles.boldText}>Numéro de téléphone : - Appuyer pour appeler</Text>
+					<Text style={stylesWhite.subTitle}>Numéro de téléphone : </Text>
 					<Text>
+						- Appuyer pour appeler
+						{'\n'}
 						{cellPhoneNumberFormatted}
 						<Icon size={15} color="black" name="call" />
 						{'\n'}
@@ -57,8 +64,10 @@ class Contact extends React.Component {
 						email([{ emailRedCloud }], null, null, null, null);
 					}}
 				>
-					<Text style={Styles.boldText}>E-mail : - Appuyer pour contacter</Text>
+					<Text style={stylesWhite.subTitle}>E-mail :</Text>
 					<Text>
+						- Appuyer pour contacter
+						{'\n'}
 						{emailRedCloud}
 						{'\n'}
 					</Text>
@@ -69,14 +78,16 @@ class Contact extends React.Component {
 						Linking.openURL(webSiteRedCloud);
 					}}
 				>
-					<Text style={Styles.boldText}>Site web : - Appuyer pour ouvrir</Text>
+					<Text style={stylesWhite.subTitle}>Site web : </Text>
 					<Text>
+						- Appuyer pour ouvrir
+						{'\n'}
 						{webSiteRedCloud}
 						{'\n'}
 					</Text>
 				</TouchableOpacity>
 
-				<Text style={Styles.boldText}>Adresse :</Text>
+				<Text style={stylesWhite.subTitle}>Adresse :</Text>
 				<Text>{adresseRedCloud}</Text>
 			</View>
 		);
@@ -100,9 +111,9 @@ class Contact extends React.Component {
 				onPress={() => {
 					Linking.openURL(url);
 				}}
-				style={Styles.centerContent}
+				style={stylesWhite.centerItems}
 			>
-				<Image source={mapImageSource} style={Styles.logo} />
+				<Image source={mapImageSource} style={Styles.logoGoogleMaps} />
 				<Text> Ouvrir sur {application}</Text>
 			</TouchableOpacity>
 		);
@@ -110,58 +121,25 @@ class Contact extends React.Component {
 
 	render() {
 		return (
-			<View style={Styles.container}>
+			<View style={stylesWhite.mainContentContainer}>
 				<StatusBarPaddingView />
-				<View style={Styles.rubanHaut}>
-					<Text style={Styles.title}>Contact</Text>
+				<View style={stylesWhite.redStrip}>
+					<Text style={stylesWhite.title}>Contact</Text>
 				</View>
-				<View style={Styles.containerScrollView}>
+				<ScrollView style={stylesWhite.scrollViewContainer}>
 					{this.renderInformations()}
 					{this.renderMaps()}
-				</View>
+				</ScrollView>
 			</View>
 		);
 	}
 }
 
 let Styles = {
-	centerContent: {
-		alignItems: 'center',
-	},
-	boldText: {
-		fontWeight: 'bold',
-	},
-	logo: {
+	logoGoogleMaps: {
 		width: 200,
 		height: 200,
 		resizeMode: 'stretch',
-	},
-	container: {
-		flex: 1,
-		backgroundColor: 'white',
-	},
-	rubanHaut: {
-		backgroundColor: '#cc0000',
-		paddingBottom: 10,
-		paddingTop: 10,
-		flexDirection: 'column',
-		justifyContent: 'center',
-		alignItems: 'flex-start',
-		borderColor: 'black',
-		borderBottomWidth: 1,
-		borderTopWidth: 1,
-	},
-	title: {
-		color: 'white',
-		backgroundColor: 'black',
-		padding: 10,
-		fontWeight: 'bold',
-		fontFamily: 'monospace',
-	},
-	containerScrollView: {
-		backgroundColor: 'white',
-		flex: 1,
-		marginBottom: 10,
 	},
 };
 

@@ -10,7 +10,6 @@ const stylesBlack = StyleSheet.create({
 
 	scrollViewContainer: {
 		flex: 1,
-		marginBottom: 10,
 	},
 
 	mainContentContainer: {
@@ -48,6 +47,33 @@ const stylesBlack = StyleSheet.create({
 		justifyContent: 'center',
 		marginBottom: 5,
 		flexDirection: 'row',
+	},
+
+	centerContent: {
+		justifyContent: 'center',
+		marginBottom: 5,
+		flexDirection: 'row',
+	},
+
+	modalStyle: {
+		backgroundColor: 'transparent',
+		justifyContent: 'center',
+		alignItems: 'center',
+		height: 400,
+		width: 300,
+	},
+
+	modalButton: {
+		padding: 10,
+		backgroundColor: 'white',
+		borderTopWidth: 1,
+		borderBottomWidth: 2,
+		borderLeftWidth: 2,
+		borderRightWidth: 2,
+		paddingRight: 50,
+		paddingLeft: 50,
+		marginTop: 20,
+		borderRadius: 5,
 	},
 });
 

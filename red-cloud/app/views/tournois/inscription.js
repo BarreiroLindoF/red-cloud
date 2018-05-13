@@ -221,7 +221,6 @@ let styles = {
 		backgroundColor: 'black',
 		padding: 10,
 		fontWeight: 'bold',
-		fontFamily: 'monospace',
 	},
 	footer: {
 		justifyContent: 'flex-end',

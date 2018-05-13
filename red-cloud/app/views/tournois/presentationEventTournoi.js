@@ -484,7 +484,6 @@ let Styles = {
 		backgroundColor: 'black',
 		padding: 10,
 		fontWeight: 'bold',
-		fontFamily: 'monospace',
 	},
 	containerScrollView: {
 		backgroundColor: 'white',

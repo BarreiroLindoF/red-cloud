@@ -7,6 +7,7 @@ import Modal from 'react-native-modalbox';
 import { api, URL } from '../../rest/api';
 import { checkCodePassword } from '../../common/check';
 import LogoHeader from './../../components/avatar/logoHeader';
+import stylesBlack from '../../styles/StyleSheetB';
 
 const styleFile = require('./style/styles');
 
@@ -99,20 +100,14 @@ class Code extends React.Component {
 	renderModal() {
 		return (
 			<Modal
-				style={{
-					backgroundColor: 'transparent',
-					justifyContent: 'center',
-					alignItems: 'center',
-					height: 400,
-					width: 300,
-				}}
+				style={stylesBlack.modalStyle}
 				position={'center'}
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
 			>
 				<RkButton rkType="clear">{this.state.message} </RkButton>
 				<TouchableOpacity
-					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
+					style={stylesBlack.modalButton}
 					onPress={() => {
 						this.toogleModal();
 						if (this.state.token !== '') {
@@ -121,7 +116,7 @@ class Code extends React.Component {
 					}}
 				>
 					<View>
-						<Text style={{ color: 'black' }}>Retour</Text>
+						<Text style={stylesBlack.btnFont}>Retour</Text>
 					</View>
 				</TouchableOpacity>
 			</Modal>
@@ -153,23 +148,14 @@ class Code extends React.Component {
 		}
 		return (
 			<View>
-				<RkText
-					style={{
-						color: 'white',
-						marginTop: 50,
-						marginLeft: 50,
-					}}
-				>
-					Pensez à consulter vos spams ou{' '}
-				</RkText>
+				<RkText style={stylesBlack.mainText}>Pensez à consulter vos spams ou </RkText>
 				<RkButton
 					rkType="clear"
-					style={{}}
 					onPress={() => {
 						this.sendNewPassword();
 					}}
 				>
-					<RkText rkType="header6" style={{ color: 'red' }}>
+					<RkText rkType="header6" style={stylesBlack.linkText}>
 						renvoyer un nouveau code
 					</RkText>
 				</RkButton>
@@ -179,7 +165,11 @@ class Code extends React.Component {
 
 	render() {
 		return (
-			<KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={55}>
+			<KeyboardAvoidingView
+				style={stylesBlack.mainContentContainer}
+				behavior="padding"
+				keyboardVerticalOffset={55}
+			>
 				<View>
 					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
 						{this.renderModal()}
