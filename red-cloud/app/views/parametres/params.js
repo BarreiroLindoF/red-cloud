@@ -86,6 +86,32 @@ class Params extends React.Component {
 		);
 	}
 
+	renderModificationPassword() {
+		return (
+			<TouchableOpacity
+				onPress={() => {
+					this.props.navigation.navigate('NewPassword', {
+						isModifying: true,
+					});
+				}}
+			>
+				<RkCard rkType="blog" style={Styles.card}>
+					<View rkCardContent style={Styles.centerContent}>
+						<Icon
+							size={24}
+							color="#cc0000"
+							name="lock"
+							style={{
+								alignContent: 'center',
+							}}
+						/>
+						<Text style={{ paddingLeft: 10 }}>Modifier mot de passe</Text>
+					</View>
+				</RkCard>
+			</TouchableOpacity>
+		);
+	}
+
 	render() {
 		return (
 			<View style={Styles.container}>
@@ -95,6 +121,7 @@ class Params extends React.Component {
 				</View>
 				<View style={Styles.containerCard}>{this.renderDeconnexion()}</View>
 				<View style={Styles.containerCard}>{this.renderJeuxFavoris()}</View>
+				<View style={Styles.containerCard}>{this.renderModificationPassword()}</View>
 			</View>
 		);
 	}
