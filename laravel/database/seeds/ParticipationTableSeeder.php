@@ -16,7 +16,7 @@ class ParticipationTableSeeder extends Seeder
             'tournoi_id_tournoi' => 11,
             'user_id_user' => 1,
             'nom_equipe' => 'Heg & co',
-            'statut_id_statut' => 0,
+            'statut_id_statut' => 1,
         ]);
 
         DB::table('participation')->insert([
@@ -24,7 +24,7 @@ class ParticipationTableSeeder extends Seeder
             'tournoi_id_tournoi' => 2,
             'user_id_user' => 1,
             'nom_equipe' => 'La revanche rebelle',
-            'statut_id_statut' => 0,
+            'statut_id_statut' => 1,
         ]);
 
         DB::table('participation')->insert([
@@ -32,35 +32,35 @@ class ParticipationTableSeeder extends Seeder
             'tournoi_id_tournoi' => 12,
             'user_id_user' => 1,
             'nom_equipe' => 'Black & White',
-            'statut_id_statut' => 0,
+            'statut_id_statut' => 1
         ]);
         DB::table('participation')->insert([
             'date_inscription' => \Carbon\Carbon::now(),
             'tournoi_id_tournoi' => 12,
             'user_id_user' => 2,
             'nom_equipe' => 'No weaknesses',
-            'statut_id_statut' => 0,
+            'statut_id_statut' => 1,
         ]);
         DB::table('participation')->insert([
             'date_inscription' => \Carbon\Carbon::now(),
             'tournoi_id_tournoi' => 12,
             'user_id_user' => 3,
             'nom_equipe' => 'Black Power',
-            'statut_id_statut' => 0,
+            'statut_id_statut' => 1,
         ]);
         DB::table('participation')->insert([
             'date_inscription' => \Carbon\Carbon::now(),
             'tournoi_id_tournoi' => 12,
             'user_id_user' => 4,
             'nom_equipe' => 'One shot',
-            'statut_id_statut' => 0,
+            'statut_id_statut' => 1,
         ]);
         DB::table('participation')->insert([
             'date_inscription' => \Carbon\Carbon::now(),
             'tournoi_id_tournoi' => 12,
             'user_id_user' => 5,
             'nom_equipe' => 'No scope team',
-            'statut_id_statut' => 0,
+            'statut_id_statut' => 1,
         ]);
     }
 }

@@ -33,12 +33,12 @@ Route::group(['middleware' => ['api','cors']], function () {
     Route::patch('me/update', 'Auth\ApiRegisterController@modifyUser'); // NON DOCUMENTÉ
 
     // New routes
-    Route::post('me/participation/tournoi/{id}', 'Tournament\ApiTournamentController@addParticipation'); // Documenté TOCHECK
-    Route::post('tournaments/{id}/team', 'ApiVerificationController@checkTeamExist'); // Documenté TOCHECK
+    Route::post('me/participation/tournoi/{id}', 'Tournament\ApiTournamentController@addParticipation'); // Documenté
+    Route::post('tournaments/{id}/team', 'ApiVerificationController@checkTeamExist'); // Documenté
 
     //Tournois
-    Route::get('tournois/{id}/participants', 'Participations\ApiParticipationsController@getParticipants'); // Documenté TOCHECK
-    Route::get('me/inscriptions', 'Tournament\ApiTournamentInscriptionsController@getInscriptions'); // NON DOCUMENTÉ TOCHECK
+    Route::get('tournois/{id}/participants', 'Participations\ApiParticipationsController@getParticipants'); // Documenté
+    Route::get('me/inscriptions', 'Tournament\ApiTournamentInscriptionsController@getInscriptions'); // NON DOCUMENTÉ
 
     Route::get('menu', 'Menu\ApiMenuController@getMenu'); // Documenté
     Route::get('offres', 'Menu\ApiOffresController@getOffres'); // Doit être documenté après avoir été corrigé
