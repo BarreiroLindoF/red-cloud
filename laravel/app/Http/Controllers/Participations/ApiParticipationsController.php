@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Participations;
 
+use App\Mail\AnnulationInscriptionMail;
 use App\Participation;
 use App\Http\Controllers\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Tournoi;
 
 class ApiParticipationsController extends Controller
 {
@@ -17,6 +19,7 @@ class ApiParticipationsController extends Controller
 
     public function removeParticipation(Request $request) {
         $id_tournoi = $request->id;
+        $tournoi = Tournoi::find($id_tournoi);
 
         // Toutes les participations en lien avec ce tournoi
         $participations = Participation::where('tournoi_id_tournoi', $id_tournoi)->where('statut_id_statut', 1)->get();
@@ -36,6 +39,14 @@ class ApiParticipationsController extends Controller
 
         $participationUser->setAttribute('statut_id_statut', 4);
         $participationUser->save();
+
+        $this->sendMail($user->email, $tournoi->getAttribute('titre'));
         return response()->json(new JsonResponse(true, 'Inscription supprimée !' , null));
+    }
+
+    private function sendMail($email, $tournoi) {
+        $annulationMail = new AnnulationInscriptionMail();
+        $annulationMail->tournoi = $tournoi;
+        \Mail::to($email)->send($annulationMail);
     }
 }
