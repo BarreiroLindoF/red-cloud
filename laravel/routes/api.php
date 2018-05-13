@@ -31,7 +31,7 @@ Route::group(['middleware' => ['api','cors']], function () {
     Route::post('check', 'ApiVerificationController@checkUserExist'); // Documenté
 
     Route::patch('me/update', 'Auth\ApiRegisterController@modifyUser'); // NON DOCUMENTÉ
-
+    Route::patch('me/password', 'Auth\ApiResetPasswordController@modifyPassword'); // NON DOCUMENTÉ
     // New routes
     Route::post('me/participation/tournoi/{id}', 'Tournament\ApiTournamentController@addParticipation'); // Documenté
     Route::post('tournaments/{id}/team', 'ApiVerificationController@checkTeamExist'); // Documenté
