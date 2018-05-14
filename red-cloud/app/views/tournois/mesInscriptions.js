@@ -57,12 +57,11 @@ class MesInscriptions extends React.Component {
 
 	cancelInscription() {
 		const url = URL.cancelInscriptions.replace('{$id}', this.state.idTournoiAnnulation);
-		console.log(url);
+		this.setState({ isFetching: true });
 		api()
 			.delete(url)
 			.then(() => {
-				this.setState({ isFetching: false });
-				this.render();
+				this.loadInscriptions(); // Amodifier car pas performant, on peut juste supprimer l'inscription dans le this.state.data
 			})
 			.catch((error) => {
 				console.log(error);
