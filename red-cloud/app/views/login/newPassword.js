@@ -10,8 +10,6 @@ import { checkPassword } from '../../common/check';
 import LogoHeader from './../../components/avatar/logoHeader';
 import stylesBlack from './../../styles/StyleSheetB';
 
-const styleFile = require('./style/styles');
-
 const mapStateToProps = (state) => {
 	return {
 		email: state.email,
@@ -124,20 +122,14 @@ class NewPassword extends React.Component {
 	renderModal() {
 		return (
 			<Modal
-				style={{
-					backgroundColor: 'transparent',
-					justifyContent: 'center',
-					alignItems: 'center',
-					height: 400,
-					width: 300,
-				}}
+				style={stylesBlack.modalStyle}
 				position={'center'}
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
 			>
 				<RkButton rkType="clear"> {this.state.message} </RkButton>
 				<TouchableOpacity
-					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
+					style={stylesBlack.modalButton}
 					onPress={() => {
 						this.toogleModal();
 						if (this.state.apiResponse.success) {
@@ -150,7 +142,7 @@ class NewPassword extends React.Component {
 					}}
 				>
 					<View>
-						<Text style={{ color: 'black' }}>Retour</Text>
+						<Text style={stylesBlack.btnFont}>Retour</Text>
 					</View>
 				</TouchableOpacity>
 			</Modal>
@@ -195,7 +187,11 @@ class NewPassword extends React.Component {
 
 	render() {
 		return (
-			<KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={55}>
+			<KeyboardAvoidingView
+				style={stylesBlack.mainContentContainer}
+				behavior="padding"
+				keyboardVerticalOffset={55}
+			>
 				<View>
 					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
 						{this.renderModal()}
@@ -242,35 +238,5 @@ RkTheme.setType('RkTextInput', 'textInputLogin', {
 	color: 'white',
 	placeholderTextColor: 'gray',
 });
-
-let styles = {
-	font: {
-		height: 60,
-		marginHorizontal: 50,
-		color: 'white',
-	},
-	screen: {
-		padding: 10,
-		flex: 1,
-		backgroundColor: 'black',
-	},
-	footer: {
-		justifyContent: 'flex-end',
-		flex: 1,
-	},
-	buttonSend: {
-		backgroundColor: 'red',
-		marginLeft: 50,
-		marginTop: 50,
-		width: 250,
-	},
-	save: {
-		marginVertical: 9,
-	},
-	textRow: {
-		justifyContent: 'center',
-		flexDirection: 'row',
-	},
-};
 
 export default connect(mapStateToProps)(NewPassword);

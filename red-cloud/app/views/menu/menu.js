@@ -1,23 +1,22 @@
-import React, { PureComponent } from 'react';
-import SwiperFlatList from 'react-native-swiper-flatlist';
+import React from 'react';
 import { Text, View, ScrollView, SectionList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { RkStyleSheet } from 'react-native-ui-kitten';
-
 import { StatusBarPaddingView } from './../../config/header';
 
 import { api, URL } from './../../rest/api';
 
-const offres = ['offre 1', 'offre 2', 'offre 3'];
+import stylesWhite from './../../styles/StyleSheetW';
+import LogoHeader from './../../components/avatar/logoHeader';
 
-class Menu extends PureComponent {
+class Menu extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
-		header: null,
 		tabBarLabel: 'Menu',
 		tabBarIcon: () => {
 			return <Icon size={24} color="red" name="local-bar" />;
 		},
+		headerTitle: <LogoHeader />,
+		color: 'white',
 	};
 
 	constructor(props) {
@@ -69,14 +68,13 @@ class Menu extends PureComponent {
 
 	render() {
 		return (
-			<View style={Styles.container}>
-				<StatusBarPaddingView />
-				<View style={Styles.rubanHaut}>
-					<Text style={Styles.title}>Menu</Text>
+			<View style={stylesWhite.mainContentContainer}>
+				<View style={stylesWhite.redStrip}>
+					<Text style={stylesWhite.title}>Menu</Text>
 				</View>
-				<ScrollView style={{ marginBottom: 30 }}>
+				<ScrollView style={stylesWhite.scrollViewContainer}>
 					<View>
-						<Text style={Styles.subTitle}>{this.state.isFetching ? '' : 'Boissons'}</Text>
+						<Text style={stylesWhite.subTitle}>{this.state.isFetching ? '' : 'Boissons'}</Text>
 					</View>
 					<SectionList
 						sections={this.state.sectionsBoissons}
@@ -85,7 +83,7 @@ class Menu extends PureComponent {
 						renderItem={renderItem}
 					/>
 					<View style={{ marginTop: '7%' }}>
-						<Text style={Styles.subTitle}>{this.state.isFetching ? '' : 'Nourritures'}</Text>
+						<Text style={stylesWhite.subTitle}>{this.state.isFetching ? '' : 'Nourritures'}</Text>
 					</View>
 					<SectionList
 						sections={this.state.sectionsNourritures}
@@ -112,44 +110,7 @@ const renderItem = ({ item }) => {
 	);
 };
 
-const styles = RkStyleSheet.create((theme) => ({
-	container: {
-		backgroundColor: theme.colors.screen.scroll,
-		paddingVertical: 8,
-		paddingHorizontal: 12,
-	},
-}));
-
 const Styles = {
-	container: {
-		flex: 1,
-		backgroundColor: 'white',
-	},
-	child: {
-		justifyContent: 'center',
-	},
-	rubanHaut: {
-		backgroundColor: '#cc0000',
-		paddingBottom: 10,
-		paddingTop: 10,
-		flexDirection: 'column',
-		justifyContent: 'center',
-		alignItems: 'flex-start',
-		borderColor: 'black',
-		borderBottomWidth: 1,
-		borderTopWidth: 1,
-	},
-	title: {
-		color: 'white',
-		backgroundColor: 'black',
-		padding: 10,
-		fontWeight: 'bold',
-		fontFamily: 'monospace',
-	},
-	subTitle: {
-		color: 'black',
-		fontSize: 30,
-	},
 	textContainer: {
 		flexDirection: 'row',
 	},

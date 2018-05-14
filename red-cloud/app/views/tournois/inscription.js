@@ -6,14 +6,15 @@ import Modal from 'react-native-modalbox';
 import { StatusBarPadding } from './../../config/header';
 import * as Check from './../../common/check';
 import { api, URL } from './../../rest/api';
-
-const styleFile = require('./styles');
+import LogoHeader from './../../components/avatar/logoHeader';
+import stylesBlack from './../../styles/StyleSheetB';
 
 class Inscription extends React.Component {
 	// eslint-disable-next-line
-	/*static navigationOptions = {
-		header: null,
-	};*/
+	static navigationOptions = {
+		headerTitle: <LogoHeader />,
+		color: 'white',
+	};
 
 	constructor(props) {
 		super(props);
@@ -84,20 +85,14 @@ class Inscription extends React.Component {
 	renderModal() {
 		return (
 			<Modal
-				style={{
-					backgroundColor: 'transparent',
-					justifyContent: 'center',
-					alignItems: 'center',
-					height: 400,
-					width: 300,
-				}}
+				style={stylesBlack.modalStyle}
 				position={'center'}
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
 			>
 				<RkButton rkType="clear">{this.state.errorMessage}</RkButton>
 				<TouchableOpacity
-					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
+					style={stylesBlack.modalStyle}
 					onPress={() => {
 						this.toggleModal();
 						if (this.state.inscriptionFaite) {
@@ -106,7 +101,7 @@ class Inscription extends React.Component {
 					}}
 				>
 					<View>
-						<Text style={{ color: 'black' }}>Retour</Text>
+						<Text style={stylesBlack.btnFont}>Retour</Text>
 					</View>
 				</TouchableOpacity>
 			</Modal>
@@ -133,13 +128,13 @@ class Inscription extends React.Component {
 	render() {
 		return (
 			<KeyboardAvoidingView
-				style={{ ...styles.container, backgroundColor: 'black' }}
+				style={stylesBlack.mainContentContainer}
 				behavior="padding"
 				keyboardVerticalOffset={55}
 			>
 				{this.renderModal()}
-				<View style={styles.rubanHaut}>
-					<Text style={styles.title}>Inscription</Text>
+				<View style={stylesBlack.redStrip}>
+					<Text style={stylesBlack.title}>Inscription</Text>
 				</View>
 				<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
 					<Hoshi
@@ -205,54 +200,11 @@ RkTheme.setType('RkTextInput', 'textInputLogin', {
 });
 
 let styles = {
-	font: {
-		height: 60,
-		marginHorizontal: 50,
-		color: 'white',
-	},
-	screen: {
-		paddingTop: StatusBarPadding,
-		padding: 10,
-		flex: 1,
-		backgroundColor: 'black',
-	},
-	title: {
-		color: 'white',
-		backgroundColor: 'black',
-		padding: 10,
-		fontWeight: 'bold',
-		fontFamily: 'monospace',
-	},
-	footer: {
-		justifyContent: 'flex-end',
-		flex: 1,
-	},
 	buttonSignIn: {
 		backgroundColor: 'white',
 		marginLeft: 50,
 		marginTop: 20,
 		width: 250,
-	},
-	save: {
-		marginVertical: 9,
-	},
-	textRow: {
-		justifyContent: 'center',
-		flexDirection: 'row',
-	},
-	rubanHaut: {
-		backgroundColor: '#cc0000',
-		paddingBottom: 10,
-		paddingTop: 10,
-		flexDirection: 'column',
-		justifyContent: 'center',
-		alignItems: 'flex-start',
-		borderColor: 'black',
-		borderBottomWidth: 1,
-		borderTopWidth: 1,
-	},
-	container: {
-		flex: 1,
 	},
 };
 

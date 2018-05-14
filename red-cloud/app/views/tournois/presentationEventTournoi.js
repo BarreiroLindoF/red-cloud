@@ -9,12 +9,16 @@ import {
 	Share,
 	FlatList,
 	ActivityIndicator,
+	KeyboardAvoidingView,
 } from 'react-native';
 import { RkButton, RkTheme, RkText } from 'react-native-ui-kitten';
 import Modal from 'react-native-modalbox';
 import { Hoshi } from 'react-native-textinput-effects';
 
 import { api, URL } from './../../rest/api';
+
+import stylesWhite from './../../styles/StyleSheetW';
+import LogoHeader from './../../components/avatar/logoHeader';
 
 const Dimensions = require('Dimensions');
 
@@ -40,7 +44,8 @@ const styleFile = require('./styles');
 class PresentationEventTournoi extends React.Component {
 	//eslint-disable-next-line
 	static navigationOptions = {
-		title: 'Tournoi au RedCloud',
+		headerTitle: <LogoHeader />,
+		color: 'white',
 	};
 
 	constructor(props) {
@@ -167,7 +172,7 @@ class PresentationEventTournoi extends React.Component {
 					Nombre de places disponibles : {tournoi.participants_max - tournoi.participants}
 					{tournoi.participants > 0 && (
 						<Text>
-							<Text> (Liste des inscris </Text>
+							<Text> Liste des inscris </Text>
 							<Text
 								style={{ color: '#cc0000' }}
 								onPress={() => {
@@ -333,13 +338,17 @@ class PresentationEventTournoi extends React.Component {
 		const itemToDisplay = this.props.navigation.state.params.item;
 		const eventDisplay = this.props.navigation.state.params.eventDisplay;
 		return (
-			<View style={Styles.container}>
-				{this.renderModal()}
-				{this.renderLstEquipe()}
-				<View style={Styles.rubanHaut}>
-					<Text style={Styles.title}>{itemToDisplay.titre}</Text>
-				</View>
-				<View style={Styles.containerScrollView}>
+			<KeyboardAvoidingView
+				style={stylesWhite.mainContentContainer}
+				behavior="padding"
+				keyboardVerticalOffset={55}
+			>
+				<View style={stylesWhite.scrollViewContainer}>
+					{this.renderModal()}
+					{this.renderLstEquipe()}
+					<View style={stylesWhite.redStrip}>
+						<Text style={stylesWhite.title}>{itemToDisplay.titre}</Text>
+					</View>
 					<ScrollView
 						contentContainerStyle={{ flexGrow: 1, justifyContent: 'center' }}
 						onLayout={(event) => {
@@ -388,7 +397,7 @@ class PresentationEventTournoi extends React.Component {
 											Linking.openURL(itemToDisplay.reglementUri);
 										}}
 									>
-										<Image source={PDFImgSrc} style={Styles.logo} />
+										<Image source={PDFImgSrc} style={stylesWhite.logoSocialMedias} />
 									</TouchableOpacity>
 								</View>
 								<View style={Styles.bottomLineContainer}>
@@ -401,15 +410,15 @@ class PresentationEventTournoi extends React.Component {
 				</View>
 
 				<View style={Styles.bottomLineContainer}>
-					<Text style={Styles.bottomLine} />
+					<Text style={stylesWhite.redLineBottom} />
 				</View>
-				<View style={Styles.socialFooter}>
+				<View style={stylesWhite.socialFooter}>
 					<TouchableOpacity
 						onPress={() => {
 							Linking.openURL(itemToDisplay.page_facebook_url);
 						}}
 					>
-						<Image source={FaceBookImgSrc} style={Styles.logo} />
+						<Image source={FaceBookImgSrc} style={stylesWhite.logoSocialMedias} />
 					</TouchableOpacity>
 
 					<TouchableOpacity
@@ -421,7 +430,7 @@ class PresentationEventTournoi extends React.Component {
 							});
 						}}
 					>
-						<Image source={PartageImgSrc} style={Styles.logo} />
+						<Image source={PartageImgSrc} style={stylesWhite.logoSocialMedias} />
 					</TouchableOpacity>
 
 					<TouchableOpacity
@@ -429,7 +438,7 @@ class PresentationEventTournoi extends React.Component {
 							Linking.openURL(itemToDisplay.page_twitter_url);
 						}}
 					>
-						<Image source={TwitterImgSrc} style={Styles.logo} />
+						<Image source={TwitterImgSrc} style={stylesWhite.logoSocialMedias} />
 					</TouchableOpacity>
 
 					<TouchableOpacity
@@ -437,7 +446,7 @@ class PresentationEventTournoi extends React.Component {
 							Linking.openURL(itemToDisplay.page_twitch_url);
 						}}
 					>
-						<Image source={TwitchImgSrc} style={Styles.logo} />
+						<Image source={TwitchImgSrc} style={stylesWhite.logoSocialMedias} />
 					</TouchableOpacity>
 
 					<TouchableOpacity
@@ -445,51 +454,19 @@ class PresentationEventTournoi extends React.Component {
 							Linking.openURL(itemToDisplay.page_youtube_url);
 						}}
 					>
-						<Image source={YoutubeImgSrc} style={Styles.logo} />
+						<Image source={YoutubeImgSrc} style={stylesWhite.logoSocialMedias} />
 					</TouchableOpacity>
 				</View>
-			</View>
+			</KeyboardAvoidingView>
 		);
 	}
 }
 
 let Styles = {
-	logo: {
-		width: 50,
-		height: 50,
-		resizeMode: 'stretch',
-	},
 	buttonSend: {
 		backgroundColor: 'red',
 		justifyContent: 'center',
 		width: 200,
-	},
-	container: {
-		flex: 1,
-		backgroundColor: 'white',
-	},
-	rubanHaut: {
-		backgroundColor: '#cc0000',
-		paddingBottom: 10,
-		paddingTop: 10,
-		flexDirection: 'column',
-		justifyContent: 'center',
-		alignItems: 'flex-start',
-		borderColor: 'black',
-		borderBottomWidth: 1,
-		borderTopWidth: 1,
-	},
-	title: {
-		color: 'white',
-		backgroundColor: 'black',
-		padding: 10,
-		fontWeight: 'bold',
-		fontFamily: 'monospace',
-	},
-	containerScrollView: {
-		backgroundColor: 'white',
-		flex: 1,
-		marginBottom: 10,
 	},
 	text: {
 		color: 'black',
@@ -523,20 +500,6 @@ let Styles = {
 	bottomLineContainer: {
 		flexDirection: 'row',
 		justifyContent: 'center',
-	},
-	bottomLine: {
-		width: 250,
-		paddingBottom: 10,
-		marginTop: 10,
-		borderTopColor: '#cc0000',
-		borderTopWidth: 2,
-	},
-	socialFooter: {
-		flexDirection: 'row',
-		justifyContent: 'space-around',
-		marginBottom: 25,
-		paddingLeft: 35,
-		paddingRight: 35,
 	},
 	flatListContainer: {
 		width: 250,
