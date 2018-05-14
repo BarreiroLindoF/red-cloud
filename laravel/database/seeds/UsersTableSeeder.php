@@ -17,9 +17,11 @@ class UsersTableSeeder extends Seeder
             'pseudo' => 'Flavio',
             'ville' => 'Geneve',
             'npa' => '1234',
-            'datenaissance' => '12.12.12',
+            'datenaissance' => '12.12.1994',
             'email' => 'flavio_slb4@hotmail.com',
             'password' => bcrypt('password'),
+            'notificationtoken' => null,
+            'notification_offre' => 0,
         ]);
         DB::table('users')->insert([
             'nom' => 'Magnin',
@@ -30,6 +32,8 @@ class UsersTableSeeder extends Seeder
             'datenaissance' => '12.12.1992',
             'email' => 'michou@hotmail.com',
             'password' => bcrypt('password'),
+            'notificationtoken' => null,
+            'notification_offre' => 0,
         ]);
         DB::table('users')->insert([
             'nom' => 'Blaricaud',
@@ -40,6 +44,8 @@ class UsersTableSeeder extends Seeder
             'datenaissance' => '12.12.1991',
             'email' => 'BBBoby@hotmail.com',
             'password' => bcrypt('password'),
+            'notificationtoken' => null,
+            'notification_offre' => 0,
         ]);
         DB::table('users')->insert([
             'nom' => 'Feirreira',
@@ -47,19 +53,23 @@ class UsersTableSeeder extends Seeder
             'pseudo' => 'FeiNezGonde',
             'ville' => 'Geneve',
             'npa' => '1234',
-            'datenaissance' => '12.12.12',
+            'datenaissance' => '12.12.1994',
             'email' => 'Fait-Nez@hotmail.com',
             'password' => bcrypt('password'),
+            'notificationtoken' => null,
+            'notification_offre' => 0,
         ]);
         DB::table('users')->insert([
             'nom' => 'Marouane',
             'prenom' => 'Jean-philipe',
-            'pseudo' => 'JOBOY',
+            'pseudo' => 'JP',
             'ville' => 'Geneve',
             'npa' => '1234',
-            'datenaissance' => '12.12.12',
+            'datenaissance' => '12.12.1994',
             'email' => 'Philou_1212@hotmail.com',
             'password' => bcrypt('password'),
+            'notificationtoken' => null,
+            'notification_offre' => 0,
         ]);
     }
 }

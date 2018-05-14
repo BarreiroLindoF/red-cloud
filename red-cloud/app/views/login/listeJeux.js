@@ -18,8 +18,9 @@ import { NavigationActions } from 'react-navigation';
 import { updateConditions, userLogin, updateIdsJeux } from './../../redux/actions';
 import { api, URL } from '../../rest/api';
 import LogoHeader from './../../components/avatar/logoHeader';
+import { registerForPushNotificationsAsync } from './../../notifications/notifications';
 
-const styleFile = require('./style/styles');
+import stylesBlack from '../../styles/StyleSheetB';
 
 const mapStateToProps = (state) => ({
 	nom: state.nom,
@@ -86,14 +87,10 @@ class ListeJeux extends React.Component {
 		api()
 			.get(URL.categoriesJeux)
 			.then((response) => {
-				console.log(this.state.categories);
-				this.setState(
-					{
-						categories: response.data.payload,
-						isFetchingJeux: false,
-					},
-					console.log(this.state.categories),
-				);
+				this.setState({
+					categories: response.data.payload,
+					isFetchingJeux: false,
+				});
 			})
 			.catch((error) => {
 				console.log(error);
@@ -117,7 +114,6 @@ class ListeJeux extends React.Component {
 			return;
 		}
 		this.setState({ isFetching: true });
-		console.log(this.props.jeux);
 		api()
 			.post(URL.register, {
 				nom: this.props.nom,
@@ -132,31 +128,34 @@ class ListeJeux extends React.Component {
 			})
 			.then((reponse) => {
 				if (reponse.data.success) {
-					api()
-						.post(URL.login, {
-							pseudo: this.props.pseudo,
-							password: this.props.password,
-						})
-						.then((response) => {
-							this.setState({ isFetching: false });
-							if (response.data.success) {
-								this.props.userLogin(response.data.payload);
+					registerForPushNotificationsAsync().then((token) => {
+						api()
+							.post(URL.login, {
+								pseudo: this.props.pseudo,
+								password: this.props.password,
+								notificationToken: token,
+							})
+							.then((response) => {
+								this.setState({ isFetching: false });
+								if (response.data.success) {
+									this.props.userLogin(response.data.payload);
+									this.setState({
+										userCreated: true,
+										modalMessage:
+											'Votre compte a été crée avec succès ! Vous allez être redirigé vers la liste des tournois.',
+										modalVisible: true,
+									});
+								}
+							})
+							.catch(() => {
 								this.setState({
-									userCreated: true,
-									modalMessage:
-										'Votre compte a été crée avec succès ! Vous allez être redirigé vers la liste des tournois.',
+									isFetching: false,
+									userCreated: false,
+									modalMessage: 'Problème de connexion au serveur !',
 									modalVisible: true,
 								});
-							}
-						})
-						.catch(() => {
-							this.setState({
-								isFetching: false,
-								userCreated: false,
-								modalMessage: 'Problème de connexion au serveur !',
-								modalVisible: true,
 							});
-						});
+					});
 				}
 			})
 			.catch((error) => {
@@ -217,20 +216,14 @@ class ListeJeux extends React.Component {
 	renderModal() {
 		return (
 			<Modal
-				style={{
-					backgroundColor: 'transparent',
-					justifyContent: 'center',
-					alignItems: 'center',
-					height: 400,
-					width: 300,
-				}}
+				style={stylesBlack.modalStyle}
 				position={'center'}
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
 			>
 				<RkButton rkType="clear">{this.state.modalMessage}</RkButton>
 				<TouchableOpacity
-					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
+					style={stylesBlack.modalButton}
 					onPress={() => {
 						if (this.state.userCreated) {
 							this.openEvents();
@@ -251,7 +244,7 @@ class ListeJeux extends React.Component {
 			return <ActivityIndicator size="large" color="white" style={{ paddingTop: 15 }} />;
 		}
 		return this.state.checkBoxesFiltered.length === 0 ? (
-			<Text style={{ color: 'grey' }}> Aucun jeux ne correspond à votre recherche...</Text>
+			<Text style={stylesBlack.mainText}> Aucun jeux ne correspond à votre recherche...</Text>
 		) : (
 			this.state.checkBoxesFiltered.map((checkbox, index) => (
 				<CheckBox
@@ -259,7 +252,7 @@ class ListeJeux extends React.Component {
 					isChecked={this.props.jeux.includes(this.state.checkBoxesFiltered[index].id_jeu)}
 					style={{ flex: 1, padding: 10 }}
 					leftText={this.state.checkBoxesFiltered[index].nom}
-					leftTextStyle={{ color: 'grey' }}
+					leftTextStyle={{ color: 'white' }}
 					onClick={() => this.onClick(this.state.checkBoxesFiltered[index].id_jeu)}
 					checkBoxColor="white"
 				/>
@@ -270,7 +263,7 @@ class ListeJeux extends React.Component {
 	renderSuivant() {
 		if (this.state.isFetching) {
 			return (
-				<View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 35 }}>
+				<View style={stylesBlack.posLoadingButton}>
 					<ActivityIndicator size="large" color="#cc0000" style={{ paddingTop: 15 }} />
 				</View>
 			);
@@ -282,9 +275,9 @@ class ListeJeux extends React.Component {
 			buttonText = 'Sauvegarder';
 		}
 		return (
-			<View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 35 }}>
+			<View style={stylesBlack.posLoadingButton}>
 				<RkButton
-					style={{ backgroundColor: 'white' }}
+					style={stylesBlack.btnStyle}
 					rkType="social"
 					onPress={() => {
 						if (this.state.isSigningUp) {
@@ -294,7 +287,7 @@ class ListeJeux extends React.Component {
 						}
 					}}
 				>
-					<RkText style={{ color: 'black' }}>{buttonText}</RkText>
+					<RkText style={stylesBlack.btnFont}>{buttonText}</RkText>
 				</RkButton>
 			</View>
 		);
@@ -330,12 +323,12 @@ class ListeJeux extends React.Component {
 		return (
 			<View style={{ flexDirection: 'row', paddingLeft: 25, paddingBottom: 40, paddingRight: 9 }}>
 				<View style={{ flexDirection: 'row' }}>
-					<Text style={{ color: 'grey' }}>Accepter les </Text>
+					<Text style={stylesBlack.mainText}>Accepter les </Text>
 					<Text
 						onPress={() => {
 							this.props.navigation.navigate('Conditions');
 						}}
-						style={{ color: 'red' }}
+						style={stylesBlack.linkText}
 					>
 						conditions générales{' '}
 					</Text>
@@ -362,7 +355,7 @@ class ListeJeux extends React.Component {
 
 	render() {
 		return (
-			<View style={styleFile.screen}>
+			<View style={stylesBlack.mainContentContainer}>
 				<KeyboardAvoidingView style={{ minHeight: 450 }} behavior="padding" keyboardVerticalOffset={55}>
 					<SearchBar
 						containerStyle={{ backgroundColor: 'black' }}
@@ -390,7 +383,7 @@ class ListeJeux extends React.Component {
 								sucess: 'red',
 								text: 'black',
 								chipColor: 'red',
-								selectToggleTextColor: 'grey',
+								selectToggleTextColor: 'white',
 							}}
 							modalAnimationType="slide"
 							hideSearch
@@ -398,16 +391,10 @@ class ListeJeux extends React.Component {
 							selectedItems={this.state.selectedItems}
 						/>
 					</View>
-					<RkText style={{ color: 'grey', paddingTop: 20, paddingBottom: 25 }} rkType="primary3">
+					<RkText style={stylesBlack.mainText} rkType="primary3">
 						Sélectionnez vos jeux favoris :
 					</RkText>
-					<View
-						style={{
-							flex: 1,
-							paddingLeft: 10,
-							paddingBottom: 20,
-						}}
-					>
+					<View style={stylesBlack.mainContentContainer}>
 						<ScrollView>{this.renderCheckboxes()}</ScrollView>
 					</View>
 				</KeyboardAvoidingView>
@@ -418,25 +405,5 @@ class ListeJeux extends React.Component {
 		);
 	}
 }
-
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		justifyContent: 'center',
-	},
-	modalContainer: {
-		flex: 1,
-		justifyContent: 'center',
-		backgroundColor: 'black',
-	},
-	innerContainer: {
-		flex: 1,
-		justifyContent: 'center',
-		alignItems: 'center',
-	},
-	test: {
-		color: 'red',
-	},
-});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ListeJeux);

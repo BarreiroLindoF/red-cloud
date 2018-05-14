@@ -15,7 +15,6 @@ const mapStateToProps = (state) => ({
 });
 
 const imgErreur = require('../../assets/images/erreurBlack.png');
-const styles = require('./styles');
 
 class Tournois extends React.Component {
 	// eslint-disable-next-line
@@ -166,13 +165,13 @@ class Tournois extends React.Component {
 				/>
 				{!this.state.searchResult && (
 					<KeyboardAvoidingView
-						style={styles.imgNoResultsContainer}
+						style={stylesWhite.imgNoResultsContainer}
 						behavior="padding"
 						on
 						keyboardVerticalOffset={100}
 					>
 						{Keyboard.dismiss()}
-						<Image style={styles.imgNoResultsTournoi} source={imgErreur} />
+						<Image style={stylesWhite.imgNoResultsTournoi} source={imgErreur} />
 						<Text style={{ marginTop: 15 }}> Aucun évènement ne correspond à votre recherche...</Text>
 					</KeyboardAvoidingView>
 				)}

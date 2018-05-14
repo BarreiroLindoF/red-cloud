@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 const stylesWhite = StyleSheet.create({
 	redStrip: {
@@ -8,6 +8,8 @@ const stylesWhite = StyleSheet.create({
 		flexDirection: 'column',
 		justifyContent: 'center',
 		alignItems: 'flex-start',
+		borderColor: 'black',
+		borderBottomWidth: 1,
 		borderTopWidth: 1,
 	},
 
@@ -20,6 +22,12 @@ const stylesWhite = StyleSheet.create({
 		width: 250,
 	},
 
+	subTitle: {
+		color: 'black',
+		fontSize: 20,
+		fontWeight: 'bold',
+	},
+
 	mainText: {
 		color: 'black',
 		textAlign: 'justify',
@@ -27,7 +35,7 @@ const stylesWhite = StyleSheet.create({
 		paddingTop: 10,
 	},
 
-	cardTournament: {
+	card: {
 		marginVertical: 8,
 	},
 
@@ -78,6 +86,28 @@ const stylesWhite = StyleSheet.create({
 	btnFont: {
 		color: 'white',
 		fontWeight: 'bold',
+	},
+
+	centerItems: {
+		alignItems: 'center',
+	},
+
+	centerContent: {
+		flexDirection: 'row',
+		justifyContent: 'flex-start',
+		alignItems: 'center',
+	},
+
+	imgNoResultsTournoi: {
+		resizeMode: 'center',
+		height: 80,
+		width: Dimensions.get('window').width - 80,
+	},
+
+	imgNoResultsContainer: {
+		alignItems: 'center',
+		flex: 3,
+		justifyContent: 'center',
 	},
 });
 

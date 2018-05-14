@@ -1,12 +1,14 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
-
-const styleFile = require('./style/styles');
+//Styles import
+import stylesWhite from './../../styles/StyleSheetW';
+import LogoHeader from './../../components/avatar/logoHeader';
 
 class Conditions extends React.Component {
 	//eslint-disable-next-line
 	static navigationOptions = {
-		title: 'Création de ton compte',
+		headerTitle: <LogoHeader />,
+		color: 'white',
 	};
 
 	constructor(props) {
@@ -30,10 +32,9 @@ class Conditions extends React.Component {
 						alignItems: 'flex-start',
 					}}
 				>
-					<Text style={{ color: 'white', backgroundColor: 'black', padding: 10 }}>
-						{' '}
-						Règlement RedCloud Bar :{' '}
-					</Text>
+					<View style={stylesWhite.redStrip}>
+						<Text style={stylesWhite.title}>Contact</Text>
+					</View>
 				</View>
 				<View
 					style={{

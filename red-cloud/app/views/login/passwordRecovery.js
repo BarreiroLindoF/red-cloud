@@ -9,8 +9,6 @@ import { updateEmail } from '../../redux/actions';
 import LogoHeader from './../../components/avatar/logoHeader';
 import stylesBlack from './../../styles/StyleSheetB';
 
-const styleFile = require('./style/styles');
-
 const mapStateToProps = (state) => {
 	return {
 		email: state.email,
@@ -69,20 +67,14 @@ class PasswordRecovery extends React.Component {
 	renderModal() {
 		return (
 			<Modal
-				style={{
-					backgroundColor: 'transparent',
-					justifyContent: 'center',
-					alignItems: 'center',
-					height: 400,
-					width: 300,
-				}}
+				style={stylesBlack.modalStyle}
 				position={'center'}
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
 			>
 				<RkButton rkType="clear">{this.state.apiResponse.message}</RkButton>
 				<TouchableOpacity
-					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
+					style={stylesBlack.modalButton}
 					onPress={() => {
 						this.toogleModal();
 						if (this.state.apiResponse.success) {
@@ -121,16 +113,20 @@ class PasswordRecovery extends React.Component {
 
 	render() {
 		return (
-			<KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={55}>
+			<KeyboardAvoidingView
+				style={stylesBlack.mainContentContainer}
+				behavior="padding"
+				keyboardVerticalOffset={55}
+			>
 				<View>
 					<Text style={stylesBlack.title}>Mot de passe oublié?</Text>
 				</View>
-				<View>
+				<View style={stylesBlack.scrollViewContainer}>
 					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
 						{this.renderModal()}
 						<Hoshi
 							label={'E-Mail ou Username'}
-							style={{ marginTop: 150 }}
+							style={{ flexDirection: 'column' }}
 							borderColor={this.state.eMail !== '' ? 'grey' : '#ff4444'}
 							onChangeText={(eMail) => {
 								this.setState({ eMail });
@@ -154,29 +150,5 @@ RkTheme.setType('RkTextInput', 'textInputLogin', {
 	color: 'white',
 	placeholderTextColor: 'gray',
 });
-
-let styles = {
-	font: {
-		height: 60,
-		marginHorizontal: 50,
-		color: 'white',
-	},
-	screen: {
-		padding: 10,
-		flex: 1,
-		backgroundColor: 'black',
-	},
-	footer: {
-		justifyContent: 'flex-end',
-		flex: 1,
-	},
-	save: {
-		marginVertical: 9,
-	},
-	textRow: {
-		justifyContent: 'center',
-		flexDirection: 'row',
-	},
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(PasswordRecovery);

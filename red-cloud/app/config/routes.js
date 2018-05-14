@@ -19,8 +19,8 @@ import { StatusBarPadding } from './header';
 
 export const Routes = StackNavigator(
 	{
-		MesInscriptions: { screen: MesInscriptions },
 		Login: { screen: Login },
+		MesInscriptions: { screen: MesInscriptions },
 		ListeJeux: { screen: ListeJeux },
 		Signup: { screen: Signup },
 		PasswordRecovery: { screen: PasswordRecovery },

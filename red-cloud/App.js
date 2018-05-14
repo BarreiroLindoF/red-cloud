@@ -4,8 +4,10 @@ import Expo from 'expo';
 import { Routes } from './app/config/routes';
 import store from './app/redux/store';
 
+// import { Permissions, Notifications } from 'expo';
+
 export default class App extends React.Component {
-	componentDidMount() {
+	async componentWillMount() {
 		// Code to execute on App startup
 		Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT_UP);
 	}

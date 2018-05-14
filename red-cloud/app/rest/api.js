@@ -15,9 +15,7 @@ export const api = () => {
 		timeout: 5000,
 		headers: {
 			'Content-Type': 'application/json',
-			//Authorization: `Bearer ${getToken()}`,
-			Authorization:
-				'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTUyNjI5OTUzOSwiZXhwIjoxNTI2MzAzMTM5LCJuYmYiOjE1MjYyOTk1MzksImp0aSI6InJFREdUbzFiZXFPc2FtaEYiLCJzdWIiOjEsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEiLCJ1c2VyIjp7ImlkIjoxfX0.WjCgvPa_nM9BCjvrEws2-WEtKmsCEBzwM35yRMVX_ac',
+			Authorization: `Bearer ${getToken()}`,
 		},
 	});
 };
@@ -41,4 +39,8 @@ export const URL = {
 	categoriesJeux: 'api/jeux/categories',
 	inscriptions: 'api/me/inscriptions',
 	cancelInscriptions: 'api/me/participation/tournoi/{$id}',
+	deconnexion: 'api/me/deconnexion',
+	notificationOffre: 'api/me/offres/notification',
+	modifierUtilisateur: 'api/me/update',
+	modifyPassword: 'api/me/password',
 };

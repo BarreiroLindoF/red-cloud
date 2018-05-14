@@ -36,7 +36,18 @@ class ApiResetPasswordController extends Controller
         // Pas besoin de vérifier le mail sinon il n'y aurait pas de demande de mot de passe
         // et donc, on se serait arrêté plus haut
         User::where('email', $email)->update(['password' => bcrypt($password)]);
-        return response()->json(new JsonResponse(true, null, "Mot de passe modifié avec succès !"));
+        return response()->json(new JsonResponse(true, null, 'Mot de passe modifié avec succès !'));
+    }
+
+    public function modifyPassword(Request $request) {
+        $user = \JWTAuth::parseToken()->authenticate();
+        if(\Hash::check($request->input('old_password'), $user->password)) {
+            $user->password = bcrypt($request->input('new_password'));
+            $user->save();
+            return response()->json(new JsonResponse(true, null, 'Mot de passe modifié avec succès !'));
+        }
+
+        return response()->json(new JsonResponse(false, null, 'L\'ancien mot de passe ne correspond pas !'));
     }
 
 }
