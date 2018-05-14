@@ -70,6 +70,12 @@ class Params extends React.Component {
 			.catch(() => {});
 	}
 
+	openModificationView() {
+		this.props.navigation.navigate('Signup', {
+			isSigningUp: false,
+		});
+	}
+
 	renderDeconnexion() {
 		return (
 			<TouchableOpacity
@@ -100,7 +106,7 @@ class Params extends React.Component {
 		return (
 			<TouchableOpacity
 				onPress={() => {
-					this.openListeJeuxView();
+					this.openModificationView();
 				}}
 			>
 				<RkCard rkType="blog" style={Styles.card}>
@@ -138,6 +144,30 @@ class Params extends React.Component {
 		);
 	}
 
+	renderModificationProfil() {
+		return (
+			<TouchableOpacity
+				onPress={() => {
+					this.openModificationView();
+				}}
+			>
+				<RkCard rkType="blog" style={Styles.card}>
+					<View rkCardContent style={Styles.centerContent}>
+						<Icon
+							size={24}
+							color="#cc0000"
+							name="face"
+							style={{
+								alignContent: 'center',
+							}}
+						/>
+						<Text style={{ paddingLeft: 10 }}>Modifier mon profil</Text>
+					</View>
+				</RkCard>
+			</TouchableOpacity>
+		);
+	}
+
 	render() {
 		return (
 			<View style={Styles.container}>
@@ -147,6 +177,7 @@ class Params extends React.Component {
 				</View>
 				<View style={Styles.containerCard}>{this.renderDeconnexion()}</View>
 				<View style={Styles.containerCard}>{this.renderJeuxFavoris()}</View>
+				<View style={Styles.containerCard}>{this.renderModificationProfil()}</View>
 				{this.renderNotificationOffres()}
 			</View>
 		);

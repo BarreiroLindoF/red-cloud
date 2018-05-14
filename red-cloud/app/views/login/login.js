@@ -202,7 +202,9 @@ class Login extends React.Component {
 							rkType="clear"
 							onPress={() => {
 								this.setState({ isFetching: false });
-								this.props.navigation.navigate('Signup');
+								this.props.navigation.navigate('Signup', {
+									isSigningUp: true,
+								});
 							}}
 							title="Signup"
 						>
