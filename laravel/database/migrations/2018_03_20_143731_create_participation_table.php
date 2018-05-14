@@ -19,8 +19,10 @@ class CreateParticipationTable extends Migration
             $table->string('nom_equipe');
             $table->integer('tournoi_id_tournoi')->unsigned();
             $table->integer('user_id_user')->unsigned();
+            $table->integer('statut_id_statut')->unsigned();
             $table->foreign('tournoi_id_tournoi')->references('id_tournoi')->on('tournoi');
             $table->foreign('user_id_user')->references('id')->on('users');
+            $table->foreign('statut_id_statut')->references('id_statut')->on('statut');
         });
     }
 

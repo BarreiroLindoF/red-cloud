@@ -34,15 +34,19 @@ Route::group(['middleware' => ['api','cors']], function () {
 
     // New routes
     Route::post('me/participation/tournoi/{id}', 'Tournament\ApiTournamentController@addParticipation'); // Documenté
+    Route::delete('me/participation/tournoi/{id}', 'Participations\ApiParticipationsController@removeParticipation'); // NON DOCUMENTÉ
+
     Route::post('tournaments/{id}/team', 'ApiVerificationController@checkTeamExist'); // Documenté
 
     //Tournois
     Route::get('tournois/{id}/participants', 'Participations\ApiParticipationsController@getParticipants'); // Documenté
     Route::get('me/inscriptions', 'Tournament\ApiTournamentInscriptionsController@getInscriptions'); // NON DOCUMENTÉEEEEE
 
+
     Route::get('menu', 'Menu\ApiMenuController@getMenu'); // Documenté
     Route::get('offres', 'Menu\ApiOffresController@getOffres'); // Doit être documenté après avoir été corrigé
     Route::get('offres/{id}', 'Menu\ApiOffresController@getOffre'); // Doit être documenté après avoir été corrigé
+
     
     Route::get('events', 'Events\ApiEventsController@getEvents'); // Documenté
     Route::get('events/{id}/tournaments', 'Tournament\ApiTournamentController@getTournois'); // Documenté
