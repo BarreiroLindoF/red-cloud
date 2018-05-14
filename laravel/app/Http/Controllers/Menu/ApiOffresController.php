@@ -3,21 +3,29 @@
 namespace App\Http\Controllers\Menu;
 
 use App\Offre;
+use App\ListeOffres;
 use App\Http\Controllers\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use App\Common\ExpoNotifications;
+use Carbon\Carbon;
 
 class ApiOffresController extends Controller {
 
     public function getOffres(Request $request){
-        $offres = Offre::all();
+        $date = new Carbon();
+        $today = $date::now();
+        $offres = Offre::whereMonth('date_debut', '=', Carbon::today()->month)->where('date_expiration', '>=', Carbon::today())->get();
         foreach($offres as $offre){
             $offres->nourriture = $offre->nourritures;
-            $offres->boisson = $offre->boissons;
+            $offres->boisson = $offre->boissons; 
+            $offre->date_expiration = Carbon::parse($offre->date_expiration)->format('d.m.y');   
+            $offre->date_debut = Carbon::parse($offre->date_debut)->format('d.m.y');
         }
-        return response()->json(new JsonResponse(true, $offres, 'Liste des offres a été chargées'));
+        $listeOffres = new ListeOffres();
+        $listeOffres->offres = $offres;
+        return response()->json(new JsonResponse(true, $listeOffres, 'Liste des offres a été chargées'));
     }
 
     public function getOffre(Request $request){

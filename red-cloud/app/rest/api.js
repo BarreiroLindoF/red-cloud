@@ -34,6 +34,7 @@ export const URL = {
 	rules: '/api/tournaments/{$id}/rules',
 	participants: '/api/tournois/{$id}/participants',
 	menu: '/api/menu',
+	offres: '/api/offres',
 	jeux: 'api/jeux',
 	updateJeux: 'api/me/jeux',
 	categoriesJeux: 'api/jeux/categories',
