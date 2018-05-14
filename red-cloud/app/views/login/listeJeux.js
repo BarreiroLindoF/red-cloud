@@ -118,7 +118,17 @@ class ListeJeux extends React.Component {
 			return;
 		}
 		this.setState({ isFetching: true });
-		console.log(this.props.jeux);
+		console.log({
+			nom: this.props.nom,
+			prenom: this.props.prenom,
+			pseudo: this.props.pseudo,
+			email: this.props.email,
+			npa: this.props.npa,
+			ville: this.props.ville,
+			datenaissance: this.props.datenaissance,
+			password: this.props.password,
+			jeux: this.props.jeux,
+		});
 		api()
 			.post(URL.register, {
 				nom: this.props.nom,
