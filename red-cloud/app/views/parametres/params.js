@@ -1,17 +1,27 @@
 import React from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View, TouchableOpacity, Switch } from 'react-native';
 import { RkCard, RkText, RkStyleSheet } from 'react-native-ui-kitten';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { StatusBarPaddingView } from './../../config/header';
-import { resetStore } from './../../redux/actions';
+import { resetStore, updateNotificationOffre } from './../../redux/actions';
+import { api, URL } from '../../rest/api';
 
 const mapDispatchToProps = (dispatch) => ({
 	resetStore: () => {
 		dispatch(resetStore());
 	},
+	updateNotificationOffre: (offre) => {
+		dispatch(updateNotificationOffre(offre));
+	},
 });
+
+const mapStateToProps = (state) => {
+	return {
+		notificationOffre: state.notificationOffre,
+	};
+};
 
 class Params extends React.Component {
 	// eslint-disable-next-line
@@ -22,6 +32,18 @@ class Params extends React.Component {
 			return <Icon size={24} color="red" name="settings" />;
 		},
 	};
+
+	constructor(props) {
+		super(props);
+		this.toggleSwitch = this.toggleSwitch.bind(this);
+	}
+
+	deconnect() {
+		api()
+			.get(URL.deconnexion)
+			.then(() => {})
+			.catch(() => {});
+	}
 
 	openLoginView() {
 		const resetAction = NavigationActions.reset({
@@ -37,10 +59,22 @@ class Params extends React.Component {
 		});
 	}
 
+	toggleSwitch() {
+		const offre = this.props.notificationOffre === 1 ? 0 : 1;
+		this.props.updateNotificationOffre(offre);
+		api()
+			.patch(URL.notificationOffre, {
+				notification_offre: offre,
+			})
+			.then(() => {})
+			.catch(() => {});
+	}
+
 	renderDeconnexion() {
 		return (
 			<TouchableOpacity
 				onPress={() => {
+					this.deconnect();
 					this.props.resetStore();
 					this.openLoginView();
 				}}
@@ -86,6 +120,24 @@ class Params extends React.Component {
 		);
 	}
 
+	renderNotificationOffres() {
+		return (
+			<View style={Styles.verticalCenter}>
+				<View>
+					<Text>Je veux être notifié lors de nouvelles offres :</Text>
+				</View>
+				<View style={Styles.alignRight}>
+					<Switch
+						onTintColor="#f77474"
+						thumbTintColor={this.props.notificationOffre === 1 ? 'red' : 'grey'}
+						onValueChange={this.toggleSwitch}
+						value={this.props.notificationOffre === 1}
+					/>
+				</View>
+			</View>
+		);
+	}
+
 	render() {
 		return (
 			<View style={Styles.container}>
@@ -95,6 +147,7 @@ class Params extends React.Component {
 				</View>
 				<View style={Styles.containerCard}>{this.renderDeconnexion()}</View>
 				<View style={Styles.containerCard}>{this.renderJeuxFavoris()}</View>
+				{this.renderNotificationOffres()}
 			</View>
 		);
 	}
@@ -149,6 +202,18 @@ let Styles = RkStyleSheet.create((theme) => ({
 		flex: 1,
 		marginBottom: 10,
 	},
+	alignRight: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'flex-end',
+	},
+	verticalCenter: {
+		flexDirection: 'row',
+		paddingHorizontal: 12,
+		justifyContent: 'center',
+		alignItems: 'center',
+		paddingTop: 5,
+	},
 }));
 
-export default connect(null, mapDispatchToProps)(Params);
+export default connect(mapStateToProps, mapDispatchToProps)(Params);

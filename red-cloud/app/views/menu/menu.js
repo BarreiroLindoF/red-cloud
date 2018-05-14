@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
+import SwiperFlatList from 'react-native-swiper-flatlist';
 import { Text, View, ScrollView, SectionList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { RkStyleSheet } from 'react-native-ui-kitten';
@@ -7,7 +8,9 @@ import { StatusBarPaddingView } from './../../config/header';
 
 import { api, URL } from './../../rest/api';
 
-class Menu extends React.Component {
+const offres = ['offre 1', 'offre 2', 'offre 3'];
+
+class Menu extends PureComponent {
 	// eslint-disable-next-line
 	static navigationOptions = {
 		header: null,
@@ -122,6 +125,9 @@ const Styles = {
 		flex: 1,
 		backgroundColor: 'white',
 	},
+	child: {
+		justifyContent: 'center',
+	},
 	rubanHaut: {
 		backgroundColor: '#cc0000',
 		paddingBottom: 10,
@@ -164,4 +170,5 @@ const Styles = {
 		marginRight: '4%',
 	},
 };
+
 export default Menu;
