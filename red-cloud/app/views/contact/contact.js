@@ -61,7 +61,7 @@ class Contact extends React.Component {
 				<TouchableOpacity
 					onPress={() => {
 						// email(to, cc, bcc, subject, body)
-						email([{ emailRedCloud }], null, null, null, null);
+						email([emailRedCloud], null, null, null, null);
 					}}
 				>
 					<Text style={stylesWhite.subTitle}>E-mail :</Text>
