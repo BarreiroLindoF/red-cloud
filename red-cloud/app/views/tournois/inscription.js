@@ -46,6 +46,13 @@ class Inscription extends React.Component {
 		}
 		const url = URL.inscription.replace('{$id}', this.props.navigation.state.params.idTournoi);
 		this.setState({ isFetching: true });
+		console.log({
+			nom_equipe: this.props.navigation.state.params.nomEquipe,
+			nom_carte: this.state.nomCarte,
+			no_carte: this.state.noCarte,
+			mois_carte: this.state.moisCarte,
+			annee_carte: this.state.anneeCarte,
+		});
 		api()
 			.post(url, {
 				nom_equipe: this.props.navigation.state.params.nomEquipe,
