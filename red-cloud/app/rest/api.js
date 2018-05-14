@@ -37,6 +37,8 @@ export const URL = {
 	jeux: 'api/jeux',
 	updateJeux: 'api/me/jeux',
 	categoriesJeux: 'api/jeux/categories',
+	inscriptions: 'api/me/inscriptions',
+	cancelInscriptions: 'api/me/participation/tournoi/{$id}',
 	deconnexion: 'api/me/deconnexion',
 	notificationOffre: 'api/me/offres/notification',
 	modifierUtilisateur: 'api/me/update',

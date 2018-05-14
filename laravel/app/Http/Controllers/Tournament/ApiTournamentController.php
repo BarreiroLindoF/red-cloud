@@ -24,8 +24,9 @@ class ApiTournamentController extends Controller
         $user = \JWTAuth::parseToken()->authenticate();
 
         foreach ($tournaments as $tournament) {
-            $tournament->setAttribute('imageUri', $request->root() . $tournament->pathToImages . $tournament->getAttribute('imageUri'));
-            $tournament->setAttribute('msg_partage', $tournament->msg_partage_tournoi_part1 . $tournament->getAttribute('titre') . $tournament->msg_partage_tournoi_part2);
+            $tournament->setAttribute('imageUri', $request->root() . Tournoi::$pathToImages . $tournament->getAttribute('imageUri'));
+            $tournament->setAttribute('msg_partage', $tournament->msg_partage_tournoi_part1 . $tournament->getAttribute('titre') . $tournament->msg_partage_tournoi_part2 );
+
             $idTournament = $tournament->getAttribute('id_tournoi');
             $tournament->setAttribute('reglementUri', $request->root() . $tournament->pathToRules . $tournament->getAttribute('reglementUri'));
             $tournament->participants = Participation::where('tournoi_id_tournoi', $idTournament)->where('statut_id_statut', 1)->count();
