@@ -90,7 +90,9 @@ class Menu extends PureComponent {
 			<View>
 				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>{offre.item.description}</Text>
 				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>Prix : {offre.item.prix}.-</Text>
-				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>Début de l'offre : {offre.item.date_debut}</Text>
+				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>
+					Début de l'offre : {new Date(offre.item.date_debut)}
+				</Text>
 				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>
 					Fin de l'offre : {offre.item.date_expiration}
 				</Text>

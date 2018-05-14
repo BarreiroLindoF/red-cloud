@@ -16,10 +16,14 @@ class ApiOffresController extends Controller {
     public function getOffres(Request $request){
         $date = new Carbon();
         $today = $date::now();
-        $offres = Offre::whereMonth('date_debut', '=', date($date.var_dump($today->month).intval(2)))->get();
+        $offres = Offre::whereMonth('date_debut', '=', Carbon::today()->month)->where('date_expiration', '>=', Carbon::today())->get();
         foreach($offres as $offre){
             $offres->nourriture = $offre->nourritures;
             $offres->boisson = $offre->boissons;
+            $myDateTime = 
+            $offre->date_debut = 
+            
+            DateTime::createFromFormat('Y/m/d H:i:s', $offre->date_debut)->format('d-m-Y');
         }
         $listeOffres = new ListeOffres();
         $listeOffres->offres = $offres;
