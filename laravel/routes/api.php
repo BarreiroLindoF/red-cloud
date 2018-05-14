@@ -38,7 +38,7 @@ Route::group(['middleware' => ['api','cors']], function () {
 
     //Tournois
     Route::get('tournois/{id}/participants', 'Participations\ApiParticipationsController@getParticipants'); // Documenté
-    Route::get('me/inscriptions', 'Tournament\ApiTournamentInscriptionsController@getInscriptions'); // NON DOCUMENTÉ
+    Route::get('me/inscriptions', 'Tournament\ApiTournamentInscriptionsController@getInscriptions'); // NON DOCUMENTÉEEEEE
 
     Route::get('menu', 'Menu\ApiMenuController@getMenu'); // Documenté
     Route::get('offres', 'Menu\ApiOffresController@getOffres'); // Doit être documenté après avoir été corrigé
@@ -46,6 +46,7 @@ Route::group(['middleware' => ['api','cors']], function () {
     
     Route::get('events', 'Events\ApiEventsController@getEvents'); // Documenté
     Route::get('events/{id}/tournaments', 'Tournament\ApiTournamentController@getTournois'); // Documenté
+
 
     // Jeu
     Route::get('jeux', 'Jeux\ApiJeuxController@getJeux'); //Documenté

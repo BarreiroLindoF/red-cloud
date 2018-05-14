@@ -1,19 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, Text, View, Image, FlatList } from 'react-native';
+import { ScrollView, Text, View, Image, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Button } from 'react-native-elements';
-import { RkCard, RkText } from 'react-native-ui-kitten';
+import { RkButton } from 'react-native-ui-kitten';
+import Modal from 'react-native-modalbox';
 import Moment from 'moment';
 
 import { api, URL } from './../../rest/api';
 import stylesWhite from './../../styles/StyleSheetW';
 import LogoHeader from './../../components/avatar/logoHeader';
 
+const styleFile = require('./styles');
+
 const mapStateToProps = (state) => ({
 	token: state.token,
 });
-
-const logoTest = require('../../assets/images/logo.png');
 
 class MesInscriptions extends React.Component {
 	// eslint-disable-next-line
@@ -24,12 +25,18 @@ class MesInscriptions extends React.Component {
 
 	constructor(props) {
 		super(props);
-
 		this.state = {
-			isFetching: false,
+			isFetching: true,
 			data: [],
+			modalVisible: false,
+			msgModalPartie1: 'Vous êtes sur le point de vous désinscrire du tournoi "',
+			msgModalPartie2: '". Êtes-vous certain de votre choix ?',
+			nomTournoiAnnulation: '',
+			tournoiToDisplay: {},
 		};
 		this.loadInscriptions();
+		this.renderItem = this.renderItem.bind(this);
+		this.renderModal = this.renderModal.bind(this);
 	}
 
 	loadInscriptions() {
@@ -46,8 +53,79 @@ class MesInscriptions extends React.Component {
 			});
 	}
 
+	loadTournaments(idEvent, idTournoi) {
+		this.setState({ isFetching: true });
+		const url = URL.tournaments.replace('{$id}', idEvent);
+		api()
+			.get(url)
+			.then((response) => {
+				response.data.payload.map((tournoi) => {
+					if (tournoi.id_tournoi === idTournoi) {
+						this.setState({ tournoiToDisplay: tournoi });
+					}
+				});
+				this.setState({ isFetching: false });
+				this.props.navigation.navigate('PresentationEventTournoi', {
+					item: this.state.tournoiToDisplay,
+					eventDisplay: false,
+					date: this.state.tournoiToDisplay.dateHeureDebut,
+				});
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+
 	keyExtractor(tournoi) {
 		return tournoi.id_tournoi;
+	}
+
+	toogleModal() {
+		this.setState({ modalVisible: !this.state.modalVisible });
+	}
+
+	renderModal() {
+		return (
+			<Modal
+				style={{
+					backgroundColor: 'transparent',
+					justifyContent: 'center',
+					alignItems: 'center',
+					height: 400,
+					width: 310,
+				}}
+				position={'center'}
+				isOpen={this.state.modalVisible}
+				backdropOpacity={0.95}
+			>
+				<RkButton rkType="clear">
+					{this.state.msgModalPartie1 + this.state.nomTournoiAnnulation + this.state.msgModalPartie2}
+				</RkButton>
+				<View style={{ flexDirection: 'row' }}>
+					<TouchableOpacity
+						style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
+						onPress={() => {
+							this.toogleModal();
+						}}
+					>
+						<View>
+							<Text style={{ color: 'red' }}>Annuler</Text>
+						</View>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5, marginLeft: 10 }]}
+						onPress={() => {
+							this.cancelInscription();
+							this.toogleModal();
+						}}
+					>
+						<View>
+							<Text style={{ color: 'green' }}>Valider</Text>
+						</View>
+					</TouchableOpacity>
+				</View>
+			</Modal>
+		);
 	}
 
 	renderItem(item) {
@@ -83,12 +161,19 @@ class MesInscriptions extends React.Component {
 							backgroundColor="#079b4d"
 							borderRadius={6}
 							title="Détails"
+							onPress={() => {
+								this.loadTournaments(tournoi.event_id_event, tournoi.id_tournoi);
+							}}
 						/>
 						<Button
 							containerViewStyle={Styles.rightButton}
 							backgroundColor="#cc0000"
 							borderRadius={6}
 							title="Désinscrire"
+							onPress={() => {
+								this.setState({ nomTournoiAnnulation: tournoi.titre });
+								this.toogleModal();
+							}}
 						/>
 					</View>
 				</View>
@@ -101,6 +186,14 @@ class MesInscriptions extends React.Component {
 			<View style={{ height: '100%' }}>
 				<Text style={Styles.inscriptionsTitle}>Mes inscriptions</Text>
 				<ScrollView style={stylesWhite.mainContentContainer}>
+					{this.state.isFetchingTournament && (
+						<ActivityIndicator
+							visible={this.state.isFetching}
+							size="large"
+							color="#cc0000"
+							style={{ paddingTop: 15 }}
+						/>
+					)}
 					<FlatList
 						style={{ paddingBottom: 40 }}
 						data={this.state.data}
@@ -112,6 +205,7 @@ class MesInscriptions extends React.Component {
 						}}
 					/>
 				</ScrollView>
+				{this.renderModal()}
 			</View>
 		);
 	}

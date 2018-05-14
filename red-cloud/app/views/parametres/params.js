@@ -86,6 +86,30 @@ class Params extends React.Component {
 		);
 	}
 
+	renderMesInscriptions() {
+		return (
+			<TouchableOpacity
+				onPress={() => {
+					this.props.navigation.navigate('MesInscriptions');
+				}}
+			>
+				<RkCard rkType="blog" style={Styles.card}>
+					<View rkCardContent style={Styles.centerContent}>
+						<Icon
+							size={24}
+							color="#cc0000"
+							name="power-settings-new"
+							style={{
+								alignContent: 'center',
+							}}
+						/>
+						<Text style={{ paddingLeft: 10 }}>Mes inscriptions</Text>
+					</View>
+				</RkCard>
+			</TouchableOpacity>
+		);
+	}
+
 	render() {
 		return (
 			<View style={Styles.container}>
@@ -95,6 +119,7 @@ class Params extends React.Component {
 				</View>
 				<View style={Styles.containerCard}>{this.renderDeconnexion()}</View>
 				<View style={Styles.containerCard}>{this.renderJeuxFavoris()}</View>
+				<View style={Styles.containerCard}>{this.renderMesInscriptions()}</View>
 			</View>
 		);
 	}
