@@ -25,7 +25,7 @@ class ApiMenuController extends Controller
             ->join('boisson', 'id_categorie_boisson', '=', 'categorie_boisson_id_categorie_boisson')
             ->orderby('id_categorie_boisson')
             ->get();
-
+        
         $nourriture = DB::table('categorie_nourriture')
             ->select('categorie_nourriture.nom AS categorie_nom', 'nourriture.nom AS element_nom', 'nourriture.prix AS prix')
             ->join('nourriture', 'id_categorie_nourriture', '=', 'categorie_nourriture_id_categorie_nourriture')

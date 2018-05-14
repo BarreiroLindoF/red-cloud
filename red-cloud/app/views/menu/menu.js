@@ -20,6 +20,7 @@ class Menu extends PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
+			offresDispo: true,
 			offres: [],
 			sectionsBoissons: [],
 			sectionsNourritures: [],
@@ -45,6 +46,12 @@ class Menu extends PureComponent {
 			.catch((error) => {
 				console.log(error);
 			});
+		/*if (this.state.offres.length === 0) {
+			this.setState({
+				offres: 'Aucunes offres disponibles pour le moment',
+				offresDispo: false,
+			});
+		}*/
 	}
 
 	loadData() {
@@ -75,6 +82,21 @@ class Menu extends PureComponent {
 		return offre.description;
 	}
 
+	/*renderDispoOffres() {
+		if (this.state.offresDispo) {
+			return (
+				<FlatList
+					data={this.state.offres}
+					keyExtractor={this.keyExtractorOffre}
+					renderItem={this.renderOffre}
+				/>
+			);
+		}
+		return (
+			<Text>{this.state.offres}</Text>
+		);
+	}*/
+
 	renderSectionHeader({ section }) {
 		return (
 			<View style={{ marginTop: 10, marginLeft: '2%' }}>
@@ -90,9 +112,7 @@ class Menu extends PureComponent {
 			<View>
 				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>{offre.item.description}</Text>
 				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>Prix : {offre.item.prix}.-</Text>
-				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>
-					Début de l'offre : {new Date(offre.item.date_debut)}
-				</Text>
+				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>Début de l'offre : {offre.item.date_debut}</Text>
 				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>
 					Fin de l'offre : {offre.item.date_expiration}
 				</Text>
@@ -121,6 +141,7 @@ class Menu extends PureComponent {
 					<View>
 						<Text style={Styles.subTitle}>{this.state.isFetching ? '' : 'Offres'}</Text>
 					</View>
+					{/*{this.renderDispoOffres()}*/}
 					<FlatList
 						data={this.state.offres}
 						keyExtractor={this.keyExtractorOffre}

@@ -19,11 +19,9 @@ class ApiOffresController extends Controller {
         $offres = Offre::whereMonth('date_debut', '=', Carbon::today()->month)->where('date_expiration', '>=', Carbon::today())->get();
         foreach($offres as $offre){
             $offres->nourriture = $offre->nourritures;
-            $offres->boisson = $offre->boissons;
-            $myDateTime = 
-            $offre->date_debut = 
-            
-            DateTime::createFromFormat('Y/m/d H:i:s', $offre->date_debut)->format('d-m-Y');
+            $offres->boisson = $offre->boissons; 
+            $offre->date_expiration = Carbon::parse($offre->date_expiration)->format('d.m.y');   
+            $offre->date_debut = Carbon::parse($offre->date_debut)->format('d.m.y');
         }
         $listeOffres = new ListeOffres();
         $listeOffres->offres = $offres;

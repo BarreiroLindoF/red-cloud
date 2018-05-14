@@ -11,7 +11,7 @@ class Offre extends Model
 
     public $timestamps = false;
 
-    protected $fillable = ['description', 'prix', 'date_debut', 'date_expiration'];
+    protected $fillable = ['description', 'prix','date_debut', 'date_expiration'];
 
     public function nourritures(){
         return $this->belongsToMany('App\Nourriture', 'nourritures_offres', 'offre_id_offre', 'nourriture_id_nourriture');
