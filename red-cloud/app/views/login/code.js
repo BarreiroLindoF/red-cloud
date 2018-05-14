@@ -9,8 +9,6 @@ import { checkCodePassword } from '../../common/check';
 import LogoHeader from './../../components/avatar/logoHeader';
 import stylesBlack from '../../styles/StyleSheetB';
 
-const styleFile = require('./style/styles');
-
 const mapStateToProps = (state) => {
 	return {
 		email: state.email,

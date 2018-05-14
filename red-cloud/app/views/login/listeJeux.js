@@ -20,8 +20,6 @@ import { api, URL } from '../../rest/api';
 import LogoHeader from './../../components/avatar/logoHeader';
 import stylesBlack from '../../styles/StyleSheetB';
 
-const styleFile = require('./style/styles');
-
 const mapStateToProps = (state) => ({
 	nom: state.nom,
 	prenom: state.prenom,
@@ -246,7 +244,7 @@ class ListeJeux extends React.Component {
 			return <ActivityIndicator size="large" color="white" style={{ paddingTop: 15 }} />;
 		}
 		return this.state.checkBoxesFiltered.length === 0 ? (
-			<Text style={{ color: 'grey' }}> Aucun jeux ne correspond à votre recherche...</Text>
+			<Text style={stylesBlack.mainText}> Aucun jeux ne correspond à votre recherche...</Text>
 		) : (
 			this.state.checkBoxesFiltered.map((checkbox, index) => (
 				<CheckBox
@@ -254,7 +252,7 @@ class ListeJeux extends React.Component {
 					isChecked={this.props.jeux.includes(this.state.checkBoxesFiltered[index].id_jeu)}
 					style={{ flex: 1, padding: 10 }}
 					leftText={this.state.checkBoxesFiltered[index].nom}
-					leftTextStyle={{ color: 'grey' }}
+					leftTextStyle={{ color: 'white' }}
 					onClick={() => this.onClick(this.state.checkBoxesFiltered[index].id_jeu)}
 					checkBoxColor="white"
 				/>
@@ -265,7 +263,7 @@ class ListeJeux extends React.Component {
 	renderSuivant() {
 		if (this.state.isFetching) {
 			return (
-				<View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 35 }}>
+				<View style={stylesBlack.posLoadingButton}>
 					<ActivityIndicator size="large" color="#cc0000" style={{ paddingTop: 15 }} />
 				</View>
 			);
@@ -277,9 +275,9 @@ class ListeJeux extends React.Component {
 			buttonText = 'Sauvegarder';
 		}
 		return (
-			<View style={{ flexDirection: 'row', justifyContent: 'flex-end', marginBottom: 35 }}>
+			<View style={stylesBlack.posLoadingButton}>
 				<RkButton
-					style={{ backgroundColor: 'white' }}
+					style={stylesBlack.btnStyle}
 					rkType="social"
 					onPress={() => {
 						if (this.state.isSigningUp) {
@@ -289,7 +287,7 @@ class ListeJeux extends React.Component {
 						}
 					}}
 				>
-					<RkText style={{ color: 'black' }}>{buttonText}</RkText>
+					<RkText style={stylesBlack.btnFont}>{buttonText}</RkText>
 				</RkButton>
 			</View>
 		);
@@ -325,12 +323,12 @@ class ListeJeux extends React.Component {
 		return (
 			<View style={{ flexDirection: 'row', paddingLeft: 25, paddingBottom: 40, paddingRight: 9 }}>
 				<View style={{ flexDirection: 'row' }}>
-					<Text style={{ color: 'grey' }}>Accepter les </Text>
+					<Text style={stylesBlack.mainText}>Accepter les </Text>
 					<Text
 						onPress={() => {
 							this.props.navigation.navigate('Conditions');
 						}}
-						style={{ color: 'red' }}
+						style={stylesBlack.linkText}
 					>
 						conditions générales{' '}
 					</Text>
@@ -385,7 +383,7 @@ class ListeJeux extends React.Component {
 								sucess: 'red',
 								text: 'black',
 								chipColor: 'red',
-								selectToggleTextColor: 'grey',
+								selectToggleTextColor: 'white',
 							}}
 							modalAnimationType="slide"
 							hideSearch
@@ -393,16 +391,10 @@ class ListeJeux extends React.Component {
 							selectedItems={this.state.selectedItems}
 						/>
 					</View>
-					<RkText style={{ color: 'grey', paddingTop: 20, paddingBottom: 25 }} rkType="primary3">
+					<RkText style={stylesBlack.mainText} rkType="primary3">
 						Sélectionnez vos jeux favoris :
 					</RkText>
-					<View
-						style={{
-							flex: 1,
-							paddingLeft: 10,
-							paddingBottom: 20,
-						}}
-					>
+					<View style={stylesBlack.mainContentContainer}>
 						<ScrollView>{this.renderCheckboxes()}</ScrollView>
 					</View>
 				</KeyboardAvoidingView>

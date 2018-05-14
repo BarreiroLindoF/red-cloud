@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 const stylesWhite = StyleSheet.create({
 	redStrip: {
@@ -96,6 +96,18 @@ const stylesWhite = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'flex-start',
 		alignItems: 'center',
+	},
+
+	imgNoResultsTournoi: {
+		resizeMode: 'center',
+		height: 80,
+		width: Dimensions.get('window').width - 80,
+	},
+
+	imgNoResultsContainer: {
+		alignItems: 'center',
+		flex: 3,
+		justifyContent: 'center',
 	},
 });
 

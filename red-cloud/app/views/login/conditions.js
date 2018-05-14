@@ -4,8 +4,6 @@ import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import stylesWhite from './../../styles/StyleSheetW';
 import LogoHeader from './../../components/avatar/logoHeader';
 
-const styleFile = require('./style/styles');
-
 class Conditions extends React.Component {
 	//eslint-disable-next-line
 	static navigationOptions = {

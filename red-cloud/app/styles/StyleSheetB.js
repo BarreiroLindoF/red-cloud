@@ -1,10 +1,24 @@
 import { StyleSheet } from 'react-native';
 
 const stylesBlack = StyleSheet.create({
+	redStrip: {
+		backgroundColor: '#cc0000',
+		paddingBottom: 10,
+		paddingTop: 10,
+		flexDirection: 'column',
+		justifyContent: 'center',
+		alignItems: 'flex-start',
+		borderColor: 'black',
+		borderBottomWidth: 1,
+		borderTopWidth: 1,
+	},
+
 	title: {
 		color: 'white',
+		backgroundColor: 'black',
+		padding: 10,
 		fontWeight: 'bold',
-		fontSize: 25,
+		fontSize: 16,
 		width: 250,
 	},
 
@@ -26,6 +40,8 @@ const stylesBlack = StyleSheet.create({
 
 	linkText: {
 		color: 'red',
+		lineHeight: 20,
+		paddingTop: 10,
 	},
 
 	btnPosition: {
@@ -74,6 +90,12 @@ const stylesBlack = StyleSheet.create({
 		paddingLeft: 50,
 		marginTop: 20,
 		borderRadius: 5,
+	},
+
+	posLoadingButton: {
+		flexDirection: 'row',
+		justifyContent: 'flex-end',
+		marginBottom: 35,
 	},
 });
 
