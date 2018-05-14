@@ -18,6 +18,8 @@ import { NavigationActions } from 'react-navigation';
 import { updateConditions, userLogin, updateIdsJeux } from './../../redux/actions';
 import { api, URL } from '../../rest/api';
 import LogoHeader from './../../components/avatar/logoHeader';
+import { registerForPushNotificationsAsync } from './../../notifications/notifications';
+
 import stylesBlack from '../../styles/StyleSheetB';
 
 const mapStateToProps = (state) => ({
@@ -85,14 +87,10 @@ class ListeJeux extends React.Component {
 		api()
 			.get(URL.categoriesJeux)
 			.then((response) => {
-				console.log(this.state.categories);
-				this.setState(
-					{
-						categories: response.data.payload,
-						isFetchingJeux: false,
-					},
-					console.log(this.state.categories),
-				);
+				this.setState({
+					categories: response.data.payload,
+					isFetchingJeux: false,
+				});
 			})
 			.catch((error) => {
 				console.log(error);
@@ -116,7 +114,6 @@ class ListeJeux extends React.Component {
 			return;
 		}
 		this.setState({ isFetching: true });
-		console.log(this.props.jeux);
 		api()
 			.post(URL.register, {
 				nom: this.props.nom,
@@ -131,31 +128,34 @@ class ListeJeux extends React.Component {
 			})
 			.then((reponse) => {
 				if (reponse.data.success) {
-					api()
-						.post(URL.login, {
-							pseudo: this.props.pseudo,
-							password: this.props.password,
-						})
-						.then((response) => {
-							this.setState({ isFetching: false });
-							if (response.data.success) {
-								this.props.userLogin(response.data.payload);
+					registerForPushNotificationsAsync().then((token) => {
+						api()
+							.post(URL.login, {
+								pseudo: this.props.pseudo,
+								password: this.props.password,
+								notificationToken: token,
+							})
+							.then((response) => {
+								this.setState({ isFetching: false });
+								if (response.data.success) {
+									this.props.userLogin(response.data.payload);
+									this.setState({
+										userCreated: true,
+										modalMessage:
+											'Votre compte a été crée avec succès ! Vous allez être redirigé vers la liste des tournois.',
+										modalVisible: true,
+									});
+								}
+							})
+							.catch(() => {
 								this.setState({
-									userCreated: true,
-									modalMessage:
-										'Votre compte a été crée avec succès ! Vous allez être redirigé vers la liste des tournois.',
+									isFetching: false,
+									userCreated: false,
+									modalMessage: 'Problème de connexion au serveur !',
 									modalVisible: true,
 								});
-							}
-						})
-						.catch(() => {
-							this.setState({
-								isFetching: false,
-								userCreated: false,
-								modalMessage: 'Problème de connexion au serveur !',
-								modalVisible: true,
 							});
-						});
+					});
 				}
 			})
 			.catch((error) => {

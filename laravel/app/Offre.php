@@ -9,7 +9,9 @@ class Offre extends Model
     protected $table = 'offre';
     protected $primaryKey = 'id_offre';
 
-    protected $fillable = ['description', 'prix', 'date_debut', 'date_expiration'];
+    public $timestamps = false;
+
+    protected $fillable = ['description', 'prix','date_debut', 'date_expiration'];
 
     public function nourritures(){
         return $this->belongsToMany('App\Nourriture', 'nourritures_offres', 'offre_id_offre', 'nourriture_id_nourriture');

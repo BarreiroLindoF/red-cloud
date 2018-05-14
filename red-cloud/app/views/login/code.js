@@ -60,6 +60,7 @@ class Code extends React.Component {
 	openNewPasswordWindow() {
 		this.props.navigation.navigate('NewPassword', {
 			token: this.state.token,
+			isModifying: false,
 		});
 	}
 

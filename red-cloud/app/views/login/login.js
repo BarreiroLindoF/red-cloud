@@ -10,6 +10,7 @@ import { api, URL } from './../../rest/api';
 import { updatePseudo, updatePassword, userLogin } from './../../redux/actions';
 import { checkPassword } from './../../common/check';
 import stylesBlack from './../../styles/StyleSheetB';
+import { registerForPushNotificationsAsync } from './../../notifications/notifications';
 
 const imageSrc = require('../../assets/images/logo.png');
 
@@ -49,11 +50,12 @@ class Login extends React.Component {
 		};
 	}
 
-	checkLogin() {
+	sendLoginPost(token) {
 		api()
 			.post(URL.login, {
 				pseudo: this.props.pseudo,
 				password: this.props.password,
+				notificationToken: token,
 			})
 			.then((response) => {
 				if (response.data.success) {
@@ -78,6 +80,12 @@ class Login extends React.Component {
 					isFetching: false,
 				});
 			});
+	}
+
+	checkLogin() {
+		registerForPushNotificationsAsync().then((token) => {
+			this.sendLoginPost(token);
+		});
 	}
 
 	openEvents() {
@@ -179,7 +187,9 @@ class Login extends React.Component {
 								rkType="clear"
 								onPress={() => {
 									this.setState({ isFetching: false });
-									this.props.navigation.navigate('Signup');
+									this.props.navigation.navigate('Signup', {
+										isSigningUp: true,
+									});
 								}}
 								title="Signup"
 							>

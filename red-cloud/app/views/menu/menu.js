@@ -1,13 +1,10 @@
-import React from 'react';
-import { Text, View, ScrollView, SectionList } from 'react-native';
+import React, { PureComponent } from 'react';
+import { Text, View, ScrollView, SectionList, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { RkStyleSheet } from 'react-native-ui-kitten';
-
 import { StatusBarPaddingView } from './../../config/header';
 
 import { api, URL } from './../../rest/api';
 
-//Styles import
 import stylesWhite from './../../styles/StyleSheetW';
 import LogoHeader from './../../components/avatar/logoHeader';
 
@@ -25,6 +22,8 @@ class Menu extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			offresDispo: true,
+			offres: [],
 			sectionsBoissons: [],
 			sectionsNourritures: [],
 			isFetching: true,
@@ -34,6 +33,27 @@ class Menu extends React.Component {
 
 	componentWillMount() {
 		this.loadData();
+		this.loadOffers();
+	}
+
+	loadOffers() {
+		api()
+			.get(URL.offres)
+			.then((response) => {
+				this.setState({
+					isFetching: false,
+					offres: response.data.payload.offres,
+				});
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+		/*if (this.state.offres.length === 0) {
+			this.setState({
+				offres: 'Aucunes offres disponibles pour le moment',
+				offresDispo: false,
+			});
+		}*/
 	}
 
 	loadData() {
@@ -60,6 +80,25 @@ class Menu extends React.Component {
 		return boisson.title;
 	}
 
+	keyExtractorOffre(offre) {
+		return offre.description;
+	}
+
+	/*renderDispoOffres() {
+		if (this.state.offresDispo) {
+			return (
+				<FlatList
+					data={this.state.offres}
+					keyExtractor={this.keyExtractorOffre}
+					renderItem={this.renderOffre}
+				/>
+			);
+		}
+		return (
+			<Text>{this.state.offres}</Text>
+		);
+	}*/
+
 	renderSectionHeader({ section }) {
 		return (
 			<View style={{ marginTop: 10, marginLeft: '2%' }}>
@@ -69,14 +108,46 @@ class Menu extends React.Component {
 		);
 	}
 
+	renderOffre(offre) {
+		console.log(offre);
+		return (
+			<View>
+				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>{offre.item.description}</Text>
+				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>Prix : {offre.item.prix}.-</Text>
+				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>Début de l'offre : {offre.item.date_debut}</Text>
+				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>
+					Fin de l'offre : {offre.item.date_expiration}
+				</Text>
+				<Text
+					style={{
+						marginLeft: '6%',
+						marginRight: '6%',
+						marginTop: '5%',
+						marginBottom: '5%',
+						borderBottomColor: 'black',
+						borderBottomWidth: 0.5,
+					}}
+				/>
+			</View>
+		);
+	}
+
 	render() {
 		return (
 			<View style={stylesWhite.mainContentContainer}>
-				<StatusBarPaddingView />
 				<View style={stylesWhite.redStrip}>
 					<Text style={stylesWhite.title}>Menu</Text>
 				</View>
 				<ScrollView style={stylesWhite.scrollViewContainer}>
+					<View>
+						<Text style={stylesWhite.subTitle}>{this.state.isFetching ? '' : 'Offres'}</Text>
+					</View>
+					{/*{this.renderDispoOffres()}*/}
+					<FlatList
+						data={this.state.offres}
+						keyExtractor={this.keyExtractorOffre}
+						renderItem={this.renderOffre}
+					/>
 					<View>
 						<Text style={stylesWhite.subTitle}>{this.state.isFetching ? '' : 'Boissons'}</Text>
 					</View>
@@ -135,4 +206,5 @@ const Styles = {
 		marginRight: '4%',
 	},
 };
+
 export default Menu;

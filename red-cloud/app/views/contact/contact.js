@@ -122,7 +122,6 @@ class Contact extends React.Component {
 	render() {
 		return (
 			<View style={stylesWhite.mainContentContainer}>
-				<StatusBarPaddingView />
 				<View style={stylesWhite.redStrip}>
 					<Text style={stylesWhite.title}>Contact</Text>
 				</View>

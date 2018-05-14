@@ -24,10 +24,8 @@ class DatabaseSeeder extends Seeder
         $this->call(OffreSeeder::class);
         $this->call(BoissonsOffresSeeder::class);
         $this->call(NourrituresOffresSeeder::class);
-        //$this->call(UserEquipeSeeder::class);
+        $this->call(StatutTableSeeder::class);
         $this->call(ParticipationTableSeeder::class);
-        $this->call(PaiementTableSeeder::class);
-        $this->call(PaysTableSeeder::class);
         $this->call(FavorisTableSeeder::class);
     }
 }

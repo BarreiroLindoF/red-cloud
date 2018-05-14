@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tournoi extends Model
 {
-    public $pathToImages = '/images/tournaments/';
+    public static $pathToImages = '/images/tournaments/';
     public $pathToRules = '/documents/rules/tournaments/';
     public $msg_partage_tournoi_part1 = 'Vous aussi, venez participer au tout nouveau tournoi : ';
     public $msg_partage_tournoi_part2='. Tout ceci est possible dans le Bar E-Sport RedCloud à Genève. Cliquez ici et inscrivez-vous, c\'est aussi simple que cela.';
