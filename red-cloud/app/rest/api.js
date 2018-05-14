@@ -40,4 +40,5 @@ export const URL = {
 	deconnexion: 'api/me/deconnexion',
 	notificationOffre: 'api/me/offres/notification',
 	modifierUtilisateur: 'api/me/update',
+	modifyPassword: 'api/me/password',
 };

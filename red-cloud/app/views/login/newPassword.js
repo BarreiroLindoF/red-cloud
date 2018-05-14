@@ -32,10 +32,12 @@ class NewPassword extends React.Component {
 			code: '',
 			newPassword: '',
 			newPasswordConfirmed: '',
+			oldPassword: '',
 			apiResponse: '',
 			modalVisible: false,
 			isFetching: false,
 			message: '',
+			isModifying: this.props.navigation.state.params.isModifying,
 		};
 	}
 
@@ -51,33 +53,68 @@ class NewPassword extends React.Component {
 		this.setState({ modalVisible: !this.state.modalVisible });
 	}
 
+	sendModification() {
+		// send api request
+		this.setState({ isFetching: true });
+		api()
+			.patch(URL.modifyPassword, {
+				old_password: this.state.oldPassword,
+				new_password: this.state.newPassword,
+			})
+			.then((response) => {
+				this.setState({
+					isFetching: false,
+					apiResponse: response.data,
+					message: 'Mot de passe modifié',
+					modalVisible: true,
+				});
+			})
+			.catch(() => {
+				this.setState({
+					isFetching: false,
+					modalVisible: true,
+					message: 'Problème de connexion au serveur !',
+				});
+			});
+	}
+
+	sendRecovery() {
+		this.setState({ isFetching: true });
+		api()
+			.post(URL.reset, {
+				email: this.props.email,
+				token: this.props.navigation.state.params.token,
+				password: this.state.newPasswordConfirmed,
+			})
+			.then((response) => {
+				this.setState({ isFetching: false, apiResponse: response.data, message: 'Mot de passe modifié' });
+				this.toogleModal();
+			})
+			.catch(() => {
+				this.setState({
+					isFetching: false,
+					modalVisible: true,
+					message: 'Problème de connexion au serveur !',
+				});
+			});
+	}
+
 	checkPasswords() {
 		let errorMessage = '';
 		if (!checkPassword(this.state.newPassword)) {
-			errorMessage = 'Le mot de passe doit avoir au moins 8 caracteres avec 1 chiffre.';
-		}
-		if (!this.state.newPasswordConfirmed === this.state.newPassword) {
+			errorMessage = 'Le nouveau mot de passe doit avoir au moins 8 caracteres avec 1 chiffre.';
+		} else if (this.state.newPasswordConfirmed !== this.state.newPassword) {
 			errorMessage = 'Veuillez entrer 2x le même mot de passe.';
 		}
+		if (this.state.isModifying && !checkPassword(this.state.oldPassword)) {
+			errorMessage = 'Le mot de passe actuel doit avoir au moins 8 caracteres avec 1 chiffre.';
+		}
 		if (errorMessage === '') {
-			this.setState({ isFetching: true });
-			api()
-				.post(URL.reset, {
-					email: this.props.email,
-					token: this.props.navigation.state.params.token,
-					password: this.state.newPasswordConfirmed,
-				})
-				.then((response) => {
-					this.setState({ isFetching: false, apiResponse: response.data, message: 'Mot de passe modifié' });
-					this.toogleModal();
-				})
-				.catch(() => {
-					this.setState({
-						isFetching: false,
-						modalVisible: true,
-						message: 'Problème de connexion au serveur !',
-					});
-				});
+			if (this.state.isModifying) {
+				this.sendModification();
+			} else {
+				this.sendRecovery();
+			}
 		} else {
 			this.setState({ message: errorMessage });
 			this.toogleModal();
@@ -104,7 +141,11 @@ class NewPassword extends React.Component {
 					onPress={() => {
 						this.toogleModal();
 						if (this.state.apiResponse.success) {
-							this.openLoginWindow();
+							if (this.state.isModifying) {
+								this.props.navigation.goBack();
+							} else {
+								this.openLoginWindow();
+							}
 						}
 					}}
 				>
@@ -135,15 +176,33 @@ class NewPassword extends React.Component {
 		);
 	}
 
+	renderOldPassword() {
+		if (this.state.isModifying) {
+			return (
+				<Hoshi
+					label={'Mot de passe actuel'}
+					style={{ marginTop: 0 }}
+					borderColor={checkPassword(this.state.oldPassword) ? 'grey' : '#ff4444'}
+					onChangeText={(oldPassword) => {
+						this.setState({ oldPassword });
+					}}
+					value={this.state.oldPassword}
+					secureTextEntry
+				/>
+			);
+		}
+	}
+
 	render() {
 		return (
 			<KeyboardAvoidingView style={styles.screen} behavior="padding" keyboardVerticalOffset={55}>
 				<View>
 					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
 						{this.renderModal()}
+						{this.renderOldPassword()}
 						<Hoshi
 							label={'Nouveau mot de passe'}
-							style={{ marginTop: 150 }}
+							style={{ marginTop: 0 }}
 							borderColor={checkPassword(this.state.newPassword) ? 'grey' : '#ff4444'}
 							onChangeText={(newPassword) => {
 								this.setState({ newPassword });
@@ -153,7 +212,7 @@ class NewPassword extends React.Component {
 						/>
 						<Hoshi
 							label={'Confirmation nouveau mot de passe'}
-							style={{ marginTop: 20 }}
+							style={{ marginTop: 0 }}
 							borderColor={
 								checkPassword(this.state.newPasswordConfirmed) &&
 								this.state.newPasswordConfirmed === this.state.newPassword
