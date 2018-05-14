@@ -17,7 +17,7 @@ export const api = () => {
 			'Content-Type': 'application/json',
 			//Authorization: `Bearer ${getToken()}`,
 			Authorization:
-				'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTUyNjI4OTYxMCwiZXhwIjoxNTI2MjkzMjEwLCJuYmYiOjE1MjYyODk2MTAsImp0aSI6IlJvVmdhQm9LNnNlM0pwNWgiLCJzdWIiOjEsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEiLCJ1c2VyIjp7ImlkIjoxfX0.6aT1CMAnn9dQR4p1L6JPXu8kBrZhAHyfMtnaUrexfnQ',
+				'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTUyNjI5MTE1MSwiZXhwIjoxNTI2Mjk0NzUxLCJuYmYiOjE1MjYyOTExNTEsImp0aSI6InhLWFV5NkdBUHZzMHA0dXUiLCJzdWIiOjEsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEiLCJ1c2VyIjp7ImlkIjoxfX0.Zxx0HXsz3gxjk9-RkTGwvzLhsbeN_KTys5Z1x4NZqWg',
 		},
 	});
 };
@@ -40,4 +40,5 @@ export const URL = {
 	updateJeux: 'api/me/jeux',
 	categoriesJeux: 'api/jeux/categories',
 	inscriptions: 'api/me/inscriptions',
+	cancelInscriptions: 'me/participation/tournoi/{$id}',
 };

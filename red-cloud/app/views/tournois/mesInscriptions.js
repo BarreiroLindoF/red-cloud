@@ -33,6 +33,7 @@ class MesInscriptions extends React.Component {
 			msgModalPartie1: 'Vous êtes sur le point de vous désinscrire du tournoi "',
 			msgModalPartie2: '". Êtes-vous certain de votre choix ?',
 			nomTournoiAnnulation: '',
+			idTournoiAnnulation: '',
 			tournoiToDisplay: {},
 		};
 		this.loadInscriptions();
@@ -48,6 +49,20 @@ class MesInscriptions extends React.Component {
 					isFetching: false,
 					data: response.data.payload,
 				});
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+
+	cancelInscription() {
+		const url = URL.cancelInscriptions.replace('{$id}', this.state.idTournoiAnnulation);
+		console.log(url);
+		api()
+			.delete(url)
+			.then(() => {
+				this.setState({ isFetching: false });
+				this.render();
 			})
 			.catch((error) => {
 				console.log(error);
@@ -166,7 +181,6 @@ class MesInscriptions extends React.Component {
 							borderRadius={6}
 							title="Détails"
 							onPress={() => {
-								console.log(this.state.isFetchingTournament);
 								if (!this.state.isFetchingTournament) {
 									this.setState({ isFetchingTournament: true });
 									this.loadTournaments(tournoi.event_id_event, tournoi.id_tournoi);
@@ -179,7 +193,10 @@ class MesInscriptions extends React.Component {
 							borderRadius={6}
 							title="Désinscrire"
 							onPress={() => {
-								this.setState({ nomTournoiAnnulation: tournoi.titre });
+								this.setState({
+									nomTournoiAnnulation: tournoi.titre,
+									idTournoiAnnulation: tournoi.id_tournoi,
+								});
 								this.toogleModal();
 							}}
 						/>
