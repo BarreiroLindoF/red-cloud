@@ -12,7 +12,7 @@ const getToken = () => {
 export const api = () => {
 	return new axios.create({
 		baseURL: root,
-		timeout: 50000,
+		timeout: 5000,
 		headers: {
 			'Content-Type': 'application/json',
 			Authorization: `Bearer ${getToken()}`,
