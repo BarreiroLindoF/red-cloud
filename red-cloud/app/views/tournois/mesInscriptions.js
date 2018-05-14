@@ -27,6 +27,7 @@ class MesInscriptions extends React.Component {
 		super(props);
 		this.state = {
 			isFetching: true,
+			isFetchingTournament: false,
 			data: [],
 			modalVisible: false,
 			msgModalPartie1: 'Vous êtes sur le point de vous désinscrire du tournoi "',
@@ -64,11 +65,14 @@ class MesInscriptions extends React.Component {
 						this.setState({ tournoiToDisplay: tournoi });
 					}
 				});
-				this.setState({ isFetching: false });
 				this.props.navigation.navigate('PresentationEventTournoi', {
 					item: this.state.tournoiToDisplay,
 					eventDisplay: false,
 					date: this.state.tournoiToDisplay.dateHeureDebut,
+				});
+				this.setState({
+					isFetching: false,
+					isFetchingTournament: false,
 				});
 			})
 			.catch((error) => {
@@ -162,7 +166,11 @@ class MesInscriptions extends React.Component {
 							borderRadius={6}
 							title="Détails"
 							onPress={() => {
-								this.loadTournaments(tournoi.event_id_event, tournoi.id_tournoi);
+								console.log(this.state.isFetchingTournament);
+								if (!this.state.isFetchingTournament) {
+									this.setState({ isFetchingTournament: true });
+									this.loadTournaments(tournoi.event_id_event, tournoi.id_tournoi);
+								}
 							}}
 						/>
 						<Button
@@ -186,14 +194,6 @@ class MesInscriptions extends React.Component {
 			<View style={{ height: '100%' }}>
 				<Text style={Styles.inscriptionsTitle}>Mes inscriptions</Text>
 				<ScrollView style={stylesWhite.mainContentContainer}>
-					{this.state.isFetchingTournament && (
-						<ActivityIndicator
-							visible={this.state.isFetching}
-							size="large"
-							color="#cc0000"
-							style={{ paddingTop: 15 }}
-						/>
-					)}
 					<FlatList
 						style={{ paddingBottom: 40 }}
 						data={this.state.data}

@@ -15,9 +15,9 @@ export const api = () => {
 		timeout: 5000,
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${getToken()}`,
-			//Authorization:
-			//	'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTUyNjI4NTY1MCwiZXhwIjoxNTI2Mjg5MjUwLCJuYmYiOjE1MjYyODU2NTAsImp0aSI6IkZuSDBGS3FSVFdEOTVZVW4iLCJzdWIiOjEsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEiLCJ1c2VyIjp7ImlkIjoxfX0.74VWAM74CDD9lVrCrOd56368XGTZH2eQwj_VP4pxUYs',
+			//Authorization: `Bearer ${getToken()}`,
+			Authorization:
+				'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTUyNjI4OTYxMCwiZXhwIjoxNTI2MjkzMjEwLCJuYmYiOjE1MjYyODk2MTAsImp0aSI6IlJvVmdhQm9LNnNlM0pwNWgiLCJzdWIiOjEsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEiLCJ1c2VyIjp7ImlkIjoxfX0.6aT1CMAnn9dQR4p1L6JPXu8kBrZhAHyfMtnaUrexfnQ',
 		},
 	});
 };
