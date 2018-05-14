@@ -167,6 +167,8 @@ return [
         /*
          * Package Service Providers...
          */
+        Barryvdh\DomPDF\ServiceProvider::class,
+
 
         /*
          * Application Service Providers...
@@ -228,6 +230,10 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 		'JWTAuth' => Tymon\JWTAuth\Facades\JWTAuth::class,
         'Clockwork' => Clockwork\Support\Laravel\Facade::class,
+
+        //Custom Alias
+        'PDF' => Barryvdh\DomPDF\Facade::class,
+
     ],
 
 ];
