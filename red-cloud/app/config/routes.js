@@ -38,7 +38,6 @@ export const Routes = StackNavigator(
 				//marginTop: StatusBarPadding,
 				backgroundColor: 'black',
 			},
-			headerLeft: null,
 		},
 	},
 );
