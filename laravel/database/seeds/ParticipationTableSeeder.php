@@ -15,7 +15,7 @@ class ParticipationTableSeeder extends Seeder
             'date_inscription' => \Carbon\Carbon::now(),
             'tournoi_id_tournoi' => 11,
             'user_id_user' => 1,
-            'nom_equipe' => 'Heg & co',
+            'nom_equipe' => 'Heg & co, c\'est la victoire à gogo !',
             'statut_id_statut' => 1,
         ]);
 

@@ -32,4 +32,11 @@ module.exports = StyleSheet.create({
 		flex: 3,
 		justifyContent: 'center',
 	},
+	modal: {
+		backgroundColor: 'transparent',
+		justifyContent: 'center',
+		alignItems: 'center',
+		height: '100%',
+		width: 310,
+	},
 });

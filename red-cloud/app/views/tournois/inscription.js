@@ -120,15 +120,22 @@ class Inscription extends React.Component {
 			return <ActivityIndicator size="large" color="white" style={{ paddingTop: 15 }} />;
 		}
 		return (
-			<RkButton
-				rkType="social"
-				style={styles.buttonSignIn}
-				onPress={() => {
-					this.inscription();
+			<View
+				style={{
+					alignItems: 'flex-end',
+					marginRight: 15,
 				}}
 			>
-				<RkText rkType="awesome hero accentColor">S'inscrire</RkText>
-			</RkButton>
+				<RkButton
+					rkType="social"
+					style={styles.buttonSignIn}
+					onPress={() => {
+						this.inscription();
+					}}
+				>
+					<RkText rkType="awesome hero accentColor">S'inscrire</RkText>
+				</RkButton>
+			</View>
 		);
 	}
 
@@ -137,7 +144,7 @@ class Inscription extends React.Component {
 			<KeyboardAvoidingView
 				style={stylesBlack.mainContentContainer}
 				behavior="padding"
-				keyboardVerticalOffset={55}
+				keyboardVerticalOffset={83}
 			>
 				{this.renderModal()}
 				<View style={stylesBlack.redStrip}>

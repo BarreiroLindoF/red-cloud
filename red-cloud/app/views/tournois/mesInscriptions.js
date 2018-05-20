@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ScrollView, Text, View, Image, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { ScrollView, Text, View, Image, FlatList, TouchableOpacity, ActivityIndicator, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements';
 import { RkButton } from 'react-native-ui-kitten';
 import Modal from 'react-native-modalbox';
@@ -11,6 +11,7 @@ import stylesWhite from './../../styles/StyleSheetW';
 import LogoHeader from './../../components/avatar/logoHeader';
 
 const styleFile = require('./styles');
+const imgErreur = require('../../assets/images/erreurBlack.png');
 
 const mapStateToProps = (state) => ({
 	token: state.token,
@@ -35,6 +36,7 @@ class MesInscriptions extends React.Component {
 			nomTournoiAnnulation: '',
 			idTournoiAnnulation: '',
 			tournoiToDisplay: {},
+			noData: false,
 		};
 		this.loadInscriptions();
 		this.renderItem = this.renderItem.bind(this);
@@ -48,6 +50,7 @@ class MesInscriptions extends React.Component {
 				this.setState({
 					isFetching: false,
 					data: response.data.payload,
+					noData: response.data.payload.length <= 0,
 				});
 			})
 			.catch((error) => {
@@ -69,7 +72,6 @@ class MesInscriptions extends React.Component {
 	}
 
 	loadTournaments(idEvent, idTournoi) {
-		this.setState({ isFetching: true });
 		const url = URL.tournaments.replace('{$id}', idEvent);
 		api()
 			.get(url)
@@ -84,10 +86,7 @@ class MesInscriptions extends React.Component {
 					eventDisplay: false,
 					date: this.state.tournoiToDisplay.dateHeureDebut,
 				});
-				this.setState({
-					isFetching: false,
-					isFetchingTournament: false,
-				});
+				this.setState({ isFetchingTournament: false });
 			})
 			.catch((error) => {
 				console.log(error);
@@ -102,7 +101,7 @@ class MesInscriptions extends React.Component {
 		this.setState({ modalVisible: !this.state.modalVisible });
 	}
 
-	renderModal() {
+	renderModalDetails() {
 		return (
 			<Modal
 				style={{
@@ -112,6 +111,23 @@ class MesInscriptions extends React.Component {
 					height: 400,
 					width: 310,
 				}}
+				backdropPressToClose={false}
+				swipeToClose={false}
+				position={'center'}
+				isOpen={this.state.isFetchingTournament}
+				backdropOpacity={0.95}
+			>
+				<ActivityIndicator size="large" color="green" style={{ paddingTop: 15 }} />
+			</Modal>
+		);
+	}
+
+	renderModal() {
+		return (
+			<Modal
+				style={styleFile.modal}
+				backdropPressToClose={false}
+				swipeToClose={false}
 				position={'center'}
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.95}
@@ -152,12 +168,6 @@ class MesInscriptions extends React.Component {
 			<View style={{ width: '100%', marginTop: 10 }}>
 				<View
 					style={{
-						borderTopColor: 'gray',
-						borderTopWidth: 1,
-					}}
-				/>
-				<View
-					style={{
 						alignSelf: 'flex-start',
 					}}
 				>
@@ -166,7 +176,12 @@ class MesInscriptions extends React.Component {
 				<View style={Styles.containerTournoi}>
 					<View style={Styles.containerInfosTournoi}>
 						<Image style={[Styles.middleCenter, Styles.img]} source={{ uri: tournoi.imageUri }} />
-						<Text style={Styles.middleCenter}> Equipe : {tournoi.nom_equipe}</Text>
+						<Text
+							style={[Styles.middleCenter, { flex: 6, marginRight: 60, marginLeft: 10 }]}
+							numberOfLines={3}
+						>
+							Equipe : {tournoi.nom_equipe}
+						</Text>
 						<Text style={[Styles.middleCenter, { marginRight: 10 }]}>
 							{Moment(tournoi.dateHeureDebut).format('D/mm/Y')},{' '}
 							{Moment(tournoi.heureDebut, 'HH:mm:ss').format('HH:mm')}
@@ -174,23 +189,22 @@ class MesInscriptions extends React.Component {
 					</View>
 
 					<View style={Styles.containerButtons}>
-						<Button
-							containerViewStyle={Styles.leftButton}
-							backgroundColor="#079b4d"
-							borderRadius={6}
-							title="Détails"
+						<TouchableOpacity
+							style={Styles.leftButton}
 							onPress={() => {
 								if (!this.state.isFetchingTournament) {
 									this.setState({ isFetchingTournament: true });
 									this.loadTournaments(tournoi.event_id_event, tournoi.id_tournoi);
 								}
 							}}
-						/>
-						<Button
-							containerViewStyle={Styles.rightButton}
-							backgroundColor="#cc0000"
-							borderRadius={6}
-							title="Désinscrire"
+						>
+							<View>
+								<Text style={{ color: '#079b4d' }}>Détails</Text>
+							</View>
+						</TouchableOpacity>
+
+						<TouchableOpacity
+							style={Styles.rightButton}
 							onPress={() => {
 								this.setState({
 									nomTournoiAnnulation: tournoi.titre,
@@ -198,7 +212,11 @@ class MesInscriptions extends React.Component {
 								});
 								this.toogleModal();
 							}}
-						/>
+						>
+							<View>
+								<Text style={{ color: '#cc0000' }}>Désinscrire</Text>
+							</View>
+						</TouchableOpacity>
 					</View>
 				</View>
 			</View>
@@ -209,19 +227,34 @@ class MesInscriptions extends React.Component {
 		return (
 			<View style={{ height: '100%' }}>
 				<Text style={Styles.inscriptionsTitle}>Mes inscriptions</Text>
-				<ScrollView style={stylesWhite.mainContentContainer}>
-					<FlatList
-						style={{ paddingBottom: 40 }}
-						data={this.state.data}
-						renderItem={this.renderItem}
-						keyExtractor={this.keyExtractor}
-						refreshing={this.state.isFetching}
-						onRefresh={() => {
-							this.loadInscriptions();
-						}}
-					/>
-				</ScrollView>
+				{this.state.noData && (
+					<View style={[Styles.containerNoResult, stylesWhite.mainContentContainer]}>
+						<Image style={stylesWhite.imgNoResultsTournoi} source={imgErreur} />
+						<Text style={{ marginTop: 15, marginRight: 15, marginLeft: 15 }}>
+							Vous n'êtes pas encore inscris à un tournoi et donc cette liste est vide. Vous savez ce
+							qu'il vous reste à faire...
+						</Text>
+					</View>
+				)}
+				{!this.state.noData && (
+					<ScrollView
+						style={[stylesWhite.mainContentContainer, { borderTopColor: 'gray', borderTopWidth: 1 }]}
+					>
+						<FlatList
+							style={{ paddingBottom: 40 }}
+							data={this.state.data}
+							renderItem={this.renderItem}
+							keyExtractor={this.keyExtractor}
+							refreshing={this.state.isFetching}
+							onRefresh={() => {
+								this.loadInscriptions();
+							}}
+						/>
+					</ScrollView>
+				)}
+
 				{this.renderModal()}
+				{this.renderModalDetails()}
 			</View>
 		);
 	}
@@ -247,13 +280,28 @@ const Styles = {
 		borderBottomColor: 'gray',
 		borderBottomWidth: 1,
 	},
+	containerNoResult: {
+		alignItems: 'center',
+		paddingTop: 20,
+	},
 	leftButton: {
-		flex: 1,
-		marginLeft: 40,
+		marginTop: 20,
+		borderRadius: 5,
+		paddingLeft: 45,
+		paddingRight: 45,
+		paddingTop: 10,
+		paddingBottom: 10,
+		borderWidth: 1,
 	},
 	rightButton: {
-		flex: 1,
-		marginRight: 40,
+		marginTop: 20,
+		marginLeft: 10,
+		borderRadius: 5,
+		paddingLeft: 45,
+		paddingRight: 45,
+		paddingTop: 10,
+		paddingBottom: 10,
+		borderWidth: 1,
 	},
 	middleCenter: {
 		alignSelf: 'center',
