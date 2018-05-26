@@ -9,6 +9,7 @@ import {
 	Keyboard,
 	ActivityIndicator,
 	BackHandler,
+	Animated,
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import { RkButton, RkText, RkStyleSheet } from 'react-native-ui-kitten';
@@ -28,7 +29,7 @@ const mapStateToProps = (state) => {
 		email: state.email,
 		npa: state.npa,
 		ville: state.ville,
-		datenaissance: state.dateNaissance,
+		datenaissance: state.datenaissance,
 		password: state.password,
 	};
 };
@@ -50,7 +51,6 @@ const mapDispatchToProps = (dispatch) => ({
 		dispatch(Action.updateNPA(npa));
 	},
 	updateVille: (ville) => {
-		console.log(ville);
 		dispatch(Action.updateVille(ville));
 	},
 	updateDateNaissance: (date) => {
@@ -61,6 +61,7 @@ const mapDispatchToProps = (dispatch) => ({
 	},
 });
 
+const anneeMinimumUser = '31.12.2006';
 let oldReduxState = null;
 
 class Signup extends React.Component {
@@ -78,8 +79,8 @@ class Signup extends React.Component {
 			passOk: false,
 			validationPassOk: true,
 			validationEmail: false,
-			dateOk: false,
-			dateNaissance: '',
+			dateOk: this.props.datenaissance,
+			datenaissance: '',
 			modalVisible: false,
 			npa: false,
 			msgModal: '',
@@ -89,7 +90,6 @@ class Signup extends React.Component {
 		};
 		this.emailChanged = this.emailChanged.bind(this);
 		this.npaChanged = this.npaChanged.bind(this);
-		this.datenaissanceChanged = this.datenaissanceChanged.bind(this);
 		this.passwordChanged = this.passwordChanged.bind(this);
 		this.validationChanged = this.validationChanged.bind(this);
 		this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
@@ -99,8 +99,7 @@ class Signup extends React.Component {
 		if (!this.state.isSigningUp) {
 			this.npaChanged(this.props.npa);
 			this.emailChanged(this.props.email);
-			this.datenaissanceChanged(this.props.datenaissance);
-			this.setState({ dateNaissance: this.props.datenaissance });
+			this.setState({ datenaissance: this.props.datenaissance });
 			this.saveReduxState();
 			BackHandler.addEventListener('hardwareBackPress', this.handleBackButtonClick);
 		}
@@ -133,26 +132,6 @@ class Signup extends React.Component {
 
 	npaChanged(npa) {
 		this.setState({ npa: Check.checkNpa(npa) }, this.props.updateNpa(npa));
-	}
-
-	datenaissanceChanged(date) {
-		const userDate = date.split('.');
-		//const dixhuit = this.isDate18orMoreYearsOld(userDate[0], userDate[1], userDate[2]);
-
-		const age = this.getAge(userDate[2], userDate[1] - 1, userDate[0]);
-		const valide = age >= 12;
-		if (valide) {
-			this.setState({ dateOk: valide }, this.props.updateDateNaissance(date));
-		} else {
-			this.setState(
-				{
-					dateOk: valide,
-					msgModal: 'Vous devez avoir au moins 12 ans pour pouvoir vous inscrire',
-					modalVisible: true,
-				},
-				this.props.updateDateNaissance(date),
-			);
-		}
 	}
 
 	getAge(year, month, day) {
@@ -388,17 +367,15 @@ class Signup extends React.Component {
 	}
 
 	renderDatePicker() {
-		console.log('dateNaissance props : ' + this.props.datenaissance);
 		return (
 			<DatePicker
 				style={{ width: '100%', paddingBottom: 1 }}
 				mode="date"
-				date={this.props.dateNaissance ? this.props.dateNaissance : this.state.dateNaissance}
+				date={this.props.datenaissance ? this.props.datenaissance : this.state.dateNaissance}
 				androidMode="spinner"
 				placeholder="Date de naissance"
 				format="DD.MM.YYYY"
-				minDate="01.01.1918"
-				maxDate="31.12.2006"
+				maxDate={anneeMinimumUser}
 				confirmBtnText="Confirmer"
 				cancelBtnText="Annuler"
 				showIcon={false}
@@ -409,21 +386,12 @@ class Signup extends React.Component {
 						borderBottomColor: this.state.dateOk ? '#6a7989' : '#ff4444',
 						alignItems: 'flex-start',
 					},
-					placeholderText: {
-						color: '#6a7989',
-						fontSize: 16,
-						marginLeft: 18,
-					},
-					dateText: {
-						fontWeight: 'bold',
-						color: '#6a7989',
-						fontSize: 16,
-						marginLeft: 18,
-					},
+					placeholderText: stylesBlack.placeholderInputSignup,
+					dateText: stylesBlack.textInputSignup,
 				}}
 				onDateChange={(newDate) => {
 					this.props.updateDateNaissance(newDate);
-					this.setState({ dateNaissance: newDate });
+					this.setState({ dateOk: true });
 				}}
 			/>
 		);
@@ -512,9 +480,17 @@ class Signup extends React.Component {
 							backgroundColor: 'black',
 							borderBottomColor: '#b9c1ca',
 							borderBottomWidth: 2,
-							marginTop: 10,
+							marginTop: 1,
 						}}
 					>
+						<Text
+							style={[
+								stylesBlack.placeholderInputSignup,
+								this.state.dateOk ? { opacity: 1 } : { opacity: 0 },
+							]}
+						>
+							Date de naissance
+						</Text>
 						{this.renderDatePicker()}
 					</View>
 					{this.renderPasswordFields()}

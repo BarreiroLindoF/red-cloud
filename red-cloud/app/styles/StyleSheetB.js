@@ -97,6 +97,17 @@ const stylesBlack = StyleSheet.create({
 		justifyContent: 'flex-end',
 		marginBottom: 35,
 	},
+	placeholderInputSignup: {
+		color: '#6a7989',
+		fontSize: 16,
+		marginLeft: 18,
+	},
+	textInputSignup: {
+		color: '#6a7989',
+		fontSize: 18,
+		fontWeight: 'bold',
+		marginLeft: 18,
+	},
 });
 
 export default stylesBlack;
