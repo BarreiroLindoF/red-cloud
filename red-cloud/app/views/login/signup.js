@@ -8,9 +8,9 @@ import {
 	Text,
 	Keyboard,
 	ActivityIndicator,
-	DatePickerAndroid,
 	BackHandler,
 } from 'react-native';
+import DatePicker from 'react-native-datepicker';
 import { RkButton, RkText, RkStyleSheet } from 'react-native-ui-kitten';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
@@ -28,7 +28,7 @@ const mapStateToProps = (state) => {
 		email: state.email,
 		npa: state.npa,
 		ville: state.ville,
-		datenaissance: state.datenaissance,
+		datenaissance: state.dateNaissance,
 		password: state.password,
 	};
 };
@@ -50,6 +50,7 @@ const mapDispatchToProps = (dispatch) => ({
 		dispatch(Action.updateNPA(npa));
 	},
 	updateVille: (ville) => {
+		console.log(ville);
 		dispatch(Action.updateVille(ville));
 	},
 	updateDateNaissance: (date) => {
@@ -78,7 +79,7 @@ class Signup extends React.Component {
 			validationPassOk: true,
 			validationEmail: false,
 			dateOk: false,
-			dateNaissance: 'Date de naissance',
+			dateNaissance: '',
 			modalVisible: false,
 			npa: false,
 			msgModal: '',
@@ -386,34 +387,46 @@ class Signup extends React.Component {
 		);
 	}
 
-	async renderDatePicker() {
-		try {
-			let date;
-			if (this.props.datenaissance) {
-				date = this.props.datenaissance.split('.');
-				date = new Date(date[2], date[1] - 1, date[0]);
-			} else {
-				const today = new Date();
-				today.setFullYear(today.getFullYear() - 12);
-				date = today;
-			}
-			const { action, year, month, day } = await DatePickerAndroid.open({
-				// Use `new Date()` for current date.
-				// May 25 2020. Month 0 is January.
-				mode: 'spinner',
-				maxDate: new Date(),
-				date,
-			});
-
-			if (action !== DatePickerAndroid.dismissedAction) {
-				this.setState({
-					dateNaissance: `${day < 10 ? 0 : ''}${day}.${month < 10 ? 0 : ''}${month + 1}.${year}`,
-				});
-				this.datenaissanceChanged(this.state.dateNaissance);
-			}
-		} catch ({ code, message }) {
-			console.warn('Cannot open date picker', message);
-		}
+	renderDatePicker() {
+		console.log('dateNaissance props : ' + this.props.datenaissance);
+		return (
+			<DatePicker
+				style={{ width: '100%', paddingBottom: 1 }}
+				mode="date"
+				date={this.props.dateNaissance ? this.props.dateNaissance : this.state.dateNaissance}
+				androidMode="spinner"
+				placeholder="Date de naissance"
+				format="DD.MM.YYYY"
+				minDate="01.01.1918"
+				maxDate="31.12.2006"
+				confirmBtnText="Confirmer"
+				cancelBtnText="Annuler"
+				showIcon={false}
+				customStyles={{
+					dateInput: {
+						borderWidth: 0,
+						borderBottomWidth: 2,
+						borderBottomColor: this.state.dateOk ? '#6a7989' : '#ff4444',
+						alignItems: 'flex-start',
+					},
+					placeholderText: {
+						color: '#6a7989',
+						fontSize: 16,
+						marginLeft: 18,
+					},
+					dateText: {
+						fontWeight: 'bold',
+						color: '#6a7989',
+						fontSize: 16,
+						marginLeft: 18,
+					},
+				}}
+				onDateChange={(newDate) => {
+					this.props.updateDateNaissance(newDate);
+					this.setState({ dateNaissance: newDate });
+				}}
+			/>
+		);
 	}
 
 	renderFooter() {
@@ -497,37 +510,12 @@ class Signup extends React.Component {
 					<View
 						style={{
 							backgroundColor: 'black',
-							height: 50,
-							borderBottomColor:
-								this.state.dateOk || this.state.dateNaissance === 'Date de naissance'
-									? '#b9c1ca'
-									: '#ff4444',
+							borderBottomColor: '#b9c1ca',
 							borderBottomWidth: 2,
 							marginTop: 10,
 						}}
 					>
-						<RkButton
-							style={{
-								backgroundColor: 'black',
-								width: '100%',
-								justifyContent: 'flex-start',
-							}}
-							onPress={() => {
-								this.renderDatePicker();
-							}}
-						>
-							<Text
-								style={{
-									color: '#6a7989',
-									paddingLeft: '0.5%',
-									fontSize: this.state.dateNaissance === 'Date de naissance' ? 16 : 18,
-									fontWeight: this.state.dateNaissance !== 'Date de naissance' ? 'bold' : 'normal',
-								}}
-							>
-								{' '}
-								{this.state.dateNaissance}{' '}
-							</Text>
-						</RkButton>
+						{this.renderDatePicker()}
 					</View>
 					{this.renderPasswordFields()}
 				</ScrollView>
