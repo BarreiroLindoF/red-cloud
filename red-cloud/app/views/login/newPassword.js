@@ -126,6 +126,8 @@ class NewPassword extends React.Component {
 				position={'center'}
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
+				swipeToClose={false}
+				backdropPressToClose={false}
 			>
 				<RkButton rkType="clear"> {this.state.message} </RkButton>
 				<TouchableOpacity
@@ -194,7 +196,6 @@ class NewPassword extends React.Component {
 			>
 				<View>
 					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
-						{this.renderModal()}
 						{this.renderOldPassword()}
 						<Hoshi
 							label={'Nouveau mot de passe'}
@@ -224,6 +225,7 @@ class NewPassword extends React.Component {
 						{this.renderButtonEnvoyer()}
 					</ScrollView>
 				</View>
+				{this.renderModal()}
 			</KeyboardAvoidingView>
 		);
 	}

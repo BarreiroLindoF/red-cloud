@@ -96,6 +96,8 @@ class Inscription extends React.Component {
 				position={'center'}
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
+				swipeToClose={false}
+				backdropPressToClose={false}
 			>
 				<RkButton rkType="clear">{this.state.errorMessage}</RkButton>
 				<TouchableOpacity
@@ -146,7 +148,6 @@ class Inscription extends React.Component {
 				behavior="padding"
 				keyboardVerticalOffset={83}
 			>
-				{this.renderModal()}
 				<View style={stylesBlack.redStrip}>
 					<Text style={stylesBlack.title}>Inscription</Text>
 				</View>
@@ -198,6 +199,7 @@ class Inscription extends React.Component {
 					/>
 					{this.renderButtonInscrire()}
 				</ScrollView>
+				{this.renderModal()}
 			</KeyboardAvoidingView>
 		);
 	}

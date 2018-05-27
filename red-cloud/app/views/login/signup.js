@@ -254,6 +254,8 @@ class Signup extends React.Component {
 				position={'center'}
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
+				swipeToClose={false}
+				backdropPressToClose={false}
 			>
 				<RkButton rkType="clear">{this.state.msgModal}</RkButton>
 				<TouchableOpacity
@@ -425,7 +427,7 @@ class Signup extends React.Component {
 			<KeyboardAvoidingView
 				style={stylesBlack.mainContentContainer}
 				behavior="padding"
-				keyboardVerticalOffset={55}
+				keyboardVerticalOffset={-35}
 			>
 				<View>
 					<Text style={stylesBlack.title}>{this.state.title}</Text>

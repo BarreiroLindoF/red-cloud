@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, Switch } from 'react-native';
+import { Text, View, TouchableOpacity, Switch, ScrollView } from 'react-native';
 import { RkCard, RkText, RkStyleSheet } from 'react-native-ui-kitten';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
@@ -204,12 +204,12 @@ class Params extends React.Component {
 					this.props.navigation.navigate('MesInscriptions');
 				}}
 			>
-				<RkCard rkType="blog" style={Styles.card}>
-					<View rkCardContent style={Styles.centerContent}>
+				<RkCard rkType="blog" style={stylesWhite.card}>
+					<View rkCardContent style={stylesWhite.centerContent}>
 						<Icon
 							size={24}
 							color="#cc0000"
-							name="power-settings-new"
+							name="playlist-add-check"
 							style={{
 								alignContent: 'center',
 							}}
@@ -223,7 +223,7 @@ class Params extends React.Component {
 
 	render() {
 		return (
-			<View style={stylesWhite.mainContentContainer}>
+			<ScrollView style={stylesWhite.mainContentContainer}>
 				<View style={stylesWhite.redStrip}>
 					<Text style={stylesWhite.title}>Paramètres</Text>
 				</View>
@@ -233,7 +233,7 @@ class Params extends React.Component {
 				<View style={Styles.containerCard}>{this.renderModificationProfil()}</View>
 				<View style={Styles.containerCard}>{this.renderModificationPassword()}</View>
 				{this.renderNotificationOffres()}
-			</View>
+			</ScrollView>
 		);
 	}
 }

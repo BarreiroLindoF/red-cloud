@@ -22,19 +22,8 @@ class Conditions extends React.Component {
 	render() {
 		return (
 			<View style={{ flex: 1, backgroundColor: 'white' }}>
-				<View
-					style={{
-						backgroundColor: '#cc0000',
-						paddingBottom: 15,
-						paddingTop: 15,
-						flexDirection: 'column',
-						justifyContent: 'center',
-						alignItems: 'flex-start',
-					}}
-				>
-					<View style={stylesWhite.redStrip}>
-						<Text style={stylesWhite.title}>Contact</Text>
-					</View>
+				<View style={stylesWhite.redStrip}>
+					<Text style={stylesWhite.title}>Règlement</Text>
 				</View>
 				<View
 					style={{
@@ -82,7 +71,7 @@ class Conditions extends React.Component {
 					}}
 				>
 					<TouchableOpacity
-						style={styleFile.buttonConditions}
+						style={stylesWhite.buttonConditions}
 						onPress={() => {
 							this.props.navigation.goBack();
 						}}

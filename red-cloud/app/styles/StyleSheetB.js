@@ -75,8 +75,8 @@ const stylesBlack = StyleSheet.create({
 		backgroundColor: 'transparent',
 		justifyContent: 'center',
 		alignItems: 'center',
-		height: 400,
-		width: 300,
+		height: '100%',
+		width: '100%',
 	},
 
 	modalButton: {

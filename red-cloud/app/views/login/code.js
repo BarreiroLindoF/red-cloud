@@ -103,6 +103,8 @@ class Code extends React.Component {
 				position={'center'}
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
+				swipeToClose={false}
+				backdropPressToClose={false}
 			>
 				<RkButton rkType="clear">{this.state.message} </RkButton>
 				<TouchableOpacity
@@ -171,7 +173,6 @@ class Code extends React.Component {
 			>
 				<View>
 					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
-						{this.renderModal()}
 						<Hoshi
 							label={'Code (6 caractères)'}
 							style={{ marginTop: 150 }}
@@ -185,6 +186,7 @@ class Code extends React.Component {
 						{this.renderRenvoiEmail()}
 					</ScrollView>
 				</View>
+				{this.renderModal()}
 			</KeyboardAvoidingView>
 		);
 	}
