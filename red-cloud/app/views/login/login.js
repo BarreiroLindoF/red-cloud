@@ -11,6 +11,7 @@ import { updatePseudo, updatePassword, userLogin } from './../../redux/actions';
 import { checkPassword } from './../../common/check';
 import stylesBlack from './../../styles/StyleSheetB';
 import { registerForPushNotificationsAsync } from './../../notifications/notifications';
+import RecupMotDePasse from './recupMotDePasse';
 
 const imageSrc = require('../../assets/images/logo.png');
 
@@ -47,6 +48,7 @@ class Login extends React.Component {
 			modalVisible: false,
 			modalMessage: '',
 			isFetching: false,
+			recupOpen: false,
 		};
 	}
 
@@ -202,8 +204,7 @@ class Login extends React.Component {
 						<RkButton
 							rkType="clear"
 							onPress={() => {
-								this.setState({ isFetching: false });
-								this.props.navigation.navigate('PasswordRecovery');
+								this.setState({ isFetching: false, recupOpen: true });
 							}}
 						>
 							<RkText rkType="header6" style={stylesBlack.linkText}>
@@ -212,6 +213,12 @@ class Login extends React.Component {
 						</RkButton>
 					</ScrollView>
 				</View>
+				<RecupMotDePasse
+					open={this.state.recupOpen}
+					closeModal={() => {
+						this.setState({ recupOpen: false });
+					}}
+				/>
 				{this.renderModal()}
 			</KeyboardAvoidingView>
 		);

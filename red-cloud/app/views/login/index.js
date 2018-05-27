@@ -5,3 +5,4 @@ export * from './listeJeux';
 export * from './conditions';
 export * from './code';
 export * from './newPassword';
+export * from './recupMotDePasse';
