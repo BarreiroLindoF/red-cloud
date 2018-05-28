@@ -15,7 +15,9 @@ export const api = () => {
 		timeout: 5000,
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: `Bearer ${getToken()}`,
+			//Authorization: `Bearer ${getToken()}`,
+			Authorization:
+				'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTUyNzUyNDgzNSwibmJmIjoxNTI3NTI0ODM1LCJqdGkiOiIzNWVIdlljZVNrYTN4Y2p0Iiwic3ViIjoxLCJwcnYiOiI4N2UwYWYxZWY5ZmQxNTgxMmZkZWM5NzE1M2ExNGUwYjA0NzU0NmFhIiwidXNlciI6eyJpZCI6MX19.bg1-PCrFXebaY0uvRlFl0gSPsFn2oOJ8J8i3S8LA7zI',
 		},
 	});
 };

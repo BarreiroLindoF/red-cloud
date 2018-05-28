@@ -1,5 +1,6 @@
-import React, { PureComponent } from 'react';
-import { Text, View, ScrollView, SectionList, FlatList } from 'react-native';
+import React from 'react';
+import Carousel from 'react-native-snap-carousel';
+import { Text, View, ScrollView, SectionList, FlatList, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { StatusBarPaddingView } from './../../config/header';
 
@@ -48,12 +49,6 @@ class Menu extends React.Component {
 			.catch((error) => {
 				console.log(error);
 			});
-		/*if (this.state.offres.length === 0) {
-			this.setState({
-				offres: 'Aucunes offres disponibles pour le moment',
-				offresDispo: false,
-			});
-		}*/
 	}
 
 	loadData() {
@@ -83,21 +78,6 @@ class Menu extends React.Component {
 	keyExtractorOffre(offre) {
 		return offre.description;
 	}
-
-	/*renderDispoOffres() {
-		if (this.state.offresDispo) {
-			return (
-				<FlatList
-					data={this.state.offres}
-					keyExtractor={this.keyExtractorOffre}
-					renderItem={this.renderOffre}
-				/>
-			);
-		}
-		return (
-			<Text>{this.state.offres}</Text>
-		);
-	}*/
 
 	renderSectionHeader({ section }) {
 		return (
@@ -131,6 +111,34 @@ class Menu extends React.Component {
 		);
 	}
 
+	renderCarousel(offre) {
+		return (
+			<View>
+				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>{offre.item.description}</Text>
+				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>Prix : {offre.item.prix}.-</Text>
+				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>Début de l'offre : {offre.item.date_debut}</Text>
+				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>
+					Fin de l'offre : {offre.item.date_expiration}
+				</Text>
+				<Text
+					style={{
+						marginLeft: '6%',
+						marginRight: '6%',
+						marginTop: '5%',
+						marginBottom: '5%',
+						borderBottomColor: 'black',
+						borderBottomWidth: 0.5,
+					}}
+				/>
+			</View>
+		);
+	}
+
+	snapToItem(index) {
+		console.log(index);
+		this.refs.carousel.snapToItem(index % this.state.offres.length);
+	}
+
 	render() {
 		return (
 			<View style={stylesWhite.mainContentContainer}>
@@ -141,12 +149,22 @@ class Menu extends React.Component {
 					<View>
 						<Text style={stylesWhite.subTitle}>{this.state.isFetching ? '' : 'Offres'}</Text>
 					</View>
-					{/*{this.renderDispoOffres()}*/}
-					<FlatList
+					<Carousel
+						ref="carousel"
+						data={this.state.offres}
+						renderItem={this.renderCarousel}
+						sliderWidth={Dimensions.get('window').width}
+						itemWidth={Dimensions.get('window').width}
+						autoplay
+						loop
+						autoplayDelay={1000}
+						firstItem={0}
+					/>
+					{/* 					<FlatList
 						data={this.state.offres}
 						keyExtractor={this.keyExtractorOffre}
 						renderItem={this.renderOffre}
-					/>
+					/> */}
 					<View>
 						<Text style={stylesWhite.subTitle}>{this.state.isFetching ? '' : 'Boissons'}</Text>
 					</View>

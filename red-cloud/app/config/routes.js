@@ -35,8 +35,8 @@ const navigationOptions = () => {
 
 export const Routes = StackNavigator(
 	{
-		Login: { screen: Login },
 		Tabs: { screen: Tabs },
+		Login: { screen: Login },
 		Conditions: { screen: Conditions },
 		Inscription: { screen: Inscription },
 		MesInscriptions: { screen: MesInscriptions },
