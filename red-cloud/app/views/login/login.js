@@ -44,7 +44,6 @@ class Login extends React.Component {
 		super(props);
 		this.state = {
 			log: false,
-			cptLog: 0,
 			modalVisible: false,
 			modalMessage: '',
 			isFetching: false,
@@ -63,16 +62,12 @@ class Login extends React.Component {
 				if (response.data.success) {
 					this.props.userLogin(response.data.payload);
 					this.openEvents();
-				} else if (this.state.cptLog < 2) {
-					this.state.cptLog++;
+				} else {
 					this.setState({
 						modalVisible: true,
 						modalMessage: "Nom d'utilisateur ou mot de passe incorrect",
 						isFetching: false,
 					});
-				} else {
-					this.setState({ isFetching: false });
-					this.props.navigation.navigate('PasswordRecovery');
 				}
 			})
 			.catch(() => {
@@ -218,6 +213,7 @@ class Login extends React.Component {
 					closeModal={() => {
 						this.setState({ recupOpen: false });
 					}}
+					modifMdp={false}
 				/>
 				{this.renderModal()}
 			</KeyboardAvoidingView>

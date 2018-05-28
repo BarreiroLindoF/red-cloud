@@ -1,17 +1,19 @@
+import Modal from 'react-native-modalbox';
 import React from 'react';
 import { connect } from 'react-redux';
-import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
-import { View, KeyboardAvoidingView, ScrollView, TouchableOpacity, Text, ActivityIndicator } from 'react-native';
+import { RkButton, RkText } from 'react-native-ui-kitten';
+import { View, KeyboardAvoidingView, Text, ActivityIndicator } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import { api, URL } from './../../rest/api';
-import Modal from 'react-native-modalbox';
-import { updatePseudo, updatePassword, userLogin } from './../../redux/actions';
+import { updatePseudo, updatePassword, updateEmail } from './../../redux/actions';
+import { checkCodePassword, checkPassword } from '../../common/check';
 import stylesBlack from './../../styles/StyleSheetB';
 
 const mapStateToProps = (state) => {
 	return {
 		pseudo: state.pseudo,
 		password: state.password,
+		email: state.email,
 	};
 };
 
@@ -22,8 +24,8 @@ const mapDispatchToProps = (dispatch) => ({
 	updatePassword: (password) => {
 		dispatch(updatePassword(password));
 	},
-	userLogin: (user) => {
-		dispatch(userLogin(user));
+	updateEmail: (email) => {
+		dispatch(updateEmail(email));
 	},
 });
 
@@ -36,12 +38,21 @@ class RecupMotDePasse extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			eMail: '',
-			modalVisible: false,
+			email: '',
+			code: '',
 			apiResponse: '',
 			isFetching: false,
 			modalMessage: '',
 			mailInexistant: false,
+			mustEnterCode: false,
+			erreurServeur: false,
+			token: '',
+			mustEnterNewMdp: this.props.modifMdp,
+			newPassword: '',
+			confirmPassword: '',
+			isModifying: this.props.modifMdp,
+			oldPassword: '',
+			sendNewCode: false,
 		};
 	}
 
@@ -49,24 +60,133 @@ class RecupMotDePasse extends React.Component {
 		this.setState({ isFetching: true });
 		api()
 			.post(URL.passwordRecovery, {
-				user: this.state.eMail,
+				user: this.state.email,
 			})
 			.then((response) => {
-				console.log(response.data.success);
 				this.setState({
 					isFetching: false,
 					apiResponse: response.data,
+					mustEnterCode: response.data.success,
 					mailInexistant: !response.data.success,
+					modalMessage: !response.data.success ? 'Email ou pseudo inexistant' : '',
+					sendNewCode: response.data.success,
 				});
 				this.props.updateEmail(this.state.apiResponse.payload);
 			})
-			.catch(() => {
+			.catch((error) => {
+				console.log(error);
 				this.setState({
-					modalVisible: true,
-					modalMessage: 'Problème de connexion au serveur !',
+					isFetching: false,
+					modalMessage: 'Echec de connexion au serveur, veuillez réessayer',
+				});
+			});
+	}
+
+	checkCode() {
+		this.setState({ isFetching: true });
+		api()
+			.post(URL.code, {
+				email: this.props.email,
+				code: this.state.code,
+			})
+			.then((response) => {
+				if (response.data.success) {
+					this.setState({
+						modalMessage: '',
+						token: response.data.payload,
+						isFetching: false,
+						mustEnterNewMdp: true,
+						mustEnterCode: false,
+					});
+				} else {
+					this.setState({ modalMessage: 'Code invalide', isFetching: false });
+				}
+			})
+			.catch((error) => {
+				console.log(error);
+				this.setState({
+					modalMessage: 'Problème de connexion au serveur lors de la vérification du code !',
 					isFetching: false,
 				});
 			});
+	}
+
+	sendModification() {
+		// send api request
+		this.setState({ isFetching: true });
+		api()
+			.patch(URL.modifyPassword, {
+				old_password: this.state.oldPassword,
+				new_password: this.state.newPassword,
+			})
+			.then((response) => {
+				this.setState({
+					isFetching: false,
+					apiResponse: response.data,
+					modalMessage: response.data.success ? '' : "L'ancien mot de passe ne correspond pas",
+				});
+				if (response.data.success) {
+					this.setState({ modalMessage: '', newPassword: '', oldPassword: '', confirmPassword: '' });
+					this.props.closeModal();
+				}
+			})
+			.catch((error) => {
+				console.log(error);
+				this.setState({
+					isFetching: false,
+					modalMessage: 'Problème de connexion au serveur !',
+				});
+			});
+	}
+
+	sendRecovery() {
+		this.setState({ isFetching: true });
+		api()
+			.post(URL.reset, {
+				email: this.props.email,
+				token: this.state.token,
+				password: this.state.confirmPassword,
+			})
+			.then((response) => {
+				this.setState({
+					isFetching: false,
+					apiResponse: response.data,
+					mustEnterNewMdp: false,
+					modalMessage: '',
+					newPassword: '',
+					confirmPassword: '',
+					code: '',
+				});
+				this.props.closeModal();
+			})
+			.catch((error) => {
+				console.log(error);
+				this.setState({
+					isFetching: false,
+					modalMessage: 'Problème de connexion au serveur !',
+				});
+			});
+	}
+
+	checkPasswords() {
+		let errorMessage = '';
+		if (!checkPassword(this.state.newPassword)) {
+			errorMessage = 'Le nouveau mot de passe doit avoir au moins 8 caracteres avec 1 chiffre.';
+			this.setState({ modalMessage: errorMessage });
+		} else if (this.state.confirmPassword !== this.state.newPassword) {
+			errorMessage = 'Les deux champs doivent contenir le même mot de passe';
+			this.setState({ modalMessage: errorMessage });
+		} else {
+			errorMessage = '';
+			this.setState({ modalMessage: '' });
+		}
+		if (errorMessage === '') {
+			if (this.state.isModifying) {
+				this.sendModification();
+			} else {
+				this.sendRecovery();
+			}
+		}
 	}
 
 	renderButtonEnvoyer() {
@@ -77,7 +197,13 @@ class RecupMotDePasse extends React.Component {
 			<RkButton
 				rkType="social"
 				onPress={() => {
-					this.checkEmail();
+					if (this.state.mustEnterCode) {
+						this.checkCode();
+					} else if (this.state.mustEnterNewMdp) {
+						this.checkPasswords();
+					} else {
+						this.checkEmail();
+					}
 				}}
 				style={stylesBlack.btnStyle}
 			>
@@ -97,25 +223,102 @@ class RecupMotDePasse extends React.Component {
 				backdropOpacity={0.95}
 				swipeToClose={false}
 				backdropPressToClose={false}
+				onClosed={() => {
+					this.setState({ email: '', modalMessage: '' });
+				}}
 			>
-				<View style={{ justifyContent: 'center', height: '100%', width: '80%' }}>
-					<Hoshi
-						label={'E-Mail ou Username'}
-						style={{ flexDirection: 'column' }}
-						borderColor={this.state.eMail !== '' ? 'grey' : '#ff4444'}
-						onChangeText={(eMail) => {
-							this.setState({ eMail });
-						}}
-						value={this.state.eMail}
-					/>
-					{this.state.mailInexistant && (
-						<Text style={{ color: 'red', margin: 10 }}>Email ou pseudo inexistant</Text>
+				<KeyboardAvoidingView
+					style={{ justifyContent: 'center', height: '100%', width: '80%' }}
+					behavior="padding"
+					keyboardVerticalOffset={this.props.modifMdp ? 100 : -150}
+				>
+					{this.props.modifMdp && (
+						<Hoshi
+							secureTextEntry
+							label="Ancien mot de passe"
+							style={{ flexDirection: 'column' }}
+							borderColor={checkPassword(this.state.oldPassword) ? 'grey' : '#ff4444'}
+							onChangeText={(oldPassword) => {
+								this.setState({ oldPassword });
+							}}
+							value={this.state.oldPassword}
+						/>
+					)}
+					{this.state.mustEnterNewMdp && (
+						<View>
+							<Hoshi
+								secureTextEntry
+								label="Nouveau mot de passe"
+								style={{ flexDirection: 'column' }}
+								borderColor={checkPassword(this.state.newPassword) ? 'grey' : '#ff4444'}
+								onChangeText={(newPassword) => {
+									this.setState({ newPassword });
+								}}
+								value={this.state.newPassword}
+							/>
+							<Hoshi
+								secureTextEntry
+								label="Confirmer mot de passe"
+								style={{ flexDirection: 'column' }}
+								borderColor={
+									checkPassword(this.state.confirmPassword) &&
+									this.state.confirmPassword === this.state.newPassword
+										? 'grey'
+										: '#ff4444'
+								}
+								onChangeText={(confirmPassword) => {
+									this.setState({ confirmPassword });
+								}}
+								value={this.state.confirmPassword}
+							/>
+						</View>
+					)}
+					{!this.state.mustEnterNewMdp && (
+						<Hoshi
+							label={this.state.mustEnterCode ? 'Code reçu par mail' : 'E-Mail ou Username'}
+							style={{ flexDirection: 'column' }}
+							borderColor={
+								this.state.email !== '' ||
+								(this.state.apiResponse.success && checkCodePassword(this.state.code))
+									? 'grey'
+									: '#ff4444'
+							}
+							onChangeText={(input) => {
+								!this.state.mustEnterCode
+									? this.setState({ email: input })
+									: this.setState({ code: input });
+							}}
+							value={this.state.mustEnterCode ? this.state.code : this.state.email}
+						/>
+					)}
+					<Text style={{ color: 'red', margin: 10 }}>{this.state.modalMessage}</Text>
+					{this.state.sendNewCode && (
+						<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+							<Text style={{ color: 'white' }}>Vous n'avez pas reçu de code ? </Text>
+							<RkButton
+								rkType="clear"
+								onPress={() => {
+									this.checkEmail();
+								}}
+							>
+								<RkText rktype="header6" style={{ color: 'red' }}>
+									Cliquez ici !
+								</RkText>
+							</RkButton>
+						</View>
 					)}
 					<View style={stylesBlack.btnPosition}>
 						<RkButton
 							rkType="social"
 							onPress={() => {
-								this.setState({ mailInexistant: false });
+								this.setState({
+									mailInexistant: false,
+									modalMessage: '',
+									mustEnterCode: false,
+									newPassword: '',
+									oldPassword: '',
+									confirmPassword: '',
+								});
 								this.props.closeModal();
 							}}
 							style={[stylesBlack.btnStyle, { marginRight: 25 }]}
@@ -126,7 +329,7 @@ class RecupMotDePasse extends React.Component {
 						</RkButton>
 						{this.renderButtonEnvoyer()}
 					</View>
-				</View>
+				</KeyboardAvoidingView>
 			</Modal>
 		);
 	}

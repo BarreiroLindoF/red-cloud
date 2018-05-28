@@ -109,7 +109,6 @@ class Menu extends React.Component {
 	}
 
 	renderOffre(offre) {
-		console.log(offre);
 		return (
 			<View>
 				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>{offre.item.description}</Text>

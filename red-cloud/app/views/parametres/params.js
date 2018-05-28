@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View, TouchableOpacity, Switch, ScrollView } from 'react-native';
+import { Text, View, TouchableOpacity, Switch, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { RkCard, RkText, RkStyleSheet } from 'react-native-ui-kitten';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
@@ -9,6 +9,7 @@ import { resetStore, updateNotificationOffre } from './../../redux/actions';
 import { api, URL } from '../../rest/api';
 import stylesWhite from './../../styles/StyleSheetW';
 import LogoHeader from './../../components/avatar/logoHeader';
+import RecupMotDePasse from './../login/recupMotDePasse';
 
 const mapDispatchToProps = (dispatch) => ({
 	resetStore: () => {
@@ -38,6 +39,9 @@ class Params extends React.Component {
 
 	constructor(props) {
 		super(props);
+		this.state = {
+			recupOpen: false,
+		};
 		this.toggleSwitch = this.toggleSwitch.bind(this);
 	}
 
@@ -175,9 +179,7 @@ class Params extends React.Component {
 		return (
 			<TouchableOpacity
 				onPress={() => {
-					this.props.navigation.navigate('NewPassword', {
-						isModifying: true,
-					});
+					this.setState({ recupOpen: true });
 				}}
 			>
 				<RkCard rkType="blog" style={stylesWhite.card}>
@@ -223,7 +225,7 @@ class Params extends React.Component {
 
 	render() {
 		return (
-			<ScrollView style={stylesWhite.mainContentContainer}>
+			<KeyboardAvoidingView style={stylesWhite.mainContentContainer} behavior="padding">
 				<View style={stylesWhite.redStrip}>
 					<Text style={stylesWhite.title}>Paramètres</Text>
 				</View>
@@ -233,7 +235,14 @@ class Params extends React.Component {
 				<View style={Styles.containerCard}>{this.renderModificationProfil()}</View>
 				<View style={Styles.containerCard}>{this.renderModificationPassword()}</View>
 				{this.renderNotificationOffres()}
-			</ScrollView>
+				<RecupMotDePasse
+					open={this.state.recupOpen}
+					closeModal={() => {
+						this.setState({ recupOpen: false });
+					}}
+					modifMdp
+				/>
+			</KeyboardAvoidingView>
 		);
 	}
 }
