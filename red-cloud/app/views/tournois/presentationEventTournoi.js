@@ -409,9 +409,10 @@ class PresentationEventTournoi extends React.Component {
 					</ScrollView>
 				</View>
 
-				<View style={Styles.bottomLineContainer}>
-					<Text style={stylesWhite.redLineBottom} />
+				<View style={stylesWhite.centerContent}>
+					<View style={stylesWhite.redLineBottomSocialMedia} />
 				</View>
+
 				<View style={stylesWhite.socialFooter}>
 					<TouchableOpacity
 						onPress={() => {
@@ -500,6 +501,7 @@ let Styles = {
 	bottomLineContainer: {
 		flexDirection: 'row',
 		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	flatListContainer: {
 		width: 250,

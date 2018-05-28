@@ -1,3 +1,4 @@
+import { Platform } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 
 // View imports
@@ -14,8 +15,26 @@ import PresentationEventTournoi from './../views/tournois/presentationEventTourn
 import MesInscriptions from './../views/tournois/mesInscriptions';
 import Code from './../views/login/code';
 
-// Configuration imports
-import { StatusBarPadding } from './header';
+const navigationOptions = () => {
+	if (Platform.OS === 'ios') {
+		return {
+			navigationOptions: {
+				headerStyle: {
+					backgroundColor: 'black',
+				},
+				headerTintColor: 'red',
+			},
+		};
+	}
+	return {
+		navigationOptions: {
+			headerLeft: null,
+			headerStyle: {
+				backgroundColor: 'black',
+			},
+		},
+	};
+};
 
 export const Routes = StackNavigator(
 	{
@@ -32,12 +51,5 @@ export const Routes = StackNavigator(
 		NewPassword: { screen: NewPassword },
 		PresentationEventTournoi: { screen: PresentationEventTournoi },
 	},
-	{
-		navigationOptions: {
-			headerStyle: {
-				//marginTop: StatusBarPadding,
-				backgroundColor: 'black',
-			},
-		},
-	},
+	navigationOptions(),
 );
