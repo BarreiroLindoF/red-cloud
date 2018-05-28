@@ -61,7 +61,7 @@ const mapDispatchToProps = (dispatch) => ({
 	},
 });
 
-const anneeMinimumUser = '31.12.2006';
+const anneeMinimumUser = new Date(new Date().setFullYear(new Date().getFullYear() - 12));
 let oldReduxState = null;
 
 class Signup extends React.Component {
