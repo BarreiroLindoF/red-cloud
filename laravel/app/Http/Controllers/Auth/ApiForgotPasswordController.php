@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\JsonResponse;
+use App\Jobs\SendForgotPasswordJob;
 use App\PasswordRecovery;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -47,7 +48,7 @@ class ApiForgotPasswordController extends Controller
     private function sendEmail($email, $code) {
         $forgotPassword = new ForgotPassword();
         $forgotPassword->code = $code;
-        Mail::to($email)->send($forgotPassword);
+        Mail::to($email)->queue($forgotPassword);
     }
 
 }

@@ -5,7 +5,7 @@ import { View, Image, KeyboardAvoidingView, ScrollView, Text, TouchableOpacity, 
 import Modal from 'react-native-modalbox';
 import { Hoshi } from 'react-native-textinput-effects';
 import { NavigationActions } from 'react-navigation';
-import { StatusBarPadding } from './../../config/header';
+import { StatusBarPaddingView } from './../../config/header';
 import { api, URL } from './../../rest/api';
 import { updatePseudo, updatePassword, userLogin } from './../../redux/actions';
 import { checkPassword } from './../../common/check';
@@ -159,6 +159,7 @@ class Login extends React.Component {
 				behavior="padding"
 				keyboardVerticalOffset={55}
 			>
+				<StatusBarPaddingView />
 				<View style={stylesBlack.scrollViewContainer}>
 					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
 						{this.renderImage()}

@@ -47,6 +47,6 @@ class ApiParticipationsController extends Controller
     private function sendMail($email, $tournoi) {
         $annulationMail = new AnnulationInscriptionMail();
         $annulationMail->tournoi = $tournoi;
-        \Mail::to($email)->send($annulationMail);
+        \Mail::to($email)->queue($annulationMail);
     }
 }

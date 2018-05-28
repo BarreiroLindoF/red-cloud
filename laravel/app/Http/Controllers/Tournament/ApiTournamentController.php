@@ -137,7 +137,7 @@ class ApiTournamentController extends Controller
 
 
         $email = $user->email;
-        Mail::to($email)->send($paymentConfirmation);
+        Mail::to($email)->queue($paymentConfirmation);
     }
 
 }
