@@ -1,9 +1,11 @@
 // React imports
 import React from 'react';
-import { Text, View, TouchableOpacity, Linking, Platform, Image, ScrollView } from 'react-native';
+import { Text, View, TouchableOpacity, Linking, Platform, Image, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { RkButton, RkText } from 'react-native-ui-kitten';
 
 // External imports
 import { phonecall, email } from 'react-native-communications';
+import { Hoshi } from 'react-native-textinput-effects';
 
 // Icons
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -41,22 +43,35 @@ class Contact extends React.Component {
 		color: 'white',
 	};
 
+	constructor(props) {
+		super(props);
+		this.state = {
+			messageHeight: 60,
+			message: '',
+		};
+
+		this.handleChangeText = this.handleChangeText.bind(this);
+	}
+
+	handleChangeText(message) {
+		this.setState({ message });
+	}
+
 	renderInformations() {
 		return (
 			<View>
+				<Text style={{ fontSize: 18, marginBottom: 10 }}>
+					Contactez et retrouvez-nous à l'aide des liens suivants :
+				</Text>
 				<TouchableOpacity
 					onPress={() => {
 						phonecall(cellPhoneNumber, true);
 					}}
 				>
-					<Text style={stylesWhite.subTitle}>Numéro de téléphone : </Text>
-					<Text>
-						- Appuyer pour appeler
-						{'\n'}
-						{cellPhoneNumberFormatted}
-						<Icon size={15} color="black" name="call" />
-						{'\n'}
-					</Text>
+					<View style={stylesWhite.centerContent}>
+						<Icon size={20} color="black" name="call" />
+						<Text style={{ fontSize: 20, marginBottom: 10 }}>{cellPhoneNumberFormatted}</Text>
+					</View>
 				</TouchableOpacity>
 				<TouchableOpacity
 					onPress={() => {
@@ -64,13 +79,10 @@ class Contact extends React.Component {
 						email([emailRedCloud], null, null, null, null);
 					}}
 				>
-					<Text style={stylesWhite.subTitle}>E-mail :</Text>
-					<Text>
-						- Appuyer pour contacter
-						{'\n'}
-						{emailRedCloud}
-						{'\n'}
-					</Text>
+					<View style={stylesWhite.centerContent}>
+						<Icon size={20} color="black" name="email" />
+						<Text style={{ fontSize: 20, marginBottom: 10 }}>{emailRedCloud}</Text>
+					</View>
 				</TouchableOpacity>
 
 				<TouchableOpacity
@@ -78,32 +90,23 @@ class Contact extends React.Component {
 						Linking.openURL(webSiteRedCloud);
 					}}
 				>
-					<Text style={stylesWhite.subTitle}>Site web : </Text>
-					<Text>
-						- Appuyer pour ouvrir
-						{'\n'}
-						{webSiteRedCloud}
-						{'\n'}
-					</Text>
+					<View style={stylesWhite.centerContent}>
+						<Icon size={20} color="black" name="language" />
+						<Text style={{ fontSize: 20, marginBottom: 10 }}>{webSiteRedCloud}</Text>
+					</View>
 				</TouchableOpacity>
-
-				<Text style={stylesWhite.subTitle}>Adresse :</Text>
-				<Text>{adresseRedCloud}</Text>
 			</View>
 		);
 	}
 
 	renderMaps() {
 		let url = '';
-		let application = '';
 		if (PlatformIsIos) {
 			// iPhone
 			url = `maps://app?${latitudeRedCloud}+${longitudeRedCloud}`;
-			application = 'Plans';
 		} else {
 			// Android
 			url = `google.navigation:q=${latitudeRedCloud}+${longitudeRedCloud}`;
-			application = 'Google Maps';
 		}
 
 		return (
@@ -111,25 +114,82 @@ class Contact extends React.Component {
 				onPress={() => {
 					Linking.openURL(url);
 				}}
-				style={stylesWhite.centerItems}
 			>
-				<Image source={mapImageSource} style={Styles.logoGoogleMaps} />
-				<Text> Ouvrir sur {application}</Text>
+				<View style={stylesWhite.centerContent}>
+					<Icon size={20} color="black" name="place" />
+					<Text style={{ fontSize: 20, marginBottom: 10 }}>{adresseRedCloud}</Text>
+				</View>
 			</TouchableOpacity>
+		);
+	}
+
+	renderFormulaire() {
+		return (
+			<View>
+				<Text style={{ fontSize: 18, marginBottom: 10 }}>Ou envoyez-nous un petit message !</Text>
+				<Hoshi
+					label={'Votre message ...'}
+					borderColor={'grey'}
+					height={this.state.messageHeight}
+					onChangeText={this.handleChangeText}
+					value={this.state.message}
+					multiline
+					onContentSizeChange={(event) => {
+						this.setState({ messageHeight: event.nativeEvent.contentSize.height });
+					}}
+					inputStyle={{ paddingBottom: 25, marginTop: 10 }}
+				/>
+				<View
+					style={{
+						paddingTop: 20,
+						alignItems: 'center',
+						flex: 1,
+					}}
+				>
+					<RkButton
+						rkType="dark"
+						onPress={() => {
+							console.log('To be sent !');
+						}}
+					>
+						<RkText
+							style={{
+								color: 'white',
+								textAlign: 'center',
+							}}
+						>
+							Envoyer
+						</RkText>
+					</RkButton>
+				</View>
+			</View>
 		);
 	}
 
 	render() {
 		return (
-			<View style={stylesWhite.mainContentContainer}>
+			<KeyboardAvoidingView
+				behavior="padding"
+				keyboardVerticalOffset={70}
+				style={stylesWhite.mainContentContainer}
+			>
 				<View style={stylesWhite.redStrip}>
 					<Text style={stylesWhite.title}>Contact</Text>
 				</View>
-				<ScrollView style={stylesWhite.scrollViewContainer}>
+				<ScrollView
+					style={stylesWhite.scrollViewContainer}
+					ref={(ref) => {
+						this.scrollView = ref;
+					}}
+					onContentSizeChange={() => {
+						this.scrollView.scrollToEnd({ animated: true });
+					}}
+				>
 					{this.renderInformations()}
 					{this.renderMaps()}
+					{this.renderFormulaire()}
 				</ScrollView>
-			</View>
+			</KeyboardAvoidingView>
 		);
 	}
 }
