@@ -226,6 +226,8 @@ class PresentationEventTournoi extends React.Component {
 				}}
 				position={'center'}
 				isOpen={this.state.modalVisible}
+				swipeToClose={false}
+				backdropPressToClose={false}
 				backdropOpacity={0.8}
 			>
 				<RkButton rkType="clear">{this.state.errorMessage}</RkButton>
@@ -344,7 +346,6 @@ class PresentationEventTournoi extends React.Component {
 				keyboardVerticalOffset={55}
 			>
 				<View style={stylesWhite.scrollViewContainer}>
-					{this.renderModal()}
 					{this.renderLstEquipe()}
 					<View style={stylesWhite.redStrip}>
 						<Text style={stylesWhite.title}>{itemToDisplay.titre}</Text>
@@ -458,6 +459,7 @@ class PresentationEventTournoi extends React.Component {
 						<Image source={YoutubeImgSrc} style={stylesWhite.logoSocialMedias} />
 					</TouchableOpacity>
 				</View>
+				{this.renderModal()}
 			</KeyboardAvoidingView>
 		);
 	}

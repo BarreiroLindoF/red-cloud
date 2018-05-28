@@ -36,6 +36,7 @@ class PasswordRecovery extends React.Component {
 			modalVisible: false,
 			apiResponse: '',
 			isFetching: false,
+			modalMessage: '',
 		};
 	}
 
@@ -54,13 +55,16 @@ class PasswordRecovery extends React.Component {
 				user: this.state.eMail,
 			})
 			.then((response) => {
-				this.setState({ isFetching: false, apiResponse: response.data });
+				this.setState({ isFetching: false, apiResponse: response.data, modalMessage: response.data.message });
 				this.props.updateEmail(this.state.apiResponse.payload);
 				this.toogleModal();
 			})
-			.catch((error) => {
-				console.error(error);
-				this.setState({ isFetching: false });
+			.catch(() => {
+				this.setState({
+					modalVisible: true,
+					modalMessage: 'Problème de connexion au serveur !',
+					isFetching: false,
+				});
 			});
 	}
 
@@ -71,8 +75,10 @@ class PasswordRecovery extends React.Component {
 				position={'center'}
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
+				swipeToClose={false}
+				backdropPressToClose={false}
 			>
-				<RkButton rkType="clear">{this.state.apiResponse.message}</RkButton>
+				<RkButton rkType="clear">{this.state.modalMessage}</RkButton>
 				<TouchableOpacity
 					style={stylesBlack.modalButton}
 					onPress={() => {
@@ -119,23 +125,21 @@ class PasswordRecovery extends React.Component {
 				keyboardVerticalOffset={55}
 			>
 				<View>
-					<Text style={stylesBlack.title}>Mot de passe oublié?</Text>
+					<Text style={[stylesBlack.title, { marginTop: 30 }]}>Mot de passe oublié?</Text>
 				</View>
-				<View style={stylesBlack.scrollViewContainer}>
-					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
-						{this.renderModal()}
-						<Hoshi
-							label={'E-Mail ou Username'}
-							style={{ flexDirection: 'column' }}
-							borderColor={this.state.eMail !== '' ? 'grey' : '#ff4444'}
-							onChangeText={(eMail) => {
-								this.setState({ eMail });
-							}}
-							value={this.state.eMail}
-						/>
-						{this.renderButtonEnvoyer()}
-					</ScrollView>
+				<View style={(stylesBlack.scrollViewContainer, { justifyContent: 'center', height: '60%' })}>
+					<Hoshi
+						label={'E-Mail ou Username'}
+						style={{ flexDirection: 'column' }}
+						borderColor={this.state.eMail !== '' ? 'grey' : '#ff4444'}
+						onChangeText={(eMail) => {
+							this.setState({ eMail });
+						}}
+						value={this.state.eMail}
+					/>
+					{this.renderButtonEnvoyer()}
 				</View>
+				{this.renderModal()}
 			</KeyboardAvoidingView>
 		);
 	}

@@ -116,6 +116,8 @@ class Login extends React.Component {
 				position={'center'}
 				isOpen={this.state.modalVisible}
 				backdropOpacity={0.8}
+				swipeToClose={false}
+				backdropPressToClose={false}
 			>
 				<RkButton rkType="clear">{this.state.modalMessage}</RkButton>
 				<TouchableOpacity
@@ -164,7 +166,6 @@ class Login extends React.Component {
 				<View style={stylesBlack.scrollViewContainer}>
 					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
 						{this.renderImage()}
-						{this.renderModal()}
 						<Hoshi
 							label={'Nom utilisateur'}
 							rkType="textInputLogin"
@@ -212,6 +213,7 @@ class Login extends React.Component {
 						</RkButton>
 					</ScrollView>
 				</View>
+				{this.renderModal()}
 			</KeyboardAvoidingView>
 		);
 	}

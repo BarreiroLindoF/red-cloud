@@ -39,13 +39,13 @@ const navigationOptions = () => {
 export const Routes = StackNavigator(
 	{
 		Login: { screen: Login },
+		PasswordRecovery: { screen: PasswordRecovery },
+		Conditions: { screen: Conditions },
 		Inscription: { screen: Inscription },
 		MesInscriptions: { screen: MesInscriptions },
 		ListeJeux: { screen: ListeJeux },
 		Signup: { screen: Signup },
-		PasswordRecovery: { screen: PasswordRecovery },
 		Tabs: { screen: Tabs },
-		Conditions: { screen: Conditions },
 		CreateTeam: { screen: CreateTeam },
 		Code: { screen: Code },
 		NewPassword: { screen: NewPassword },

@@ -75,8 +75,8 @@ const stylesBlack = StyleSheet.create({
 		backgroundColor: 'transparent',
 		justifyContent: 'center',
 		alignItems: 'center',
-		height: 400,
-		width: 300,
+		height: '100%',
+		width: '100%',
 	},
 
 	modalButton: {
@@ -96,6 +96,17 @@ const stylesBlack = StyleSheet.create({
 		flexDirection: 'row',
 		justifyContent: 'flex-end',
 		marginBottom: 35,
+	},
+	placeholderInputSignup: {
+		color: '#6a7989',
+		fontSize: 16,
+		marginLeft: 18,
+	},
+	textInputSignup: {
+		color: '#6a7989',
+		fontSize: 18,
+		fontWeight: 'bold',
+		marginLeft: 18,
 	},
 });
 
