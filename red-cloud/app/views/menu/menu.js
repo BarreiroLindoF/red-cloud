@@ -1,6 +1,6 @@
 import React from 'react';
 import Carousel from 'react-native-snap-carousel';
-import { Text, View, ScrollView, SectionList, FlatList, Dimensions } from 'react-native';
+import { Text, View, ScrollView, SectionList, FlatList, Dimensions, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { StatusBarPaddingView } from './../../config/header';
 
@@ -29,7 +29,10 @@ class Menu extends React.Component {
 			sectionsNourritures: [],
 			isFetching: true,
 			categoriesBoissons: [],
+			i: 1,
 		};
+
+		this.renderCarousel = this.renderCarousel.bind(this);
 	}
 
 	componentWillMount() {
@@ -88,55 +91,27 @@ class Menu extends React.Component {
 		);
 	}
 
-	renderOffre(offre) {
-		return (
-			<View>
-				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>{offre.item.description}</Text>
-				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>Prix : {offre.item.prix}.-</Text>
-				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>Début de l'offre : {offre.item.date_debut}</Text>
-				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>
-					Fin de l'offre : {offre.item.date_expiration}
-				</Text>
-				<Text
-					style={{
-						marginLeft: '6%',
-						marginRight: '6%',
-						marginTop: '5%',
-						marginBottom: '5%',
-						borderBottomColor: 'black',
-						borderBottomWidth: 0.5,
-					}}
-				/>
-			</View>
-		);
-	}
-
 	renderCarousel(offre) {
 		return (
-			<View>
-				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>{offre.item.description}</Text>
+			<View style={{ alignItems: 'center', width: Dimensions.get('window').width, paddingBottom: 15 }}>
+				<Image
+					source={{ uri: offre.item.imageUri }}
+					style={{
+						flex: 1,
+						height: 200,
+						width: '100%',
+						justifyContent: 'center',
+						alignItems: 'center',
+						resizeMode: 'stretch',
+					}}
+				/>
 				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>Prix : {offre.item.prix}.-</Text>
 				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>Début de l'offre : {offre.item.date_debut}</Text>
 				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>
 					Fin de l'offre : {offre.item.date_expiration}
 				</Text>
-				<Text
-					style={{
-						marginLeft: '6%',
-						marginRight: '6%',
-						marginTop: '5%',
-						marginBottom: '5%',
-						borderBottomColor: 'black',
-						borderBottomWidth: 0.5,
-					}}
-				/>
 			</View>
 		);
-	}
-
-	snapToItem(index) {
-		console.log(index);
-		this.refs.carousel.snapToItem(index % this.state.offres.length);
 	}
 
 	render() {
@@ -146,7 +121,7 @@ class Menu extends React.Component {
 					<Text style={stylesWhite.title}>Menu</Text>
 				</View>
 				<ScrollView style={stylesWhite.scrollViewContainer}>
-					<View>
+					<View style={{ paddingBottom: 15, paddingTop: 20 }}>
 						<Text style={stylesWhite.subTitle}>{this.state.isFetching ? '' : 'Offres'}</Text>
 					</View>
 					<Carousel
@@ -157,14 +132,9 @@ class Menu extends React.Component {
 						itemWidth={Dimensions.get('window').width}
 						autoplay
 						loop
-						autoplayDelay={1000}
+						autoplayInterval={8000}
 						firstItem={0}
 					/>
-					{/* 					<FlatList
-						data={this.state.offres}
-						keyExtractor={this.keyExtractorOffre}
-						renderItem={this.renderOffre}
-					/> */}
 					<View>
 						<Text style={stylesWhite.subTitle}>{this.state.isFetching ? '' : 'Boissons'}</Text>
 					</View>
