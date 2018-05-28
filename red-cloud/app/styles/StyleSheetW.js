@@ -47,8 +47,8 @@ const stylesWhite = StyleSheet.create({
 		padding: 2,
 		borderBottomColor: 'red',
 		borderBottomWidth: 2,
+		width: '95%',
 	},
-
 	mainContentContainer: {
 		flex: 1,
 		backgroundColor: 'white',

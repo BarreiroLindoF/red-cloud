@@ -172,7 +172,7 @@ class PresentationEventTournoi extends React.Component {
 					Nombre de places disponibles : {tournoi.participants_max - tournoi.participants}
 					{tournoi.participants > 0 && (
 						<Text>
-							<Text> Liste des inscris </Text>
+							<Text> Liste des inscrits </Text>
 							<Text
 								style={{ color: '#cc0000' }}
 								onPress={() => {
