@@ -97,6 +97,7 @@ class RecupMotDePasse extends React.Component {
 						isFetching: false,
 						mustEnterNewMdp: true,
 						mustEnterCode: false,
+						sendNewCode: false,
 					});
 				} else {
 					this.setState({ modalMessage: 'Code invalide', isFetching: false });
