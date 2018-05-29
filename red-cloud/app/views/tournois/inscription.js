@@ -162,7 +162,7 @@ class Inscription extends React.Component {
 						value={this.state.nomCarte}
 					/>
 					<Hoshi
-						label={'Numéro de la carte de crédit'}
+						label={'Numéro de la carte de crédit (16 chiffres)'}
 						rkType="textInputLogin"
 						onChangeText={(noCarte) => {
 							this.setState({ noCarte });
@@ -180,7 +180,7 @@ class Inscription extends React.Component {
 						value={this.state.troisChiffres}
 					/>
 					<Hoshi
-						label={"Le mois d'expiration"}
+						label={"Le mois d'expiration (01 ou 10)"}
 						rkType="textInputLogin"
 						onChangeText={(moisCarte) => {
 							this.setState({ moisCarte });
@@ -189,7 +189,7 @@ class Inscription extends React.Component {
 						value={this.state.moisCarte}
 					/>
 					<Hoshi
-						label={"L'année d'expiration"}
+						label={"L'année d'expiration (18 ou 20)"}
 						rkType="textInputLogin"
 						onChangeText={(anneeCarte) => {
 							this.setState({ anneeCarte });
