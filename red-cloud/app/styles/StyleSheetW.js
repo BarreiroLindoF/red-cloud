@@ -47,6 +47,7 @@ const stylesWhite = StyleSheet.create({
 		padding: 2,
 		borderBottomColor: 'red',
 		borderBottomWidth: 2,
+		marginBottom: 30,
 	},
 	redLineBottomSocialMedia: {
 		borderBottomColor: 'red',
