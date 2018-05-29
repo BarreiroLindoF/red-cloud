@@ -358,7 +358,7 @@ class ListeJeux extends React.Component {
 	render() {
 		return (
 			<View style={stylesBlack.mainContentContainer}>
-				<KeyboardAvoidingView style={{ minHeight: 450 }} behavior="padding" keyboardVerticalOffset={55}>
+				<KeyboardAvoidingView style={{ minHeight: '75%' }} behavior="padding" keyboardVerticalOffset={55}>
 					<SearchBar
 						containerStyle={{ backgroundColor: 'black' }}
 						round
