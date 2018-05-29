@@ -3,6 +3,7 @@ import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
 import { Text, View, KeyboardAvoidingView, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
+import { NavigationActions } from 'react-navigation';
 import { StatusBarPadding } from './../../config/header';
 import * as Check from './../../common/check';
 import { api, URL } from './../../rest/api';
@@ -45,13 +46,21 @@ class Inscription extends React.Component {
 			return;
 		}
 
-		/*const today = new Date();
-		const cardsDate = new Date();
-		cardsDate.setFullYear();
-		return;*/
+		const today = new Date();
+		const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
+		const cardsDate = new Date(`20${this.state.anneeCarte}-${this.state.moisCarte}-01`);
+		if (!cardsDate >= firstDay) {
+			this.setState({
+				modalVisible: true,
+				errorMessage: "La date d'expiration de carte n'est pas valide!",
+			});
+			return;
+		}
 		const url = URL.inscription.replace('{$id}', this.props.navigation.state.params.idTournoi);
 		this.setState({ isFetching: true });
-		api()
+		const connexion = api();
+		connexion.defaults.timeout = 10000;
+		connexion
 			.post(url, {
 				nom_equipe: this.props.navigation.state.params.nomEquipe,
 				nom_carte: this.state.nomCarte,
@@ -103,7 +112,11 @@ class Inscription extends React.Component {
 					onPress={() => {
 						this.toggleModal();
 						if (this.state.inscriptionFaite) {
-							this.props.navigation.navigate('Tabs');
+							const resetAction = NavigationActions.reset({
+								index: 0,
+								actions: [NavigationActions.navigate({ routeName: 'Tabs' })],
+							});
+							this.props.navigation.dispatch(resetAction);
 						}
 					}}
 				>
