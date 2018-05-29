@@ -167,7 +167,9 @@ class Signup extends React.Component {
 
 	userExist() {
 		this.setState({ isFetching: true });
-		api()
+		const connexion = api();
+		connexion.defaults.timeout = 10000;
+		connexion
 			.post(URL.selectUser, {
 				email: this.props.email,
 				pseudo: this.props.pseudo,
