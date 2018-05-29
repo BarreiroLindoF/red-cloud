@@ -323,7 +323,9 @@ class ListeJeux extends React.Component {
 	renderConditions() {
 		if (!this.state.isSigningUp) return;
 		return (
-			<View style={{ flexDirection: 'row', paddingLeft: 25, paddingBottom: 40, paddingRight: 10 }}>
+			<View
+				style={{ flexDirection: 'row', paddingTop: 10, paddingLeft: 10, paddingBottom: 40, paddingRight: 10 }}
+			>
 				<View style={{ flexDirection: 'row' }}>
 					<Text style={stylesBlack.mainText}>Accepter les </Text>
 					<Text
