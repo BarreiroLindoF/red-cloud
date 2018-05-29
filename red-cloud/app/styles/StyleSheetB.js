@@ -95,7 +95,9 @@ const stylesBlack = StyleSheet.create({
 	posLoadingButton: {
 		flexDirection: 'row',
 		justifyContent: 'flex-end',
-		marginBottom: 35,
+		alignItems: 'flex-end',
+		marginBottom: 15,
+		flex: 1,
 	},
 	placeholderInputSignup: {
 		fontSize: 16,
