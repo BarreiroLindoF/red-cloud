@@ -58,7 +58,9 @@ class RecupMotDePasse extends React.Component {
 
 	checkEmail() {
 		this.setState({ isFetching: true });
-		api()
+		const connexion = api();
+		connexion.defaults.timeout = 10000;
+		connexion
 			.post(URL.passwordRecovery, {
 				user: this.state.email,
 			})
