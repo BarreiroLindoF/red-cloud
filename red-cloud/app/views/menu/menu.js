@@ -132,7 +132,7 @@ class Menu extends React.Component {
 						itemWidth={Dimensions.get('window').width}
 						autoplay
 						loop
-						autoplayInterval={8000}
+						autoplayInterval={3000}
 						firstItem={0}
 					/>
 					<View>
