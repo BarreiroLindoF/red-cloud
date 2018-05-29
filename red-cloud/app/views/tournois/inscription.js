@@ -44,15 +44,13 @@ class Inscription extends React.Component {
 			});
 			return;
 		}
+
+		/*const today = new Date();
+		const cardsDate = new Date();
+		cardsDate.setFullYear();
+		return;*/
 		const url = URL.inscription.replace('{$id}', this.props.navigation.state.params.idTournoi);
 		this.setState({ isFetching: true });
-		console.log({
-			nom_equipe: this.props.navigation.state.params.nomEquipe,
-			nom_carte: this.state.nomCarte,
-			no_carte: this.state.noCarte,
-			mois_carte: this.state.moisCarte,
-			annee_carte: this.state.anneeCarte,
-		});
 		api()
 			.post(url, {
 				nom_equipe: this.props.navigation.state.params.nomEquipe,
@@ -101,7 +99,7 @@ class Inscription extends React.Component {
 			>
 				<RkButton rkType="clear">{this.state.errorMessage}</RkButton>
 				<TouchableOpacity
-					style={stylesBlack.modalStyle}
+					style={stylesBlack.modalButton}
 					onPress={() => {
 						this.toggleModal();
 						if (this.state.inscriptionFaite) {
@@ -148,6 +146,7 @@ class Inscription extends React.Component {
 				behavior="padding"
 				keyboardVerticalOffset={83}
 			>
+				{this.renderModal()}
 				<View style={stylesBlack.redStrip}>
 					<Text style={stylesBlack.title}>Inscription</Text>
 				</View>
@@ -162,7 +161,7 @@ class Inscription extends React.Component {
 						value={this.state.nomCarte}
 					/>
 					<Hoshi
-						label={'Numéro de la carte de crédit'}
+						label={'Numéro de la carte de crédit (16 chiffres)'}
 						rkType="textInputLogin"
 						onChangeText={(noCarte) => {
 							this.setState({ noCarte });
@@ -180,7 +179,7 @@ class Inscription extends React.Component {
 						value={this.state.troisChiffres}
 					/>
 					<Hoshi
-						label={"Le mois d'expiration"}
+						label={"Le mois d'expiration (01 ou 10)"}
 						rkType="textInputLogin"
 						onChangeText={(moisCarte) => {
 							this.setState({ moisCarte });
@@ -189,7 +188,7 @@ class Inscription extends React.Component {
 						value={this.state.moisCarte}
 					/>
 					<Hoshi
-						label={"L'année d'expiration"}
+						label={"L'année d'expiration (18 ou 20)"}
 						rkType="textInputLogin"
 						onChangeText={(anneeCarte) => {
 							this.setState({ anneeCarte });
@@ -199,7 +198,6 @@ class Inscription extends React.Component {
 					/>
 					{this.renderButtonInscrire()}
 				</ScrollView>
-				{this.renderModal()}
 			</KeyboardAvoidingView>
 		);
 	}

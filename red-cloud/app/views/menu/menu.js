@@ -1,5 +1,6 @@
-import React, { PureComponent } from 'react';
-import { Text, View, ScrollView, SectionList, FlatList } from 'react-native';
+import React from 'react';
+import Carousel from 'react-native-snap-carousel';
+import { Text, View, ScrollView, SectionList, FlatList, Dimensions, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { StatusBarPaddingView } from './../../config/header';
 
@@ -28,7 +29,10 @@ class Menu extends React.Component {
 			sectionsNourritures: [],
 			isFetching: true,
 			categoriesBoissons: [],
+			i: 1,
 		};
+
+		this.renderCarousel = this.renderCarousel.bind(this);
 	}
 
 	componentWillMount() {
@@ -48,12 +52,6 @@ class Menu extends React.Component {
 			.catch((error) => {
 				console.log(error);
 			});
-		/*if (this.state.offres.length === 0) {
-			this.setState({
-				offres: 'Aucunes offres disponibles pour le moment',
-				offresDispo: false,
-			});
-		}*/
 	}
 
 	loadData() {
@@ -84,21 +82,6 @@ class Menu extends React.Component {
 		return offre.description;
 	}
 
-	/*renderDispoOffres() {
-		if (this.state.offresDispo) {
-			return (
-				<FlatList
-					data={this.state.offres}
-					keyExtractor={this.keyExtractorOffre}
-					renderItem={this.renderOffre}
-				/>
-			);
-		}
-		return (
-			<Text>{this.state.offres}</Text>
-		);
-	}*/
-
 	renderSectionHeader({ section }) {
 		return (
 			<View style={{ marginTop: 10, marginLeft: '2%' }}>
@@ -108,25 +91,25 @@ class Menu extends React.Component {
 		);
 	}
 
-	renderOffre(offre) {
+	renderCarousel(offre) {
 		return (
-			<View>
-				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>{offre.item.description}</Text>
+			<View style={{ alignItems: 'center', width: Dimensions.get('window').width, paddingBottom: 15 }}>
+				<Image
+					source={{ uri: offre.item.imageUri }}
+					style={{
+						flex: 1,
+						height: 200,
+						width: '100%',
+						justifyContent: 'center',
+						alignItems: 'center',
+						resizeMode: 'stretch',
+					}}
+				/>
 				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>Prix : {offre.item.prix}.-</Text>
 				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>Début de l'offre : {offre.item.date_debut}</Text>
 				<Text style={{ marginLeft: '6%', marginRight: '6%' }}>
 					Fin de l'offre : {offre.item.date_expiration}
 				</Text>
-				<Text
-					style={{
-						marginLeft: '6%',
-						marginRight: '6%',
-						marginTop: '5%',
-						marginBottom: '5%',
-						borderBottomColor: 'black',
-						borderBottomWidth: 0.5,
-					}}
-				/>
 			</View>
 		);
 	}
@@ -138,14 +121,19 @@ class Menu extends React.Component {
 					<Text style={stylesWhite.title}>Menu</Text>
 				</View>
 				<ScrollView style={stylesWhite.scrollViewContainer}>
-					<View>
+					<View style={{ paddingBottom: 15, paddingTop: 20 }}>
 						<Text style={stylesWhite.subTitle}>{this.state.isFetching ? '' : 'Offres'}</Text>
 					</View>
-					{/*{this.renderDispoOffres()}*/}
-					<FlatList
+					<Carousel
+						ref="carousel"
 						data={this.state.offres}
-						keyExtractor={this.keyExtractorOffre}
-						renderItem={this.renderOffre}
+						renderItem={this.renderCarousel}
+						sliderWidth={Dimensions.get('window').width}
+						itemWidth={Dimensions.get('window').width}
+						autoplay
+						loop
+						autoplayInterval={3000}
+						firstItem={0}
 					/>
 					<View>
 						<Text style={stylesWhite.subTitle}>{this.state.isFetching ? '' : 'Boissons'}</Text>
