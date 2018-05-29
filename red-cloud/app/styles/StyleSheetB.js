@@ -98,7 +98,6 @@ const stylesBlack = StyleSheet.create({
 		marginBottom: 35,
 	},
 	placeholderInputSignup: {
-		color: '#6a7989',
 		fontSize: 16,
 		marginLeft: 18,
 	},

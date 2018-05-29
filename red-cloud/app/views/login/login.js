@@ -190,7 +190,6 @@ class Login extends React.Component {
 									this.setState({ isFetching: false });
 									this.props.navigation.navigate('Signup', {
 										isSigningUp: true,
-										datenaissance: true,
 									});
 								}}
 								title="Signup"
