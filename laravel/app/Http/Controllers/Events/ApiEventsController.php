@@ -6,11 +6,14 @@ use App\Event;
 use App\Http\Controllers\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 
 class ApiEventsController extends Controller
 {
     public function getEvents(Request $request) {
-        $events = Event::all();
+        $date = new Carbon();
+        $today = $date::today()->day;
+        $events = Event::whereDate('dateHeureDebut', '>', Carbon::today())->get();
 
         foreach ($events as $event) {
             $event->setAttribute('imageUri', $request->root() . $event->pathToImages . $event->getAttribute('imageUri'));
