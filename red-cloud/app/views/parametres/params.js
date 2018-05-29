@@ -135,18 +135,34 @@ class Params extends React.Component {
 
 	renderNotificationOffres() {
 		return (
-			<View style={Styles.verticalCenter}>
-				<View>
-					<Text>Je veux être notifié lors de nouvelles offres :</Text>
-				</View>
-				<View style={Styles.alignRight}>
-					<Switch
-						onTintColor="#f77474"
-						thumbTintColor={this.props.notificationOffre === 1 ? 'red' : 'grey'}
-						onValueChange={this.toggleSwitch}
-						value={this.props.notificationOffre === 1}
-					/>
-				</View>
+			<View style={{ paddingBottom: 25 }}>
+				<TouchableOpacity
+					onPress={() => {
+						this.toggleSwitch();
+					}}
+				>
+					<RkCard rkType="blog" style={stylesWhite.card}>
+						<View rkCardContent style={stylesWhite.centerContent}>
+							<Icon
+								size={24}
+								color="#cc0000"
+								name="notifications-active"
+								style={{
+									alignContent: 'center',
+								}}
+							/>
+							<Text style={{ paddingLeft: 10 }}>Notifiez-moi des offres</Text>
+							<View style={Styles.alignRight}>
+								<Switch
+									onTintColor="#f77474"
+									thumbTintColor={this.props.notificationOffre === 1 ? 'red' : 'grey'}
+									onValueChange={this.toggleSwitch}
+									value={this.props.notificationOffre === 1}
+								/>
+							</View>
+						</View>
+					</RkCard>
+				</TouchableOpacity>
 			</View>
 		);
 	}
@@ -235,7 +251,7 @@ class Params extends React.Component {
 					<View style={Styles.containerCard}>{this.renderMesInscriptions()}</View>
 					<View style={Styles.containerCard}>{this.renderModificationProfil()}</View>
 					<View style={Styles.containerCard}>{this.renderModificationPassword()}</View>
-					{this.renderNotificationOffres()}
+					<View style={Styles.containerCard}>{this.renderNotificationOffres()}</View>
 					<RecupMotDePasse
 						open={this.state.recupOpen}
 						closeModal={() => {
@@ -266,8 +282,6 @@ let Styles = RkStyleSheet.create((theme) => ({
 	},
 	verticalCenter: {
 		flexDirection: 'row',
-		paddingHorizontal: 12,
-		justifyContent: 'center',
 		alignItems: 'center',
 		paddingTop: 5,
 	},
