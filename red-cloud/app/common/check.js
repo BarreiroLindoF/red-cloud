@@ -6,10 +6,10 @@ const regNpa = /[1][0-9][0-9][0-9]/;
 const regCodePassword = /.{6}/;
 
 // Carte de crédit
-const regNumeroCarte = /.{16}/;
-const regTroisChiffresCarte = /.{3}/;
+const regNumeroCarte = /^\d{16}$/;
+const regTroisChiffresCarte = /^\d{3}$/;
 const regMonth = /^(0?[1-9]|1[012])$/;
-const regAnneeCarte = /.{2}/;
+const regAnneeCarte = /^\d{2}$/;
 
 // Login methods
 export const checkPassword = (password) => {
