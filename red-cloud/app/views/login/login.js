@@ -52,7 +52,9 @@ class Login extends React.Component {
 	}
 
 	sendLoginPost(token) {
-		api()
+		const connexion = api();
+		connexion.defaults.timeout = 10000;
+		connexion
 			.post(URL.login, {
 				pseudo: this.props.pseudo,
 				password: this.props.password,
