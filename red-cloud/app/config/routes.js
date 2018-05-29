@@ -36,11 +36,11 @@ const navigationOptions = () => {
 export const Routes = StackNavigator(
 	{
 		Login: { screen: Login },
+		ListeJeux: { screen: ListeJeux },
+		MesInscriptions: { screen: MesInscriptions },
 		Tabs: { screen: Tabs },
 		Conditions: { screen: Conditions },
 		Inscription: { screen: Inscription },
-		MesInscriptions: { screen: MesInscriptions },
-		ListeJeux: { screen: ListeJeux },
 		Signup: { screen: Signup },
 		CreateTeam: { screen: CreateTeam },
 		PresentationEventTournoi: { screen: PresentationEventTournoi },

@@ -79,7 +79,7 @@ class Signup extends React.Component {
 			passOk: false,
 			validationPassOk: true,
 			validationEmail: false,
-			dateOk: this.props.datenaissance,
+			dateOk: true,
 			datenaissance: '',
 			modalVisible: false,
 			npa: false,
@@ -87,6 +87,7 @@ class Signup extends React.Component {
 			isFetching: false,
 			isSigningUp: this.props.navigation.state.params.isSigningUp,
 			title: this.props.navigation.state.params.isSigningUp ? 'Crée ton compte' : 'Modifier compte',
+			checked: false,
 		};
 		this.emailChanged = this.emailChanged.bind(this);
 		this.npaChanged = this.npaChanged.bind(this);
@@ -192,10 +193,13 @@ class Signup extends React.Component {
 	}
 
 	check() {
+		this.setState({ checked: true });
 		if (this.state.dateOk && this.state.passOk && this.state.validationPassOk && this.state.validationEmail) {
 			this.userExist();
 		} else {
-			this.setState({ msgModal: 'Veuillez vérifier que tous les champs sont correctement remplis.' });
+			this.setState({
+				msgModal: 'Veuillez vérifier que tous les champs en rouges soient correctement remplis.',
+			});
 			this.toogleModal();
 		}
 	}
@@ -278,12 +282,16 @@ class Signup extends React.Component {
 				<View>
 					<Hoshi
 						label={'Mot de passe (8 caractères dont 1 chiffre)'}
+						labelStyle={{ color: this.state.checked && this.props.password === '' ? 'red' : '#6a7989' }}
 						borderColor={this.state.passOk ? 'grey' : '#ff4444'}
 						onChangeText={this.passwordChanged}
 						secureTextEntry
 					/>
 					<Hoshi
 						label={'Validation mot de passe'}
+						labelStyle={{
+							color: this.state.checked && this.state.validationPass === '' ? 'red' : '#6a7989',
+						}}
 						borderColor={this.state.validationPassOk ? 'grey' : '#ff4444'}
 						onChangeText={this.validationChanged}
 						secureTextEntry
@@ -385,10 +393,13 @@ class Signup extends React.Component {
 					dateInput: {
 						borderWidth: 0,
 						borderBottomWidth: 2,
-						borderBottomColor: this.state.dateOk ? '#6a7989' : '#ff4444',
+						borderBottomColor: '#6a7989',
 						alignItems: 'flex-start',
 					},
-					placeholderText: stylesBlack.placeholderInputSignup,
+					placeholderText: [
+						stylesBlack.placeholderInputSignup,
+						{ color: this.state.checked && this.props.datenaissance === '' ? 'red' : '#6a7989' },
+					],
 					dateText: stylesBlack.textInputSignup,
 				}}
 				onDateChange={(newDate) => {
@@ -435,11 +446,11 @@ class Signup extends React.Component {
 				<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
 					<Hoshi
 						label={'Nom'}
-						borderColor={'grey'}
 						borderColor={this.props.nom !== '' ? 'grey' : '#ff4444'}
 						onChangeText={this.props.updateNom}
 						value={this.props.nom}
 					/>
+					{console.log(this.props.nom !== '')}
 					<Hoshi
 						label={'Prénom'}
 						borderColor={'grey'}
@@ -449,6 +460,7 @@ class Signup extends React.Component {
 					/>
 					<Hoshi
 						label={'Pseudo'}
+						labelStyle={{ color: this.state.checked && this.props.pseudo === '' ? 'red' : '#6a7989' }}
 						borderColor={'grey'}
 						borderColor={this.props.pseudo !== '' ? 'grey' : '#ff4444'}
 						onChangeText={this.props.updatePseudo}
@@ -456,6 +468,7 @@ class Signup extends React.Component {
 					/>
 					<Hoshi
 						label={'Email'}
+						labelStyle={{ color: this.state.checked && this.props.email === '' ? 'red' : '#6a7989' }}
 						keyboardType="email-address"
 						borderColor={this.state.validationEmail ? 'grey' : '#ff4444'}
 						onChangeText={this.emailChanged}
@@ -488,7 +501,8 @@ class Signup extends React.Component {
 						<Text
 							style={[
 								stylesBlack.placeholderInputSignup,
-								this.state.dateOk ? { opacity: 1 } : { opacity: 0 },
+								this.props.datenaissance !== '' ? { opacity: 1 } : { opacity: 0 },
+								{ color: '#6a7989' },
 							]}
 						>
 							Date de naissance
