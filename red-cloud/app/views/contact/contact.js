@@ -63,38 +63,45 @@ class Contact extends React.Component {
 				<Text style={{ fontSize: 18, marginBottom: 10 }}>
 					Contactez et retrouvez-nous à l'aide des liens suivants :
 				</Text>
-				<TouchableOpacity
-					onPress={() => {
-						phonecall(cellPhoneNumber, true);
-					}}
-				>
-					<View style={stylesWhite.centerContent}>
-						<Icon size={20} color="black" name="call" />
-						<Text style={{ fontSize: 20, marginBottom: 10 }}>{cellPhoneNumberFormatted}</Text>
-					</View>
-				</TouchableOpacity>
-				<TouchableOpacity
-					onPress={() => {
-						// email(to, cc, bcc, subject, body)
-						email([emailRedCloud], null, null, null, null);
-					}}
-				>
-					<View style={stylesWhite.centerContent}>
-						<Icon size={20} color="black" name="email" />
-						<Text style={{ fontSize: 20, marginBottom: 10 }}>{emailRedCloud}</Text>
-					</View>
-				</TouchableOpacity>
+				<View style={{ paddingLeft: 15 }}>
+					<TouchableOpacity
+						onPress={() => {
+							phonecall(cellPhoneNumber, true);
+						}}
+					>
+						<View style={[stylesWhite.centerContent, { paddingBottom: 10 }]}>
+							<Icon
+								size={20}
+								color="black"
+								name="call"
+								style={{ paddingRight: 10, alignItems: 'center' }}
+							/>
+							<Text style={{ fontSize: 20 }}>{cellPhoneNumberFormatted}</Text>
+						</View>
+					</TouchableOpacity>
+					<TouchableOpacity
+						onPress={() => {
+							// email(to, cc, bcc, subject, body)
+							email([emailRedCloud], null, null, null, null);
+						}}
+					>
+						<View style={[stylesWhite.centerContent, { paddingBottom: 10 }]}>
+							<Icon size={20} color="black" name="email" style={{ paddingRight: 10 }} />
+							<Text style={{ fontSize: 20 }}>{emailRedCloud}</Text>
+						</View>
+					</TouchableOpacity>
 
-				<TouchableOpacity
-					onPress={() => {
-						Linking.openURL(webSiteRedCloud);
-					}}
-				>
-					<View style={stylesWhite.centerContent}>
-						<Icon size={20} color="black" name="language" />
-						<Text style={{ fontSize: 20, marginBottom: 10 }}>{webSiteRedCloud}</Text>
-					</View>
-				</TouchableOpacity>
+					<TouchableOpacity
+						onPress={() => {
+							Linking.openURL(webSiteRedCloud);
+						}}
+					>
+						<View style={[stylesWhite.centerContent, { paddingBottom: 10 }]}>
+							<Icon size={20} color="black" name="language" style={{ paddingRight: 10 }} />
+							<Text style={{ fontSize: 20 }}>{webSiteRedCloud}</Text>
+						</View>
+					</TouchableOpacity>
+				</View>
 			</View>
 		);
 	}
@@ -110,16 +117,18 @@ class Contact extends React.Component {
 		}
 
 		return (
-			<TouchableOpacity
-				onPress={() => {
-					Linking.openURL(url);
-				}}
-			>
-				<View style={stylesWhite.centerContent}>
-					<Icon size={20} color="black" name="place" />
-					<Text style={{ fontSize: 20, marginBottom: 10 }}>{adresseRedCloud}</Text>
-				</View>
-			</TouchableOpacity>
+			<View style={{ paddingLeft: 15 }}>
+				<TouchableOpacity
+					onPress={() => {
+						Linking.openURL(url);
+					}}
+				>
+					<View style={[stylesWhite.centerContent, { paddingBottom: 10 }]}>
+						<Icon size={20} color="black" name="place" style={{ paddingRight: 10 }} />
+						<Text style={{ fontSize: 20 }}>{adresseRedCloud}</Text>
+					</View>
+				</TouchableOpacity>
+			</View>
 		);
 	}
 
@@ -128,7 +137,7 @@ class Contact extends React.Component {
 			<View>
 				<Text style={{ fontSize: 18, marginBottom: 10 }}>Ou envoyez-nous un petit message !</Text>
 				<Hoshi
-					label={'Votre message ...'}
+					label={this.state.message ? '' : 'Votre message ...'}
 					borderColor={'grey'}
 					height={this.state.messageHeight}
 					onChangeText={this.handleChangeText}
