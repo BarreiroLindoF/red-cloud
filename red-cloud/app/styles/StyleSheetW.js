@@ -48,7 +48,12 @@ const stylesWhite = StyleSheet.create({
 		borderBottomColor: 'red',
 		borderBottomWidth: 2,
 	},
-
+	redLineBottomSocialMedia: {
+		borderBottomColor: 'red',
+		borderBottomWidth: 2,
+		width: '90%',
+		marginHorizontal: '5%',
+	},
 	mainContentContainer: {
 		flex: 1,
 		backgroundColor: 'white',

@@ -172,7 +172,7 @@ class PresentationEventTournoi extends React.Component {
 					Nombre de places disponibles : {tournoi.participants_max - tournoi.participants}
 					{tournoi.participants > 0 && (
 						<Text>
-							<Text> Liste des inscris </Text>
+							<Text> Liste des inscrits </Text>
 							<Text
 								style={{ color: '#cc0000' }}
 								onPress={() => {
@@ -410,9 +410,10 @@ class PresentationEventTournoi extends React.Component {
 					</ScrollView>
 				</View>
 
-				<View style={Styles.bottomLineContainer}>
-					<Text style={stylesWhite.redLineBottom} />
+				<View style={stylesWhite.centerContent}>
+					<View style={stylesWhite.redLineBottomSocialMedia} />
 				</View>
+
 				<View style={stylesWhite.socialFooter}>
 					<TouchableOpacity
 						onPress={() => {
@@ -502,6 +503,7 @@ let Styles = {
 	bottomLineContainer: {
 		flexDirection: 'row',
 		justifyContent: 'center',
+		alignItems: 'center',
 	},
 	flatListContainer: {
 		width: 250,

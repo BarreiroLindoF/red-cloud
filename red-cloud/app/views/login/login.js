@@ -5,12 +5,13 @@ import { View, Image, KeyboardAvoidingView, ScrollView, Text, TouchableOpacity, 
 import Modal from 'react-native-modalbox';
 import { Hoshi } from 'react-native-textinput-effects';
 import { NavigationActions } from 'react-navigation';
-import { StatusBarPadding } from './../../config/header';
+import { StatusBarPaddingView } from './../../config/header';
 import { api, URL } from './../../rest/api';
 import { updatePseudo, updatePassword, userLogin } from './../../redux/actions';
 import { checkPassword } from './../../common/check';
 import stylesBlack from './../../styles/StyleSheetB';
 import { registerForPushNotificationsAsync } from './../../notifications/notifications';
+import RecupMotDePasse from './recupMotDePasse';
 
 const imageSrc = require('../../assets/images/logo.png');
 
@@ -43,10 +44,10 @@ class Login extends React.Component {
 		super(props);
 		this.state = {
 			log: false,
-			cptLog: 0,
 			modalVisible: false,
 			modalMessage: '',
 			isFetching: false,
+			recupOpen: false,
 		};
 	}
 
@@ -61,16 +62,12 @@ class Login extends React.Component {
 				if (response.data.success) {
 					this.props.userLogin(response.data.payload);
 					this.openEvents();
-				} else if (this.state.cptLog < 2) {
-					this.state.cptLog++;
+				} else {
 					this.setState({
 						modalVisible: true,
 						modalMessage: "Nom d'utilisateur ou mot de passe incorrect",
 						isFetching: false,
 					});
-				} else {
-					this.setState({ isFetching: false });
-					this.props.navigation.navigate('PasswordRecovery');
 				}
 			})
 			.catch(() => {
@@ -162,6 +159,7 @@ class Login extends React.Component {
 				behavior="padding"
 				keyboardVerticalOffset={55}
 			>
+				<StatusBarPaddingView />
 				<View style={stylesBlack.scrollViewContainer}>
 					<ScrollView keyboardShouldPersistTaps="handled" keyboardDismissMode="interactive">
 						{this.renderImage()}
@@ -202,8 +200,7 @@ class Login extends React.Component {
 						<RkButton
 							rkType="clear"
 							onPress={() => {
-								this.setState({ isFetching: false });
-								this.props.navigation.navigate('PasswordRecovery');
+								this.setState({ isFetching: false, recupOpen: true });
 							}}
 						>
 							<RkText rkType="header6" style={stylesBlack.linkText}>
@@ -212,6 +209,13 @@ class Login extends React.Component {
 						</RkButton>
 					</ScrollView>
 				</View>
+				<RecupMotDePasse
+					open={this.state.recupOpen}
+					closeModal={() => {
+						this.setState({ recupOpen: false });
+					}}
+					modifMdp={false}
+				/>
 				{this.renderModal()}
 			</KeyboardAvoidingView>
 		);
