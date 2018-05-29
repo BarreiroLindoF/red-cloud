@@ -1,6 +1,13 @@
 {
   "expo": {
     "sdkVersion": "23.0.0",
-    "orientation": "portrait"
+    "orientation": "portrait",
+	"version": "1.0.0",
+	"icon": "./app/assets/images/logo-no-text.png",
+	"loading": {
+		"icon": "./app/assets/images/logo.png",
+		"backgroundColor": "#000000",
+		"hideExponentText": true,
+	}
   }
 }
