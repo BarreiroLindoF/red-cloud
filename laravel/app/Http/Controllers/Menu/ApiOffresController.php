@@ -18,6 +18,7 @@ class ApiOffresController extends Controller {
         $today = $date::now();
         $offres = Offre::whereMonth('date_debut', '=', Carbon::today()->month)->where('date_expiration', '>=', Carbon::today())->get();
         foreach($offres as $offre){
+            $offre->setAttribute('imageUri', $request->root() . Offre::$pathToImages . $offre->getAttribute('imageUri'));
             $offres->nourriture = $offre->nourritures;
             $offres->boisson = $offre->boissons; 
             $offre->date_expiration = Carbon::parse($offre->date_expiration)->format('d.m.y');   

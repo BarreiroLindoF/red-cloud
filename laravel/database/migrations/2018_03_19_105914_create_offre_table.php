@@ -19,6 +19,7 @@ class CreateOffreTable extends Migration
             $table->integer('prix');
             $table->dateTime('date_debut');
             $table->dateTime('date_expiration');
+            $table->string('imageUri');
         });
     }
 
