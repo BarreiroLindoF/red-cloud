@@ -225,8 +225,10 @@ class MesInscriptions extends React.Component {
 
 	render() {
 		return (
-			<View style={{ height: '100%' }}>
-				<Text style={Styles.inscriptionsTitle}>Mes inscriptions</Text>
+			<View style={stylesWhite.mainContentContainer}>
+				<View style={stylesWhite.redStrip}>
+					<Text style={stylesWhite.title}>Mes inscriptions</Text>
+				</View>
 				{this.state.noData && (
 					<View style={[Styles.containerNoResult, stylesWhite.mainContentContainer]}>
 						<Image style={stylesWhite.imgNoResultsTournoi} source={imgErreur} />
@@ -241,7 +243,7 @@ class MesInscriptions extends React.Component {
 						style={[stylesWhite.mainContentContainer, { borderTopColor: 'gray', borderTopWidth: 1 }]}
 					>
 						<FlatList
-							style={{ paddingBottom: 40 }}
+							style={{ paddingBottom: 40, paddingTop: 25 }}
 							data={this.state.data}
 							renderItem={this.renderItem}
 							keyExtractor={this.keyExtractor}
