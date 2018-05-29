@@ -13,7 +13,7 @@ import { StatusBarPadding } from './header';
 
 export default TabNavigator(
 	{
-		Events: {
+		Évènements: {
 			screen: Tournois,
 		},
 		Menu: {

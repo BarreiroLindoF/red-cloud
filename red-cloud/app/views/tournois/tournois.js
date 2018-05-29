@@ -19,7 +19,7 @@ const imgErreur = require('../../assets/images/erreurBlack.png');
 class Tournois extends React.Component {
 	// eslint-disable-next-line
 	static navigationOptions = {
-		tabBarLabel: 'Events',
+		tabBarLabel: 'Évènements',
 		tabBarIcon: () => {
 			return <Icon size={24} color="red" name="event" />;
 		},
