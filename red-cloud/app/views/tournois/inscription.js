@@ -113,8 +113,11 @@ class Inscription extends React.Component {
 						this.toggleModal();
 						if (this.state.inscriptionFaite) {
 							const resetAction = NavigationActions.reset({
-								index: 0,
-								actions: [NavigationActions.navigate({ routeName: 'Tabs' })],
+								index: 1,
+								actions: [
+									NavigationActions.navigate({ routeName: 'Tabs' }),
+									NavigationActions.navigate({ routeName: 'MesInscriptions' }),
+								],
 							});
 							this.props.navigation.dispatch(resetAction);
 						}
