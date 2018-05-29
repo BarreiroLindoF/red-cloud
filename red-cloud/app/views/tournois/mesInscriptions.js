@@ -183,7 +183,7 @@ class MesInscriptions extends React.Component {
 							Equipe : {tournoi.nom_equipe}
 						</Text>
 						<Text style={[Styles.middleCenter, { marginRight: 10 }]}>
-							{Moment(tournoi.dateHeureDebut).format('D/mm/Y')},{' '}
+							{Moment(tournoi.dateHeureDebut).format('DD/MM/Y')},{' '}
 							{Moment(tournoi.heureDebut, 'HH:mm:ss').format('HH:mm')}
 						</Text>
 					</View>
