@@ -180,7 +180,6 @@ class Tournois extends React.Component {
 						on
 						keyboardVerticalOffset={100}
 					>
-						{Keyboard.dismiss()}
 						<Image style={stylesWhite.imgNoResultsTournoi} source={imgErreur} />
 						<Text style={{ marginTop: 15 }}> Aucun évènement ne correspond à votre recherche...</Text>
 					</KeyboardAvoidingView>
