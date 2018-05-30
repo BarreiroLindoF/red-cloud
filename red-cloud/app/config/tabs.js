@@ -28,7 +28,7 @@ export default TabNavigator(
 	},
 	{
 		navigationOptions: { headerStyle: { marginTop: StatusBarPadding } },
-		backBehavior: 'none',
+		backBehavior: 'initialRoute',
 		lazy: false,
 		swipeEnabled: false,
 		tabBarComponent: NavigationComponent,
