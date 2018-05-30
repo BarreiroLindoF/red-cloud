@@ -12,6 +12,7 @@ class ForgotPassword extends Mailable
     use Queueable, SerializesModels;
 
     public $code = 'Error code!';
+    public $pseudo = 'Erreur dans le pseudonyme !';
 
     /**
      * Create a new message instance.

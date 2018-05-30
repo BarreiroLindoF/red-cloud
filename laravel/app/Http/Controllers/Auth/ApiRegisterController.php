@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\JsonResponse;
+use App\Mail\CreationCompteMail;
 use App\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Mail;
+
 
 use Illuminate\Http\Request;
 
@@ -81,7 +84,17 @@ class ApiRegisterController extends Controller
         }
         \DB::table('favoris')->insert($data);
         $user->jeux = $jeux;
+
+        $this->sendEmail($user);
+
 	    return response()->json(new JsonResponse(true, $user, null));
+    }
+
+
+    public function sendEmail($user) {
+        $creationCompteMail = new CreationCompteMail();
+        $creationCompteMail->pseudo = $user->pseudo;
+        Mail::to($user->email)->queue($creationCompteMail);
     }
 
     public function modifyUser(Request $request) {
