@@ -43,6 +43,7 @@ class Params extends React.Component {
 			recupOpen: false,
 		};
 		this.toggleSwitch = this.toggleSwitch.bind(this);
+		this.touchablePressed = false;
 	}
 
 	deconnect() {
@@ -87,9 +88,14 @@ class Params extends React.Component {
 		return (
 			<TouchableOpacity
 				onPress={() => {
+					if (this.touchablePressed) return;
 					this.deconnect();
 					this.props.resetStore();
 					this.openLoginView();
+					this.touchablePressed = true;
+					setTimeout(() => {
+						this.touchablePressed = false;
+					}, 1000);
 				}}
 			>
 				<RkCard rkType="blog" style={stylesWhite.card}>
@@ -113,7 +119,12 @@ class Params extends React.Component {
 		return (
 			<TouchableOpacity
 				onPress={() => {
+					if (this.touchablePressed) return;
 					this.openListeJeuxView();
+					this.touchablePressed = true;
+					setTimeout(() => {
+						this.touchablePressed = false;
+					}, 1000);
 				}}
 			>
 				<RkCard rkType="blog" style={stylesWhite.card}>
@@ -138,7 +149,12 @@ class Params extends React.Component {
 			<View style={{ paddingBottom: 25 }}>
 				<TouchableOpacity
 					onPress={() => {
+						if (this.touchablePressed) return;
 						this.toggleSwitch();
+						this.touchablePressed = true;
+						setTimeout(() => {
+							this.touchablePressed = false;
+						}, 1000);
 					}}
 				>
 					<RkCard rkType="blog" style={stylesWhite.card}>
@@ -171,7 +187,12 @@ class Params extends React.Component {
 		return (
 			<TouchableOpacity
 				onPress={() => {
+					if (this.touchablePressed) return;
 					this.openModificationView();
+					this.touchablePressed = true;
+					setTimeout(() => {
+						this.touchablePressed = false;
+					}, 1000);
 				}}
 			>
 				<RkCard rkType="blog" style={stylesWhite.card}>
@@ -195,7 +216,12 @@ class Params extends React.Component {
 		return (
 			<TouchableOpacity
 				onPress={() => {
+					if (this.touchablePressed) return;
 					this.setState({ recupOpen: true });
+					this.touchablePressed = true;
+					setTimeout(() => {
+						this.touchablePressed = false;
+					}, 1000);
 				}}
 			>
 				<RkCard rkType="blog" style={stylesWhite.card}>
@@ -219,7 +245,12 @@ class Params extends React.Component {
 		return (
 			<TouchableOpacity
 				onPress={() => {
+					if (this.touchablePressed) return;
 					this.props.navigation.navigate('MesInscriptions');
+					this.touchablePressed = true;
+					setTimeout(() => {
+						this.touchablePressed = false;
+					}, 1000);
 				}}
 			>
 				<RkCard rkType="blog" style={stylesWhite.card}>

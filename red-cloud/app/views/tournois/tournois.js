@@ -39,6 +39,11 @@ class Tournois extends React.Component {
 			searchResult: true,
 		};
 		this.loadPosts();
+		this.touchablePressed = false;
+	}
+
+	componentWillMount() {
+		this.touchablePressed = false;
 	}
 
 	loadPosts() {
@@ -108,14 +113,19 @@ class Tournois extends React.Component {
 	renderItem(info) {
 		return (
 			<TouchableOpacity
-				delayPressIn={70}
+				delayPressIn={0}
 				activeOpacity={0.8}
 				onPress={() => {
+					if (this.touchablePressed) return;
 					this.props.navigation.navigate('PresentationEventTournoi', {
 						item: info.item,
 						eventDisplay: true,
 						date: info.item.dateHeureDebut,
 					});
+					this.touchablePressed = true;
+					setTimeout(() => {
+						this.touchablePressed = false;
+					}, 1000);
 				}}
 			>
 				<RkCard rkType="blog" style={stylesWhite.cardTournament}>

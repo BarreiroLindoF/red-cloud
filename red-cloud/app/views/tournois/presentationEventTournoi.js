@@ -68,6 +68,7 @@ class PresentationEventTournoi extends React.Component {
 		}
 		this.renderItem = this.renderItem.bind(this);
 		this.renderLstEquipe = this.renderLstEquipe.bind(this);
+		this.touchablePressed = false;
 	}
 
 	getNavigationParams() {
@@ -200,11 +201,16 @@ class PresentationEventTournoi extends React.Component {
 					<RkButton
 						rkType="dark"
 						onPress={() => {
+							if (this.touchablePressed) return;
 							this.props.navigation.navigate('PresentationEventTournoi', {
 								item: tournoi.item,
 								eventDisplay: false,
 								date: this.props.navigation.state.params.date,
 							});
+							this.touchablePressed = true;
+							setTimeout(() => {
+								this.touchablePressed = false;
+							}, 1000);
 						}}
 					>
 						<RkText style={Styles.fontBtn}> En savoir plus </RkText>

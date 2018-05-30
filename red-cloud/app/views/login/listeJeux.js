@@ -142,7 +142,7 @@ class ListeJeux extends React.Component {
 									this.setState({
 										userCreated: true,
 										modalMessage:
-											'Votre compte a été crée avec succès ! Vous allez être redirigé vers la liste des tournois.',
+											'Votre compte a été créé avec succès ! Vous allez être redirigé vers la liste des tournois.',
 										modalVisible: true,
 									});
 								}
