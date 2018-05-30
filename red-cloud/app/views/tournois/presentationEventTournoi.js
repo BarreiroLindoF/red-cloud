@@ -19,6 +19,7 @@ import { api, URL } from './../../rest/api';
 
 import stylesWhite from './../../styles/StyleSheetW';
 import LogoHeader from './../../components/avatar/logoHeader';
+import stylesBlack from './../../styles/StyleSheetB';
 
 const Dimensions = require('Dimensions');
 
@@ -57,8 +58,8 @@ class PresentationEventTournoi extends React.Component {
 			isFetching: true,
 			nomEquipe: '',
 			errorMessage: '',
-			modalVisible: false,
 			modalEquipesVisible: false,
+			modalTeamName: false,
 			equipes: [],
 			isFetchingTeamName: false,
 		};
@@ -115,7 +116,7 @@ class PresentationEventTournoi extends React.Component {
 
 	checkTeamName(nomEquipe, idTournoi) {
 		if (this.state.nomEquipe === '') {
-			this.setState({ errorMessage: "Veuillez entrer un nom d'équipe" }, this.toggleModal());
+			this.setState({ errorMessage: "Veuillez entrer un nom d'équipe" });
 			return;
 		}
 		const url = URL.teamCheck.replace('{$id}', idTournoi);
@@ -141,11 +142,11 @@ class PresentationEventTournoi extends React.Component {
 					);
 				}
 			})
-			.catch(() => {
+			.catch((error) => {
+				console.log(error);
 				this.setState({
 					isFetchingTeamName: false,
 					errorMessage: "Problèmes de connexion au serveur lors de l'inscription !",
-					modalVisible: true,
 				});
 			});
 	}
@@ -173,7 +174,7 @@ class PresentationEventTournoi extends React.Component {
 					Nombre de places disponibles : {tournoi.participants_max - tournoi.participants}
 					{tournoi.participants > 0 && (
 						<Text>
-							<Text> Liste des inscrits </Text>
+							<Text> (Liste des inscrits </Text>
 							<Text
 								style={{ color: '#cc0000' }}
 								onPress={() => {
@@ -220,71 +221,21 @@ class PresentationEventTournoi extends React.Component {
 		);
 	}
 
-	renderModal() {
+	renderTeamModal(tournoi) {
 		return (
 			<Modal
-				style={{
-					backgroundColor: 'transparent',
-					justifyContent: 'center',
-					alignItems: 'center',
-					height: 400,
-					width: 300,
-				}}
+				style={stylesBlack.modalStyle}
 				position={'center'}
-				isOpen={this.state.modalVisible}
+				isOpen={this.state.modalTeamName}
+				backdropOpacity={0.8}
 				swipeToClose={false}
 				backdropPressToClose={false}
-				backdropOpacity={0.8}
 			>
-				<RkButton rkType="clear">{this.state.errorMessage}</RkButton>
-				<TouchableOpacity
-					style={[styleFile.buttonConditions, { marginTop: 20, borderRadius: 5 }]}
-					onPress={() => {
-						this.toggleModal();
-					}}
+				<KeyboardAvoidingView
+					style={{ justifyContent: 'center', height: '100%', width: '80%' }}
+					behavior="padding"
+					keyboardVerticalOffset={this.props.modifMdp ? 100 : -150}
 				>
-					<View>
-						<Text style={{ color: 'black' }}>Retour</Text>
-					</View>
-				</TouchableOpacity>
-			</Modal>
-		);
-	}
-
-	renderButtonInscription(tournoi) {
-		if (this.state.isFetchingTeamName) {
-			return <ActivityIndicator size="large" color="#cc0000" style={{ paddingTop: 15 }} />;
-		}
-		return (
-			<View style={Styles.btnSubscribeContainer}>
-				<RkButton
-					rkType="dark"
-					onPress={() => {
-						this.checkTeamName(this.state.nomEquipe, tournoi.id_tournoi);
-					}}
-				>
-					<RkText style={Styles.fontBtn}> Inscris toi ! </RkText>
-				</RkButton>
-			</View>
-		);
-	}
-
-	renderInscription(tournoi, date) {
-		if (tournoi.inscrit) {
-			return (
-				<View>
-					<Text>Vous êtes déjà inscrit !</Text>
-				</View>
-			);
-		} else if (tournoi.participants_max - tournoi.participants > 0) {
-			return (
-				<View>
-					<Text>Prix par inscription: {tournoi.prix_inscription}.- CHF</Text>
-					<Text>Nombre d'inscriptions limite : {tournoi.participants_max}</Text>
-					{this.lstInscrits(tournoi)}
-					<Text>Vous avez encore jusqu'au {date} pour vous inscrire.</Text>
-					<Text>Le tournoi commencera à {tournoi.heureDebut}. Ne soyez pas en retard !</Text>
-
 					<Hoshi
 						label={'Le nom de ton équipe'}
 						rkType="textInputLogin"
@@ -294,13 +245,79 @@ class PresentationEventTournoi extends React.Component {
 						borderColor={this.state.nomEquipe !== '' ? 'grey' : '#ff4444'}
 						value={this.state.nomEquipe}
 					/>
-					{this.renderButtonInscription(tournoi)}
+					<Text style={{ color: 'red', margin: 10 }}>
+						{this.state.nomEquipe === '' ? this.state.errorMessage : ''}
+					</Text>
+					<View style={stylesBlack.btnPosition}>
+						<RkButton
+							rkType="social"
+							onPress={() => {
+								this.setState({ modalTeamName: false, errorMessage: '' });
+							}}
+							style={[stylesBlack.btnStyle, { marginRight: 25 }]}
+						>
+							<RkText rkType="awesome hero accentColor" style={stylesBlack.btnFont}>
+								Annuler
+							</RkText>
+						</RkButton>
+
+						{this.state.isFetchingTeamName && <ActivityIndicator size="large" color="#cc0000" />}
+						{!this.state.isFetchingTeamName && (
+							<RkButton
+								rkType="social"
+								onPress={() => {
+									this.checkTeamName(this.state.nomEquipe, tournoi.id_tournoi);
+								}}
+								style={[stylesBlack.btnStyle, { marginRight: 25 }]}
+							>
+								<RkText rkType="awesome hero accentColor" style={stylesBlack.btnFont}>
+									Confirmer
+								</RkText>
+							</RkButton>
+						)}
+					</View>
+				</KeyboardAvoidingView>
+			</Modal>
+		);
+	}
+
+	renderButtonInscription(tournoi) {
+		if (tournoi.inscrit) {
+			return (
+				<View style={{ paddingTop: 20, paddingBottom: 20, justifyContent: 'center', alignItems: 'center' }}>
+					<Text>Vous êtes déjà inscrit !</Text>
+				</View>
+			);
+		} else if (tournoi.participants_max - tournoi.participants <= 0) {
+			return (
+				<View>
+					<Text>Les inscriptions sont fermées!</Text>
 				</View>
 			);
 		}
 		return (
+			<View style={Styles.btnSubscribeContainer}>
+				<RkButton
+					rkType="dark"
+					onPress={() => {
+						this.setState({ modalTeamName: true });
+					}}
+				>
+					<RkText style={Styles.fontBtn}> Inscris toi ! </RkText>
+				</RkButton>
+			</View>
+		);
+	}
+
+	renderInscription(tournoi, date) {
+		return (
 			<View>
-				<Text>Les inscriptions sont fermées!</Text>
+				<Text>Prix par inscription: {tournoi.prix_inscription}.- CHF</Text>
+				<Text>Nombre d'inscriptions limite : {tournoi.participants_max}</Text>
+				{this.lstInscrits(tournoi)}
+				<Text>Vous avez encore jusqu'au {date} pour vous inscrire.</Text>
+				<Text>Le tournoi commencera à {tournoi.heureDebut}. Ne soyez pas en retard !</Text>
+				{this.renderButtonInscription(tournoi)}
 			</View>
 		);
 	}
@@ -352,7 +369,6 @@ class PresentationEventTournoi extends React.Component {
 				keyboardVerticalOffset={55}
 			>
 				<View style={stylesWhite.scrollViewContainer}>
-					{this.renderLstEquipe()}
 					<View style={stylesWhite.redStrip}>
 						<Text style={stylesWhite.title}>{itemToDisplay.titre}</Text>
 					</View>
@@ -465,7 +481,8 @@ class PresentationEventTournoi extends React.Component {
 						<Image source={YoutubeImgSrc} style={stylesWhite.logoSocialMedias} />
 					</TouchableOpacity>
 				</View>
-				{this.renderModal()}
+				{this.renderTeamModal(itemToDisplay)}
+				{this.renderLstEquipe()}
 			</KeyboardAvoidingView>
 		);
 	}
