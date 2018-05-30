@@ -1,7 +1,7 @@
 // React imports
 import React from 'react';
 import { Text, View, TouchableOpacity, Linking, Platform, Image, ScrollView, KeyboardAvoidingView } from 'react-native';
-import { RkButton, RkText } from 'react-native-ui-kitten';
+import { RkButton, RkText, RkCard } from 'react-native-ui-kitten';
 
 // External imports
 import { phonecall, email } from 'react-native-communications';
@@ -57,51 +57,88 @@ class Contact extends React.Component {
 		this.setState({ message });
 	}
 
+	renderPhoneCall() {
+		return (
+			<TouchableOpacity
+				onPress={() => {
+					phonecall(cellPhoneNumber, true);
+				}}
+			>
+				<RkCard rkType="blog" style={stylesWhite.card}>
+					<View rkCardContent style={stylesWhite.centerContent}>
+						<Icon
+							size={24}
+							color="#cc0000"
+							name="call"
+							style={{
+								alignContent: 'center',
+							}}
+						/>
+						<Text style={Styles.paddingButton}>{cellPhoneNumberFormatted}</Text>
+					</View>
+				</RkCard>
+			</TouchableOpacity>
+		);
+	}
+
+	renderEmail() {
+		return (
+			<TouchableOpacity
+				onPress={() => {
+					// email(to, cc, bcc, subject, body)
+					email([emailRedCloud], null, null, null, null);
+				}}
+			>
+				<RkCard rkType="blog" style={stylesWhite.card}>
+					<View rkCardContent style={stylesWhite.centerContent}>
+						<Icon
+							size={24}
+							color="#cc0000"
+							name="email"
+							style={{
+								alignContent: 'center',
+							}}
+						/>
+						<Text style={Styles.paddingButton}>{emailRedCloud}</Text>
+					</View>
+				</RkCard>
+			</TouchableOpacity>
+		);
+	}
+
+	renderURL() {
+		return (
+			<TouchableOpacity
+				onPress={() => {
+					Linking.openURL(webSiteRedCloud);
+				}}
+			>
+				<RkCard rkType="blog" style={stylesWhite.card}>
+					<View rkCardContent style={stylesWhite.centerContent}>
+						<Icon
+							size={24}
+							color="#cc0000"
+							name="language"
+							style={{
+								alignContent: 'center',
+							}}
+						/>
+						<Text style={Styles.paddingButton}>{webSiteRedCloud}</Text>
+					</View>
+				</RkCard>
+			</TouchableOpacity>
+		);
+	}
+
 	renderInformations() {
 		return (
 			<View>
 				<Text style={{ fontSize: 18, marginBottom: 10 }}>
 					Contactez et retrouvez-nous à l'aide des liens suivants :
 				</Text>
-				<View style={{ paddingLeft: 15 }}>
-					<TouchableOpacity
-						onPress={() => {
-							phonecall(cellPhoneNumber, true);
-						}}
-					>
-						<View style={[stylesWhite.centerContent, { paddingBottom: 10 }]}>
-							<Icon
-								size={20}
-								color="black"
-								name="call"
-								style={{ paddingRight: 10, alignItems: 'center' }}
-							/>
-							<Text style={{ fontSize: 20 }}>{cellPhoneNumberFormatted}</Text>
-						</View>
-					</TouchableOpacity>
-					<TouchableOpacity
-						onPress={() => {
-							// email(to, cc, bcc, subject, body)
-							email([emailRedCloud], null, null, null, null);
-						}}
-					>
-						<View style={[stylesWhite.centerContent, { paddingBottom: 10 }]}>
-							<Icon size={20} color="black" name="email" style={{ paddingRight: 10 }} />
-							<Text style={{ fontSize: 20 }}>{emailRedCloud}</Text>
-						</View>
-					</TouchableOpacity>
-
-					<TouchableOpacity
-						onPress={() => {
-							Linking.openURL(webSiteRedCloud);
-						}}
-					>
-						<View style={[stylesWhite.centerContent, { paddingBottom: 10 }]}>
-							<Icon size={20} color="black" name="language" style={{ paddingRight: 10 }} />
-							<Text style={{ fontSize: 20 }}>{webSiteRedCloud}</Text>
-						</View>
-					</TouchableOpacity>
-				</View>
+				{this.renderPhoneCall()}
+				{this.renderEmail()}
+				{this.renderURL()}
 			</View>
 		);
 	}
@@ -117,18 +154,25 @@ class Contact extends React.Component {
 		}
 
 		return (
-			<View style={{ paddingLeft: 15 }}>
-				<TouchableOpacity
-					onPress={() => {
-						Linking.openURL(url);
-					}}
-				>
-					<View style={[stylesWhite.centerContent, { paddingBottom: 10 }]}>
-						<Icon size={20} color="black" name="place" style={{ paddingRight: 10 }} />
-						<Text style={{ fontSize: 20 }}>{adresseRedCloud}</Text>
+			<TouchableOpacity
+				onPress={() => {
+					Linking.openURL(url);
+				}}
+			>
+				<RkCard rkType="blog" style={stylesWhite.card}>
+					<View rkCardContent style={stylesWhite.centerContent}>
+						<Icon
+							size={24}
+							color="#cc0000"
+							name="place"
+							style={{
+								alignContent: 'center',
+							}}
+						/>
+						<Text style={Styles.paddingButton}>{adresseRedCloud}</Text>
 					</View>
-				</TouchableOpacity>
-			</View>
+				</RkCard>
+			</TouchableOpacity>
 		);
 	}
 
@@ -194,9 +238,11 @@ class Contact extends React.Component {
 						this.scrollView.scrollToEnd({ animated: true });
 					}}
 				>
-					{this.renderInformations()}
-					{this.renderMaps()}
-					{this.renderFormulaire()}
+					<View style={{ paddingHorizontal: 12 }}>
+						{this.renderInformations()}
+						{this.renderMaps()}
+						{this.renderFormulaire()}
+					</View>
 				</ScrollView>
 			</KeyboardAvoidingView>
 		);
@@ -208,6 +254,9 @@ let Styles = {
 		width: 200,
 		height: 200,
 		resizeMode: 'stretch',
+	},
+	paddingButton: {
+		paddingLeft: 10,
 	},
 };
 
