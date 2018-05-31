@@ -202,7 +202,7 @@ class Contact extends React.Component {
 					<RkButton
 						rkType="dark"
 						onPress={() => {
-							console.log('To be sent !');
+							this.setState({ message: '' });
 						}}
 					>
 						<RkText

@@ -63,8 +63,8 @@ class Inscription extends React.Component {
 		connexion.defaults.timeout = 10000;
 		connexion
 			.post(url, {
-				nom_equipe: this.props.navigation.state.params.nomEquipe,
-				nom_carte: this.state.nomCarte,
+				nom_equipe: this.props.navigation.state.params.nomEquipe.trim(),
+				nom_carte: this.state.nomCarte.trim(),
 				no_carte: this.state.noCarte,
 				mois_carte: this.state.moisCarte,
 				annee_carte: this.state.anneeCarte,

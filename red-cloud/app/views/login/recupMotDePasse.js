@@ -62,7 +62,7 @@ class RecupMotDePasse extends React.Component {
 		connexion.defaults.timeout = 10000;
 		connexion
 			.post(URL.passwordRecovery, {
-				user: this.state.email,
+				user: this.state.email.trim(),
 			})
 			.then((response) => {
 				this.setState({
@@ -88,8 +88,8 @@ class RecupMotDePasse extends React.Component {
 		this.setState({ isFetching: true });
 		api()
 			.post(URL.code, {
-				email: this.props.email,
-				code: this.state.code,
+				email: this.props.email.trim(),
+				code: this.state.code.trim(),
 			})
 			.then((response) => {
 				if (response.data.success) {
@@ -146,7 +146,7 @@ class RecupMotDePasse extends React.Component {
 		this.setState({ isFetching: true });
 		api()
 			.post(URL.reset, {
-				email: this.props.email,
+				email: this.props.email.trim(),
 				token: this.state.token,
 				password: this.state.confirmPassword,
 			})

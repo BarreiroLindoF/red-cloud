@@ -116,12 +116,12 @@ class ListeJeux extends React.Component {
 		this.setState({ isFetching: true });
 		api()
 			.post(URL.register, {
-				nom: this.props.nom,
-				prenom: this.props.prenom,
-				pseudo: this.props.pseudo,
-				email: this.props.email,
+				nom: this.props.nom.trim(),
+				prenom: this.props.prenom.trim(),
+				pseudo: this.props.pseudo.trim(),
+				email: this.props.email.trim(),
 				npa: this.props.npa,
-				ville: this.props.ville,
+				ville: this.props.ville.trim(),
 				datenaissance: this.props.datenaissance,
 				password: this.props.password,
 				jeux: this.props.jeux,
@@ -131,7 +131,7 @@ class ListeJeux extends React.Component {
 					registerForPushNotificationsAsync().then((token) => {
 						api()
 							.post(URL.login, {
-								pseudo: this.props.pseudo,
+								pseudo: this.props.pseudo.trim(),
 								password: this.props.password,
 								notificationToken: token,
 							})

@@ -123,7 +123,7 @@ class PresentationEventTournoi extends React.Component {
 		this.setState({ isFetchingTeamName: true });
 		api()
 			.post(url, {
-				nom_equipe: nomEquipe,
+				nom_equipe: nomEquipe.trim(),
 			})
 			.then((response) => {
 				this.setState({ isFetchingTeamName: false });

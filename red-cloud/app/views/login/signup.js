@@ -171,8 +171,8 @@ class Signup extends React.Component {
 		connexion.defaults.timeout = 10000;
 		connexion
 			.post(URL.selectUser, {
-				email: this.props.email,
-				pseudo: this.props.pseudo,
+				email: this.props.email.trim(),
+				pseudo: this.props.pseudo.trim(),
 			})
 			.then((response) => {
 				this.setState({ isFetching: false });
@@ -212,13 +212,13 @@ class Signup extends React.Component {
 			this.setState({ isFetching: true });
 			api()
 				.patch(URL.modifierUtilisateur, {
-					prenom: this.props.prenom,
-					nom: this.props.nom,
-					pseudo: this.props.pseudo,
-					ville: this.props.ville,
+					prenom: this.props.prenom.trim(),
+					nom: this.props.nom.trim(),
+					pseudo: this.props.pseudo.trim(),
+					ville: this.props.ville.trim(),
 					npa: this.props.npa,
 					datenaissance: this.props.datenaissance,
-					email: this.props.email,
+					email: this.props.email.trim(),
 				})
 				.then((response) => {
 					this.setState({ isFetching: false });

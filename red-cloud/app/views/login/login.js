@@ -56,7 +56,7 @@ class Login extends React.Component {
 		connexion.defaults.timeout = 10000;
 		connexion
 			.post(URL.login, {
-				pseudo: this.props.pseudo,
+				pseudo: this.props.pseudo.trim(),
 				password: this.props.password,
 				notificationToken: token,
 			})
