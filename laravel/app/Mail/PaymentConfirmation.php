@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Entreprise;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -11,6 +12,7 @@ class PaymentConfirmation extends Mailable
     use Queueable, SerializesModels;
 
     public $pdfPath=' ';
+    public $adresse = 'Erreur dans l\'adresse !';
 
     /**
      * Create a new message instance.
@@ -18,7 +20,8 @@ class PaymentConfirmation extends Mailable
      * @return void
      */
     public function __construct() {
-
+        $entreprise = Entreprise::find(1);
+        $this->adresse = $entreprise->adresse;
     }
 
     /**

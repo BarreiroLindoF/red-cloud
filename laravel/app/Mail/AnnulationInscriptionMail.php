@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Entreprise;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -12,6 +13,7 @@ class AnnulationInscriptionMail extends Mailable
     use Queueable, SerializesModels;
 
     public $tournoi = 'Erreur !';
+    public $adresse = 'Erreur dans l\'adresse';
 
     /**
      * Create a new message instance.
@@ -20,7 +22,8 @@ class AnnulationInscriptionMail extends Mailable
      */
     public function __construct()
     {
-        //
+        $entreprise = Entreprise::find(1);
+        $this->adresse = $entreprise->adresse;
     }
 
     /**

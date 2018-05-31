@@ -311,7 +311,7 @@
                             <table border="0" cellpadding="0" cellspacing="0">
                                 <tr>
                                     <td class="content-block">
-                                        <span class="apple-link">RedCloud Sàrl Rue de la Tambourine 17 1227 Carouge</span>
+                                        <span class="apple-link">RedCloud Sàrl {{ $adresse }}</span>
                                     </td>
                                 </tr>
 
