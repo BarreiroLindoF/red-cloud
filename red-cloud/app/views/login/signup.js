@@ -96,6 +96,7 @@ class Signup extends React.Component {
 		this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
 	}
 
+	//Exécutée automatiquement lorsque le composant va être chargé, met les différents state à jour avec les propriétés reçues en paramètre de l'appel du composant
 	componentWillMount() {
 		if (!this.state.isSigningUp) {
 			this.npaChanged(this.props.npa);
@@ -106,15 +107,19 @@ class Signup extends React.Component {
 		}
 	}
 
+	//Appellée automatiquement à la fermeture du composant, permet d'automatiquement lancé l'annulation de la modification
+	//au cas où l'utilisateur est en train de modifier son profil dans ce composant
 	componentWillUnmount() {
 		BackHandler.removeEventListener('hardwareBackPress', this.handleBackButtonClick);
 	}
 
+	//Appellée lorsque l'utilisateur annule ses modifications dans son profil
 	handleBackButtonClick() {
 		this.annulerModification();
 		return false;
 	}
 
+	//Sauve l'état des valeurs de l'utilisateur dans un état global accessibles dans tous les composants de l'application
 	saveReduxState() {
 		oldReduxState = {
 			prenom: this.props.prenom,
@@ -127,25 +132,17 @@ class Signup extends React.Component {
 		};
 	}
 
+	//Fait une vérification de l'email lorsque celui-ci change
 	emailChanged(email) {
 		this.setState({ validationEmail: Check.checkEmail(email) }, this.props.updateEmail(email));
 	}
 
+	//Fait une vérification du npa lorsque celui-ci change
 	npaChanged(npa) {
 		this.setState({ npa: Check.checkNpa(npa) }, this.props.updateNpa(npa));
 	}
 
-	getAge(year, month, day) {
-		const today = new Date();
-		const birthDate = new Date(year, month, day);
-		let age = today.getFullYear() - birthDate.getFullYear();
-		const m = today.getMonth() - birthDate.getMonth();
-		if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-			age--;
-		}
-		return age;
-	}
-
+	//Fait une vérification du password lorsque celui-ci change
 	passwordChanged(password) {
 		this.setState({
 			passOk: Check.checkPassword(password),
@@ -154,6 +151,7 @@ class Signup extends React.Component {
 		this.props.updatePassword(password);
 	}
 
+	//Fait une vérification de la validation du mot de passe lorsque celui-ci change
 	validationChanged(validation) {
 		this.setState({
 			validationPass: validation,
@@ -385,7 +383,7 @@ class Signup extends React.Component {
 				mode="date"
 				date={this.props.datenaissance ? this.props.datenaissance : this.state.dateNaissance}
 				androidMode="spinner"
-				placeholder="Date de naissance"
+				placeholder="Date de naissance (âge minimum : 12 ans)"
 				format="DD.MM.YYYY"
 				maxDate={anneeMinimumUser}
 				confirmBtnText="Confirmer"
@@ -506,7 +504,7 @@ class Signup extends React.Component {
 								{ color: '#6a7989' },
 							]}
 						>
-							Date de naissance
+							Date de naissance (âge minimum : 12 ans)
 						</Text>
 						{this.renderDatePicker()}
 					</View>

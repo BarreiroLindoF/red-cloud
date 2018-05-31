@@ -76,6 +76,7 @@ class PresentationEventTournoi extends React.Component {
 		return this.props.navigation.state.params || {};
 	}
 
+	//Récupère la liste des équipes déjà inscrite à un tournoi
 	getLstEquipes(idTournoi) {
 		const url = URL.participants.replace('{$id}', idTournoi);
 		api()
@@ -91,6 +92,7 @@ class PresentationEventTournoi extends React.Component {
 			});
 	}
 
+	//Charge la liste des tournois propre à un évènement
 	loadTournaments() {
 		const url = URL.tournaments.replace('{$id}', this.props.navigation.state.params.item.id_event);
 		api()
@@ -106,6 +108,7 @@ class PresentationEventTournoi extends React.Component {
 			});
 	}
 
+	//Séparateur visuel
 	FlatListItemSeparator() {
 		return (
 			<View style={Styles.separatorContainer}>
@@ -114,6 +117,7 @@ class PresentationEventTournoi extends React.Component {
 		);
 	}
 
+	//Vérification du nom d'équipe entré par l'utilisateur. Si vide, affichage d'un message. Si le nom existe déjà, affichage d'un message
 	checkTeamName(nomEquipe, idTournoi) {
 		if (this.state.nomEquipe === '') {
 			this.setState({ errorMessage: "Veuillez entrer un nom d'équipe" });
@@ -123,7 +127,7 @@ class PresentationEventTournoi extends React.Component {
 		this.setState({ isFetchingTeamName: true });
 		api()
 			.post(url, {
-				nom_equipe: nomEquipe.trim(),
+				nom_equipe: nomEquipe,
 			})
 			.then((response) => {
 				this.setState({ isFetchingTeamName: false });
@@ -234,7 +238,7 @@ class PresentationEventTournoi extends React.Component {
 				<KeyboardAvoidingView
 					style={{ justifyContent: 'center', height: '100%', width: '80%' }}
 					behavior="padding"
-					keyboardVerticalOffset={this.props.modifMdp ? 100 : -150}
+					keyboardVerticalOffset={-50}
 				>
 					<Hoshi
 						label={'Le nom de ton équipe'}
