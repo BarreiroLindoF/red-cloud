@@ -30,6 +30,13 @@ Route::group(['middleware' => ['api','cors']], function () {
     Route::post('auth/reset', 'Auth\ApiResetPasswordController@resetPassword'); // Documenté
     Route::post('check', 'ApiVerificationController@checkUserExist'); // Documenté
 
+    // Partie administration
+    Route::post('offres', 'Menu\ApiOffresController@createOffre'); // NON DOCUMENTÉ
+    Route::post('tournois', 'Tournament\ApiTournamentController@addTournoi'); // NON DOCUMENTÉ
+});
+
+// secured routes
+Route::group(['middleware' => ['jwt-auth', 'api','cors']], function () {
     Route::patch('me/update', 'Auth\ApiRegisterController@modifyUser'); // NON DOCUMENTÉ
     Route::patch('me/password', 'Auth\ApiResetPasswordController@modifyPassword'); // NON DOCUMENTÉ
     // New routes
@@ -47,9 +54,9 @@ Route::group(['middleware' => ['api','cors']], function () {
     Route::get('offres', 'Menu\ApiOffresController@getOffres'); // Doit être documenté après avoir été corrigé
     Route::get('offres/{id}', 'Menu\ApiOffresController@getOffre'); // Doit être documenté après avoir été corrigé
 
-    
+
     Route::patch('me/offres/notification', 'Menu\ApiOffresController@changeNotificationsOffre'); // NON DOCUMENTÉ
-    
+
     Route::get('events', 'Events\ApiEventsController@getEvents'); // Documenté
     Route::get('events/{id}/tournaments', 'Tournament\ApiTournamentController@getTournois'); // Documenté
 
@@ -58,18 +65,9 @@ Route::group(['middleware' => ['api','cors']], function () {
     Route::get('jeux', 'Jeux\ApiJeuxController@getJeux'); //Documenté
     Route::get('jeux/categories', 'Categories\ApiCategoriesController@getCategories'); // Documenté
     Route::put('me/jeux', 'Jeux\ApiJeuxFavorisController@modifierJeux'); // Documenté
-    
+
     // Auth
     Route::get('me/deconnexion', 'Auth\ApiAuthController@deconnexion'); // NON DOCUMENTÉ
-
-    // Partie administration
-    Route::post('offres', 'Menu\ApiOffresController@createOffre'); // NON DOCUMENTÉ
-    Route::post('tournois', 'Tournament\ApiTournamentController@addTournoi'); // NON DOCUMENTÉ
-});
-
-// secured routes
-Route::group(['middleware' => ['jwt-auth', 'api','cors']], function () {
-    Route::post('test/login', 'Auth\ApiAuthController@login');
 });
 
 // Ajouter un groupe pour la partie administrative
