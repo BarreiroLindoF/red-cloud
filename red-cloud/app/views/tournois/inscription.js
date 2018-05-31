@@ -1,6 +1,14 @@
 import React from 'react';
 import { RkButton, RkText, RkTheme } from 'react-native-ui-kitten';
-import { Text, View, KeyboardAvoidingView, ScrollView, TouchableOpacity, ActivityIndicator } from 'react-native';
+import {
+	Text,
+	View,
+	KeyboardAvoidingView,
+	ScrollView,
+	TouchableOpacity,
+	ActivityIndicator,
+	Keyboard,
+} from 'react-native';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
 import { NavigationActions } from 'react-navigation';
@@ -55,6 +63,7 @@ class Inscription extends React.Component {
 				modalVisible: true,
 				errorMessage: "La date d'expiration de carte n'est pas valide!",
 			});
+			Keyboard.dismiss();
 			return;
 		}
 		const url = URL.inscription.replace('{$id}', this.props.navigation.state.params.idTournoi);
@@ -76,12 +85,14 @@ class Inscription extends React.Component {
 						errorMessage: 'Inscription validée!',
 						modalVisible: true,
 					});
+					Keyboard.dismiss();
 				} else {
 					this.setState({
 						isFetching: false,
 						errorMessage: response.data.message,
 						modalVisible: true,
 					});
+					Keyboard.dismiss();
 				}
 			})
 			.catch(() => {
@@ -90,6 +101,7 @@ class Inscription extends React.Component {
 					errorMessage: "Problème de connexion au serveur lors de l'inscription",
 					modalVisible: true,
 				});
+				Keyboard.dismiss();
 			});
 	}
 

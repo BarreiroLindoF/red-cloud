@@ -452,7 +452,6 @@ class Signup extends React.Component {
 						onChangeText={this.props.updateNom}
 						value={this.props.nom}
 					/>
-					{console.log(this.props.nom !== '')}
 					<Hoshi
 						label={'Prénom'}
 						borderColor={'grey'}

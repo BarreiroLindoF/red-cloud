@@ -29,10 +29,14 @@ Route::group(['middleware' => ['api','cors']], function () {
     Route::post('auth/code', 'Auth\ApiCodeCheckController@checkCode'); // Documenté
     Route::post('auth/reset', 'Auth\ApiResetPasswordController@resetPassword'); // Documenté
     Route::post('check', 'ApiVerificationController@checkUserExist'); // Documenté
+	
+	Route::get('jeux', 'Jeux\ApiJeuxController@getJeux'); //Documenté
+    Route::get('jeux/categories', 'Categories\ApiCategoriesController@getCategories'); // Documenté
+
 
     // Partie administration
     Route::post('offres', 'Menu\ApiOffresController@createOffre'); // Documenté
-    Route::post('tournois', 'Tournament\ApiTournamentController@addTournoi'); // NON DOCUMENTÉ
+    Route::post('tournois', 'Tournament\ApiTournamentController@addTournoi'); // Documenté
 });
 
 // secured routes
@@ -63,8 +67,6 @@ Route::group(['middleware' => ['jwt-auth', 'api','cors']], function () {
 
 
     // Jeu
-    Route::get('jeux', 'Jeux\ApiJeuxController@getJeux'); //Documenté
-    Route::get('jeux/categories', 'Categories\ApiCategoriesController@getCategories'); // Documenté
     Route::put('me/jeux', 'Jeux\ApiJeuxFavorisController@modifierJeux'); // Documenté
 
     // Auth
