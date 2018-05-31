@@ -10,25 +10,16 @@ import { Hoshi } from 'react-native-textinput-effects';
 // Icons
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-// Configurations imports
-import { StatusBarPaddingView } from './../../config/header';
+// Api
+import { api, URL } from '../../rest/api';
 
 //Styles import
 import stylesWhite from './../../styles/StyleSheetW';
 import LogoHeader from './../../components/avatar/logoHeader';
 
-// Image imports
-const mapImageSource = require('../../assets/icons/map.png');
-
 // Global variables
 const PlatformIsIos = Platform.OS === 'ios';
 
-const cellPhoneNumber = '+41763847410';
-const cellPhoneNumberFormatted = '+41 76 384 74 10';
-
-const emailRedCloud = 'redcloud@redcloud.com';
-const webSiteRedCloud = 'http://redcloud.com';
-const adresseRedCloud = 'Route de Drize 17\n1227 Carouge\nGenève';
 const latitudeRedCloud = '46.175554';
 const longitudeRedCloud = '6.138465';
 
@@ -48,9 +39,35 @@ class Contact extends React.Component {
 		this.state = {
 			messageHeight: 60,
 			message: '',
+			telephone: '',
+			telephoneFormat: '',
+			emailRedCloud: '',
+			webSiteRedCloud: '',
+			adresse: '',
+			latitude: '',
+			longitude: '',
 		};
 
 		this.handleChangeText = this.handleChangeText.bind(this);
+		this.loadEntrepriseData();
+	}
+
+	loadEntrepriseData() {
+		api()
+			.get(URL.entreprise)
+			.then((response) => {
+				const entreprise = response.data.payload;
+				this.setState({
+					telephone: entreprise.telephone,
+					telephoneFormat: entreprise.telephone_format,
+					emailRedCloud: entreprise.email,
+					webSiteRedCloud: entreprise.site_web,
+					adresse: entreprise.adresse,
+					latitude: entreprise.adresse_latitude,
+					longitude: entreprise.adresse_longitude,
+				});
+			})
+			.catch(() => {});
 	}
 
 	handleChangeText(message) {
@@ -61,7 +78,7 @@ class Contact extends React.Component {
 		return (
 			<TouchableOpacity
 				onPress={() => {
-					phonecall(cellPhoneNumber, true);
+					phonecall(this.state.telephone, true);
 				}}
 			>
 				<RkCard rkType="blog" style={stylesWhite.card}>
@@ -74,7 +91,7 @@ class Contact extends React.Component {
 								alignContent: 'center',
 							}}
 						/>
-						<Text style={Styles.paddingButton}>{cellPhoneNumberFormatted}</Text>
+						<Text style={Styles.paddingButton}>{this.state.telephoneFormat}</Text>
 					</View>
 				</RkCard>
 			</TouchableOpacity>
@@ -86,7 +103,7 @@ class Contact extends React.Component {
 			<TouchableOpacity
 				onPress={() => {
 					// email(to, cc, bcc, subject, body)
-					email([emailRedCloud], null, null, null, null);
+					email([this.state.emailRedCloud], null, null, null, null);
 				}}
 			>
 				<RkCard rkType="blog" style={stylesWhite.card}>
@@ -99,7 +116,7 @@ class Contact extends React.Component {
 								alignContent: 'center',
 							}}
 						/>
-						<Text style={Styles.paddingButton}>{emailRedCloud}</Text>
+						<Text style={Styles.paddingButton}>{this.state.emailRedCloud}</Text>
 					</View>
 				</RkCard>
 			</TouchableOpacity>
@@ -110,7 +127,7 @@ class Contact extends React.Component {
 		return (
 			<TouchableOpacity
 				onPress={() => {
-					Linking.openURL(webSiteRedCloud);
+					Linking.openURL(this.state.webSiteRedCloud);
 				}}
 			>
 				<RkCard rkType="blog" style={stylesWhite.card}>
@@ -123,7 +140,7 @@ class Contact extends React.Component {
 								alignContent: 'center',
 							}}
 						/>
-						<Text style={Styles.paddingButton}>{webSiteRedCloud}</Text>
+						<Text style={Styles.paddingButton}>{this.state.webSiteRedCloud}</Text>
 					</View>
 				</RkCard>
 			</TouchableOpacity>
@@ -147,10 +164,10 @@ class Contact extends React.Component {
 		let url = '';
 		if (PlatformIsIos) {
 			// iPhone
-			url = `maps://app?${latitudeRedCloud}+${longitudeRedCloud}`;
+			url = `maps://app?${this.state.latitude}+${this.state.longitude}`;
 		} else {
 			// Android
-			url = `google.navigation:q=${latitudeRedCloud}+${longitudeRedCloud}`;
+			url = `google.navigation:q=${this.state.latitude}+${this.state.longitude}`;
 		}
 
 		return (
@@ -169,7 +186,7 @@ class Contact extends React.Component {
 								alignContent: 'center',
 							}}
 						/>
-						<Text style={Styles.paddingButton}>{adresseRedCloud}</Text>
+						<Text style={Styles.paddingButton}>{this.state.adresse}</Text>
 					</View>
 				</RkCard>
 			</TouchableOpacity>

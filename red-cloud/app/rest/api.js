@@ -3,8 +3,8 @@ import axios from 'axios';
 import url from 'url';
 import store from './../redux/store';
 
-//const root = `http://${url.parse(NativeModules.SourceCode.scriptURL).hostname}:8000`;
-const root = `http://0s659rqvo.preview.infomaniak.website`;
+const root = `http://${url.parse(NativeModules.SourceCode.scriptURL).hostname}:8000`;
+//const root = `http://0s659rqvo.preview.infomaniak.website`;
 
 const getToken = () => {
 	return store.getState().token;
@@ -45,4 +45,5 @@ export const URL = {
 	notificationOffre: 'api/me/offres/notification',
 	modifierUtilisateur: 'api/me/update',
 	modifyPassword: 'api/me/password',
+	entreprise: 'api/entreprise',
 };
