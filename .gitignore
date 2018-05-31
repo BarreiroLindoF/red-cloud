@@ -2,3 +2,4 @@ red-cloud/node_modules
 *.lock
 /red-cloud/package-lock.json
 package-lock.json
+/laravel/resources/views/pdf/paymentConfirmation.pdf

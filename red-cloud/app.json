@@ -1,6 +1,7 @@
 {
   "expo": {
     "sdkVersion": "23.0.0",
+	"privacy": "unlisted",
     "orientation": "portrait",
 	"version": "1.0.0",
 	"icon": "./app/assets/images/logo-no-text.png",

@@ -49,7 +49,8 @@ class Inscription extends React.Component {
 		const today = new Date();
 		const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
 		const cardsDate = new Date(`20${this.state.anneeCarte}-${this.state.moisCarte}-01`);
-		if (!cardsDate >= firstDay) {
+		console.log(firstDay.toDateString() + cardsDate.toDateString());
+		if (!(cardsDate.getTime() >= firstDay.getTime())) {
 			this.setState({
 				modalVisible: true,
 				errorMessage: "La date d'expiration de carte n'est pas valide!",
@@ -195,7 +196,7 @@ class Inscription extends React.Component {
 						value={this.state.troisChiffres}
 					/>
 					<Hoshi
-						label={"Le mois d'expiration (01 ou 10)"}
+						label={"Le mois d'expiration (01 ou 10, par exemple)"}
 						rkType="textInputLogin"
 						onChangeText={(moisCarte) => {
 							this.setState({ moisCarte });
@@ -204,7 +205,7 @@ class Inscription extends React.Component {
 						value={this.state.moisCarte}
 					/>
 					<Hoshi
-						label={"L'année d'expiration (18 ou 20)"}
+						label={"L'année d'expiration (18 ou 20, par exemple)"}
 						rkType="textInputLogin"
 						onChangeText={(anneeCarte) => {
 							this.setState({ anneeCarte });

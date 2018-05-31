@@ -278,7 +278,7 @@ class RecupMotDePasse extends React.Component {
 					)}
 					{!this.state.mustEnterNewMdp && (
 						<Hoshi
-							label={this.state.mustEnterCode ? 'Code reçu par mail' : 'E-Mail ou Username'}
+							label={this.state.mustEnterCode ? 'Code reçu par mail' : 'Email ou Username'}
 							style={{ flexDirection: 'column' }}
 							borderColor={
 								this.state.email !== '' ||
