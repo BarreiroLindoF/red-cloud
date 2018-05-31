@@ -282,7 +282,7 @@
                     <div class="content">
 
                         <!-- START CENTERED WHITE CONTAINER -->
-                        <span class="preheader">Email de confirmation d'annulation d'inscription au tournoi.</span>
+                        <span class="preheader">Email de confirmation de création de compte.</span>
                         <table class="main">
 
                             <!-- START MAIN CONTENT AREA -->
