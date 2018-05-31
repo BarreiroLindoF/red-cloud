@@ -43,6 +43,7 @@ class ApiOffresController extends Controller {
         $offre->prix = $request->prix;
         $offre->date_debut = $request->date_debut;
         $offre->date_expiration = $request->date_expiration;
+        $offre->imageUri = $request->imageUri;
         $offre->save();
 
         $offre->boissons()->attach($request->boissons);

@@ -57,6 +57,13 @@ class ApiTournamentController extends Controller
         $tournoi->imageUri = $request->input('imageUri');
         $tournoi->heureDebut = $request->input('heureDebut');
 
+        $tournoi->page_twitter_url = $request->input('page_twitter_url');
+        $tournoi->page_facebook_url = $request->input('page_facebook_url');
+        $tournoi->page_youtube_url = $request->input('page_youtube_url');
+        $tournoi->page_twitch_url = $request->input('page_twitch_url');
+
+        $tournoi->msg_partage = '';
+
         $tournoi->save();
 
         $users = $this->sendNotifications($tournoi->jeu_id_jeu);

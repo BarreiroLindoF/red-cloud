@@ -31,31 +31,32 @@ Route::group(['middleware' => ['api','cors']], function () {
     Route::post('check', 'ApiVerificationController@checkUserExist'); // Documenté
 
     // Partie administration
-    Route::post('offres', 'Menu\ApiOffresController@createOffre'); // NON DOCUMENTÉ
+    Route::post('offres', 'Menu\ApiOffresController@createOffre'); // Documenté
     Route::post('tournois', 'Tournament\ApiTournamentController@addTournoi'); // NON DOCUMENTÉ
 });
 
 // secured routes
 Route::group(['middleware' => ['jwt-auth', 'api','cors']], function () {
-    Route::patch('me/update', 'Auth\ApiRegisterController@modifyUser'); // NON DOCUMENTÉ
-    Route::patch('me/password', 'Auth\ApiResetPasswordController@modifyPassword'); // NON DOCUMENTÉ
+    Route::patch('me/password', 'Auth\ApiResetPasswordController@modifyPassword'); // Documenté
+    Route::patch('me/update', 'Auth\ApiProfileController@modifyUser'); // Documenté
+
     // New routes
     Route::post('me/participation/tournoi/{id}', 'Tournament\ApiTournamentController@addParticipation'); // Documenté
-    Route::delete('me/participation/tournoi/{id}', 'Participations\ApiParticipationsController@removeParticipation'); // NON DOCUMENTÉ
+    Route::delete('me/participation/tournoi/{id}', 'Participations\ApiParticipationsController@removeParticipation'); // Documenté
 
     Route::post('tournaments/{id}/team', 'ApiVerificationController@checkTeamExist'); // Documenté
 
     //Tournois
     Route::get('tournois/{id}/participants', 'Participations\ApiParticipationsController@getParticipants'); // Documenté
-    Route::get('me/inscriptions', 'Tournament\ApiTournamentInscriptionsController@getInscriptions'); // NON DOCUMENTÉEEEEE
+    Route::get('me/inscriptions', 'Tournament\ApiTournamentInscriptionsController@getInscriptions'); // Documenté
 
 
     Route::get('menu', 'Menu\ApiMenuController@getMenu'); // Documenté
-    Route::get('offres', 'Menu\ApiOffresController@getOffres'); // Doit être documenté après avoir été corrigé
-    Route::get('offres/{id}', 'Menu\ApiOffresController@getOffre'); // Doit être documenté après avoir été corrigé
+    Route::get('offres', 'Menu\ApiOffresController@getOffres'); // Documenté
+    Route::get('offres/{id}', 'Menu\ApiOffresController@getOffre'); // Documenté
 
 
-    Route::patch('me/offres/notification', 'Menu\ApiOffresController@changeNotificationsOffre'); // NON DOCUMENTÉ
+    Route::patch('me/offres/notification', 'Menu\ApiOffresController@changeNotificationsOffre'); // Documenté
 
     Route::get('events', 'Events\ApiEventsController@getEvents'); // Documenté
     Route::get('events/{id}/tournaments', 'Tournament\ApiTournamentController@getTournois'); // Documenté
@@ -67,7 +68,5 @@ Route::group(['middleware' => ['jwt-auth', 'api','cors']], function () {
     Route::put('me/jeux', 'Jeux\ApiJeuxFavorisController@modifierJeux'); // Documenté
 
     // Auth
-    Route::get('me/deconnexion', 'Auth\ApiAuthController@deconnexion'); // NON DOCUMENTÉ
+    Route::get('me/deconnexion', 'Auth\ApiAuthController@deconnexion'); // Documenté
 });
-
-// Ajouter un groupe pour la partie administrative
