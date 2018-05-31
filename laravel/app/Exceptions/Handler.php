@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use App\Http\Controllers\JsonResponse;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -48,6 +49,7 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        return parent::render($request, $exception);
+        //return parent::render($request, $exception);
+        return response()->json(new JsonResponse(false, null, "Une exception a été levée lors de l'éxécution de la requête. Veuilez bien vérifier vos paramètres ou authentification."));
     }
 }
