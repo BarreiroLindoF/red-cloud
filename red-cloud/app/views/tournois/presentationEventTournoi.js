@@ -80,7 +80,6 @@ class PresentationEventTournoi extends React.Component {
 				this.setState({
 					equipes: response.data.payload,
 				});
-				console.log(this.state.equipes);
 			})
 			.catch((error) => {
 				console.error(error);

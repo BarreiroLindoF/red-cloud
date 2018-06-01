@@ -58,7 +58,6 @@ class Inscription extends React.Component {
 		const today = new Date();
 		const firstDay = new Date(today.getFullYear(), today.getMonth(), 1);
 		const cardsDate = new Date(`20${this.state.anneeCarte}-${this.state.moisCarte}-01`);
-		console.log(firstDay.toDateString() + cardsDate.toDateString());
 		if (!(cardsDate.getTime() >= firstDay.getTime())) {
 			this.setState({
 				modalVisible: true,
