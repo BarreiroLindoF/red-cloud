@@ -1,8 +1,7 @@
 import React from 'react';
 import Carousel from 'react-native-snap-carousel';
-import { Text, View, ScrollView, SectionList, FlatList, Dimensions, Image } from 'react-native';
+import { Text, View, ScrollView, SectionList, Dimensions, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { StatusBarPaddingView } from './../../config/header';
 
 import { api, URL } from './../../rest/api';
 
@@ -35,11 +34,13 @@ class Menu extends React.Component {
 		this.renderCarousel = this.renderCarousel.bind(this);
 	}
 
+	//Appelée automatiquement au montage du composant, permet de charger les données avant que l'utilisateur ne voit le composant
 	componentWillMount() {
 		this.loadData();
 		this.loadOffers();
 	}
 
+	//Charge les offres depuis le backend
 	loadOffers() {
 		api()
 			.get(URL.offres)
@@ -54,6 +55,7 @@ class Menu extends React.Component {
 			});
 	}
 
+	//Charge le menu depuis le backend
 	loadData() {
 		api()
 			.get(URL.menu)
@@ -70,18 +72,22 @@ class Menu extends React.Component {
 			});
 	}
 
+	//Permis de boucler sur un identifiant pour chaque élément "nourritue"
 	keyExtractorNourriture(nourriture) {
 		return nourriture.title;
 	}
 
+	//Permis de boucler sur un identifiant pour chaque élément "boisson"
 	keyExtractorBoisson(boisson) {
 		return boisson.title;
 	}
 
+	//Permis de boucler sur un identifiant pour chaque élément "offre"
 	keyExtractorOffre(offre) {
 		return offre.description;
 	}
 
+	//Rendu des en-têtes de section
 	renderSectionHeader({ section }) {
 		return (
 			<View style={{ marginTop: 10, marginLeft: '2%' }}>
@@ -91,6 +97,7 @@ class Menu extends React.Component {
 		);
 	}
 
+	//Rendu du composant qui affiches les offres et les fait défiler tous les "x" secondes
 	renderCarousel(offre) {
 		return (
 			<View style={{ alignItems: 'center', width: Dimensions.get('window').width, paddingBottom: 15 }}>
@@ -114,6 +121,7 @@ class Menu extends React.Component {
 		);
 	}
 
+	//Rendu global du composant
 	render() {
 		return (
 			<View style={stylesWhite.mainContentContainer}>

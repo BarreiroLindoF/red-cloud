@@ -56,6 +56,7 @@ class RecupMotDePasse extends React.Component {
 		};
 	}
 
+	//Vérification du mail ou du pseudo, s'il existe déjà dans le backend : passage à l'étape suivante, sinon affichage d'erreur à l'utilisateur
 	checkEmail() {
 		this.setState({ isFetching: true });
 		const connexion = api();
@@ -84,6 +85,7 @@ class RecupMotDePasse extends React.Component {
 			});
 	}
 
+	//Vérification de la composition du code à 6 chiffres
 	checkCode() {
 		this.setState({ isFetching: true });
 		api()
@@ -114,6 +116,7 @@ class RecupMotDePasse extends React.Component {
 			});
 	}
 
+	//Envoi de la modification de mot de passse
 	sendModification() {
 		// send api request
 		this.setState({ isFetching: true });
@@ -142,6 +145,7 @@ class RecupMotDePasse extends React.Component {
 			});
 	}
 
+	//Envoi de la demande de récupération de mot de passe
 	sendRecovery() {
 		this.setState({ isFetching: true });
 		api()
@@ -171,6 +175,7 @@ class RecupMotDePasse extends React.Component {
 			});
 	}
 
+	//Vérification de la composition du mot de passe et de celle de la confirmation de mot de passe
 	checkPasswords() {
 		let errorMessage = '';
 		if (!checkPassword(this.state.newPassword)) {
@@ -192,6 +197,7 @@ class RecupMotDePasse extends React.Component {
 		}
 	}
 
+	//Rendu du bouton envoyer
 	renderButtonEnvoyer() {
 		if (this.state.isFetching) {
 			return <ActivityIndicator size="large" color="#cc0000" />;
@@ -217,6 +223,7 @@ class RecupMotDePasse extends React.Component {
 		);
 	}
 
+	//Rendu global du composant
 	render() {
 		return (
 			<Modal

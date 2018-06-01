@@ -12,7 +12,6 @@ import {
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
 import { NavigationActions } from 'react-navigation';
-import { StatusBarPadding } from './../../config/header';
 import * as Check from './../../common/check';
 import { api, URL } from './../../rest/api';
 import LogoHeader from './../../components/avatar/logoHeader';
@@ -40,6 +39,8 @@ class Inscription extends React.Component {
 		};
 	}
 
+	//Validation des champs remplis par l'utilisateur, message d'erreur dans le cas contraire
+	//Si tout est valide, inscription de l'utilisateur au tournoi
 	inscription() {
 		if (
 			!Check.checkNumeroCarte(this.state.noCarte) ||
@@ -105,10 +106,12 @@ class Inscription extends React.Component {
 			});
 	}
 
+	//Modification de l'état du modal à visible ou non visible
 	toggleModal() {
 		this.setState({ modalVisible: !this.state.modalVisible });
 	}
 
+	//Rendu du modal
 	renderModal() {
 		return (
 			<Modal
@@ -144,6 +147,7 @@ class Inscription extends React.Component {
 		);
 	}
 
+	//Rendu du bouton d'inscription pour valider le paiement
 	renderButtonInscrire() {
 		if (this.state.isFetching) {
 			return <ActivityIndicator size="large" color="white" style={{ paddingTop: 15 }} />;
@@ -168,6 +172,7 @@ class Inscription extends React.Component {
 		);
 	}
 
+	//Rendu global du composant
 	render() {
 		return (
 			<KeyboardAvoidingView

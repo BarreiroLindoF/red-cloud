@@ -46,6 +46,7 @@ class Tournois extends React.Component {
 		this.touchablePressed = false;
 	}
 
+	//Chargements de tous les évènements à afficher depuis le backend
 	loadPosts() {
 		api()
 			.get(URL.posts)
@@ -64,6 +65,7 @@ class Tournois extends React.Component {
 			});
 	}
 
+	//filtre les évènements en fonction de la recherche de l'utilisateur
 	async makeSearch(searchingTerm) {
 		if (searchingTerm === '') {
 			//Obliger de faire ce test pour quand l'utilisateur efface le text de recherche sans cliquer sur la croix
@@ -84,10 +86,12 @@ class Tournois extends React.Component {
 		this.setState({ searchResult: filteredData.length !== 0 });
 	}
 
+	//Remet la liste d'évènements à son état initial
 	async resetSearch() {
 		await this.setState({ dataFiltered: this.state.data });
 	}
 
+	//Retourne la date d'aujourd'hui formatée avec des "/" séparant chaque terme (jour, mois, année)
 	todaysDate() {
 		let today = new Date();
 		let dd = today.getDate();
@@ -106,10 +110,12 @@ class Tournois extends React.Component {
 		return today;
 	}
 
+	//Extraction de l'identifiant d'un évènement
 	keyExtractor(post) {
 		return post.id_event;
 	}
 
+	//Rendu d'un évènement. Réutilisé pour chacun des évènements.
 	renderItem(info) {
 		return (
 			<TouchableOpacity
@@ -154,6 +160,7 @@ class Tournois extends React.Component {
 		);
 	}
 
+	//Rendu global du composant
 	render() {
 		return (
 			<View style={stylesWhite.mainContentContainer}>

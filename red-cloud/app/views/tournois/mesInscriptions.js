@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { ScrollView, Text, View, Image, FlatList, TouchableOpacity, ActivityIndicator, Dimensions } from 'react-native';
-import { Button } from 'react-native-elements';
 import { RkButton } from 'react-native-ui-kitten';
 import Modal from 'react-native-modalbox';
 import Moment from 'moment';
@@ -43,6 +42,7 @@ class MesInscriptions extends React.Component {
 		this.renderModal = this.renderModal.bind(this);
 	}
 
+	//Chargement des inscriptions de l'utilisateur depuis le backend
 	loadInscriptions() {
 		api()
 			.get(URL.inscriptions)
@@ -58,6 +58,7 @@ class MesInscriptions extends React.Component {
 			});
 	}
 
+	//Annulation d'une inscription dans le backend
 	cancelInscription() {
 		const url = URL.cancelInscriptions.replace('{$id}', this.state.idTournoiAnnulation);
 		this.setState({ isFetchingTournament: true });
@@ -72,6 +73,7 @@ class MesInscriptions extends React.Component {
 			});
 	}
 
+	//Chargement de la liste des tournois d'un évènement et renvoi de l'utilisateur vers la vue du tournoi dont il aimerait avoir les détails
 	loadTournaments(idEvent, idTournoi) {
 		const url = URL.tournaments.replace('{$id}', idEvent);
 		api()
@@ -94,14 +96,17 @@ class MesInscriptions extends React.Component {
 			});
 	}
 
+	//Permet d'extraire la clé unique d'un tournoi
 	keyExtractor(tournoi) {
 		return tournoi.id_tournoi;
 	}
 
+	//Changement de l'état du modal à visible ou non visible
 	toogleModal() {
 		this.setState({ modalVisible: !this.state.modalVisible });
 	}
 
+	//Rendu du modal bloquant empêchant l'utilisateur de demander plusieurs fois la même vue de détails d'un tournoi
 	renderModalDetails() {
 		return (
 			<Modal
@@ -123,6 +128,7 @@ class MesInscriptions extends React.Component {
 		);
 	}
 
+	//Rendu du modal d'annulation d'inscription à un tournoi
 	renderModal() {
 		return (
 			<Modal
@@ -163,6 +169,7 @@ class MesInscriptions extends React.Component {
 		);
 	}
 
+	//Rendu d'une inscription à un tournoi. Utilisé pour affiché chaque inscription faite à un tournoi
 	renderItem(item) {
 		const tournoi = item.item;
 		return (
@@ -224,6 +231,7 @@ class MesInscriptions extends React.Component {
 		);
 	}
 
+	//Rendu global du composant
 	render() {
 		return (
 			<View style={stylesWhite.mainContentContainer}>

@@ -1,10 +1,9 @@
 import React from 'react';
 import { Text, View, TouchableOpacity, Switch, ScrollView, KeyboardAvoidingView } from 'react-native';
-import { RkCard, RkText, RkStyleSheet } from 'react-native-ui-kitten';
+import { RkCard, RkStyleSheet } from 'react-native-ui-kitten';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { StatusBarPaddingView } from './../../config/header';
 import { resetStore, updateNotificationOffre } from './../../redux/actions';
 import { api, URL } from '../../rest/api';
 import stylesWhite from './../../styles/StyleSheetW';
@@ -46,6 +45,7 @@ class Params extends React.Component {
 		this.touchablePressed = false;
 	}
 
+	//Déconnecte l'utilisateur dans le backend (supprime son token qui lui permet d'accéder aux vues sécurisées)
 	deconnect() {
 		api()
 			.get(URL.deconnexion)
@@ -53,6 +53,7 @@ class Params extends React.Component {
 			.catch(() => {});
 	}
 
+	//Ouvre la vue de login et reset le stack de navigation
 	openLoginView() {
 		const resetAction = NavigationActions.reset({
 			index: 0,
@@ -61,12 +62,14 @@ class Params extends React.Component {
 		this.props.navigation.dispatch(resetAction);
 	}
 
+	//Ouvre la liste des jeux favoris de l'utilisateur en précisant qu'il est en mode "modification de données"
 	openListeJeuxView() {
 		this.props.navigation.navigate('ListeJeux', {
 			isSigningUp: false,
 		});
 	}
 
+	//Change l'état du bouton de notifications des offres et fait une requête au backend pour lui signifier la modification de l'utilisateur
 	toggleSwitch() {
 		const offre = this.props.notificationOffre === 1 ? 0 : 1;
 		this.props.updateNotificationOffre(offre);
@@ -78,12 +81,14 @@ class Params extends React.Component {
 			.catch(() => {});
 	}
 
+	//Ouvre la vue de modification des données de l'utilisateur
 	openModificationView() {
 		this.props.navigation.navigate('Signup', {
 			isSigningUp: false,
 		});
 	}
 
+	//Rendu du bouton déconnexion. Remise à zéro de toutes les valeurs dans le store de redux et ouverture de la vue de login
 	renderDeconnexion() {
 		return (
 			<TouchableOpacity
@@ -115,6 +120,7 @@ class Params extends React.Component {
 		);
 	}
 
+	//Rendu du bouton "jeux favoris"
 	renderJeuxFavoris() {
 		return (
 			<TouchableOpacity
@@ -144,6 +150,7 @@ class Params extends React.Component {
 		);
 	}
 
+	//Rendu du bouton de notification des offres
 	renderNotificationOffres() {
 		return (
 			<View style={{ paddingBottom: 25 }}>
@@ -183,6 +190,7 @@ class Params extends React.Component {
 		);
 	}
 
+	//Rendu du bouton de modification de profil
 	renderModificationProfil() {
 		return (
 			<TouchableOpacity
@@ -212,6 +220,7 @@ class Params extends React.Component {
 		);
 	}
 
+	//Rendu du bouton de modification de mot de passe
 	renderModificationPassword() {
 		return (
 			<TouchableOpacity
@@ -241,6 +250,7 @@ class Params extends React.Component {
 		);
 	}
 
+	//Rendu du boutons de "mes inscriptions" aux tournois
 	renderMesInscriptions() {
 		return (
 			<TouchableOpacity
@@ -270,6 +280,7 @@ class Params extends React.Component {
 		);
 	}
 
+	//Rendu global du composant
 	render() {
 		return (
 			<KeyboardAvoidingView style={stylesWhite.mainContentContainer} behavior="padding">

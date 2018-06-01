@@ -51,6 +51,7 @@ class Login extends React.Component {
 		};
 	}
 
+	//Envoi de la demande de login au backend
 	sendLoginPost(token) {
 		const connexion = api();
 		connexion.defaults.timeout = 10000;
@@ -81,12 +82,14 @@ class Login extends React.Component {
 			});
 	}
 
+	//Inscription de la personne au service de notification avant de la loguer
 	checkLogin() {
 		registerForPushNotificationsAsync().then((token) => {
 			this.sendLoginPost(token);
 		});
 	}
 
+	//Mise à zéro du stack de navigation et chargement de la barre de navigation du bas
 	openEvents() {
 		const resetAction = NavigationActions.reset({
 			index: 0,
@@ -95,10 +98,12 @@ class Login extends React.Component {
 		this.props.navigation.dispatch(resetAction);
 	}
 
+	//Modifie l'état du modal à visible ou non visible
 	toogleModal() {
 		this.setState({ modalVisible: !this.state.modalVisible });
 	}
 
+	//Rendu du logo
 	renderImage() {
 		const image = (
 			<View style={stylesBlack.centerContent}>
@@ -108,6 +113,7 @@ class Login extends React.Component {
 		return image;
 	}
 
+	//Rendu du modal
 	renderModal() {
 		return (
 			<Modal
@@ -133,6 +139,7 @@ class Login extends React.Component {
 		);
 	}
 
+	//Rendu du bouton de login
 	renderLoginButton() {
 		if (this.state.isFetching) {
 			return <ActivityIndicator size="large" color="#cc0000" style={{ paddingTop: 15 }} />;
@@ -154,6 +161,7 @@ class Login extends React.Component {
 		);
 	}
 
+	//Rendu du composant global
 	render() {
 		return (
 			<KeyboardAvoidingView

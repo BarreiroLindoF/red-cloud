@@ -19,6 +19,7 @@ class Conditions extends React.Component {
 		};
 	}
 
+	//Rendu global de la vue des conditions
 	render() {
 		return (
 			<View style={{ flex: 1, backgroundColor: 'white' }}>

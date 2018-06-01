@@ -31,11 +31,6 @@ const TwitterImgSrc = require('../../assets/images/twitter-logo.png');
 const PartageImgSrc = require('../../assets/images/share-logo.png');
 const PDFImgSrc = require('../../assets/images/pdf.png');
 
-const FaceBookPage = 'https://www.facebook.com/WEIRDnet/';
-const TwitterPage = 'https://twitter.com/The_eBar';
-const TwitchPage = 'https://www.twitch.tv/smokeyz76';
-const YoutubePage = 'https://www.youtube.com/channel/UCRijo3ddMTht_IHyNSNXpNQ';
-
 const Android = require('react-native').Platform.OS === 'android';
 
 const StoreAppUrl = Android ? 'https://play.google.com/store/apps/details?id=com.bigredcloud.app' : ''; //A changer une fois en prod
@@ -155,22 +150,27 @@ class PresentationEventTournoi extends React.Component {
 			});
 	}
 
+	//Extraction de la clé unique d'un tournoi
 	keyExtractor(post) {
 		return post.id_tournoi;
 	}
 
+	//Extraction de la clé unique d'un tournoi
 	keyExtractorEquipe(equipe) {
 		return equipe.user_id_user;
 	}
 
+	//Change la visibilité du modal à visible ou non visible
 	toggleModal() {
 		this.setState({ modalVisible: !this.state.modalVisible });
 	}
 
+	//Change la visibilité du modal de la liste des équipe à visible ou non visible
 	toggleModalEquipes() {
 		this.setState({ modalEquipesVisible: !this.state.modalEquipesVisible });
 	}
 
+	//Rendu du nombre d'inscrits et de l'accès à la liste des équipes inscrites
 	lstInscrits(tournoi) {
 		return (
 			<View>
@@ -196,6 +196,7 @@ class PresentationEventTournoi extends React.Component {
 		);
 	}
 
+	//Rendu d'un tournoi dans la liste de tournoi de l'évènement. Titre avec son bouton permettant d'y accéder.
 	renderItem(tournoi) {
 		return (
 			<View style={Styles.tournamentsContainer}>
@@ -225,6 +226,7 @@ class PresentationEventTournoi extends React.Component {
 		);
 	}
 
+	//Rendu du modal pour inscrire le nom de l'équipe
 	renderTeamModal(tournoi) {
 		return (
 			<Modal
@@ -285,6 +287,7 @@ class PresentationEventTournoi extends React.Component {
 		);
 	}
 
+	//Rendu du bouton d'inscription qui permet de renseigner le nom de son équipe, si l'utilisateur n'est pas déjà inscris au tournoi
 	renderButtonInscription(tournoi) {
 		if (tournoi.inscrit) {
 			return (
@@ -307,12 +310,13 @@ class PresentationEventTournoi extends React.Component {
 						this.setState({ modalTeamName: true });
 					}}
 				>
-					<RkText style={Styles.fontBtn}> Inscris toi ! </RkText>
+					<RkText style={Styles.fontBtn}> Inscris-toi ! </RkText>
 				</RkButton>
 			</View>
 		);
 	}
 
+	//Rendu des informations concernant l'inscription à ce tournoi
 	renderInscription(tournoi, date) {
 		return (
 			<View>
@@ -326,6 +330,7 @@ class PresentationEventTournoi extends React.Component {
 		);
 	}
 
+	//Rendu du modal de la liste des équipes inscrites au tournoi
 	renderLstEquipe() {
 		return (
 			<Modal
@@ -363,6 +368,7 @@ class PresentationEventTournoi extends React.Component {
 		);
 	}
 
+	//Rendu global du composant
 	render() {
 		const itemToDisplay = this.props.navigation.state.params.item;
 		const eventDisplay = this.props.navigation.state.params.eventDisplay;

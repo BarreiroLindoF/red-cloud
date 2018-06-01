@@ -1,16 +1,8 @@
 import React from 'react';
-import { SearchBar, Button } from 'react-native-elements';
+import { SearchBar } from 'react-native-elements';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import { connect } from 'react-redux';
-import {
-	View,
-	ScrollView,
-	KeyboardAvoidingView,
-	Text,
-	StyleSheet,
-	TouchableOpacity,
-	ActivityIndicator,
-} from 'react-native';
+import { View, ScrollView, KeyboardAvoidingView, Text, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { RkText, RkButton } from 'react-native-ui-kitten';
 import CheckBox from 'react-native-check-box';
 import Modal from 'react-native-modalbox';
@@ -72,6 +64,7 @@ class ListeJeux extends React.Component {
 			selectedItems: [],
 			isSigningUp: this.props.navigation.state.params.isSigningUp,
 		};
+		//Chargement des jeux à la construction du composant
 		api()
 			.get(URL.jeux)
 			.then((response) => {
@@ -97,14 +90,17 @@ class ListeJeux extends React.Component {
 			});
 	}
 
+	//Mets à jour la liste des jeux favoris de l'utilisateur dans redux
 	onClick(idJeu) {
 		this.props.updateIdsJeux(idJeu);
 	}
 
+	//Change l'état du modal à visible ou non visible
 	toogleModal() {
 		this.setState({ modalVisible: !this.state.modalVisible });
 	}
 
+	//Créer l'utilisateur dans le backend si celui-ci a accepté les conditions générales
 	createUser() {
 		if (!this.props.conditions) {
 			this.setState({
@@ -164,6 +160,7 @@ class ListeJeux extends React.Component {
 			});
 	}
 
+	//Mets à jour la liste de jeux favoris de l'utilisateur dans le backend
 	updateJeuxFavoris() {
 		api()
 			.put(URL.updateJeux, {
@@ -181,6 +178,7 @@ class ListeJeux extends React.Component {
 			});
 	}
 
+	//Charge la barre de menu du bas en mettant son stack à zéro
 	openEvents() {
 		const resetAction = NavigationActions.reset({
 			index: 0,
@@ -189,11 +187,13 @@ class ListeJeux extends React.Component {
 		this.props.navigation.dispatch(resetAction);
 	}
 
+	//Remet les résultats de la recherche de jeux à son état initial
 	async resetSearch() {
 		await this.setState({ checkBoxesFiltered: this.state.checkBoxes });
 		this.makeFilterSearch(this.state.selectedItems);
 	}
 
+	//Filtre la liste des jeux selon le critère de recherche entré par l'utilisateur
 	async makeSearch(searchingTerm) {
 		if (searchingTerm === '') {
 			//Obliger de faire ce test pour quand l'utilisateur efface le text de recherche sans cliquer sur la croix
@@ -213,6 +213,7 @@ class ListeJeux extends React.Component {
 		this.setState({ checkBoxesFiltered: filteredGames, searchingTermTest: searchingTerm });
 	}
 
+	//Rendu du modal
 	renderModal() {
 		return (
 			<Modal
@@ -241,6 +242,7 @@ class ListeJeux extends React.Component {
 		);
 	}
 
+	//Rendu d'un jeux avec sa checkbox, est utilisé en boucle pour faire un rendu dynamique selon le nombre de jeux
 	renderCheckboxes() {
 		if (this.state.isFetchingJeux) {
 			return <ActivityIndicator size="large" color="white" style={{ paddingTop: 15 }} />;
@@ -262,6 +264,7 @@ class ListeJeux extends React.Component {
 		);
 	}
 
+	//Rendu du bouton suivant ou sauvegarder selon si l'utilisateur modifie ses données utilisateur ou s'il se crée un compte
 	renderSuivant() {
 		if (this.state.isFetching) {
 			return (
@@ -295,11 +298,13 @@ class ListeJeux extends React.Component {
 		);
 	}
 
+	//Evènement appelé lorsque l'utilisateur sélectionne un nouveau filtre de recherche
 	onSelectedItemsChange = (selectedItems) => {
 		this.setState({ selectedItems });
 		this.makeFilterSearch(selectedItems);
 	};
 
+	//Filtre la liste des jeux selon les filtres sélectionnés par l'utilisateur
 	async makeFilterSearch(filtersTerms) {
 		const filteredGames = [];
 		for (let i = 0; i < filtersTerms.length; i++) {
@@ -320,6 +325,7 @@ class ListeJeux extends React.Component {
 		}
 	}
 
+	//Rendu du bouton des conditions générales qui renvoie sur la vue des conditions si l'utilisateur appuie sur "conditions générales"
 	renderConditions() {
 		if (!this.state.isSigningUp) return;
 		return (
@@ -357,6 +363,7 @@ class ListeJeux extends React.Component {
 		);
 	}
 
+	//Rendu global du composant
 	render() {
 		return (
 			<View style={stylesBlack.mainContentContainer}>

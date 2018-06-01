@@ -1,6 +1,6 @@
 // React imports
 import React from 'react';
-import { Text, View, TouchableOpacity, Linking, Platform, Image, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { Text, View, TouchableOpacity, Linking, Platform, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { RkButton, RkText, RkCard } from 'react-native-ui-kitten';
 
 // External imports
@@ -19,9 +19,6 @@ import LogoHeader from './../../components/avatar/logoHeader';
 
 // Global variables
 const PlatformIsIos = Platform.OS === 'ios';
-
-const latitudeRedCloud = '46.175554';
-const longitudeRedCloud = '6.138465';
 
 class Contact extends React.Component {
 	// eslint-disable-next-line
@@ -52,6 +49,7 @@ class Contact extends React.Component {
 		this.loadEntrepriseData();
 	}
 
+	//Chargement des données de l'entreprise pour pouvoir les afficher après dans le composant
 	loadEntrepriseData() {
 		api()
 			.get(URL.entreprise)
@@ -70,10 +68,12 @@ class Contact extends React.Component {
 			.catch(() => {});
 	}
 
+	//Change l'état du state "message" par le paramètre fourni
 	handleChangeText(message) {
 		this.setState({ message });
 	}
 
+	//Rendu du bouton du numéro de téléphone de l'entreprise, renvoi sur l'application de téléphone par défaut en cas de clic de l'utilisateur
 	renderPhoneCall() {
 		return (
 			<TouchableOpacity
@@ -98,6 +98,7 @@ class Contact extends React.Component {
 		);
 	}
 
+	//Rendu du bouton de l'email de l'entreprise, renvoi sur l'application de mail par défaut en cas de clic de l'utilisateur
 	renderEmail() {
 		return (
 			<TouchableOpacity
@@ -123,6 +124,7 @@ class Contact extends React.Component {
 		);
 	}
 
+	//Render du bouton contenant le site de l'entreprise, renvoi à son navigateur internet par défaut avec l'adresse du site pré entrée
 	renderURL() {
 		return (
 			<TouchableOpacity
@@ -147,6 +149,7 @@ class Contact extends React.Component {
 		);
 	}
 
+	//Rendu des informations de l'entreprise
 	renderInformations() {
 		return (
 			<View>
@@ -160,6 +163,7 @@ class Contact extends React.Component {
 		);
 	}
 
+	//Rendu conditionnellement à la plateforme du composant maps avec l'adresse du bar et qui fait un itinéraire avec la position actuelle de l'utilisateur
 	renderMaps() {
 		let url = '';
 		if (PlatformIsIos) {
@@ -193,6 +197,7 @@ class Contact extends React.Component {
 		);
 	}
 
+	//Rendu du formulaire de contact
 	renderFormulaire() {
 		return (
 			<View>
@@ -236,6 +241,7 @@ class Contact extends React.Component {
 		);
 	}
 
+	//Rendu global du composant
 	render() {
 		return (
 			<KeyboardAvoidingView

@@ -9,10 +9,9 @@ import {
 	Keyboard,
 	ActivityIndicator,
 	BackHandler,
-	Animated,
 } from 'react-native';
 import DatePicker from 'react-native-datepicker';
-import { RkButton, RkText, RkStyleSheet } from 'react-native-ui-kitten';
+import { RkButton, RkText } from 'react-native-ui-kitten';
 import { Hoshi } from 'react-native-textinput-effects';
 import Modal from 'react-native-modalbox';
 import { api, URL } from '../../rest/api';
@@ -159,10 +158,13 @@ class Signup extends React.Component {
 		});
 	}
 
+	//Change l'état qui permet d'afficher ou non le modal
 	toogleModal() {
 		this.setState({ modalVisible: !this.state.modalVisible });
 	}
 
+	//Fait une vérification sur l'email et sur le pseudo pour valider que l'utilisateur n'existe pas déjà dans le backend
+	//Le pseudo et le mail sont uniques
 	userExist() {
 		this.setState({ isFetching: true });
 		const connexion = api();
@@ -192,6 +194,7 @@ class Signup extends React.Component {
 			});
 	}
 
+	//Vérifie que tous les champs ont été remplis correctement avant de passer à la vue suivante
 	check() {
 		this.setState({ checked: true });
 		if (this.state.dateOk && this.state.passOk && this.state.validationPassOk && this.state.validationEmail) {
@@ -204,6 +207,7 @@ class Signup extends React.Component {
 		}
 	}
 
+	//Sauvegarde les modifications de l'utilisateur lorsqu'il veut modifier les données de son compte déjà crée
 	sauvegarder() {
 		if (this.state.dateOk && this.state.validationEmail && this.state.npa) {
 			// send request
@@ -241,6 +245,7 @@ class Signup extends React.Component {
 		}
 	}
 
+	//Annule les modifications de l'utilisateur au cas où il aimerait revenir à l'ancien état de ses données personnelles
 	annulerModification() {
 		this.props.updatePrenom(oldReduxState.prenom);
 		this.props.updateNom(oldReduxState.nom);
@@ -251,6 +256,7 @@ class Signup extends React.Component {
 		this.props.updateEmail(oldReduxState.email);
 	}
 
+	//Rendu du modal
 	renderModal() {
 		return (
 			<Modal
@@ -276,6 +282,7 @@ class Signup extends React.Component {
 		);
 	}
 
+	//Rendu des champs de mot de passe et de validation de mot de passe
 	renderPasswordFields() {
 		if (this.state.isSigningUp) {
 			return (
@@ -302,6 +309,7 @@ class Signup extends React.Component {
 		return;
 	}
 
+	//Rendu du bouton suivant ou enregistrer selon l'état du composant (création de compte ou modification des données du compte)
 	renderButton() {
 		if (this.state.isFetching) {
 			return (
@@ -352,6 +360,7 @@ class Signup extends React.Component {
 		);
 	}
 
+	//Rendu du bouton annuler
 	renderButtonAnnuler() {
 		if (this.state.isSigningUp || this.state.isFetching) return;
 		return (
@@ -376,6 +385,7 @@ class Signup extends React.Component {
 		);
 	}
 
+	//Rendu du composant qui permet à l'utilisateur de choisir sa date de naissance
 	renderDatePicker() {
 		return (
 			<DatePicker
@@ -410,6 +420,7 @@ class Signup extends React.Component {
 		);
 	}
 
+	//Rendu du footer qui permet à l'utilisateur de revenir à la vue de login (sur ios, il n'y a pas la flèche pour revenir en arrière comme sur android)
 	renderFooter() {
 		if (this.state.isSigningUp) {
 			return (
@@ -433,6 +444,7 @@ class Signup extends React.Component {
 		return;
 	}
 
+	//Rendu global du composant
 	render() {
 		return (
 			<KeyboardAvoidingView

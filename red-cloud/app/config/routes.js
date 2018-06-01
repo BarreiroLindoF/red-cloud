@@ -8,7 +8,6 @@ import Signup from './../views/login/signup';
 import ListeJeux from './../views/login/listeJeux';
 import Conditions from './../views/login/conditions';
 import Inscription from './../views/tournois/inscription';
-import CreateTeam from './../views/tournois/createTeam';
 import PresentationEventTournoi from './../views/tournois/presentationEventTournoi';
 import MesInscriptions from './../views/tournois/mesInscriptions';
 
@@ -42,7 +41,6 @@ export const Routes = StackNavigator(
 		Conditions: { screen: Conditions },
 		Inscription: { screen: Inscription },
 		Signup: { screen: Signup },
-		CreateTeam: { screen: CreateTeam },
 		PresentationEventTournoi: { screen: PresentationEventTournoi },
 	},
 	navigationOptions(),
