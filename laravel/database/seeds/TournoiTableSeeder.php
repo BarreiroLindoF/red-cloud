@@ -63,7 +63,7 @@ class TournoiTableSeeder extends Seeder
             'msg_partage'=>'',
         ]);
         DB::table('tournoi')->insert([
-            'titre' => 'Libère ton talent dans PUBG !',
+            'titre' => 'Tournoi PUBG !',
             'imageUri' => 'pubg.jpg',
             'description' => 'Voici le tout nouveau tournoi organisé par ton bar E-Sport préféré ! Le RedCloud bien sûr ! Si tu penses être assez puissant pour battre tous tes amis et ennemis, alors tu dois impérativement t\'inscrire à ce tournoi et nous prouver ta valeur. Tu trouveras toutes les informations concernant la règlementation de ce tournoi dans le fichier pdf ci-dessous. Et toutes les infos concernant la liste des équipes participantes ou le prix d\'inscription, par exemple, sont affichées à la fin de cette page de tournoi. Nous t\'attendons avec impatience au bar et que la force soit avec toi !',
             'participants_max' => 50,
