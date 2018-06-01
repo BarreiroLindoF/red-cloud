@@ -14,7 +14,7 @@ class ForgotPassword extends Mailable
 
     public $code = 'Error code!';
     public $pseudo = 'Erreur dans le pseudonyme !';
-    public $adresse = 'Erreur dans l\'adresse !';
+    public $adresse = 'adresse !';
 
     /**
      * Create a new message instance.
@@ -23,8 +23,8 @@ class ForgotPassword extends Mailable
      */
     public function __construct()
     {
-        $entreprise = Entreprise::find(1);
-        $this->adresse = $entreprise->adresse;
+        //$entreprise = Entreprise::find(1);
+        //$this->adresse = $entreprise->adresse;
     }
 
     /**

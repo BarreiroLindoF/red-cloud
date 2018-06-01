@@ -312,7 +312,7 @@
                     <table border="0" cellpadding="0" cellspacing="0">
                         <tr>
                             <td class="content-block">
-                                <span class="apple-link">RedCloud Sàrl {{ $adresse }}</span>
+                                <span class="apple-link">RedCloud Sàrl Avenue de Châtelaine 95B 1219 Châtelaine</span>
                             </td>
                         </tr>
 
