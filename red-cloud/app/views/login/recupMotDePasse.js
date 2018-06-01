@@ -238,7 +238,7 @@ class RecupMotDePasse extends React.Component {
 				}}
 			>
 				<KeyboardAvoidingView
-					style={{ justifyContent: 'center', height: '100%', width: '80%' }}
+					style={{ justifyContent: 'center' }}
 					behavior="padding"
 					keyboardVerticalOffset={this.props.modifMdp ? 100 : -150}
 				>

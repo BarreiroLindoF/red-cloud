@@ -287,7 +287,7 @@ class Params extends React.Component {
 				<View style={stylesWhite.redStrip}>
 					<Text style={stylesWhite.title}>Paramètres</Text>
 				</View>
-				<ScrollView>
+				<ScrollView keyboardShouldPersistTaps="handled">
 					<View style={Styles.containerCard}>{this.renderDeconnexion()}</View>
 					<View style={Styles.containerCard}>{this.renderJeuxFavoris()}</View>
 					<View style={Styles.containerCard}>{this.renderMesInscriptions()}</View>
